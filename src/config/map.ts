@@ -1,4 +1,6 @@
-export const VAASA_CENTER = [63.0951, 21.6165] as const
+import type { LatLngTuple } from 'leaflet'
+
+export const VAASA_CENTER: LatLngTuple = [63.0951, 21.6165]
 export const INITIAL_ZOOM = 11
 
 export const TILE_LAYER = {
