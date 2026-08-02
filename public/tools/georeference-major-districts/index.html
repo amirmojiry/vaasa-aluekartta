@@ -6,87 +6,107 @@
     <title>Vaasa Major District Georeferencing Tool</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-      :root { font-family: Inter, system-ui, sans-serif; color:#17302e; background:#f4f0e7; --green:#17645d; --deep:#0b3d3a; --paper:#fffdf8; --orange:#de6d45; --line:rgba(23,48,46,.16); --muted:#637370; }
-      * { box-sizing:border-box; }
-      html, body { margin:0; min-width:320px; min-height:100%; overflow-x:hidden; }
-      button, input, textarea { font:inherit; }
-      button { cursor:pointer; }
-      a { color:var(--green); }
-      header { padding:2rem max(1rem, env(safe-area-inset-left)); color:#fff; background:linear-gradient(135deg,#082f2d,#17645d); }
-      header > div { max-width:1200px; margin:auto; }
-      .eyebrow { margin:0 0 .5rem; color:#f3a180; font-size:.72rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
-      h1 { margin:0 0 .7rem; font-family:Georgia,serif; font-size:clamp(2rem,7vw,3.8rem); font-weight:500; }
-      header p { max-width:60rem; margin:0; line-height:1.6; color:rgba(255,255,255,.8); }
-      header a { color:#fff; }
-      main { width:min(1200px,calc(100% - 1rem)); margin:1rem auto 3rem; display:grid; gap:1rem; }
-      .card { min-width:0; padding:clamp(.85rem,2vw,1.4rem); background:var(--paper); box-shadow:0 14px 45px rgba(17,55,51,.1); }
-      .card h2 { margin:0 0 .45rem; font-family:Georgia,serif; font-size:clamp(1.4rem,4vw,2.1rem); font-weight:500; }
-      .intro, .note { color:var(--muted); line-height:1.55; }
-      .intro { margin:0 0 1rem; }
-      .note { margin:.8rem 0 0; font-size:.82rem; }
-      .controls { display:flex; flex-wrap:wrap; gap:.65rem; align-items:end; margin-bottom:.8rem; }
-      .field { display:grid; gap:.3rem; min-width:10rem; }
-      .field label { font-size:.78rem; font-weight:800; }
-      input[type="range"] { width:min(13rem,70vw); }
-      input[type="text"] { min-height:2.55rem; padding:.5rem .65rem; border:1px solid var(--line); }
-      .button { min-height:2.55rem; padding:.52rem .8rem; border:0; background:var(--deep); color:#fff; font-weight:750; }
-      .button.secondary { border:1px solid var(--line); background:#fff; color:#17302e; }
-      .button.danger { background:#8f2d21; }
-      .button:disabled { opacity:.45; cursor:not-allowed; }
-      .status { display:inline-flex; padding:.35rem .65rem; border-radius:999px; background:#e2f0ec; color:#0c514b; font-size:.76rem; font-weight:750; }
+      :root {
+        font-family: Inter, system-ui, sans-serif;
+        color: #17302e;
+        background: #f4f0e7;
+        --green: #17645d;
+        --deep: #0b3d3a;
+        --paper: #fffdf8;
+        --orange: #de6d45;
+        --blue: #2563eb;
+        --line: rgba(23, 48, 46, 0.16);
+        --muted: #637370;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-width: 320px; min-height: 100%; overflow-x: hidden; }
+      button, input, textarea { font: inherit; }
+      button { cursor: pointer; }
+      a { color: var(--green); }
+      header { padding: 2rem max(1rem, env(safe-area-inset-left)); color: #fff; background: linear-gradient(135deg, #082f2d, #17645d); }
+      header > div { max-width: 1200px; margin: auto; }
+      .eyebrow { margin: 0 0 .5rem; color: #f3a180; font-size: .72rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+      h1 { margin: 0 0 .7rem; font-family: Georgia, serif; font-size: clamp(2rem, 7vw, 3.8rem); font-weight: 500; }
+      header p { max-width: 60rem; margin: 0; line-height: 1.6; color: rgba(255, 255, 255, .8); }
+      header a { color: #fff; }
+      main { width: min(1200px, calc(100% - 1rem)); margin: 1rem auto 3rem; display: grid; gap: 1rem; }
+      .card { min-width: 0; padding: clamp(.85rem, 2vw, 1.4rem); background: var(--paper); box-shadow: 0 14px 45px rgba(17, 55, 51, .1); }
+      .card h2 { margin: 0 0 .45rem; font-family: Georgia, serif; font-size: clamp(1.4rem, 4vw, 2.1rem); font-weight: 500; }
+      .intro, .note { color: var(--muted); line-height: 1.55; }
+      .intro { margin: 0 0 1rem; }
+      .note { margin: .8rem 0 0; font-size: .82rem; }
+      .controls { display: flex; flex-wrap: wrap; gap: .65rem; align-items: end; margin-bottom: .8rem; }
+      .adjustments { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .8rem; margin: .8rem 0; padding: .85rem; border: 1px solid var(--line); background: #f6faf8; }
+      .adjustment { display: grid; gap: .35rem; }
+      .adjustment label { font-size: .8rem; font-weight: 800; }
+      .adjustment-row { display: flex; gap: .45rem; align-items: center; }
+      .axis-toggle { display: inline-flex; border: 1px solid var(--line); }
+      .axis-toggle button { min-width: 2.4rem; min-height: 2.25rem; border: 0; background: #fff; color: #17302e; font-weight: 800; }
+      .axis-toggle button.active { background: var(--deep); color: #fff; }
+      .field { display: grid; gap: .3rem; min-width: 10rem; }
+      .field label { font-size: .78rem; font-weight: 800; }
+      input[type="range"] { width: 100%; min-width: 0; }
+      input[type="text"] { min-height: 2.55rem; padding: .5rem .65rem; border: 1px solid var(--line); }
+      .button { min-height: 2.55rem; padding: .52rem .8rem; border: 0; background: var(--deep); color: #fff; font-weight: 750; }
+      .button.secondary { border: 1px solid var(--line); background: #fff; color: #17302e; }
+      .button.danger { background: #8f2d21; }
+      .button.active { background: var(--blue); }
+      .button:disabled { opacity: .45; cursor: not-allowed; }
+      .status { display: inline-flex; padding: .35rem .65rem; border-radius: 999px; background: #e2f0ec; color: #0c514b; font-size: .76rem; font-weight: 750; }
 
-      /* Leaflet fallback: keeps tiles and panes inside the map even if the CDN stylesheet is blocked. */
-      .leaflet-container { position:relative; overflow:hidden; outline:0; background:#dce7e4; -webkit-tap-highlight-color:transparent; touch-action:pan-x pan-y; }
-      .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer { position:absolute; left:0; top:0; }
-      .leaflet-container img.leaflet-image-layer, .leaflet-container .leaflet-tile { max-width:none !important; max-height:none !important; padding:0; width:auto; }
-      .leaflet-tile { visibility:hidden; }
-      .leaflet-tile-loaded { visibility:inherit; }
-      .leaflet-zoom-animated { transform-origin:0 0; }
-      .leaflet-pane { z-index:400; }
-      .leaflet-tile-pane { z-index:200; }
-      .leaflet-overlay-pane { z-index:400; }
-      .leaflet-shadow-pane { z-index:500; }
-      .leaflet-marker-pane { z-index:600; }
-      .leaflet-tooltip-pane { z-index:650; }
-      .leaflet-popup-pane { z-index:700; }
-      .leaflet-map-pane canvas { z-index:100; }
-      .leaflet-map-pane svg { z-index:200; }
-      .leaflet-control { position:relative; z-index:800; pointer-events:auto; }
-      .leaflet-top, .leaflet-bottom { position:absolute; z-index:1000; pointer-events:none; }
-      .leaflet-top { top:0; } .leaflet-right { right:0; } .leaflet-bottom { bottom:0; } .leaflet-left { left:0; }
-      .leaflet-control-zoom a { display:block; width:30px; height:30px; line-height:30px; text-align:center; background:#fff; color:#222; text-decoration:none; border-bottom:1px solid #ccc; }
-      .leaflet-control-attribution { margin:0; padding:2px 5px; background:rgba(255,255,255,.82); font-size:10px; }
-      .leaflet-control-attribution a { color:#17645d; }
+      .leaflet-container { position: relative; overflow: hidden; outline: 0; background: #dce7e4; -webkit-tap-highlight-color: transparent; touch-action: pan-x pan-y; }
+      .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer { position: absolute; left: 0; top: 0; }
+      .leaflet-container img.leaflet-image-layer, .leaflet-container .leaflet-tile { max-width: none !important; max-height: none !important; padding: 0; width: auto; }
+      .leaflet-tile { visibility: hidden; }
+      .leaflet-tile-loaded { visibility: inherit; }
+      .leaflet-zoom-animated { transform-origin: 0 0; }
+      .leaflet-pane { z-index: 400; }
+      .leaflet-tile-pane { z-index: 200; }
+      .leaflet-overlay-pane { z-index: 400; }
+      .leaflet-shadow-pane { z-index: 500; }
+      .leaflet-marker-pane { z-index: 600; }
+      .leaflet-tooltip-pane { z-index: 650; }
+      .leaflet-popup-pane { z-index: 700; }
+      .leaflet-control { position: relative; z-index: 800; pointer-events: auto; }
+      .leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; }
+      .leaflet-top { top: 0; }
+      .leaflet-right { right: 0; }
+      .leaflet-bottom { bottom: 0; }
+      .leaflet-left { left: 0; }
+      .leaflet-control-zoom a { display: block; width: 30px; height: 30px; line-height: 30px; text-align: center; background: #fff; color: #222; text-decoration: none; border-bottom: 1px solid #ccc; }
+      .leaflet-control-attribution { margin: 0; padding: 2px 5px; background: rgba(255, 255, 255, .82); font-size: 10px; }
 
-      .map-shell { position:relative; width:100%; max-width:100%; overflow:hidden; border:1px solid var(--line); border-radius:.35rem; background:#dce7e4; isolation:isolate; }
-      #overlay-map { width:100%; height:clamp(390px,62vh,700px); }
-      .corner-icon { width:18px; height:18px; border:3px solid #fff; border-radius:50%; background:var(--orange); box-shadow:0 2px 8px rgba(0,0,0,.35); }
-      .split { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.85rem; }
-      .pane { min-width:0; }
-      .pane h3 { margin:0 0 .45rem; font-size:.95rem; }
-      .svg-stage { position:relative; width:100%; height:440px; display:grid; place-items:center; overflow:auto; border:1px solid var(--line); background:#eef3f1; }
-      .svg-stage img { display:block; max-width:100%; max-height:100%; width:auto; height:auto; cursor:crosshair; user-select:none; }
-      .svg-marker { position:absolute; width:18px; height:18px; border:3px solid #fff; border-radius:50%; background:var(--orange); transform:translate(-50%,-50%); pointer-events:none; }
-      #control-map { width:100%; height:440px; cursor:crosshair; }
-      .instruction { margin:.8rem 0 0; padding:.75rem .9rem; background:#edf4f2; border-left:4px solid var(--green); line-height:1.5; }
-      .points { margin-top:1rem; overflow-x:auto; }
-      table { width:100%; border-collapse:collapse; font-size:.82rem; }
-      th, td { padding:.6rem .5rem; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
-      .output-grid { display:grid; grid-template-columns:1fr auto; gap:.7rem; }
-      textarea { width:100%; min-height:300px; padding:.8rem; border:1px solid var(--line); font-family:ui-monospace,monospace; font-size:.75rem; }
-      .output-actions { display:grid; gap:.55rem; align-content:start; }
-      .district-list { columns:2; column-gap:2rem; padding-left:1.4rem; }
-      .district-list li { break-inside:avoid; margin-bottom:.5rem; }
-      @media (max-width:800px) { .split { grid-template-columns:1fr; } .district-list { columns:1; } }
-      @media (max-width:620px) {
-        main { width:calc(100% - .5rem); }
-        .card { padding:.75rem; }
-        #overlay-map { height:58vh; min-height:380px; }
-        #control-map, .svg-stage { height:420px; }
-        .output-grid { grid-template-columns:1fr; }
-        .output-actions { grid-template-columns:1fr 1fr; }
-        .controls .field { width:100%; }
-        input[type="text"] { width:100%; }
+      .map-shell { position: relative; width: 100%; max-width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: .35rem; background: #dce7e4; isolation: isolate; }
+      #overlay-map { width: 100%; height: clamp(390px, 62vh, 700px); }
+      .corner-icon { width: 20px; height: 20px; border: 3px solid #fff; border-radius: 50%; background: var(--orange); box-shadow: 0 2px 8px rgba(0, 0, 0, .35); }
+      .move-icon { width: 26px; height: 26px; display: grid; place-items: center; border: 3px solid #fff; border-radius: 50%; background: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .4); font-size: 14px; font-weight: 900; }
+      .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .85rem; }
+      .pane { min-width: 0; }
+      .pane h3 { margin: 0 0 .45rem; font-size: .95rem; }
+      .svg-stage { position: relative; width: 100%; height: 440px; display: grid; place-items: center; overflow: auto; border: 1px solid var(--line); background: #eef3f1; }
+      .svg-stage img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; cursor: crosshair; user-select: none; }
+      .svg-marker { position: absolute; width: 18px; height: 18px; border: 3px solid #fff; border-radius: 50%; background: var(--orange); transform: translate(-50%, -50%); pointer-events: none; }
+      #control-map { width: 100%; height: 440px; cursor: crosshair; }
+      .instruction { margin: .8rem 0 0; padding: .75rem .9rem; background: #edf4f2; border-left: 4px solid var(--green); line-height: 1.5; }
+      .points { margin-top: 1rem; overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+      th, td { padding: .6rem .5rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+      .output-grid { display: grid; grid-template-columns: 1fr auto; gap: .7rem; }
+      textarea { width: 100%; min-height: 300px; padding: .8rem; border: 1px solid var(--line); font-family: ui-monospace, monospace; font-size: .75rem; }
+      .output-actions { display: grid; gap: .55rem; align-content: start; }
+      .district-list { columns: 2; column-gap: 2rem; padding-left: 1.4rem; }
+      .district-list li { break-inside: avoid; margin-bottom: .5rem; }
+      @media (max-width: 800px) { .split { grid-template-columns: 1fr; } .district-list { columns: 1; } }
+      @media (max-width: 620px) {
+        main { width: calc(100% - .5rem); }
+        .card { padding: .75rem; }
+        #overlay-map { height: 58vh; min-height: 390px; }
+        #control-map, .svg-stage { height: 420px; }
+        .adjustments { grid-template-columns: 1fr; }
+        .output-grid { grid-template-columns: 1fr; }
+        .output-actions { grid-template-columns: 1fr 1fr; }
+        .controls .field { width: 100%; }
+        input[type="text"] { width: 100%; }
       }
     </style>
   </head>
@@ -95,56 +115,125 @@
     <main>
       <section class="card">
         <h2>1. Align the SVG overlay</h2>
-        <p class="intro">Drag the four orange handles until the district drawing matches the basemap. Zooming and panning do not change the saved bounds.</p>
-        <div class="controls"><div class="field"><label for="opacity">Overlay opacity: <span id="opacity-value">65%</span></label><input id="opacity" type="range" min="5" max="100" value="65" /></div><button class="button secondary" id="fit-overlay">Fit overlay</button><button class="button secondary" id="reset-bounds">Reset bounds</button><span class="status" id="alignment-status">Four corners ready</span></div>
+        <p class="intro">Resize the image with the four orange corner handles. Activate Move image to drag the blue centre handle. The sliders provide precise size and position adjustment.</p>
+        <div class="controls">
+          <div class="field"><label for="opacity">Overlay opacity: <span id="opacity-value">65%</span></label><input id="opacity" type="range" min="5" max="100" value="65" /></div>
+          <button class="button" id="move-mode" type="button" aria-pressed="false">Move image</button>
+          <button class="button secondary" id="fit-overlay" type="button">Fit overlay</button>
+          <button class="button secondary" id="reset-bounds" type="button">Reset bounds</button>
+          <span class="status" id="alignment-status">Four corners ready</span>
+        </div>
         <div class="map-shell"><div id="overlay-map" aria-label="Map for aligning the SVG"></div></div>
+        <div class="adjustments" aria-label="Fine overlay adjustments">
+          <div class="adjustment">
+            <label for="size-slider">Image size: <span id="size-value">100%</span></label>
+            <input id="size-slider" type="range" min="50" max="180" value="100" step="1" />
+          </div>
+          <div class="adjustment">
+            <label for="position-slider">Image position: <span id="position-value">0</span></label>
+            <div class="adjustment-row">
+              <div class="axis-toggle" aria-label="Position axis">
+                <button id="axis-x" class="active" type="button" aria-pressed="true">X</button>
+                <button id="axis-y" type="button" aria-pressed="false">Y</button>
+              </div>
+              <input id="position-slider" type="range" min="-100" max="100" value="0" step="1" />
+            </div>
+          </div>
+        </div>
         <p class="note">Artwork: <a href="https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg" target="_blank" rel="noreferrer">Vaasa major districts map</a> by Tvinnari, CC BY-SA 4.0.</p>
       </section>
       <section class="card">
         <h2>2. Add matching control points</h2>
         <p class="intro">Click a precise point in the SVG, then click the same physical location on OpenStreetMap.</p>
-        <div class="controls"><div class="field"><label for="point-label">Point label</label><input id="point-label" type="text" placeholder="Example: Vaskiluoto harbour" /></div><button class="button secondary" id="cancel-pending" disabled>Cancel pending point</button><button class="button danger" id="clear-points">Clear all points</button></div>
+        <div class="controls"><div class="field"><label for="point-label">Point label</label><input id="point-label" type="text" placeholder="Example: Vaskiluoto harbour" /></div><button class="button secondary" id="cancel-pending" type="button" disabled>Cancel pending point</button><button class="button danger" id="clear-points" type="button">Clear all points</button></div>
         <div class="split"><div class="pane"><h3>A. Click the source SVG</h3><div class="svg-stage" id="svg-stage"><img id="source-svg" src="https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg" alt="Numbered map of Vaasa major districts" draggable="false" /></div></div><div class="pane"><h3>B. Click the matching map location</h3><div class="map-shell"><div id="control-map" aria-label="Map for matching geographic points"></div></div></div></div>
         <p class="instruction" id="point-instruction">Start by clicking a precise location in the SVG pane.</p>
         <div class="points"><table><thead><tr><th>#</th><th>Label</th><th>SVG x/y</th><th>Latitude/longitude</th><th></th></tr></thead><tbody id="points-body"><tr><td colspan="5">No control points recorded yet.</td></tr></tbody></table></div>
       </section>
-      <section class="card"><h2>3. Copy the result</h2><div class="output-grid"><textarea id="output" readonly></textarea><div class="output-actions"><button class="button" id="copy-output">Copy JSON</button><button class="button secondary" id="download-output">Download JSON</button></div></div></section>
+      <section class="card"><h2>3. Copy the result</h2><div class="output-grid"><textarea id="output" readonly></textarea><div class="output-actions"><button class="button" id="copy-output" type="button">Copy JSON</button><button class="button secondary" id="download-output" type="button">Download JSON</button></div></div></section>
       <section class="card"><h2>Major district key</h2><ol class="district-list"><li><strong>01</strong> – Keskusta major district</li><li><strong>02</strong> – Vöyrinkaupunki major district</li><li><strong>03</strong> – Vaskiluoto major district</li><li><strong>04</strong> – Palosaari major district</li><li><strong>05</strong> – Gerby major district</li><li><strong>06</strong> – Kotiranta major district</li><li><strong>07</strong> – Huutoniemi major district</li><li><strong>08</strong> – Ristinummi major district</li><li><strong>09</strong> – Höstvesi major district</li><li><strong>10</strong> – Suvilahti major district</li><li><strong>11</strong> – Sundom major district</li><li><strong>12</strong> – Vähäkyrö major district</li></ol></section>
     </main>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-      const SVG_URL='https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg';
-      const SOURCE_PAGE_URL='https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg';
-      const DEFAULT_BOUNDS={north:63.36,south:62.76,west:20.9,east:22.5};
-      const bounds={...DEFAULT_BOUNDS}; const controlPoints=[]; let pendingSvgPoint=null; let pendingSvgMarker=null;
-      const tileOptions={maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'};
-      const overlayMap=L.map('overlay-map',{zoomControl:true}).setView([63.08,21.7],9);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',tileOptions).addTo(overlayMap);
-      const currentBounds=()=>[[bounds.south,bounds.west],[bounds.north,bounds.east]];
-      const overlay=L.imageOverlay(SVG_URL,currentBounds(),{opacity:.65,interactive:false,crossOrigin:true}).addTo(overlayMap);
-      const cornerIcon=L.divIcon({className:'',html:'<div class="corner-icon"></div>',iconSize:[18,18],iconAnchor:[9,9]});
-      const corners={};
-      function makeCorner(key,latlng){const marker=L.marker(latlng,{draggable:true,icon:cornerIcon}).addTo(overlayMap);marker.on('drag',()=>updateCorner(key,marker.getLatLng()));marker.on('dragend',updateOutput);return marker;}
-      corners.nw=makeCorner('nw',[bounds.north,bounds.west]); corners.ne=makeCorner('ne',[bounds.north,bounds.east]); corners.sw=makeCorner('sw',[bounds.south,bounds.west]); corners.se=makeCorner('se',[bounds.south,bounds.east]);
-      function syncCorners(){corners.nw.setLatLng([bounds.north,bounds.west]);corners.ne.setLatLng([bounds.north,bounds.east]);corners.sw.setLatLng([bounds.south,bounds.west]);corners.se.setLatLng([bounds.south,bounds.east]);}
-      function updateCorner(key,p){if(key.includes('n'))bounds.north=p.lat;if(key.includes('s'))bounds.south=p.lat;if(key.includes('w'))bounds.west=p.lng;if(key.includes('e'))bounds.east=p.lng;if(bounds.north<bounds.south)[bounds.north,bounds.south]=[bounds.south,bounds.north];if(bounds.east<bounds.west)[bounds.east,bounds.west]=[bounds.west,bounds.east];syncCorners();overlay.setBounds(currentBounds());document.getElementById('alignment-status').textContent=`${(bounds.north-bounds.south).toFixed(4)}° × ${(bounds.east-bounds.west).toFixed(4)}°`;updateOutput();}
-      const controlMap=L.map('control-map',{zoomControl:true}).setView([63.08,21.7],9); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',tileOptions).addTo(controlMap); const mapMarkers=L.layerGroup().addTo(controlMap);
-      document.getElementById('opacity').addEventListener('input',e=>{overlay.setOpacity(Number(e.target.value)/100);document.getElementById('opacity-value').textContent=`${e.target.value}%`;updateOutput();});
-      document.getElementById('fit-overlay').addEventListener('click',()=>overlayMap.fitBounds(currentBounds(),{padding:[18,18]}));
-      document.getElementById('reset-bounds').addEventListener('click',()=>{Object.assign(bounds,DEFAULT_BOUNDS);syncCorners();overlay.setBounds(currentBounds());overlayMap.fitBounds(currentBounds(),{padding:[18,18]});document.getElementById('alignment-status').textContent='Four corners ready';updateOutput();});
-      const sourceSvg=document.getElementById('source-svg'),svgStage=document.getElementById('svg-stage');
-      sourceSvg.addEventListener('click',e=>{const r=sourceSvg.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;pendingSvgPoint={xNormalized:round(x,8),yNormalized:round(y,8),renderedX:round(e.clientX-r.left,2),renderedY:round(e.clientY-r.top,2),renderedWidth:round(r.width,2),renderedHeight:round(r.height,2)};if(pendingSvgMarker)pendingSvgMarker.remove();pendingSvgMarker=document.createElement('span');pendingSvgMarker.className='svg-marker';pendingSvgMarker.style.left=`${sourceSvg.offsetLeft+x*sourceSvg.clientWidth}px`;pendingSvgMarker.style.top=`${sourceSvg.offsetTop+y*sourceSvg.clientHeight}px`;svgStage.appendChild(pendingSvgMarker);document.getElementById('point-instruction').textContent='SVG point selected. Now click the matching map location.';document.getElementById('cancel-pending').disabled=false;});
-      function clearPending(){pendingSvgPoint=null;if(pendingSvgMarker)pendingSvgMarker.remove();pendingSvgMarker=null;document.getElementById('cancel-pending').disabled=true;}
-      controlMap.on('click',e=>{if(!pendingSvgPoint){document.getElementById('point-instruction').textContent='Select a point in the SVG first.';return;}const input=document.getElementById('point-label'),label=input.value.trim()||`Control point ${controlPoints.length+1}`;controlPoints.push({id:String(Date.now()+Math.random()),label,svg:{...pendingSvgPoint},map:{lat:round(e.latlng.lat,8),lng:round(e.latlng.lng,8)}});input.value='';clearPending();renderPoints();document.getElementById('point-instruction').textContent=`Saved ${label}.`;updateOutput();});
-      document.getElementById('cancel-pending').addEventListener('click',clearPending); document.getElementById('clear-points').addEventListener('click',()=>{if(!controlPoints.length||confirm('Remove every recorded control point?')){controlPoints.splice(0);clearPending();renderPoints();updateOutput();}});
-      function renderPoints(){const body=document.getElementById('points-body');body.innerHTML='';mapMarkers.clearLayers();if(!controlPoints.length){body.innerHTML='<tr><td colspan="5">No control points recorded yet.</td></tr>';return;}controlPoints.forEach((p,i)=>{L.marker([p.map.lat,p.map.lng]).bindTooltip(`${i+1}. ${p.label}`).addTo(mapMarkers);const row=document.createElement('tr');row.innerHTML=`<td>${i+1}</td><td>${escapeHtml(p.label)}</td><td>${p.svg.xNormalized.toFixed(6)} / ${p.svg.yNormalized.toFixed(6)}</td><td>${p.map.lat.toFixed(6)} / ${p.map.lng.toFixed(6)}</td><td><button class="button secondary" data-id="${p.id}">Remove</button></td>`;body.appendChild(row);});body.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>{const i=controlPoints.findIndex(p=>p.id===b.dataset.id);if(i>=0)controlPoints.splice(i,1);renderPoints();updateOutput();});}
-      function mapView(map){const c=map.getCenter();return{center:[round(c.lat,8),round(c.lng,8)],zoom:map.getZoom()};}
-      function outputData(){return{schemaVersion:1,createdAt:new Date().toISOString(),source:{imageUrl:SVG_URL,sourcePageUrl:SOURCE_PAGE_URL,title:'Vaasa major districts map',author:'Tvinnari',licence:'CC BY-SA 4.0',districtCount:12},alignment:{coordinateReferenceSystem:'EPSG:4326',bounds:{north:round(bounds.north,8),south:round(bounds.south,8),west:round(bounds.west,8),east:round(bounds.east,8)},opacity:Number(document.getElementById('opacity').value)/100},controlPoints:controlPoints.map(({id,...p})=>p),mapViews:{overlay:mapView(overlayMap),controlPointMap:mapView(controlMap)}};}
-      function updateOutput(){document.getElementById('output').value=JSON.stringify(outputData(),null,2);} function round(v,d){const f=10**d;return Math.round(v*f)/f;} function escapeHtml(v){return v.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));}
-      document.getElementById('copy-output').addEventListener('click',async()=>{const text=document.getElementById('output').value;try{await navigator.clipboard.writeText(text);}catch{document.getElementById('output').select();document.execCommand('copy');}});
-      document.getElementById('download-output').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([document.getElementById('output').value],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='vaasa-major-district-georeference.json';a.click();URL.revokeObjectURL(url);});
-      function resizeMaps(){overlayMap.invalidateSize(false);controlMap.invalidateSize(false);} window.addEventListener('load',()=>{setTimeout(resizeMaps,100);setTimeout(resizeMaps,600);});window.addEventListener('resize',()=>setTimeout(resizeMaps,80));if('ResizeObserver'in window){const ro=new ResizeObserver(()=>resizeMaps());ro.observe(document.getElementById('overlay-map'));ro.observe(document.getElementById('control-map'));}
-      overlayMap.on('moveend zoomend',updateOutput);controlMap.on('moveend zoomend',updateOutput);overlayMap.fitBounds(currentBounds(),{padding:[18,18]});renderPoints();updateOutput();setTimeout(resizeMaps,0);
+      const SVG_URL = 'https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg'
+      const SOURCE_PAGE_URL = 'https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg'
+      const DEFAULT_BOUNDS = { north: 63.36, south: 62.76, west: 20.9, east: 22.5 }
+      const bounds = { ...DEFAULT_BOUNDS }
+      const controlPoints = []
+      let pendingSvgPoint = null
+      let pendingSvgMarker = null
+      let moveMode = false
+      let positionAxis = 'x'
+      let sizeBase = null
+      let positionBase = null
+
+      const tileOptions = { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }
+      const overlayMap = L.map('overlay-map', { zoomControl: true }).setView([63.08, 21.7], 9)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileOptions).addTo(overlayMap)
+      const currentBounds = () => [[bounds.south, bounds.west], [bounds.north, bounds.east]]
+      const overlay = L.imageOverlay(SVG_URL, currentBounds(), { opacity: .65, interactive: false, crossOrigin: true }).addTo(overlayMap)
+      const cornerIcon = L.divIcon({ className: '', html: '<div class="corner-icon"></div>', iconSize: [20, 20], iconAnchor: [10, 10] })
+      const moveIcon = L.divIcon({ className: '', html: '<div class="move-icon">↕</div>', iconSize: [26, 26], iconAnchor: [13, 13] })
+      const corners = {}
+
+      function centre() { return { lat: (bounds.north + bounds.south) / 2, lng: (bounds.east + bounds.west) / 2 } }
+      function width() { return bounds.east - bounds.west }
+      function height() { return bounds.north - bounds.south }
+      function setBoundsFromCentre(c, w, h) { bounds.west = c.lng - w / 2; bounds.east = c.lng + w / 2; bounds.south = c.lat - h / 2; bounds.north = c.lat + h / 2 }
+      function makeCorner(key, latlng) { const marker = L.marker(latlng, { draggable: true, icon: cornerIcon }).addTo(overlayMap); marker.on('dragstart', beginManualAdjustment); marker.on('drag', () => resizeFromCorner(key, marker.getLatLng())); marker.on('dragend', finishManualAdjustment); return marker }
+      corners.nw = makeCorner('nw', [bounds.north, bounds.west])
+      corners.ne = makeCorner('ne', [bounds.north, bounds.east])
+      corners.sw = makeCorner('sw', [bounds.south, bounds.west])
+      corners.se = makeCorner('se', [bounds.south, bounds.east])
+      const moveMarker = L.marker([centre().lat, centre().lng], { draggable: true, icon: moveIcon, opacity: 0 }).addTo(overlayMap)
+      moveMarker.on('dragstart', () => { positionBase = { centre: centre(), marker: moveMarker.getLatLng() } })
+      moveMarker.on('drag', () => { const p = moveMarker.getLatLng(); const dLat = p.lat - positionBase.marker.lat; const dLng = p.lng - positionBase.marker.lng; const c = { lat: positionBase.centre.lat + dLat, lng: positionBase.centre.lng + dLng }; setBoundsFromCentre(c, width(), height()); syncOverlay() })
+      moveMarker.on('dragend', finishManualAdjustment)
+
+      function beginManualAdjustment() { sizeBase = null; positionBase = null }
+      function finishManualAdjustment() { resetFineControls(); updateOutput() }
+      function syncCorners() { corners.nw.setLatLng([bounds.north, bounds.west]); corners.ne.setLatLng([bounds.north, bounds.east]); corners.sw.setLatLng([bounds.south, bounds.west]); corners.se.setLatLng([bounds.south, bounds.east]); moveMarker.setLatLng([centre().lat, centre().lng]) }
+      function syncOverlay() { syncCorners(); overlay.setBounds(currentBounds()); document.getElementById('alignment-status').textContent = `${height().toFixed(4)}° × ${width().toFixed(4)}°`; updateOutput() }
+      function resizeFromCorner(key, p) { const opposite = { nw: { lat: bounds.south, lng: bounds.east }, ne: { lat: bounds.south, lng: bounds.west }, sw: { lat: bounds.north, lng: bounds.east }, se: { lat: bounds.north, lng: bounds.west } }[key]; const newW = Math.max(Math.abs(p.lng - opposite.lng), .001); const newH = Math.max(Math.abs(p.lat - opposite.lat), .001); bounds.west = Math.min(p.lng, opposite.lng); bounds.east = Math.max(p.lng, opposite.lng); bounds.south = Math.min(p.lat, opposite.lat); bounds.north = Math.max(p.lat, opposite.lat); if (newW && newH) syncOverlay() }
+      function resetFineControls() { document.getElementById('size-slider').value = 100; document.getElementById('size-value').textContent = '100%'; document.getElementById('position-slider').value = 0; document.getElementById('position-value').textContent = '0'; sizeBase = null; positionBase = null }
+      function resetBounds() { Object.assign(bounds, DEFAULT_BOUNDS); resetFineControls(); syncOverlay(); overlayMap.fitBounds(currentBounds(), { padding: [24, 24] }) }
+
+      document.getElementById('move-mode').addEventListener('click', () => { moveMode = !moveMode; const button = document.getElementById('move-mode'); button.classList.toggle('active', moveMode); button.setAttribute('aria-pressed', String(moveMode)); button.textContent = moveMode ? 'Finish moving' : 'Move image'; moveMarker.setOpacity(moveMode ? 1 : 0); if (moveMode) moveMarker.bringToFront() })
+      document.getElementById('opacity').addEventListener('input', event => { const value = Number(event.target.value); overlay.setOpacity(value / 100); document.getElementById('opacity-value').textContent = `${value}%`; updateOutput() })
+      document.getElementById('fit-overlay').addEventListener('click', () => overlayMap.fitBounds(currentBounds(), { padding: [24, 24] }))
+      document.getElementById('reset-bounds').addEventListener('click', resetBounds)
+      document.getElementById('size-slider').addEventListener('input', event => { if (!sizeBase) sizeBase = { centre: centre(), width: width(), height: height() }; const scale = Number(event.target.value) / 100; setBoundsFromCentre(sizeBase.centre, sizeBase.width * scale, sizeBase.height * scale); document.getElementById('size-value').textContent = `${event.target.value}%`; syncOverlay() })
+      function setAxis(axis) { positionAxis = axis; document.getElementById('axis-x').classList.toggle('active', axis === 'x'); document.getElementById('axis-y').classList.toggle('active', axis === 'y'); document.getElementById('axis-x').setAttribute('aria-pressed', String(axis === 'x')); document.getElementById('axis-y').setAttribute('aria-pressed', String(axis === 'y')); document.getElementById('position-slider').value = 0; document.getElementById('position-value').textContent = '0'; positionBase = null }
+      document.getElementById('axis-x').addEventListener('click', () => setAxis('x'))
+      document.getElementById('axis-y').addEventListener('click', () => setAxis('y'))
+      document.getElementById('position-slider').addEventListener('input', event => { if (!positionBase) positionBase = { centre: centre(), width: width(), height: height() }; const amount = Number(event.target.value) / 100; const c = { ...positionBase.centre }; if (positionAxis === 'x') c.lng += positionBase.width * amount; else c.lat += positionBase.height * amount; setBoundsFromCentre(c, positionBase.width, positionBase.height); document.getElementById('position-value').textContent = event.target.value; syncOverlay() })
+
+      const controlMap = L.map('control-map').setView([63.08, 21.7], 9)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileOptions).addTo(controlMap)
+      const mapMarkers = L.layerGroup().addTo(controlMap)
+      const sourceSvg = document.getElementById('source-svg')
+      const svgStage = document.getElementById('svg-stage')
+      sourceSvg.addEventListener('click', event => { const rect = sourceSvg.getBoundingClientRect(); const x = (event.clientX - rect.left) / rect.width; const y = (event.clientY - rect.top) / rect.height; pendingSvgPoint = { xNormalized: round(x, 8), yNormalized: round(y, 8), renderedX: round(event.clientX - rect.left, 2), renderedY: round(event.clientY - rect.top, 2), renderedWidth: round(rect.width, 2), renderedHeight: round(rect.height, 2) }; if (pendingSvgMarker) pendingSvgMarker.remove(); pendingSvgMarker = document.createElement('span'); pendingSvgMarker.className = 'svg-marker'; pendingSvgMarker.style.left = `${sourceSvg.offsetLeft + x * sourceSvg.clientWidth}px`; pendingSvgMarker.style.top = `${sourceSvg.offsetTop + y * sourceSvg.clientHeight}px`; svgStage.appendChild(pendingSvgMarker); document.getElementById('point-instruction').textContent = 'SVG point selected. Now click the matching map location.'; document.getElementById('cancel-pending').disabled = false })
+      controlMap.on('click', event => { if (!pendingSvgPoint) { document.getElementById('point-instruction').textContent = 'Select a source point in the SVG pane first.'; return } const input = document.getElementById('point-label'); const label = input.value.trim() || `Control point ${controlPoints.length + 1}`; controlPoints.push({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), label, svg: { ...pendingSvgPoint }, map: { lat: round(event.latlng.lat, 8), lng: round(event.latlng.lng, 8) } }); input.value = ''; clearPending(); renderPoints(); document.getElementById('point-instruction').textContent = `Saved ${label}.`; updateOutput() })
+      function clearPending() { pendingSvgPoint = null; if (pendingSvgMarker) pendingSvgMarker.remove(); pendingSvgMarker = null; document.getElementById('cancel-pending').disabled = true }
+      document.getElementById('cancel-pending').addEventListener('click', clearPending)
+      document.getElementById('clear-points').addEventListener('click', () => { if (!controlPoints.length || confirm('Remove every control point?')) { controlPoints.splice(0); clearPending(); renderPoints(); updateOutput() } })
+      function renderPoints() { const body = document.getElementById('points-body'); body.innerHTML = ''; mapMarkers.clearLayers(); if (!controlPoints.length) { body.innerHTML = '<tr><td colspan="5">No control points recorded yet.</td></tr>'; return } controlPoints.forEach((point, index) => { L.marker([point.map.lat, point.map.lng]).bindTooltip(`${index + 1}. ${point.label}`).addTo(mapMarkers); const row = document.createElement('tr'); row.innerHTML = `<td>${index + 1}</td><td>${escapeHtml(point.label)}</td><td>${point.svg.xNormalized.toFixed(6)} / ${point.svg.yNormalized.toFixed(6)}</td><td>${point.map.lat.toFixed(6)} / ${point.map.lng.toFixed(6)}</td><td><button class="button secondary" data-remove="${point.id}" type="button">Remove</button></td>`; body.appendChild(row) }); body.querySelectorAll('[data-remove]').forEach(button => button.addEventListener('click', () => { const index = controlPoints.findIndex(point => point.id === button.dataset.remove); if (index >= 0) controlPoints.splice(index, 1); renderPoints(); updateOutput() })) }
+      function mapView(map) { const c = map.getCenter(); return { center: [round(c.lat, 8), round(c.lng, 8)], zoom: map.getZoom() } }
+      function buildOutput() { return { schemaVersion: 2, createdAt: new Date().toISOString(), source: { imageUrl: SVG_URL, sourcePageUrl: SOURCE_PAGE_URL, title: 'Vaasa major districts map', author: 'Tvinnari', licence: 'CC BY-SA 4.0', districtCount: 12 }, alignment: { coordinateReferenceSystem: 'EPSG:4326', bounds: { north: round(bounds.north, 8), south: round(bounds.south, 8), west: round(bounds.west, 8), east: round(bounds.east, 8) }, opacity: Number(document.getElementById('opacity').value) / 100 }, controlPoints: controlPoints.map(({ id, ...point }) => point), mapViews: { overlay: mapView(overlayMap), controlPointMap: mapView(controlMap) }, notes: ['Derived from licensed cartographic artwork; not official municipal survey geometry.', 'Normalized SVG coordinates use a top-left origin.'] } }
+      function updateOutput() { document.getElementById('output').value = JSON.stringify(buildOutput(), null, 2) }
+      document.getElementById('copy-output').addEventListener('click', async () => { const output = document.getElementById('output'); try { await navigator.clipboard.writeText(output.value) } catch { output.select(); document.execCommand('copy') } })
+      document.getElementById('download-output').addEventListener('click', () => { const url = URL.createObjectURL(new Blob([document.getElementById('output').value], { type: 'application/json' })); const link = document.createElement('a'); link.href = url; link.download = 'vaasa-major-district-georeference.json'; link.click(); URL.revokeObjectURL(url) })
+      function round(value, digits) { const factor = 10 ** digits; return Math.round(value * factor) / factor }
+      function escapeHtml(value) { return value.replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;' })[char]) }
+      function refreshMaps() { overlayMap.invalidateSize(false); controlMap.invalidateSize(false) }
+      window.addEventListener('load', () => { setTimeout(() => { refreshMaps(); overlayMap.fitBounds(currentBounds(), { padding: [24, 24] }) }, 120) })
+      window.addEventListener('resize', () => setTimeout(refreshMaps, 120))
+      if ('ResizeObserver' in window) { const observer = new ResizeObserver(() => refreshMaps()); observer.observe(document.getElementById('overlay-map')); observer.observe(document.getElementById('control-map')) }
+      overlayMap.on('moveend zoomend', updateOutput)
+      controlMap.on('moveend zoomend', updateOutput)
+      renderPoints()
+      syncOverlay()
     </script>
   </body>
 </html>
