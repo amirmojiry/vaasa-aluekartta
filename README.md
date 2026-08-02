@@ -4,7 +4,7 @@ An interactive web map for exploring Vaasa's **suuralueet** and **pienalueet**.
 
 Users can browse administrative/statistical areas on an OpenStreetMap-based map, select an area, and view structured information about it. The application is designed as a static, privacy-friendly website that can be hosted on GitHub Pages.
 
-> Project status: Milestone 1 complete. Boundary-data work is next.
+> Project status: Milestone 2 in progress. Licensed boundary reference layers are available; authoritative selectable GeoJSON remains pending.
 
 ## Goals
 
@@ -122,6 +122,8 @@ For every imported dataset:
 
 Generated or transformed files should be reproducible through scripts rather than manual editing whenever possible.
 
+Current boundary-source research and limitations are documented in [docs/data-sources.md](./docs/data-sources.md). The selectable suuralue/pienalue views currently use licensed cartographic reference overlays, not official raw municipal GeoJSON.
+
 ## OpenStreetMap Attribution
 
 Any page displaying OpenStreetMap tiles must show visible attribution to OpenStreetMap contributors and comply with the tile provider's usage policy.
@@ -189,9 +191,14 @@ Required principles:
 
 ### [ ] Milestone 2 — Boundary Data
 
-- [ ] Identify and document official boundary sources.
+- [x] Identify and document boundary authorities, licensed references, and redistribution limitations.
+- [x] Add selectable suuralue and pienalue cartographic reference layers with attribution.
+- [x] Add typed hierarchy metadata and automated 12/60 count validation.
+- [ ] Acquire municipality-authorized georeferenced boundary geometry.
 - [ ] Add validated suuralue and pienalue GeoJSON.
-- [ ] Render selectable layers with correct hierarchy.
+- [ ] Render individually selectable polygons with verified parent hierarchy.
+
+Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.com/amirmojiry/vaasa-aluekartta/issues/2).
 
 ### [ ] Milestone 3 — Area Information
 
