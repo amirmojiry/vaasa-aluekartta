@@ -4,7 +4,7 @@ An interactive web map for exploring Vaasa's **suuralueet** and **pienalueet**.
 
 Users can browse administrative/statistical areas on an OpenStreetMap-based map, select an area, and view structured information about it. The application is designed as a static, privacy-friendly website that can be hosted on GitHub Pages.
 
-> Project status: planning and initial setup.
+> Project status: Milestone 1 complete. Boundary-data work is next.
 
 ## Goals
 
@@ -130,8 +130,6 @@ Do not remove or obscure map attribution controls.
 
 ## Local Development
 
-The exact commands will be available after the application scaffold is added. The intended workflow is:
-
 ```bash
 npm install
 npm run dev
@@ -140,15 +138,16 @@ npm run dev
 Before submitting changes:
 
 ```bash
-npm run typecheck
+npm run format:check
 npm run lint
+npm run typecheck
 npm run test
 npm run build
 ```
 
 ## GitHub Pages
 
-The production build must work when hosted below the repository path:
+The production build works below the repository path:
 
 ```text
 https://amirmojiry.github.io/vaasa-aluekartta/
@@ -156,7 +155,7 @@ https://amirmojiry.github.io/vaasa-aluekartta/
 
 Vite's base path, asset URLs, router behavior, and deep-link strategy must all account for this subdirectory deployment.
 
-Deployment should be handled by a GitHub Actions workflow that builds the application and publishes the generated static assets to GitHub Pages.
+Deployment is handled by a GitHub Actions workflow that builds the application and publishes the generated static assets to GitHub Pages.
 
 ## Accessibility
 
@@ -181,37 +180,37 @@ Required principles:
 
 ## Roadmap
 
-### Milestone 1 — Foundation
+### [x] Milestone 1 — Foundation
 
-- Scaffold Vue, TypeScript, and Vite.
-- Add linting, formatting, tests, and CI.
-- Configure GitHub Pages deployment.
-- Render a basic Vaasa-centred Leaflet map.
+- [x] Scaffold Vue, TypeScript, and Vite.
+- [x] Add linting, formatting, tests, and CI.
+- [x] Configure GitHub Pages deployment.
+- [x] Render a basic Vaasa-centred Leaflet map.
 
-### Milestone 2 — Boundary Data
+### [ ] Milestone 2 — Boundary Data
 
-- Identify and document official boundary sources.
-- Add validated suuralue and pienalue GeoJSON.
-- Render selectable layers with correct hierarchy.
+- [ ] Identify and document official boundary sources.
+- [ ] Add validated suuralue and pienalue GeoJSON.
+- [ ] Render selectable layers with correct hierarchy.
 
-### Milestone 3 — Area Information
+### [ ] Milestone 3 — Area Information
 
-- Add the area content model and detail panel.
-- Add search and filtering.
-- Add source attribution and update metadata.
+- [ ] Add the area content model and detail panel.
+- [ ] Add search and filtering.
+- [ ] Add source attribution and update metadata.
 
-### Milestone 4 — Navigation and Sharing
+### [ ] Milestone 4 — Navigation and Sharing
 
-- Persist selected level and area in the URL.
-- Support browser back/forward navigation.
-- Add shareable area links.
+- [ ] Persist selected level and area in the URL.
+- [ ] Support browser back/forward navigation.
+- [ ] Add shareable area links.
 
-### Milestone 5 — Quality
+### [ ] Milestone 5 — Quality
 
-- Improve mobile layout and accessibility.
-- Add browser tests for core journeys.
-- Audit performance and map-data size.
-- Publish the first stable GitHub Pages release.
+- [ ] Improve mobile layout and accessibility.
+- [ ] Add browser tests for core journeys.
+- [ ] Audit performance and map-data size.
+- [ ] Publish the first stable GitHub Pages release.
 
 ## Contributing
 
