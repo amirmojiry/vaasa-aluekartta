@@ -13,10 +13,8 @@ export const BOUNDARY_LAYERS: BoundaryLayerDefinition[] = [
     label: 'Suuralueet',
     description: 'Vaasa’s 12 major statistical districts.',
     areaCount: 12,
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg',
-    sourcePageUrl:
-      'https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg',
+    sourcePageUrl: 'https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg',
     licence: 'CC BY-SA 4.0',
     author: 'Tvinnari',
     updatedAt: '2025-01-23',
