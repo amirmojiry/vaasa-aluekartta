@@ -45,8 +45,15 @@ h1 { margin-bottom: 1.5rem; max-width: 16ch; font-family: Georgia, "Times New Ro
 .map-card__header { display: flex; gap: 1rem; justify-content: space-between; align-items: end; padding: .5rem .5rem 1rem; }
 .map-card h2, .info-panel h2 { margin-bottom: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 500; letter-spacing: -.035em; }
 .map-card__status { white-space: nowrap; border-radius: 999px; background: #e2f0ec; color: #0c514b; padding: .5rem .7rem; font-size: .75rem; font-weight: 750; }
+.boundary-level-control { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; padding: 0 .5rem 1rem; }
+.boundary-level-control__button { border: 1px solid var(--line); border-radius: .6rem; padding: .8rem 1rem; background: #f5f6f2; color: var(--ink); text-align: left; cursor: pointer; }
+.boundary-level-control__button strong, .boundary-level-control__button span { display: block; }
+.boundary-level-control__button span { margin-top: .2rem; color: #697774; font-size: .78rem; }
+.boundary-level-control__button.is-active { border-color: var(--green); background: #e2f0ec; box-shadow: inset 0 0 0 1px var(--green); }
 .map-canvas { min-height: 34rem; border-radius: .35rem; overflow: hidden; background: #dce7e4; }
 .map-card__note { margin: .85rem .5rem 0; color: #657572; font-size: .82rem; line-height: 1.5; }
+.map-card__note p { margin-bottom: .35rem; }
+.map-card__note a { font-weight: 700; text-underline-offset: .18rem; }
 .info-panel { padding: clamp(1.5rem, 4vw, 2.6rem); }
 .info-panel > p:not(.eyebrow) { margin: 1.25rem 0 2rem; color: #596966; line-height: 1.75; }
 .feature-list { margin: 0; }
@@ -56,6 +63,7 @@ h1 { margin-bottom: 1.5rem; max-width: 16ch; font-family: Georgia, "Times New Ro
 .site-footer { width: min(1280px, calc(100% - 2rem)); margin: 0 auto; padding: 2.5rem 0 3rem; color: #64736f; font-size: .85rem; }
 .site-footer p { margin: 0; }
 .leaflet-control-attribution { font-size: 10px; }
+.leaflet-image-layer { mix-blend-mode: multiply; }
 
 @media (max-width: 850px) {
   .hero { padding-bottom: 4rem; }
@@ -72,6 +80,7 @@ h1 { margin-bottom: 1.5rem; max-width: 16ch; font-family: Georgia, "Times New Ro
   h1 { font-size: clamp(2.65rem, 15vw, 4.5rem); }
   .content-grid { width: min(100% - 1rem, 1280px); }
   .map-card__header { align-items: start; flex-direction: column; }
+  .boundary-level-control { grid-template-columns: 1fr; }
   .map-canvas { min-height: 25rem; }
 }
 
