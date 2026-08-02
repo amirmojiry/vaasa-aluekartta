@@ -2,3 +2,4 @@ dist
 coverage
 node_modules
 src/styles/main.css
+public/tools/georeference-major-districts/index.html

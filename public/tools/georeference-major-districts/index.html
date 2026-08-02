@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vaasa Major District Georeferencing Tool</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIINfQ3ynhtEOhXVAqQ7jMZy6Y5cN0i0J2k="
+      crossorigin=""
+    />
+    <style>
+      :root {
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #17302e;
+        background: #f4f0e7;
+        --ink: #17302e;
+        --deep-green: #0b3d3a;
+        --green: #17645d;
+        --paper: #fffdf8;
+        --orange: #de6d45;
+        --line: rgba(23, 48, 46, 0.16);
+        --muted: #637370;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; min-width: 320px; min-height: 100vh; }
+      button, input, textarea { font: inherit; }
+      button { cursor: pointer; }
+      a { color: var(--green); }
+      :focus-visible { outline: 3px solid #f1a17f; outline-offset: 3px; }
+
+      header {
+        padding: 2.4rem clamp(1rem, 4vw, 4rem);
+        color: white;
+        background: linear-gradient(135deg, #082f2d, #17645d);
+      }
+      header > div { max-width: 1440px; margin: 0 auto; }
+      header a { color: white; }
+      .eyebrow { margin: 0 0 .55rem; color: #f3a180; font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+      h1 { margin: 0 0 .8rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 500; letter-spacing: -.04em; }
+      header p:last-child { max-width: 58rem; margin: 0; color: rgba(255,255,255,.78); line-height: 1.65; }
+
+      main { width: min(1440px, calc(100% - 1.5rem)); margin: 1.5rem auto 3rem; display: grid; gap: 1.25rem; }
+      .card { padding: clamp(1rem, 2vw, 1.5rem); background: var(--paper); border: 1px solid white; box-shadow: 0 16px 50px rgba(17,55,51,.1); }
+      .card h2 { margin: 0 0 .5rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.45rem, 3vw, 2.2rem); font-weight: 500; }
+      .card__intro { margin: 0 0 1rem; color: var(--muted); line-height: 1.6; }
+      .status { display: inline-flex; align-items: center; min-height: 2rem; padding: .35rem .65rem; border-radius: 999px; background: #e2f0ec; color: #0c514b; font-size: .78rem; font-weight: 750; }
+
+      .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: end; margin-bottom: 1rem; }
+      .field { display: grid; gap: .35rem; min-width: 11rem; }
+      .field label { font-size: .78rem; font-weight: 800; }
+      input[type="range"] { width: 13rem; }
+      input[type="text"] { min-height: 2.6rem; padding: .55rem .7rem; border: 1px solid var(--line); background: white; color: var(--ink); }
+      .button { min-height: 2.6rem; padding: .55rem .85rem; border: 0; background: var(--deep-green); color: white; font-weight: 750; }
+      .button--secondary { border: 1px solid var(--line); background: white; color: var(--ink); }
+      .button--danger { background: #8f2d21; }
+      .button:disabled { opacity: .45; cursor: not-allowed; }
+
+      #overlay-map { height: min(68vh, 720px); min-height: 430px; background: #dce7e4; }
+      .corner-icon { width: 18px; height: 18px; border: 3px solid white; border-radius: 50%; background: var(--orange); box-shadow: 0 2px 8px rgba(0,0,0,.35); }
+
+      .split { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 1rem; }
+      .pane { min-width: 0; }
+      .pane h3 { margin: 0 0 .55rem; font-size: 1rem; }
+      .svg-stage { position: relative; min-height: 440px; display: grid; place-items: center; overflow: auto; border: 1px solid var(--line); background: #eef3f1; }
+      .svg-stage img { display: block; max-width: 100%; height: auto; cursor: crosshair; user-select: none; }
+      .svg-marker { position: absolute; width: 18px; height: 18px; border: 3px solid white; border-radius: 50%; background: var(--orange); box-shadow: 0 2px 8px rgba(0,0,0,.35); transform: translate(-50%, -50%); pointer-events: none; }
+      #control-map { height: 440px; background: #dce7e4; cursor: crosshair; }
+      .instruction { margin: .8rem 0 0; padding: .8rem 1rem; background: #edf4f2; border-left: 4px solid var(--green); color: #31514d; line-height: 1.55; }
+
+      .points { margin-top: 1rem; overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+      th, td { padding: .65rem .55rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+      th { font-size: .73rem; text-transform: uppercase; letter-spacing: .08em; }
+
+      .output-grid { display: grid; grid-template-columns: 1fr auto; gap: .75rem; align-items: start; }
+      textarea { width: 100%; min-height: 360px; padding: 1rem; border: 1px solid var(--line); resize: vertical; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .78rem; line-height: 1.55; }
+      .output-actions { display: grid; gap: .6rem; }
+
+      .district-list { columns: 2; column-gap: 2rem; margin: 1rem 0 0; padding-left: 1.4rem; }
+      .district-list li { break-inside: avoid; margin-bottom: .6rem; line-height: 1.45; }
+      .note { color: var(--muted); font-size: .85rem; line-height: 1.55; }
+
+      @media (max-width: 900px) {
+        .split { grid-template-columns: 1fr; }
+        .district-list { columns: 1; }
+      }
+      @media (max-width: 620px) {
+        main { width: min(100% - .75rem, 1440px); }
+        .card { padding: .85rem; }
+        #overlay-map, #control-map, .svg-stage { min-height: 360px; height: 55vh; }
+        .output-grid { grid-template-columns: 1fr; }
+        .output-actions { grid-template-columns: 1fr 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <p class="eyebrow">Vaasa Aluekartta · Research tool</p>
+        <h1>Major district georeferencing</h1>
+        <p>
+          Align the licensed Vaasa major-district SVG with OpenStreetMap, then register matching
+          control points. Copy the generated JSON and send it back for reproducible SVG-to-GeoJSON
+          conversion. Return to <a href="../../">the main map</a>.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section class="card" aria-labelledby="alignment-title">
+        <div style="display:flex;justify-content:space-between;gap:1rem;align-items:start;flex-wrap:wrap">
+          <div>
+            <h2 id="alignment-title">1. Align the SVG overlay</h2>
+            <p class="card__intro">
+              Drag the four orange corner handles until coastlines, islands and district positions
+              match the basemap. Zooming and panning the map does not change the saved bounds.
+            </p>
+          </div>
+          <span class="status" id="alignment-status">Four corners ready</span>
+        </div>
+
+        <div class="controls">
+          <div class="field">
+            <label for="opacity">Overlay opacity: <span id="opacity-value">65%</span></label>
+            <input id="opacity" type="range" min="5" max="100" value="65" />
+          </div>
+          <button class="button button--secondary" id="fit-overlay" type="button">Fit overlay</button>
+          <button class="button button--secondary" id="reset-bounds" type="button">Reset bounds</button>
+        </div>
+
+        <div id="overlay-map" role="application" aria-label="Map for aligning the Vaasa SVG overlay"></div>
+        <p class="note">
+          Source artwork: <a href="https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg" target="_blank" rel="noreferrer">Vaasa major districts map</a>
+          by Tvinnari, licensed CC BY-SA 4.0. The resulting coordinates are derived reference data,
+          not official municipal survey geometry.
+        </p>
+      </section>
+
+      <section class="card" aria-labelledby="points-title">
+        <h2 id="points-title">2. Add matching control points</h2>
+        <p class="card__intro">
+          Click a recognizable location in the SVG pane, then click the same physical location on
+          OpenStreetMap. Use coast tips, bridge endpoints, harbour structures, road intersections or
+          other unambiguous points spread across the full map.
+        </p>
+
+        <div class="controls">
+          <div class="field">
+            <label for="point-label">Point label</label>
+            <input id="point-label" type="text" placeholder="Example: Vaskiluoto harbour" />
+          </div>
+          <button class="button button--secondary" id="cancel-pending" type="button" disabled>Cancel pending point</button>
+          <button class="button button--danger" id="clear-points" type="button">Clear all points</button>
+        </div>
+
+        <div class="split">
+          <div class="pane">
+            <h3>A. Click the source SVG</h3>
+            <div class="svg-stage" id="svg-stage">
+              <img
+                id="source-svg"
+                src="https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg"
+                alt="Numbered map of Vaasa major districts"
+                draggable="false"
+              />
+            </div>
+          </div>
+          <div class="pane">
+            <h3>B. Click the matching map location</h3>
+            <div id="control-map" role="application" aria-label="Map for selecting matching geographic points"></div>
+          </div>
+        </div>
+
+        <p class="instruction" id="point-instruction">
+          Start by clicking a precise location in the SVG pane.
+        </p>
+
+        <div class="points">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Label</th>
+                <th>SVG x / y</th>
+                <th>Map latitude / longitude</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="points-body">
+              <tr id="empty-row"><td colspan="5">No control points recorded yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="output-title">
+        <h2 id="output-title">3. Copy the result</h2>
+        <p class="card__intro">
+          The output updates automatically. Save it locally or copy the full JSON into the chat.
+        </p>
+        <div class="output-grid">
+          <textarea id="output" readonly aria-label="Generated georeferencing JSON"></textarea>
+          <div class="output-actions">
+            <button class="button" id="copy-output" type="button">Copy JSON</button>
+            <button class="button button--secondary" id="download-output" type="button">Download JSON</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="districts-title">
+        <h2 id="districts-title">Major district key</h2>
+        <ol class="district-list">
+          <li><strong>01</strong> – Keskusta major district</li>
+          <li><strong>02</strong> – Vöyrinkaupunki major district</li>
+          <li><strong>03</strong> – Vaskiluoto major district</li>
+          <li><strong>04</strong> – Palosaari major district</li>
+          <li><strong>05</strong> – Gerby major district</li>
+          <li><strong>06</strong> – Kotiranta major district</li>
+          <li><strong>07</strong> – Huutoniemi major district</li>
+          <li><strong>08</strong> – Ristinummi major district</li>
+          <li><strong>09</strong> – Höstvesi major district</li>
+          <li><strong>10</strong> – Suvilahti major district</li>
+          <li><strong>11</strong> – Sundom major district</li>
+          <li><strong>12</strong> – Vähäkyrö major district</li>
+        </ol>
+      </section>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      const SVG_URL = 'https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg'
+      const SOURCE_PAGE_URL = 'https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg'
+      const DEFAULT_BOUNDS = {
+        north: 63.36,
+        south: 62.76,
+        west: 20.9,
+        east: 22.5,
+      }
+
+      const bounds = { ...DEFAULT_BOUNDS }
+      const controlPoints = []
+      let pendingSvgPoint = null
+      let pendingSvgMarker = null
+
+      const tileLayerOptions = {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }
+
+      const overlayMap = L.map('overlay-map').setView([63.08, 21.7], 9)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileLayerOptions).addTo(overlayMap)
+
+      let overlay = L.imageOverlay(SVG_URL, currentLeafletBounds(), {
+        opacity: 0.65,
+        interactive: false,
+        crossOrigin: true,
+        alt: 'Vaasa major district reference overlay',
+      }).addTo(overlayMap)
+
+      const cornerIcon = L.divIcon({ className: '', html: '<div class="corner-icon"></div>', iconSize: [18, 18], iconAnchor: [9, 9] })
+      const cornerMarkers = {
+        nw: createCorner('nw', [bounds.north, bounds.west]),
+        ne: createCorner('ne', [bounds.north, bounds.east]),
+        sw: createCorner('sw', [bounds.south, bounds.west]),
+        se: createCorner('se', [bounds.south, bounds.east]),
+      }
+
+      const controlMap = L.map('control-map').setView([63.08, 21.7], 9)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileLayerOptions).addTo(controlMap)
+
+      const mapMarkers = L.layerGroup().addTo(controlMap)
+
+      function currentLeafletBounds() {
+        return [[bounds.south, bounds.west], [bounds.north, bounds.east]]
+      }
+
+      function createCorner(key, latlng) {
+        const marker = L.marker(latlng, { draggable: true, icon: cornerIcon, title: key.toUpperCase() }).addTo(overlayMap)
+        marker.on('drag', () => updateBoundsFromCorner(key, marker.getLatLng()))
+        marker.on('dragend', updateOutput)
+        return marker
+      }
+
+      function updateBoundsFromCorner(key, latlng) {
+        if (key.includes('n')) bounds.north = latlng.lat
+        if (key.includes('s')) bounds.south = latlng.lat
+        if (key.includes('w')) bounds.west = latlng.lng
+        if (key.includes('e')) bounds.east = latlng.lng
+
+        if (bounds.north < bounds.south) [bounds.north, bounds.south] = [bounds.south, bounds.north]
+        if (bounds.east < bounds.west) [bounds.east, bounds.west] = [bounds.west, bounds.east]
+
+        syncCorners()
+        overlay.setBounds(currentLeafletBounds())
+        document.getElementById('alignment-status').textContent = `${(bounds.north - bounds.south).toFixed(4)}° × ${(bounds.east - bounds.west).toFixed(4)}°`
+        updateOutput()
+      }
+
+      function syncCorners() {
+        cornerMarkers.nw.setLatLng([bounds.north, bounds.west])
+        cornerMarkers.ne.setLatLng([bounds.north, bounds.east])
+        cornerMarkers.sw.setLatLng([bounds.south, bounds.west])
+        cornerMarkers.se.setLatLng([bounds.south, bounds.east])
+      }
+
+      function resetBounds() {
+        Object.assign(bounds, DEFAULT_BOUNDS)
+        syncCorners()
+        overlay.setBounds(currentLeafletBounds())
+        overlayMap.fitBounds(currentLeafletBounds(), { padding: [24, 24] })
+        document.getElementById('alignment-status').textContent = 'Four corners ready'
+        updateOutput()
+      }
+
+      document.getElementById('opacity').addEventListener('input', (event) => {
+        const value = Number(event.target.value)
+        overlay.setOpacity(value / 100)
+        document.getElementById('opacity-value').textContent = `${value}%`
+        updateOutput()
+      })
+      document.getElementById('fit-overlay').addEventListener('click', () => overlayMap.fitBounds(currentLeafletBounds(), { padding: [24, 24] }))
+      document.getElementById('reset-bounds').addEventListener('click', resetBounds)
+
+      const sourceSvg = document.getElementById('source-svg')
+      const svgStage = document.getElementById('svg-stage')
+      sourceSvg.addEventListener('click', (event) => {
+        const rect = sourceSvg.getBoundingClientRect()
+        const xNormalized = (event.clientX - rect.left) / rect.width
+        const yNormalized = (event.clientY - rect.top) / rect.height
+        pendingSvgPoint = {
+          xNormalized: round(xNormalized, 8),
+          yNormalized: round(yNormalized, 8),
+          renderedX: round(event.clientX - rect.left, 2),
+          renderedY: round(event.clientY - rect.top, 2),
+          renderedWidth: round(rect.width, 2),
+          renderedHeight: round(rect.height, 2),
+        }
+        if (pendingSvgMarker) pendingSvgMarker.remove()
+        pendingSvgMarker = document.createElement('span')
+        pendingSvgMarker.className = 'svg-marker'
+        pendingSvgMarker.style.left = `${sourceSvg.offsetLeft + xNormalized * sourceSvg.clientWidth}px`
+        pendingSvgMarker.style.top = `${sourceSvg.offsetTop + yNormalized * sourceSvg.clientHeight}px`
+        svgStage.appendChild(pendingSvgMarker)
+        document.getElementById('point-instruction').textContent = 'SVG point selected. Now click the matching physical location on the map.'
+        document.getElementById('cancel-pending').disabled = false
+      })
+
+      controlMap.on('click', (event) => {
+        if (!pendingSvgPoint) {
+          document.getElementById('point-instruction').textContent = 'Select a source point in the SVG pane before clicking the map.'
+          return
+        }
+        const labelInput = document.getElementById('point-label')
+        const label = labelInput.value.trim() || `Control point ${controlPoints.length + 1}`
+        controlPoints.push({
+          id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+          label,
+          svg: { ...pendingSvgPoint },
+          map: { lat: round(event.latlng.lat, 8), lng: round(event.latlng.lng, 8) },
+        })
+        labelInput.value = ''
+        clearPendingPoint()
+        renderControlPoints()
+        document.getElementById('point-instruction').textContent = `Saved ${label}. Add another point in a different part of the map.`
+        updateOutput()
+      })
+
+      function clearPendingPoint() {
+        pendingSvgPoint = null
+        if (pendingSvgMarker) pendingSvgMarker.remove()
+        pendingSvgMarker = null
+        document.getElementById('cancel-pending').disabled = true
+      }
+
+      document.getElementById('cancel-pending').addEventListener('click', () => {
+        clearPendingPoint()
+        document.getElementById('point-instruction').textContent = 'Pending SVG point cancelled. Click a new source point.'
+      })
+
+      document.getElementById('clear-points').addEventListener('click', () => {
+        if (!controlPoints.length || window.confirm('Remove every recorded control point?')) {
+          controlPoints.splice(0)
+          clearPendingPoint()
+          renderControlPoints()
+          updateOutput()
+        }
+      })
+
+      function renderControlPoints() {
+        const body = document.getElementById('points-body')
+        body.innerHTML = ''
+        mapMarkers.clearLayers()
+        if (!controlPoints.length) {
+          body.innerHTML = '<tr><td colspan="5">No control points recorded yet.</td></tr>'
+          return
+        }
+        controlPoints.forEach((point, index) => {
+          const marker = L.marker([point.map.lat, point.map.lng]).bindTooltip(`${index + 1}. ${point.label}`)
+          marker.addTo(mapMarkers)
+          const row = document.createElement('tr')
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${escapeHtml(point.label)}</td>
+            <td>${point.svg.xNormalized.toFixed(6)} / ${point.svg.yNormalized.toFixed(6)}</td>
+            <td>${point.map.lat.toFixed(6)} / ${point.map.lng.toFixed(6)}</td>
+            <td><button class="button button--secondary" type="button" data-remove-id="${point.id}">Remove</button></td>
+          `
+          body.appendChild(row)
+        })
+        body.querySelectorAll('[data-remove-id]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const index = controlPoints.findIndex((point) => point.id === button.dataset.removeId)
+            if (index >= 0) controlPoints.splice(index, 1)
+            renderControlPoints()
+            updateOutput()
+          })
+        })
+      }
+
+      function buildOutput() {
+        const opacity = Number(document.getElementById('opacity').value) / 100
+        return {
+          schemaVersion: 1,
+          createdAt: new Date().toISOString(),
+          source: {
+            imageUrl: SVG_URL,
+            sourcePageUrl: SOURCE_PAGE_URL,
+            title: 'Vaasa major districts map',
+            author: 'Tvinnari',
+            licence: 'CC BY-SA 4.0',
+            districtCount: 12,
+          },
+          alignment: {
+            coordinateReferenceSystem: 'EPSG:4326',
+            bounds: {
+              north: round(bounds.north, 8),
+              south: round(bounds.south, 8),
+              west: round(bounds.west, 8),
+              east: round(bounds.east, 8),
+            },
+            opacity,
+          },
+          controlPoints: controlPoints.map(({ id, ...point }) => point),
+          mapViews: {
+            overlay: serializeMapView(overlayMap),
+            controlPointMap: serializeMapView(controlMap),
+          },
+          notes: [
+            'Derived from licensed cartographic artwork; not official municipal survey geometry.',
+            'Normalized SVG coordinates use top-left origin: x grows right, y grows down.',
+          ],
+        }
+      }
+
+      function serializeMapView(map) {
+        const center = map.getCenter()
+        return { center: [round(center.lat, 8), round(center.lng, 8)], zoom: map.getZoom() }
+      }
+
+      function updateOutput() {
+        document.getElementById('output').value = JSON.stringify(buildOutput(), null, 2)
+      }
+
+      document.getElementById('copy-output').addEventListener('click', async () => {
+        const button = document.getElementById('copy-output')
+        try {
+          await navigator.clipboard.writeText(document.getElementById('output').value)
+          button.textContent = 'Copied'
+          setTimeout(() => { button.textContent = 'Copy JSON' }, 1400)
+        } catch {
+          document.getElementById('output').select()
+          document.execCommand('copy')
+        }
+      })
+
+      document.getElementById('download-output').addEventListener('click', () => {
+        const blob = new Blob([document.getElementById('output').value], { type: 'application/json' })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = 'vaasa-major-district-georeference.json'
+        link.click()
+        URL.revokeObjectURL(url)
+      })
+
+      function round(value, digits) {
+        const factor = 10 ** digits
+        return Math.round(value * factor) / factor
+      }
+
+      function escapeHtml(value) {
+        return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;' })[character])
+      }
+
+      overlayMap.on('moveend zoomend', updateOutput)
+      controlMap.on('moveend zoomend', updateOutput)
+      overlayMap.fitBounds(currentLeafletBounds(), { padding: [24, 24] })
+      renderControlPoints()
+      updateOutput()
+    </script>
+  </body>
+</html>
