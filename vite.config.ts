@@ -14,5 +14,6 @@ export default defineConfig(({ command }) => ({
   test: {
     environment: 'jsdom',
     css: true,
+    globals: true,
   },
 }))
