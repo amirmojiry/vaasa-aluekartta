@@ -10,9 +10,7 @@ import VaasaMap from '@/components/map/VaasaMap.vue'
           <span class="brand__mark" aria-hidden="true">VA</span>
           <span>Vaasa Aluekartta</span>
         </a>
-        <a class="topbar__link" href="https://github.com/amirmojiry/vaasa-aluekartta">
-          GitHub
-        </a>
+        <a class="topbar__link" href="https://github.com/amirmojiry/vaasa-aluekartta"> GitHub </a>
       </nav>
 
       <div id="top" class="hero__content">
@@ -44,8 +42,8 @@ import VaasaMap from '@/components/map/VaasaMap.vue'
         <p class="eyebrow">Coming next</p>
         <h2>Official area boundaries</h2>
         <p>
-          The next milestone will connect authoritative GeoJSON data for Vaasa's statistical
-          areas. Each dataset will include its source, licence, and update date.
+          The next milestone will connect authoritative GeoJSON data for Vaasa's statistical areas.
+          Each dataset will include its source, licence, and update date.
         </p>
 
         <dl class="feature-list">
