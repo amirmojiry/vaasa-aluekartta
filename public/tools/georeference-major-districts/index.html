@@ -18,222 +18,1332 @@
         --line: rgba(23, 48, 46, 0.16);
         --muted: #637370;
       }
-      * { box-sizing: border-box; }
-      html, body { margin: 0; min-width: 320px; min-height: 100%; overflow-x: hidden; }
-      button, input, textarea { font: inherit; }
-      button { cursor: pointer; }
-      a { color: var(--green); }
-      header { padding: 2rem max(1rem, env(safe-area-inset-left)); color: #fff; background: linear-gradient(135deg, #082f2d, #17645d); }
-      header > div { max-width: 1200px; margin: auto; }
-      .eyebrow { margin: 0 0 .5rem; color: #f3a180; font-size: .72rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
-      h1 { margin: 0 0 .7rem; font-family: Georgia, serif; font-size: clamp(2rem, 7vw, 3.8rem); font-weight: 500; }
-      header p { max-width: 60rem; margin: 0; line-height: 1.6; color: rgba(255, 255, 255, .8); }
-      header a { color: #fff; }
-      main { width: min(1200px, calc(100% - 1rem)); margin: 1rem auto 3rem; display: grid; gap: 1rem; }
-      .card { min-width: 0; padding: clamp(.85rem, 2vw, 1.4rem); background: var(--paper); box-shadow: 0 14px 45px rgba(17, 55, 51, .1); }
-      .card h2 { margin: 0 0 .45rem; font-family: Georgia, serif; font-size: clamp(1.4rem, 4vw, 2.1rem); font-weight: 500; }
-      .intro, .note { color: var(--muted); line-height: 1.55; }
-      .intro { margin: 0 0 1rem; }
-      .note { margin: .8rem 0 0; font-size: .82rem; }
-      .controls { display: flex; flex-wrap: wrap; gap: .65rem; align-items: end; margin-bottom: .8rem; }
-      .adjustments { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .8rem; margin: .8rem 0; padding: .85rem; border: 1px solid var(--line); background: #f6faf8; }
-      .adjustment { display: grid; gap: .35rem; }
-      .adjustment label { font-size: .8rem; font-weight: 800; }
-      .adjustment-row { display: flex; gap: .45rem; align-items: center; }
-      .axis-toggle { display: inline-flex; border: 1px solid var(--line); }
-      .axis-toggle button { min-width: 2.4rem; min-height: 2.25rem; border: 0; background: #fff; color: #17302e; font-weight: 800; }
-      .axis-toggle button.active { background: var(--deep); color: #fff; }
-      .field { display: grid; gap: .3rem; min-width: 10rem; }
-      .field label { font-size: .78rem; font-weight: 800; }
-      input[type="range"] { width: 100%; min-width: 0; }
-      input[type="text"] { min-height: 2.55rem; padding: .5rem .65rem; border: 1px solid var(--line); }
-      .button { min-height: 2.55rem; padding: .52rem .8rem; border: 0; background: var(--deep); color: #fff; font-weight: 750; }
-      .button.secondary { border: 1px solid var(--line); background: #fff; color: #17302e; }
-      .button.danger { background: #8f2d21; }
-      .button.active { background: var(--blue); }
-      .button:disabled { opacity: .45; cursor: not-allowed; }
-      .status { display: inline-flex; padding: .35rem .65rem; border-radius: 999px; background: #e2f0ec; color: #0c514b; font-size: .76rem; font-weight: 750; }
 
-      .leaflet-container { position: relative; overflow: hidden; outline: 0; background: #dce7e4; -webkit-tap-highlight-color: transparent; touch-action: pan-x pan-y; }
-      .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer { position: absolute; left: 0; top: 0; }
-      .leaflet-container img.leaflet-image-layer, .leaflet-container .leaflet-tile { max-width: none !important; max-height: none !important; padding: 0; width: auto; }
-      .leaflet-tile { visibility: hidden; }
-      .leaflet-tile-loaded { visibility: inherit; }
-      .leaflet-zoom-animated { transform-origin: 0 0; }
-      .leaflet-pane { z-index: 400; }
-      .leaflet-tile-pane { z-index: 200; }
-      .leaflet-overlay-pane { z-index: 400; }
-      .leaflet-shadow-pane { z-index: 500; }
-      .leaflet-marker-pane { z-index: 600; }
-      .leaflet-tooltip-pane { z-index: 650; }
-      .leaflet-popup-pane { z-index: 700; }
-      .leaflet-control { position: relative; z-index: 800; pointer-events: auto; }
-      .leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; }
-      .leaflet-top { top: 0; }
-      .leaflet-right { right: 0; }
-      .leaflet-bottom { bottom: 0; }
-      .leaflet-left { left: 0; }
-      .leaflet-control-zoom a { display: block; width: 30px; height: 30px; line-height: 30px; text-align: center; background: #fff; color: #222; text-decoration: none; border-bottom: 1px solid #ccc; }
-      .leaflet-control-attribution { margin: 0; padding: 2px 5px; background: rgba(255, 255, 255, .82); font-size: 10px; }
+      * {
+        box-sizing: border-box;
+      }
 
-      .map-shell { position: relative; width: 100%; max-width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: .35rem; background: #dce7e4; isolation: isolate; }
-      #overlay-map { width: 100%; height: clamp(390px, 62vh, 700px); }
-      .corner-icon { width: 20px; height: 20px; border: 3px solid #fff; border-radius: 50%; background: var(--orange); box-shadow: 0 2px 8px rgba(0, 0, 0, .35); }
-      .move-icon { width: 26px; height: 26px; display: grid; place-items: center; border: 3px solid #fff; border-radius: 50%; background: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .4); font-size: 14px; font-weight: 900; }
-      .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .85rem; }
-      .pane { min-width: 0; }
-      .pane h3 { margin: 0 0 .45rem; font-size: .95rem; }
-      .svg-stage { position: relative; width: 100%; height: 440px; display: grid; place-items: center; overflow: auto; border: 1px solid var(--line); background: #eef3f1; }
-      .svg-stage img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; cursor: crosshair; user-select: none; }
-      .svg-marker { position: absolute; width: 18px; height: 18px; border: 3px solid #fff; border-radius: 50%; background: var(--orange); transform: translate(-50%, -50%); pointer-events: none; }
-      #control-map { width: 100%; height: 440px; cursor: crosshair; }
-      .instruction { margin: .8rem 0 0; padding: .75rem .9rem; background: #edf4f2; border-left: 4px solid var(--green); line-height: 1.5; }
-      .points { margin-top: 1rem; overflow-x: auto; }
-      table { width: 100%; border-collapse: collapse; font-size: .82rem; }
-      th, td { padding: .6rem .5rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-      .output-grid { display: grid; grid-template-columns: 1fr auto; gap: .7rem; }
-      textarea { width: 100%; min-height: 300px; padding: .8rem; border: 1px solid var(--line); font-family: ui-monospace, monospace; font-size: .75rem; }
-      .output-actions { display: grid; gap: .55rem; align-content: start; }
-      .district-list { columns: 2; column-gap: 2rem; padding-left: 1.4rem; }
-      .district-list li { break-inside: avoid; margin-bottom: .5rem; }
-      @media (max-width: 800px) { .split { grid-template-columns: 1fr; } .district-list { columns: 1; } }
+      html,
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100%;
+        overflow-x: hidden;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      a {
+        color: var(--green);
+      }
+
+      header {
+        padding: 2rem max(1rem, env(safe-area-inset-left));
+        color: #fff;
+        background: linear-gradient(135deg, #082f2d, #17645d);
+      }
+
+      header > div {
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.5rem;
+        color: #f3a180;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0 0 0.7rem;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 7vw, 3.8rem);
+        font-weight: 500;
+      }
+
+      header p {
+        max-width: 60rem;
+        margin: 0;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      header a {
+        color: #fff;
+      }
+
+      main {
+        width: min(1200px, calc(100% - 1rem));
+        margin: 1rem auto 3rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .card {
+        min-width: 0;
+        padding: clamp(0.85rem, 2vw, 1.4rem);
+        background: var(--paper);
+        box-shadow: 0 14px 45px rgba(17, 55, 51, 0.1);
+      }
+
+      .card h2 {
+        margin: 0 0 0.45rem;
+        font-family: Georgia, serif;
+        font-size: clamp(1.4rem, 4vw, 2.1rem);
+        font-weight: 500;
+      }
+
+      .intro,
+      .note,
+      .adjustment-help {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .intro {
+        margin: 0 0 1rem;
+      }
+
+      .note {
+        margin: 0.8rem 0 0;
+        font-size: 0.82rem;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        align-items: end;
+        margin-bottom: 0.8rem;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.3rem;
+        min-width: 10rem;
+      }
+
+      .field label {
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .adjustments {
+        display: grid;
+        gap: 0.8rem;
+        margin: 0.9rem 0;
+        padding: 0.9rem;
+        border: 1px solid var(--line);
+        background: #f6faf8;
+      }
+
+      .adjustments-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+      }
+
+      .adjustments-header strong {
+        font-size: 0.9rem;
+      }
+
+      .adjustment-help {
+        margin: 0;
+        font-size: 0.78rem;
+      }
+
+      .precision-control {
+        display: grid;
+        grid-template-columns: minmax(8rem, 0.25fr) minmax(10rem, 1fr) minmax(8rem, 0.28fr);
+        gap: 0.65rem;
+        align-items: center;
+      }
+
+      .precision-control label {
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .numeric-input-wrap {
+        position: relative;
+      }
+
+      .numeric-input-wrap input {
+        width: 100%;
+        min-height: 2.55rem;
+        padding: 0.5rem 2.7rem 0.5rem 0.65rem;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: #17302e;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .numeric-input-wrap span {
+        position: absolute;
+        top: 50%;
+        right: 0.7rem;
+        transform: translateY(-50%);
+        color: var(--muted);
+        font-size: 0.75rem;
+        pointer-events: none;
+      }
+
+      input[type='range'] {
+        width: 100%;
+        min-width: 0;
+      }
+
+      input[type='text'] {
+        min-height: 2.55rem;
+        padding: 0.5rem 0.65rem;
+        border: 1px solid var(--line);
+      }
+
+      .button {
+        min-height: 2.55rem;
+        padding: 0.52rem 0.8rem;
+        border: 0;
+        background: var(--deep);
+        color: #fff;
+        font-weight: 750;
+      }
+
+      .button.secondary {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: #17302e;
+      }
+
+      .button.danger {
+        background: #8f2d21;
+      }
+
+      .button.active {
+        background: var(--blue);
+      }
+
+      .button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .status {
+        display: inline-flex;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        background: #e2f0ec;
+        color: #0c514b;
+        font-size: 0.76rem;
+        font-weight: 750;
+      }
+
+      /* Leaflet fallback styles keep map content inside the container if CDN CSS is blocked. */
+      .leaflet-container {
+        position: relative;
+        overflow: hidden;
+        outline: 0;
+        background: #dce7e4;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: pan-x pan-y;
+      }
+
+      .leaflet-pane,
+      .leaflet-tile,
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow,
+      .leaflet-tile-container,
+      .leaflet-pane > svg,
+      .leaflet-pane > canvas,
+      .leaflet-zoom-box,
+      .leaflet-image-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .leaflet-container img.leaflet-image-layer,
+      .leaflet-container .leaflet-tile {
+        width: auto;
+        max-width: none !important;
+        max-height: none !important;
+        padding: 0;
+      }
+
+      .leaflet-tile {
+        visibility: hidden;
+      }
+
+      .leaflet-tile-loaded {
+        visibility: inherit;
+      }
+
+      .leaflet-zoom-animated {
+        transform-origin: 0 0;
+      }
+
+      .leaflet-pane {
+        z-index: 400;
+      }
+
+      .leaflet-tile-pane {
+        z-index: 200;
+      }
+
+      .leaflet-overlay-pane {
+        z-index: 400;
+      }
+
+      .leaflet-shadow-pane {
+        z-index: 500;
+      }
+
+      .leaflet-marker-pane {
+        z-index: 600;
+      }
+
+      .leaflet-tooltip-pane {
+        z-index: 650;
+      }
+
+      .leaflet-popup-pane {
+        z-index: 700;
+      }
+
+      .leaflet-control {
+        position: relative;
+        z-index: 800;
+        pointer-events: auto;
+      }
+
+      .leaflet-top,
+      .leaflet-bottom {
+        position: absolute;
+        z-index: 1000;
+        pointer-events: none;
+      }
+
+      .leaflet-top {
+        top: 0;
+      }
+
+      .leaflet-right {
+        right: 0;
+      }
+
+      .leaflet-bottom {
+        bottom: 0;
+      }
+
+      .leaflet-left {
+        left: 0;
+      }
+
+      .leaflet-control-zoom a {
+        display: block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        text-decoration: none;
+        background: #fff;
+        color: #222;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .leaflet-control-attribution {
+        margin: 0;
+        padding: 2px 5px;
+        background: rgba(255, 255, 255, 0.82);
+        font-size: 10px;
+      }
+
+      .map-shell {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 0.35rem;
+        background: #dce7e4;
+        isolation: isolate;
+      }
+
+      #overlay-map {
+        width: 100%;
+        height: clamp(390px, 62vh, 700px);
+      }
+
+      .corner-icon {
+        width: 20px;
+        height: 20px;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        background: var(--orange);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      }
+
+      .move-icon {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        background: var(--blue);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 0.85rem;
+      }
+
+      .pane {
+        min-width: 0;
+      }
+
+      .pane h3 {
+        margin: 0 0 0.45rem;
+        font-size: 0.95rem;
+      }
+
+      .svg-stage {
+        position: relative;
+        width: 100%;
+        height: 440px;
+        display: grid;
+        place-items: center;
+        overflow: auto;
+        border: 1px solid var(--line);
+        background: #eef3f1;
+      }
+
+      .svg-stage img {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        cursor: crosshair;
+        user-select: none;
+      }
+
+      .svg-marker {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        background: var(--orange);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      #control-map {
+        width: 100%;
+        height: 440px;
+        cursor: crosshair;
+      }
+
+      .instruction {
+        margin: 0.8rem 0 0;
+        padding: 0.75rem 0.9rem;
+        background: #edf4f2;
+        border-left: 4px solid var(--green);
+        line-height: 1.5;
+      }
+
+      .points {
+        margin-top: 1rem;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+      }
+
+      th,
+      td {
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .output-grid {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.7rem;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 0.8rem;
+        border: 1px solid var(--line);
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+      }
+
+      .output-actions {
+        display: grid;
+        gap: 0.55rem;
+        align-content: start;
+      }
+
+      .district-list {
+        columns: 2;
+        column-gap: 2rem;
+        padding-left: 1.4rem;
+      }
+
+      .district-list li {
+        break-inside: avoid;
+        margin-bottom: 0.5rem;
+      }
+
+      @media (max-width: 800px) {
+        .split {
+          grid-template-columns: 1fr;
+        }
+
+        .district-list {
+          columns: 1;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .precision-control {
+          grid-template-columns: 1fr;
+          gap: 0.35rem;
+          padding-bottom: 0.8rem;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .precision-control:last-of-type {
+          padding-bottom: 0;
+          border-bottom: 0;
+        }
+      }
+
       @media (max-width: 620px) {
-        main { width: calc(100% - .5rem); }
-        .card { padding: .75rem; }
-        #overlay-map { height: 58vh; min-height: 390px; }
-        #control-map, .svg-stage { height: 420px; }
-        .adjustments { grid-template-columns: 1fr; }
-        .output-grid { grid-template-columns: 1fr; }
-        .output-actions { grid-template-columns: 1fr 1fr; }
-        .controls .field { width: 100%; }
-        input[type="text"] { width: 100%; }
+        main {
+          width: calc(100% - 0.5rem);
+        }
+
+        .card {
+          padding: 0.75rem;
+        }
+
+        #overlay-map {
+          height: 58vh;
+          min-height: 390px;
+        }
+
+        #control-map,
+        .svg-stage {
+          height: 420px;
+        }
+
+        .output-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .output-actions {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .controls .field {
+          width: 100%;
+        }
+
+        input[type='text'] {
+          width: 100%;
+        }
       }
     </style>
   </head>
   <body>
-    <header><div><p class="eyebrow">Vaasa Aluekartta · Research tool</p><h1>Major district georeferencing</h1><p>Align the licensed Vaasa major-district SVG with OpenStreetMap, then register matching control points. Copy the generated JSON and send it back for SVG-to-GeoJSON conversion. Return to <a href="../../">the main map</a>.</p></div></header>
+    <header>
+      <div>
+        <p class="eyebrow">Vaasa Aluekartta · Research tool</p>
+        <h1>Major district georeferencing</h1>
+        <p>
+          Align the licensed Vaasa major-district SVG with OpenStreetMap, then register matching
+          control points. Copy the generated JSON and send it back for SVG-to-GeoJSON conversion.
+          Return to <a href="../../">the main map</a>.
+        </p>
+      </div>
+    </header>
+
     <main>
       <section class="card">
         <h2>1. Align the SVG overlay</h2>
-        <p class="intro">Resize the image with the four orange corner handles. Activate Move image to drag the blue centre handle. The sliders provide precise size and position adjustment.</p>
+        <p class="intro">
+          Resize the image with the four orange corner handles. Activate Move image to drag the blue
+          centre handle. Use the independent Scale, X and Y controls for precise adjustment.
+        </p>
+
         <div class="controls">
-          <div class="field"><label for="opacity">Overlay opacity: <span id="opacity-value">65%</span></label><input id="opacity" type="range" min="5" max="100" value="65" /></div>
-          <button class="button" id="move-mode" type="button" aria-pressed="false">Move image</button>
+          <div class="field">
+            <label for="opacity">Overlay opacity: <span id="opacity-value">65%</span></label>
+            <input id="opacity" type="range" min="5" max="100" value="65" />
+          </div>
+          <button class="button" id="move-mode" type="button" aria-pressed="false">
+            Move image
+          </button>
           <button class="button secondary" id="fit-overlay" type="button">Fit overlay</button>
-          <button class="button secondary" id="reset-bounds" type="button">Reset bounds</button>
+          <button class="button secondary" id="reset-bounds" type="button">Reset all</button>
           <span class="status" id="alignment-status">Four corners ready</span>
         </div>
-        <div class="map-shell"><div id="overlay-map" aria-label="Map for aligning the SVG"></div></div>
+
+        <div class="map-shell">
+          <div id="overlay-map" aria-label="Map for aligning the SVG"></div>
+        </div>
+
         <div class="adjustments" aria-label="Fine overlay adjustments">
-          <div class="adjustment">
-            <label for="size-slider">Image size: <span id="size-value">100%</span></label>
-            <input id="size-slider" type="range" min="50" max="180" value="100" step="1" />
+          <div class="adjustments-header">
+            <div>
+              <strong>Fine adjustment</strong>
+              <p class="adjustment-help">
+                Values are percentages of the last manually positioned image. Positive X moves east;
+                positive Y moves north. Number inputs accept 0.001 increments.
+              </p>
+            </div>
+            <button class="button secondary" id="reset-fine" type="button">
+              Reset fine controls
+            </button>
           </div>
-          <div class="adjustment">
-            <label for="position-slider">Image position: <span id="position-value">0</span></label>
-            <div class="adjustment-row">
-              <div class="axis-toggle" aria-label="Position axis">
-                <button id="axis-x" class="active" type="button" aria-pressed="true">X</button>
-                <button id="axis-y" type="button" aria-pressed="false">Y</button>
-              </div>
-              <input id="position-slider" type="range" min="-100" max="100" value="0" step="1" />
+
+          <div class="precision-control">
+            <label for="scale-slider">Scale</label>
+            <input
+              id="scale-slider"
+              type="range"
+              min="1"
+              max="2000"
+              value="100"
+              step="0.1"
+            />
+            <div class="numeric-input-wrap">
+              <input
+                id="scale-number"
+                type="number"
+                min="0.01"
+                max="10000"
+                value="100"
+                step="0.001"
+                inputmode="decimal"
+              />
+              <span>%</span>
+            </div>
+          </div>
+
+          <div class="precision-control">
+            <label for="x-slider">Horizontal position (X)</label>
+            <input
+              id="x-slider"
+              type="range"
+              min="-2000"
+              max="2000"
+              value="0"
+              step="0.1"
+            />
+            <div class="numeric-input-wrap">
+              <input
+                id="x-number"
+                type="number"
+                min="-10000"
+                max="10000"
+                value="0"
+                step="0.001"
+                inputmode="decimal"
+              />
+              <span>%</span>
+            </div>
+          </div>
+
+          <div class="precision-control">
+            <label for="y-slider">Vertical position (Y)</label>
+            <input
+              id="y-slider"
+              type="range"
+              min="-2000"
+              max="2000"
+              value="0"
+              step="0.1"
+            />
+            <div class="numeric-input-wrap">
+              <input
+                id="y-number"
+                type="number"
+                min="-10000"
+                max="10000"
+                value="0"
+                step="0.001"
+                inputmode="decimal"
+              />
+              <span>%</span>
             </div>
           </div>
         </div>
-        <p class="note">Artwork: <a href="https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg" target="_blank" rel="noreferrer">Vaasa major districts map</a> by Tvinnari, CC BY-SA 4.0.</p>
+
+        <p class="note">
+          Artwork:
+          <a
+            href="https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg"
+            target="_blank"
+            rel="noreferrer"
+            >Vaasa major districts map</a
+          >
+          by Tvinnari, CC BY-SA 4.0.
+        </p>
       </section>
+
       <section class="card">
         <h2>2. Add matching control points</h2>
-        <p class="intro">Click a precise point in the SVG, then click the same physical location on OpenStreetMap.</p>
-        <div class="controls"><div class="field"><label for="point-label">Point label</label><input id="point-label" type="text" placeholder="Example: Vaskiluoto harbour" /></div><button class="button secondary" id="cancel-pending" type="button" disabled>Cancel pending point</button><button class="button danger" id="clear-points" type="button">Clear all points</button></div>
-        <div class="split"><div class="pane"><h3>A. Click the source SVG</h3><div class="svg-stage" id="svg-stage"><img id="source-svg" src="https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg" alt="Numbered map of Vaasa major districts" draggable="false" /></div></div><div class="pane"><h3>B. Click the matching map location</h3><div class="map-shell"><div id="control-map" aria-label="Map for matching geographic points"></div></div></div></div>
-        <p class="instruction" id="point-instruction">Start by clicking a precise location in the SVG pane.</p>
-        <div class="points"><table><thead><tr><th>#</th><th>Label</th><th>SVG x/y</th><th>Latitude/longitude</th><th></th></tr></thead><tbody id="points-body"><tr><td colspan="5">No control points recorded yet.</td></tr></tbody></table></div>
+        <p class="intro">
+          Click a precise point in the SVG, then click the same physical location on OpenStreetMap.
+        </p>
+
+        <div class="controls">
+          <div class="field">
+            <label for="point-label">Point label</label>
+            <input id="point-label" type="text" placeholder="Example: Vaskiluoto harbour" />
+          </div>
+          <button class="button secondary" id="cancel-pending" type="button" disabled>
+            Cancel pending point
+          </button>
+          <button class="button danger" id="clear-points" type="button">
+            Clear all points
+          </button>
+        </div>
+
+        <div class="split">
+          <div class="pane">
+            <h3>A. Click the source SVG</h3>
+            <div class="svg-stage" id="svg-stage">
+              <img
+                id="source-svg"
+                src="https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg"
+                alt="Numbered map of Vaasa major districts"
+                draggable="false"
+              />
+            </div>
+          </div>
+          <div class="pane">
+            <h3>B. Click the matching map location</h3>
+            <div class="map-shell">
+              <div id="control-map" aria-label="Map for matching geographic points"></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="instruction" id="point-instruction">
+          Start by clicking a precise location in the SVG pane.
+        </p>
+
+        <div class="points">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Label</th>
+                <th>SVG x/y</th>
+                <th>Latitude/longitude</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="points-body">
+              <tr>
+                <td colspan="5">No control points recorded yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
-      <section class="card"><h2>3. Copy the result</h2><div class="output-grid"><textarea id="output" readonly></textarea><div class="output-actions"><button class="button" id="copy-output" type="button">Copy JSON</button><button class="button secondary" id="download-output" type="button">Download JSON</button></div></div></section>
-      <section class="card"><h2>Major district key</h2><ol class="district-list"><li><strong>01</strong> – Keskusta major district</li><li><strong>02</strong> – Vöyrinkaupunki major district</li><li><strong>03</strong> – Vaskiluoto major district</li><li><strong>04</strong> – Palosaari major district</li><li><strong>05</strong> – Gerby major district</li><li><strong>06</strong> – Kotiranta major district</li><li><strong>07</strong> – Huutoniemi major district</li><li><strong>08</strong> – Ristinummi major district</li><li><strong>09</strong> – Höstvesi major district</li><li><strong>10</strong> – Suvilahti major district</li><li><strong>11</strong> – Sundom major district</li><li><strong>12</strong> – Vähäkyrö major district</li></ol></section>
+
+      <section class="card">
+        <h2>3. Copy the result</h2>
+        <div class="output-grid">
+          <textarea id="output" readonly></textarea>
+          <div class="output-actions">
+            <button class="button" id="copy-output" type="button">Copy JSON</button>
+            <button class="button secondary" id="download-output" type="button">
+              Download JSON
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Major district key</h2>
+        <ol class="district-list">
+          <li><strong>01</strong> – Keskusta major district</li>
+          <li><strong>02</strong> – Vöyrinkaupunki major district</li>
+          <li><strong>03</strong> – Vaskiluoto major district</li>
+          <li><strong>04</strong> – Palosaari major district</li>
+          <li><strong>05</strong> – Gerby major district</li>
+          <li><strong>06</strong> – Kotiranta major district</li>
+          <li><strong>07</strong> – Huutoniemi major district</li>
+          <li><strong>08</strong> – Ristinummi major district</li>
+          <li><strong>09</strong> – Höstvesi major district</li>
+          <li><strong>10</strong> – Suvilahti major district</li>
+          <li><strong>11</strong> – Sundom major district</li>
+          <li><strong>12</strong> – Vähäkyrö major district</li>
+        </ol>
+      </section>
     </main>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-      const SVG_URL = 'https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg'
-      const SOURCE_PAGE_URL = 'https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg'
-      const DEFAULT_BOUNDS = { north: 63.36, south: 62.76, west: 20.9, east: 22.5 }
+      const SVG_URL =
+        'https://upload.wikimedia.org/wikipedia/commons/6/66/Vaasa_major_districts_map.svg'
+      const SOURCE_PAGE_URL =
+        'https://commons.wikimedia.org/wiki/File:Vaasa_major_districts_map.svg'
+      const DEFAULT_BOUNDS = {
+        north: 63.36,
+        south: 62.76,
+        west: 20.9,
+        east: 22.5,
+      }
+
       const bounds = { ...DEFAULT_BOUNDS }
+      const anchorBounds = { ...DEFAULT_BOUNDS }
+      const fineAdjustment = {
+        scalePercent: 100,
+        xPercent: 0,
+        yPercent: 0,
+      }
       const controlPoints = []
+
       let pendingSvgPoint = null
       let pendingSvgMarker = null
-      let moveMode = false
-      let positionAxis = 'x'
-      let sizeBase = null
-      let positionBase = null
+      let moveModeEnabled = false
 
-      const tileOptions = { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }
+      const tileOptions = {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }
+
       const overlayMap = L.map('overlay-map', { zoomControl: true }).setView([63.08, 21.7], 9)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileOptions).addTo(overlayMap)
-      const currentBounds = () => [[bounds.south, bounds.west], [bounds.north, bounds.east]]
-      const overlay = L.imageOverlay(SVG_URL, currentBounds(), { opacity: .65, interactive: false, crossOrigin: true }).addTo(overlayMap)
-      const cornerIcon = L.divIcon({ className: '', html: '<div class="corner-icon"></div>', iconSize: [20, 20], iconAnchor: [10, 10] })
-      const moveIcon = L.divIcon({ className: '', html: '<div class="move-icon">↕</div>', iconSize: [26, 26], iconAnchor: [13, 13] })
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileOptions).addTo(
+        overlayMap,
+      )
+
+      const currentBounds = () => [
+        [bounds.south, bounds.west],
+        [bounds.north, bounds.east],
+      ]
+
+      const overlay = L.imageOverlay(SVG_URL, currentBounds(), {
+        opacity: 0.65,
+        interactive: false,
+        crossOrigin: true,
+      }).addTo(overlayMap)
+
+      const cornerIcon = L.divIcon({
+        className: '',
+        html: '<div class="corner-icon"></div>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+      })
+
+      const moveIcon = L.divIcon({
+        className: '',
+        html: '<div class="move-icon">✥</div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      })
+
       const corners = {}
 
-      function centre() { return { lat: (bounds.north + bounds.south) / 2, lng: (bounds.east + bounds.west) / 2 } }
-      function width() { return bounds.east - bounds.west }
-      function height() { return bounds.north - bounds.south }
-      function setBoundsFromCentre(c, w, h) { bounds.west = c.lng - w / 2; bounds.east = c.lng + w / 2; bounds.south = c.lat - h / 2; bounds.north = c.lat + h / 2 }
-      function makeCorner(key, latlng) { const marker = L.marker(latlng, { draggable: true, icon: cornerIcon }).addTo(overlayMap); marker.on('dragstart', beginManualAdjustment); marker.on('drag', () => resizeFromCorner(key, marker.getLatLng())); marker.on('dragend', finishManualAdjustment); return marker }
+      function makeCorner(key, latlng) {
+        const marker = L.marker(latlng, {
+          draggable: true,
+          icon: cornerIcon,
+          title: `${key.toUpperCase()} resize handle`,
+        }).addTo(overlayMap)
+
+        marker.on('drag', () => updateCorner(key, marker.getLatLng()))
+        marker.on('dragend', commitManualBounds)
+        return marker
+      }
+
       corners.nw = makeCorner('nw', [bounds.north, bounds.west])
       corners.ne = makeCorner('ne', [bounds.north, bounds.east])
       corners.sw = makeCorner('sw', [bounds.south, bounds.west])
       corners.se = makeCorner('se', [bounds.south, bounds.east])
-      const moveMarker = L.marker([centre().lat, centre().lng], { draggable: true, icon: moveIcon, opacity: 0 }).addTo(overlayMap)
-      moveMarker.on('dragstart', () => { positionBase = { centre: centre(), marker: moveMarker.getLatLng() } })
-      moveMarker.on('drag', () => { const p = moveMarker.getLatLng(); const dLat = p.lat - positionBase.marker.lat; const dLng = p.lng - positionBase.marker.lng; const c = { lat: positionBase.centre.lat + dLat, lng: positionBase.centre.lng + dLng }; setBoundsFromCentre(c, width(), height()); syncOverlay() })
-      moveMarker.on('dragend', finishManualAdjustment)
 
-      function beginManualAdjustment() { sizeBase = null; positionBase = null }
-      function finishManualAdjustment() { resetFineControls(); updateOutput() }
-      function syncCorners() { corners.nw.setLatLng([bounds.north, bounds.west]); corners.ne.setLatLng([bounds.north, bounds.east]); corners.sw.setLatLng([bounds.south, bounds.west]); corners.se.setLatLng([bounds.south, bounds.east]); moveMarker.setLatLng([centre().lat, centre().lng]) }
-      function syncOverlay() { syncCorners(); overlay.setBounds(currentBounds()); document.getElementById('alignment-status').textContent = `${height().toFixed(4)}° × ${width().toFixed(4)}°`; updateOutput() }
-      function resizeFromCorner(key, p) { const opposite = { nw: { lat: bounds.south, lng: bounds.east }, ne: { lat: bounds.south, lng: bounds.west }, sw: { lat: bounds.north, lng: bounds.east }, se: { lat: bounds.north, lng: bounds.west } }[key]; const newW = Math.max(Math.abs(p.lng - opposite.lng), .001); const newH = Math.max(Math.abs(p.lat - opposite.lat), .001); bounds.west = Math.min(p.lng, opposite.lng); bounds.east = Math.max(p.lng, opposite.lng); bounds.south = Math.min(p.lat, opposite.lat); bounds.north = Math.max(p.lat, opposite.lat); if (newW && newH) syncOverlay() }
-      function resetFineControls() { document.getElementById('size-slider').value = 100; document.getElementById('size-value').textContent = '100%'; document.getElementById('position-slider').value = 0; document.getElementById('position-value').textContent = '0'; sizeBase = null; positionBase = null }
-      function resetBounds() { Object.assign(bounds, DEFAULT_BOUNDS); resetFineControls(); syncOverlay(); overlayMap.fitBounds(currentBounds(), { padding: [24, 24] }) }
+      const moveHandle = L.marker(getBoundsCenter(), {
+        draggable: true,
+        icon: moveIcon,
+        title: 'Move image',
+        opacity: 0,
+        interactive: false,
+      }).addTo(overlayMap)
 
-      document.getElementById('move-mode').addEventListener('click', () => { moveMode = !moveMode; const button = document.getElementById('move-mode'); button.classList.toggle('active', moveMode); button.setAttribute('aria-pressed', String(moveMode)); button.textContent = moveMode ? 'Finish moving' : 'Move image'; moveMarker.setOpacity(moveMode ? 1 : 0); if (moveMode) moveMarker.bringToFront() })
-      document.getElementById('opacity').addEventListener('input', event => { const value = Number(event.target.value); overlay.setOpacity(value / 100); document.getElementById('opacity-value').textContent = `${value}%`; updateOutput() })
-      document.getElementById('fit-overlay').addEventListener('click', () => overlayMap.fitBounds(currentBounds(), { padding: [24, 24] }))
-      document.getElementById('reset-bounds').addEventListener('click', resetBounds)
-      document.getElementById('size-slider').addEventListener('input', event => { if (!sizeBase) sizeBase = { centre: centre(), width: width(), height: height() }; const scale = Number(event.target.value) / 100; setBoundsFromCentre(sizeBase.centre, sizeBase.width * scale, sizeBase.height * scale); document.getElementById('size-value').textContent = `${event.target.value}%`; syncOverlay() })
-      function setAxis(axis) { positionAxis = axis; document.getElementById('axis-x').classList.toggle('active', axis === 'x'); document.getElementById('axis-y').classList.toggle('active', axis === 'y'); document.getElementById('axis-x').setAttribute('aria-pressed', String(axis === 'x')); document.getElementById('axis-y').setAttribute('aria-pressed', String(axis === 'y')); document.getElementById('position-slider').value = 0; document.getElementById('position-value').textContent = '0'; positionBase = null }
-      document.getElementById('axis-x').addEventListener('click', () => setAxis('x'))
-      document.getElementById('axis-y').addEventListener('click', () => setAxis('y'))
-      document.getElementById('position-slider').addEventListener('input', event => { if (!positionBase) positionBase = { centre: centre(), width: width(), height: height() }; const amount = Number(event.target.value) / 100; const c = { ...positionBase.centre }; if (positionAxis === 'x') c.lng += positionBase.width * amount; else c.lat += positionBase.height * amount; setBoundsFromCentre(c, positionBase.width, positionBase.height); document.getElementById('position-value').textContent = event.target.value; syncOverlay() })
+      moveHandle.on('drag', () => {
+        const centre = moveHandle.getLatLng()
+        const width = bounds.east - bounds.west
+        const height = bounds.north - bounds.south
+        bounds.west = centre.lng - width / 2
+        bounds.east = centre.lng + width / 2
+        bounds.south = centre.lat - height / 2
+        bounds.north = centre.lat + height / 2
+        renderBounds()
+      })
 
-      const controlMap = L.map('control-map').setView([63.08, 21.7], 9)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileOptions).addTo(controlMap)
+      moveHandle.on('dragend', commitManualBounds)
+
+      function getBoundsCenter(source = bounds) {
+        return [(source.north + source.south) / 2, (source.east + source.west) / 2]
+      }
+
+      function syncCorners() {
+        corners.nw.setLatLng([bounds.north, bounds.west])
+        corners.ne.setLatLng([bounds.north, bounds.east])
+        corners.sw.setLatLng([bounds.south, bounds.west])
+        corners.se.setLatLng([bounds.south, bounds.east])
+      }
+
+      function updateCorner(key, point) {
+        if (key.includes('n')) bounds.north = point.lat
+        if (key.includes('s')) bounds.south = point.lat
+        if (key.includes('w')) bounds.west = point.lng
+        if (key.includes('e')) bounds.east = point.lng
+
+        if (bounds.north < bounds.south) {
+          ;[bounds.north, bounds.south] = [bounds.south, bounds.north]
+        }
+        if (bounds.east < bounds.west) {
+          ;[bounds.east, bounds.west] = [bounds.west, bounds.east]
+        }
+
+        renderBounds()
+      }
+
+      function renderBounds() {
+        syncCorners()
+        overlay.setBounds(currentBounds())
+        moveHandle.setLatLng(getBoundsCenter())
+        document.getElementById('alignment-status').textContent =
+          `${(bounds.north - bounds.south).toFixed(6)}° × ` +
+          `${(bounds.east - bounds.west).toFixed(6)}°`
+        updateOutput()
+      }
+
+      function commitManualBounds() {
+        Object.assign(anchorBounds, bounds)
+        resetFineControls(false)
+        renderBounds()
+      }
+
+      function applyFineAdjustment() {
+        const anchorWidth = anchorBounds.east - anchorBounds.west
+        const anchorHeight = anchorBounds.north - anchorBounds.south
+        const [anchorCentreLat, anchorCentreLng] = getBoundsCenter(anchorBounds)
+        const scale = fineAdjustment.scalePercent / 100
+
+        const width = anchorWidth * scale
+        const height = anchorHeight * scale
+        const centreLng = anchorCentreLng + anchorWidth * (fineAdjustment.xPercent / 100)
+        const centreLat = anchorCentreLat + anchorHeight * (fineAdjustment.yPercent / 100)
+
+        bounds.west = centreLng - width / 2
+        bounds.east = centreLng + width / 2
+        bounds.south = centreLat - height / 2
+        bounds.north = centreLat + height / 2
+        renderBounds()
+      }
+
+      function formatControlValue(value) {
+        return Number(value.toFixed(6)).toString()
+      }
+
+      function setControlPair(rangeId, numberId, value) {
+        const range = document.getElementById(rangeId)
+        const number = document.getElementById(numberId)
+        const rangeMin = Number(range.min)
+        const rangeMax = Number(range.max)
+        range.value = String(Math.min(rangeMax, Math.max(rangeMin, value)))
+        number.value = formatControlValue(value)
+      }
+
+      function resetFineControls(apply = true) {
+        fineAdjustment.scalePercent = 100
+        fineAdjustment.xPercent = 0
+        fineAdjustment.yPercent = 0
+        setControlPair('scale-slider', 'scale-number', 100)
+        setControlPair('x-slider', 'x-number', 0)
+        setControlPair('y-slider', 'y-number', 0)
+        if (apply) applyFineAdjustment()
+      }
+
+      function bindPrecisionControl({ rangeId, numberId, property, numberMin, numberMax }) {
+        const range = document.getElementById(rangeId)
+        const number = document.getElementById(numberId)
+
+        range.addEventListener('input', () => {
+          const value = Number(range.value)
+          fineAdjustment[property] = value
+          number.value = formatControlValue(value)
+          applyFineAdjustment()
+        })
+
+        number.addEventListener('input', () => {
+          if (number.value === '' || number.value === '-' || number.value === '.') return
+          const parsed = Number(number.value)
+          if (!Number.isFinite(parsed)) return
+          const value = Math.min(numberMax, Math.max(numberMin, parsed))
+          fineAdjustment[property] = value
+          const rangeMin = Number(range.min)
+          const rangeMax = Number(range.max)
+          range.value = String(Math.min(rangeMax, Math.max(rangeMin, value)))
+          applyFineAdjustment()
+        })
+
+        number.addEventListener('change', () => {
+          const parsed = Number(number.value)
+          const fallback = fineAdjustment[property]
+          const value = Number.isFinite(parsed)
+            ? Math.min(numberMax, Math.max(numberMin, parsed))
+            : fallback
+          fineAdjustment[property] = value
+          number.value = formatControlValue(value)
+          const rangeMin = Number(range.min)
+          const rangeMax = Number(range.max)
+          range.value = String(Math.min(rangeMax, Math.max(rangeMin, value)))
+          applyFineAdjustment()
+        })
+      }
+
+      bindPrecisionControl({
+        rangeId: 'scale-slider',
+        numberId: 'scale-number',
+        property: 'scalePercent',
+        numberMin: 0.01,
+        numberMax: 10000,
+      })
+
+      bindPrecisionControl({
+        rangeId: 'x-slider',
+        numberId: 'x-number',
+        property: 'xPercent',
+        numberMin: -10000,
+        numberMax: 10000,
+      })
+
+      bindPrecisionControl({
+        rangeId: 'y-slider',
+        numberId: 'y-number',
+        property: 'yPercent',
+        numberMin: -10000,
+        numberMax: 10000,
+      })
+
+      document.getElementById('reset-fine').addEventListener('click', () => {
+        resetFineControls(true)
+      })
+
+      document.getElementById('move-mode').addEventListener('click', (event) => {
+        moveModeEnabled = !moveModeEnabled
+        event.currentTarget.classList.toggle('active', moveModeEnabled)
+        event.currentTarget.setAttribute('aria-pressed', String(moveModeEnabled))
+        event.currentTarget.textContent = moveModeEnabled ? 'Finish moving' : 'Move image'
+        moveHandle.setOpacity(moveModeEnabled ? 1 : 0)
+        moveHandle.options.interactive = moveModeEnabled
+        const element = moveHandle.getElement()
+        if (element) element.style.pointerEvents = moveModeEnabled ? 'auto' : 'none'
+      })
+
+      document.getElementById('opacity').addEventListener('input', (event) => {
+        const value = Number(event.target.value)
+        overlay.setOpacity(value / 100)
+        document.getElementById('opacity-value').textContent = `${value}%`
+        updateOutput()
+      })
+
+      document.getElementById('fit-overlay').addEventListener('click', () => {
+        overlayMap.fitBounds(currentBounds(), { padding: [24, 24] })
+      })
+
+      document.getElementById('reset-bounds').addEventListener('click', () => {
+        Object.assign(anchorBounds, DEFAULT_BOUNDS)
+        Object.assign(bounds, DEFAULT_BOUNDS)
+        resetFineControls(false)
+        renderBounds()
+        overlayMap.fitBounds(currentBounds(), { padding: [24, 24] })
+      })
+
+      const controlMap = L.map('control-map', { zoomControl: true }).setView([63.08, 21.7], 9)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', tileOptions).addTo(
+        controlMap,
+      )
       const mapMarkers = L.layerGroup().addTo(controlMap)
+
       const sourceSvg = document.getElementById('source-svg')
       const svgStage = document.getElementById('svg-stage')
-      sourceSvg.addEventListener('click', event => { const rect = sourceSvg.getBoundingClientRect(); const x = (event.clientX - rect.left) / rect.width; const y = (event.clientY - rect.top) / rect.height; pendingSvgPoint = { xNormalized: round(x, 8), yNormalized: round(y, 8), renderedX: round(event.clientX - rect.left, 2), renderedY: round(event.clientY - rect.top, 2), renderedWidth: round(rect.width, 2), renderedHeight: round(rect.height, 2) }; if (pendingSvgMarker) pendingSvgMarker.remove(); pendingSvgMarker = document.createElement('span'); pendingSvgMarker.className = 'svg-marker'; pendingSvgMarker.style.left = `${sourceSvg.offsetLeft + x * sourceSvg.clientWidth}px`; pendingSvgMarker.style.top = `${sourceSvg.offsetTop + y * sourceSvg.clientHeight}px`; svgStage.appendChild(pendingSvgMarker); document.getElementById('point-instruction').textContent = 'SVG point selected. Now click the matching map location.'; document.getElementById('cancel-pending').disabled = false })
-      controlMap.on('click', event => { if (!pendingSvgPoint) { document.getElementById('point-instruction').textContent = 'Select a source point in the SVG pane first.'; return } const input = document.getElementById('point-label'); const label = input.value.trim() || `Control point ${controlPoints.length + 1}`; controlPoints.push({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), label, svg: { ...pendingSvgPoint }, map: { lat: round(event.latlng.lat, 8), lng: round(event.latlng.lng, 8) } }); input.value = ''; clearPending(); renderPoints(); document.getElementById('point-instruction').textContent = `Saved ${label}.`; updateOutput() })
-      function clearPending() { pendingSvgPoint = null; if (pendingSvgMarker) pendingSvgMarker.remove(); pendingSvgMarker = null; document.getElementById('cancel-pending').disabled = true }
-      document.getElementById('cancel-pending').addEventListener('click', clearPending)
-      document.getElementById('clear-points').addEventListener('click', () => { if (!controlPoints.length || confirm('Remove every control point?')) { controlPoints.splice(0); clearPending(); renderPoints(); updateOutput() } })
-      function renderPoints() { const body = document.getElementById('points-body'); body.innerHTML = ''; mapMarkers.clearLayers(); if (!controlPoints.length) { body.innerHTML = '<tr><td colspan="5">No control points recorded yet.</td></tr>'; return } controlPoints.forEach((point, index) => { L.marker([point.map.lat, point.map.lng]).bindTooltip(`${index + 1}. ${point.label}`).addTo(mapMarkers); const row = document.createElement('tr'); row.innerHTML = `<td>${index + 1}</td><td>${escapeHtml(point.label)}</td><td>${point.svg.xNormalized.toFixed(6)} / ${point.svg.yNormalized.toFixed(6)}</td><td>${point.map.lat.toFixed(6)} / ${point.map.lng.toFixed(6)}</td><td><button class="button secondary" data-remove="${point.id}" type="button">Remove</button></td>`; body.appendChild(row) }); body.querySelectorAll('[data-remove]').forEach(button => button.addEventListener('click', () => { const index = controlPoints.findIndex(point => point.id === button.dataset.remove); if (index >= 0) controlPoints.splice(index, 1); renderPoints(); updateOutput() })) }
-      function mapView(map) { const c = map.getCenter(); return { center: [round(c.lat, 8), round(c.lng, 8)], zoom: map.getZoom() } }
-      function buildOutput() { return { schemaVersion: 2, createdAt: new Date().toISOString(), source: { imageUrl: SVG_URL, sourcePageUrl: SOURCE_PAGE_URL, title: 'Vaasa major districts map', author: 'Tvinnari', licence: 'CC BY-SA 4.0', districtCount: 12 }, alignment: { coordinateReferenceSystem: 'EPSG:4326', bounds: { north: round(bounds.north, 8), south: round(bounds.south, 8), west: round(bounds.west, 8), east: round(bounds.east, 8) }, opacity: Number(document.getElementById('opacity').value) / 100 }, controlPoints: controlPoints.map(({ id, ...point }) => point), mapViews: { overlay: mapView(overlayMap), controlPointMap: mapView(controlMap) }, notes: ['Derived from licensed cartographic artwork; not official municipal survey geometry.', 'Normalized SVG coordinates use a top-left origin.'] } }
-      function updateOutput() { document.getElementById('output').value = JSON.stringify(buildOutput(), null, 2) }
-      document.getElementById('copy-output').addEventListener('click', async () => { const output = document.getElementById('output'); try { await navigator.clipboard.writeText(output.value) } catch { output.select(); document.execCommand('copy') } })
-      document.getElementById('download-output').addEventListener('click', () => { const url = URL.createObjectURL(new Blob([document.getElementById('output').value], { type: 'application/json' })); const link = document.createElement('a'); link.href = url; link.download = 'vaasa-major-district-georeference.json'; link.click(); URL.revokeObjectURL(url) })
-      function round(value, digits) { const factor = 10 ** digits; return Math.round(value * factor) / factor }
-      function escapeHtml(value) { return value.replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;' })[char]) }
-      function refreshMaps() { overlayMap.invalidateSize(false); controlMap.invalidateSize(false) }
-      window.addEventListener('load', () => { setTimeout(() => { refreshMaps(); overlayMap.fitBounds(currentBounds(), { padding: [24, 24] }) }, 120) })
-      window.addEventListener('resize', () => setTimeout(refreshMaps, 120))
-      if ('ResizeObserver' in window) { const observer = new ResizeObserver(() => refreshMaps()); observer.observe(document.getElementById('overlay-map')); observer.observe(document.getElementById('control-map')) }
+
+      sourceSvg.addEventListener('click', (event) => {
+        const imageRect = sourceSvg.getBoundingClientRect()
+        const stageRect = svgStage.getBoundingClientRect()
+        const xNormalized = (event.clientX - imageRect.left) / imageRect.width
+        const yNormalized = (event.clientY - imageRect.top) / imageRect.height
+
+        pendingSvgPoint = {
+          xNormalized: round(xNormalized, 8),
+          yNormalized: round(yNormalized, 8),
+          renderedX: round(event.clientX - imageRect.left, 2),
+          renderedY: round(event.clientY - imageRect.top, 2),
+          renderedWidth: round(imageRect.width, 2),
+          renderedHeight: round(imageRect.height, 2),
+        }
+
+        if (pendingSvgMarker) pendingSvgMarker.remove()
+        pendingSvgMarker = document.createElement('span')
+        pendingSvgMarker.className = 'svg-marker'
+        pendingSvgMarker.style.left =
+          `${imageRect.left - stageRect.left + svgStage.scrollLeft + xNormalized * imageRect.width}px`
+        pendingSvgMarker.style.top =
+          `${imageRect.top - stageRect.top + svgStage.scrollTop + yNormalized * imageRect.height}px`
+        svgStage.appendChild(pendingSvgMarker)
+
+        document.getElementById('point-instruction').textContent =
+          'SVG point selected. Now click the matching physical location on the map.'
+        document.getElementById('cancel-pending').disabled = false
+      })
+
+      controlMap.on('click', (event) => {
+        if (!pendingSvgPoint) {
+          document.getElementById('point-instruction').textContent =
+            'Select a source point in the SVG pane before clicking the map.'
+          return
+        }
+
+        const labelInput = document.getElementById('point-label')
+        const label = labelInput.value.trim() || `Control point ${controlPoints.length + 1}`
+
+        controlPoints.push({
+          id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+          label,
+          svg: { ...pendingSvgPoint },
+          map: {
+            lat: round(event.latlng.lat, 8),
+            lng: round(event.latlng.lng, 8),
+          },
+        })
+
+        labelInput.value = ''
+        clearPendingPoint()
+        renderControlPoints()
+        document.getElementById('point-instruction').textContent =
+          `Saved ${label}. Add another point in a different part of the map.`
+        updateOutput()
+      })
+
+      function clearPendingPoint() {
+        pendingSvgPoint = null
+        if (pendingSvgMarker) pendingSvgMarker.remove()
+        pendingSvgMarker = null
+        document.getElementById('cancel-pending').disabled = true
+      }
+
+      document.getElementById('cancel-pending').addEventListener('click', () => {
+        clearPendingPoint()
+        document.getElementById('point-instruction').textContent =
+          'Pending SVG point cancelled. Click a new source point.'
+      })
+
+      document.getElementById('clear-points').addEventListener('click', () => {
+        if (!controlPoints.length || window.confirm('Remove every recorded control point?')) {
+          controlPoints.splice(0)
+          clearPendingPoint()
+          renderControlPoints()
+          updateOutput()
+        }
+      })
+
+      function renderControlPoints() {
+        const body = document.getElementById('points-body')
+        body.innerHTML = ''
+        mapMarkers.clearLayers()
+
+        if (!controlPoints.length) {
+          body.innerHTML = '<tr><td colspan="5">No control points recorded yet.</td></tr>'
+          return
+        }
+
+        controlPoints.forEach((point, index) => {
+          L.marker([point.map.lat, point.map.lng])
+            .bindTooltip(`${index + 1}. ${point.label}`)
+            .addTo(mapMarkers)
+
+          const row = document.createElement('tr')
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${escapeHtml(point.label)}</td>
+            <td>${point.svg.xNormalized.toFixed(6)} / ${point.svg.yNormalized.toFixed(6)}</td>
+            <td>${point.map.lat.toFixed(6)} / ${point.map.lng.toFixed(6)}</td>
+            <td><button class="button secondary" type="button" data-remove-id="${point.id}">Remove</button></td>
+          `
+          body.appendChild(row)
+        })
+
+        body.querySelectorAll('[data-remove-id]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const index = controlPoints.findIndex((point) => point.id === button.dataset.removeId)
+            if (index >= 0) controlPoints.splice(index, 1)
+            renderControlPoints()
+            updateOutput()
+          })
+        })
+      }
+
+      function serializeMapView(map) {
+        const centre = map.getCenter()
+        return {
+          center: [round(centre.lat, 8), round(centre.lng, 8)],
+          zoom: map.getZoom(),
+        }
+      }
+
+      function buildOutput() {
+        return {
+          schemaVersion: 2,
+          createdAt: new Date().toISOString(),
+          source: {
+            imageUrl: SVG_URL,
+            sourcePageUrl: SOURCE_PAGE_URL,
+            title: 'Vaasa major districts map',
+            author: 'Tvinnari',
+            licence: 'CC BY-SA 4.0',
+            districtCount: 12,
+          },
+          alignment: {
+            coordinateReferenceSystem: 'EPSG:4326',
+            bounds: {
+              north: round(bounds.north, 10),
+              south: round(bounds.south, 10),
+              west: round(bounds.west, 10),
+              east: round(bounds.east, 10),
+            },
+            anchorBounds: {
+              north: round(anchorBounds.north, 10),
+              south: round(anchorBounds.south, 10),
+              west: round(anchorBounds.west, 10),
+              east: round(anchorBounds.east, 10),
+            },
+            fineAdjustment: {
+              scalePercent: round(fineAdjustment.scalePercent, 6),
+              xPercent: round(fineAdjustment.xPercent, 6),
+              yPercent: round(fineAdjustment.yPercent, 6),
+            },
+            opacity: Number(document.getElementById('opacity').value) / 100,
+          },
+          controlPoints: controlPoints.map(({ id, ...point }) => point),
+          mapViews: {
+            overlay: serializeMapView(overlayMap),
+            controlPointMap: serializeMapView(controlMap),
+          },
+          notes: [
+            'Derived from licensed cartographic artwork; not official municipal survey geometry.',
+            'Normalized SVG coordinates use top-left origin: x grows right, y grows down.',
+            'Fine X and Y values are percentages of anchor image width and height.',
+          ],
+        }
+      }
+
+      function updateOutput() {
+        document.getElementById('output').value = JSON.stringify(buildOutput(), null, 2)
+      }
+
+      document.getElementById('copy-output').addEventListener('click', async () => {
+        const button = document.getElementById('copy-output')
+        const output = document.getElementById('output')
+        try {
+          await navigator.clipboard.writeText(output.value)
+          button.textContent = 'Copied'
+          setTimeout(() => {
+            button.textContent = 'Copy JSON'
+          }, 1400)
+        } catch {
+          output.select()
+          document.execCommand('copy')
+        }
+      })
+
+      document.getElementById('download-output').addEventListener('click', () => {
+        const blob = new Blob([document.getElementById('output').value], {
+          type: 'application/json',
+        })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = 'vaasa-major-district-georeference.json'
+        link.click()
+        URL.revokeObjectURL(url)
+      })
+
+      function round(value, digits) {
+        const factor = 10 ** digits
+        return Math.round(value * factor) / factor
+      }
+
+      function escapeHtml(value) {
+        return value.replace(/[&<>'"]/g, (character) => {
+          return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#039;',
+            '"': '&quot;',
+          }[character]
+        })
+      }
+
       overlayMap.on('moveend zoomend', updateOutput)
       controlMap.on('moveend zoomend', updateOutput)
-      renderPoints()
-      syncOverlay()
+
+      function refreshMapSizes() {
+        overlayMap.invalidateSize(false)
+        controlMap.invalidateSize(false)
+      }
+
+      window.addEventListener('load', () => {
+        setTimeout(refreshMapSizes, 50)
+      })
+      window.addEventListener('resize', refreshMapSizes)
+
+      if ('ResizeObserver' in window) {
+        const observer = new ResizeObserver(refreshMapSizes)
+        observer.observe(document.getElementById('overlay-map'))
+        observer.observe(document.getElementById('control-map'))
+      }
+
+      overlayMap.fitBounds(currentBounds(), { padding: [24, 24] })
+      renderControlPoints()
+      renderBounds()
     </script>
   </body>
 </html>
