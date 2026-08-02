@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Vaasa Aluekartta">
+  <rect width="64" height="64" rx="14" fill="#0b3d3a"/>
+  <path d="M15 17 31 9l18 8v29L33 55l-18-8V17Z" fill="#f4f0e7"/>
+  <path d="m31 9 2 46M15 17l18 9 16-9M15 47l18-9 16 8" fill="none" stroke="#de6d45" stroke-width="4" stroke-linejoin="round"/>
+</svg>
