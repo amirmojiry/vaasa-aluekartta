@@ -10,7 +10,9 @@ import VaasaMap from '@/components/map/VaasaMap.vue'
           <span class="brand__mark" aria-hidden="true">VA</span>
           <span>Vaasa Aluekartta</span>
         </a>
-        <a class="topbar__link" href="https://github.com/amirmojiry/vaasa-aluekartta">GitHub</a>
+        <a class="topbar__link" href="https://github.com/amirmojiry/vaasa-aluekartta">
+          GitHub
+        </a>
       </nav>
 
       <div id="top" class="hero__content">
