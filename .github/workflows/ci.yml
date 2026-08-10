@@ -20,11 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Show formatting diff
-        run: |
-          npx prettier --write scripts/enrich-wikidata-metadata.mjs src/components/areas/TechnicalInfo.vue
-          git diff -- scripts/enrich-wikidata-metadata.mjs src/components/areas/TechnicalInfo.vue
-          git checkout -- scripts/enrich-wikidata-metadata.mjs src/components/areas/TechnicalInfo.vue
       - name: Check formatting
         run: npm run format:check
       - name: Lint
