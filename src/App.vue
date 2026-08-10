@@ -45,8 +45,8 @@ const homeHref = import.meta.env.BASE_URL
           <p class="hero__aside-label">Current milestone</p>
           <strong>Local boundary snapshots</strong>
           <p>
-            Available OSM boundaries are packaged as GeoJSON and served directly by this GitHub Pages
-            site.
+            Available OSM boundaries are packaged as GeoJSON and served directly by this GitHub
+            Pages site.
           </p>
         </aside>
       </div>
@@ -81,7 +81,9 @@ const homeHref = import.meta.env.BASE_URL
           </div>
           <div>
             <dt>Area details</dt>
-            <dd>Click any mapped polygon to open its dedicated page using the same local snapshot</dd>
+            <dd>
+              Click any mapped polygon to open its dedicated page using the same local snapshot
+            </dd>
           </div>
         </dl>
       </aside>
