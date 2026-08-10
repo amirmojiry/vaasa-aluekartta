@@ -31,14 +31,16 @@ export function decodeAreaStatistics(
 }
 
 async function loadStatisticsDatabase(): Promise<AreaStatisticsDatabase> {
-  databasePromise ??= fetch(STATISTICS_DATA_URL, { cache: 'force-cache' }).then(async (response) => {
-    if (!response.ok) throw new Error(`Area statistics returned HTTP ${response.status}`)
-    const data = (await response.json()) as AreaStatisticsDatabase
-    if (data.schemaVersion !== 1 || !data.areas) {
-      throw new Error('Area statistics database has an unsupported schema')
-    }
-    return data
-  })
+  databasePromise ??= fetch(STATISTICS_DATA_URL, { cache: 'force-cache' }).then(
+    async (response) => {
+      if (!response.ok) throw new Error(`Area statistics returned HTTP ${response.status}`)
+      const data = (await response.json()) as AreaStatisticsDatabase
+      if (data.schemaVersion !== 1 || !data.areas) {
+        throw new Error('Area statistics database has an unsupported schema')
+      }
+      return data
+    },
+  )
 
   return databasePromise
 }
