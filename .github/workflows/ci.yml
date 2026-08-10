@@ -20,6 +20,11 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Show formatting diff
+        run: |
+          npx prettier --write scripts/update-osm-boundaries.mjs src/components/areas/AreaDetail.vue src/components/areas/PienalueDetail.vue src/i18n.ts src/services/boundaryData.ts
+          git diff -- scripts/update-osm-boundaries.mjs src/components/areas/AreaDetail.vue src/components/areas/PienalueDetail.vue src/i18n.ts src/services/boundaryData.ts
+          git checkout -- scripts/update-osm-boundaries.mjs src/components/areas/AreaDetail.vue src/components/areas/PienalueDetail.vue src/i18n.ts src/services/boundaryData.ts
       - name: Check formatting
         run: npm run format:check
       - name: Lint
