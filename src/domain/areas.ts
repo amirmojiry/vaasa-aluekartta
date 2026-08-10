@@ -11,15 +11,26 @@ export interface AreaDefinition {
   source: string
 }
 
-export interface LocalizedAreaNames {
-  fi: string
+export interface LocalizedText {
+  fi?: string | null
   en?: string | null
   fa?: string | null
+}
+
+export interface LocalizedAreaNames extends LocalizedText {
+  fi: string
 }
 
 export interface WikipediaLinks {
   fi?: string | null
   fa?: string | null
+}
+
+export interface ExternalIdentifier {
+  propertyId: string
+  value: string
+  labels: LocalizedText
+  url?: string | null
 }
 
 export interface AreaBoundary {
@@ -29,7 +40,9 @@ export interface AreaBoundary {
   ref: string
   names: LocalizedAreaNames
   wikidataId?: string | null
+  wikidataDescription: LocalizedText
   wikipedia: WikipediaLinks
+  externalIdentifiers: ExternalIdentifier[]
   outerWayIds: number[]
   rings: BoundaryRing[]
   source: string
@@ -75,7 +88,9 @@ export interface PienalueBoundary {
   ref: string
   names: LocalizedAreaNames
   wikidataId?: string | null
+  wikidataDescription: LocalizedText
   wikipedia: WikipediaLinks
+  externalIdentifiers: ExternalIdentifier[]
   parentSlug: string
   parentName: string
   parentNames: LocalizedAreaNames
