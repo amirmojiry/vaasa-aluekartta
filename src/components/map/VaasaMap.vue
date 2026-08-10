@@ -10,13 +10,12 @@ import type { BoundaryLevel } from '@/domain/boundaries'
 import { localizeAreaName, useI18n } from '@/i18n'
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
 
-const CURRENT_OSM_PIENALUE_COUNT = 55
-
 const { buildUrl, language, t } = useI18n()
 const mapElement = ref<HTMLElement | null>(null)
 const selectedLevel = ref<BoundaryLevel>('suuralue')
 const mappedAreaCount = ref(0)
-const boundaryState = ref('')
+const isLoading = ref(true)
+const loadError = ref<string | null>(null)
 let map: LeafletMap | null = null
 let areaGroup: FeatureGroup | null = null
 let cachedSuuralueBoundaries: Map<string, AreaBoundary> | null = null
@@ -31,13 +30,11 @@ const selectedLayerLabel = computed(() =>
   selectedLevel.value === 'suuralue' ? t('majorAreas') : t('minorAreas'),
 )
 
-const mapStatus = computed(
-  () => `${mappedAreaCount.value}/${selectedLayer.value?.areaCount ?? 0} ${t('mapped')}`,
-)
-
-function localized(en: string, fa: string): string {
-  return language.value === 'fa' ? fa : en
-}
+const mapStatus = computed(() => {
+  if (isLoading.value) return t('loading')
+  if (loadError.value) return loadError.value
+  return `${mappedAreaCount.value}/${selectedLayer.value?.areaCount ?? 0} ${t('mapped')}`
+})
 
 function clearBoundaryLayers(): void {
   areaGroup?.clearLayers()
@@ -63,10 +60,8 @@ async function renderSuuralueBoundaries(token: number): Promise<void> {
   if (!map || !areaGroup) return
 
   mappedAreaCount.value = 0
-  boundaryState.value = localized(
-    'Loading 12 major-area boundaries from the local GeoJSON snapshot…',
-    'در حال بارگذاری مرز ۱۲ منطقه بزرگ از GeoJSON محلی…',
-  )
+  isLoading.value = true
+  loadError.value = null
 
   try {
     cachedSuuralueBoundaries ??= await fetchAreaRecords(AREAS)
@@ -96,25 +91,12 @@ async function renderSuuralueBoundaries(token: number): Promise<void> {
     }
 
     mappedAreaCount.value = rendered
+    isLoading.value = false
     fitRenderedBounds()
-    boundaryState.value =
-      rendered === AREAS.length
-        ? localized(
-            'All 12 major-area boundaries loaded locally. No live boundary API request was needed.',
-            'هر ۱۲ منطقه بزرگ از فایل محلی بارگذاری شدند و هیچ API زنده‌ای برای مرزها فراخوانی نشد.',
-          )
-        : localized(
-            `Loaded ${rendered} of ${AREAS.length} major-area boundaries from the local snapshot.`,
-            `${rendered} منطقه از ${AREAS.length} منطقه بزرگ از snapshot محلی بارگذاری شد.`,
-          )
   } catch (error) {
     if (token !== renderToken) return
-    boundaryState.value = localized(
-      error instanceof Error
-        ? `Could not load local major-area boundaries: ${error.message}`
-        : 'Could not load local major-area boundaries.',
-      'بارگذاری مرزهای محلی مناطق بزرگ ناموفق بود.',
-    )
+    isLoading.value = false
+    loadError.value = error instanceof Error ? error.message : t('loadingAreaFailed')
   }
 }
 
@@ -122,10 +104,8 @@ async function renderPienalueBoundaries(token: number): Promise<void> {
   if (!map || !areaGroup) return
 
   mappedAreaCount.value = 0
-  boundaryState.value = localized(
-    'Loading available minor-area boundaries from the local GeoJSON snapshot…',
-    'در حال بارگذاری مرزهای موجود مناطق کوچک از GeoJSON محلی…',
-  )
+  isLoading.value = true
+  loadError.value = null
 
   try {
     cachedPienalueBoundaries ??= await fetchPienalueBoundaries(AREAS)
@@ -156,25 +136,12 @@ async function renderPienalueBoundaries(token: number): Promise<void> {
     }
 
     mappedAreaCount.value = rendered
+    isLoading.value = false
     fitRenderedBounds()
-    boundaryState.value =
-      rendered === CURRENT_OSM_PIENALUE_COUNT
-        ? localized(
-            '55 OSM minor-area boundaries loaded locally. The five Vähäkyrö minor-area boundaries are not present in the current OSM hierarchy snapshot.',
-            '۵۵ مرز منطقه کوچک از OSM به صورت محلی بارگذاری شد. پنج منطقه کوچک Vähäkyrö در ساختار فعلی OSM موجود نیستند.',
-          )
-        : localized(
-            `Loaded ${rendered} of ${CURRENT_OSM_PIENALUE_COUNT} currently available OSM minor-area boundaries.`,
-            `${rendered} مرز از ${CURRENT_OSM_PIENALUE_COUNT} مرز منطقه کوچک موجود در OSM بارگذاری شد.`,
-          )
   } catch (error) {
     if (token !== renderToken) return
-    boundaryState.value = localized(
-      error instanceof Error
-        ? `Could not load local minor-area boundaries: ${error.message}`
-        : 'Could not load local minor-area boundaries.',
-      'بارگذاری مرزهای محلی مناطق کوچک ناموفق بود.',
-    )
+    isLoading.value = false
+    loadError.value = error instanceof Error ? error.message : t('loadingAreaFailed')
   }
 }
 
@@ -252,12 +219,7 @@ onBeforeUnmount(() => {
       ref="mapElement"
       class="map-canvas"
       role="region"
-      :aria-label="`OpenStreetMap · ${selectedLayerLabel}`"
+      :aria-label="`${t('statisticalAreas')} · ${selectedLayerLabel}`"
     />
-
-    <div class="map-card__note">
-      <p>{{ boundaryState }}</p>
-      <p>{{ t('mapBoundaryNote') }}</p>
-    </div>
   </section>
 </template>
