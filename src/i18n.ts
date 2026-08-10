@@ -34,7 +34,8 @@ const messages = {
     majorCoverage: '12 of 12 clickable polygons in the local major-area GeoJSON snapshot',
     minorCoverage:
       '55 of 60 clickable polygons are available in the current OSM hierarchy; the five Vähäkyrö minor-area boundaries remain unresolved',
-    refreshDescription: 'Boundary data is regenerated from OSM when the GitHub Pages snapshot is built',
+    refreshDescription:
+      'Boundary data is regenerated from OSM when the GitHub Pages snapshot is built',
     areaDetailsDescription:
       'Click any mapped polygon to open its dedicated page using the same local snapshot',
     footer: 'Built as an open-source, static website for GitHub Pages.',
@@ -73,7 +74,8 @@ const messages = {
     finnishWikipedia: 'Finnish Wikipedia',
     persianWikipedia: 'Persian Wikipedia',
     wikidata: 'Wikidata',
-    noWikipedia: 'No linked Finnish or Persian Wikipedia article was found in the current metadata.',
+    noWikipedia:
+      'No linked Finnish or Persian Wikipedia article was found in the current metadata.',
     localGeojsonLoaded: 'Local GeoJSON boundary loaded.',
     localMinorGeojsonLoaded: 'Local GeoJSON minor-area boundary loaded.',
     boundaryLoadingFailed: 'Boundary loading failed',
@@ -106,8 +108,10 @@ const messages = {
     majorCoverage: '۱۲ منطقه بزرگ از ۱۲ منطقه به صورت چندضلعی قابل انتخاب در دسترس است',
     minorCoverage:
       '۵۵ منطقه کوچک از ۶۰ منطقه در ساختار فعلی OSM موجود است؛ مرز پنج منطقه کوچک Vähäkyrö هنوز در OSM مشخص نیست',
-    refreshDescription: 'هنگام ساخت نسخه جدید GitHub Pages، snapshot مرزها از OSM دوباره تولید می‌شود',
-    areaDetailsDescription: 'با انتخاب هر چندضلعی، صفحه اختصاصی همان منطقه از روی داده محلی باز می‌شود',
+    refreshDescription:
+      'هنگام ساخت نسخه جدید GitHub Pages، snapshot مرزها از OSM دوباره تولید می‌شود',
+    areaDetailsDescription:
+      'با انتخاب هر چندضلعی، صفحه اختصاصی همان منطقه از روی داده محلی باز می‌شود',
     footer: 'یک وب‌سایت متن‌باز و کاملاً استاتیک روی GitHub Pages.',
     interactiveMap: 'نقشه تعاملی',
     statisticalAreas: 'مناطق آماری واسا',
@@ -142,7 +146,8 @@ const messages = {
     finnishWikipedia: 'ویکی‌پدیای فنلاندی',
     persianWikipedia: 'ویکی‌پدیای فارسی',
     wikidata: 'ویکی‌داده',
-    noWikipedia: 'در فراداده فعلی، مقاله‌ای در ویکی‌پدیای فنلاندی یا فارسی برای این منطقه پیدا نشد.',
+    noWikipedia:
+      'در فراداده فعلی، مقاله‌ای در ویکی‌پدیای فنلاندی یا فارسی برای این منطقه پیدا نشد.',
     localGeojsonLoaded: 'مرز محلی GeoJSON بارگذاری شد.',
     localMinorGeojsonLoaded: 'مرز محلی GeoJSON منطقه کوچک بارگذاری شد.',
     boundaryLoadingFailed: 'بارگذاری مرز ناموفق بود',
