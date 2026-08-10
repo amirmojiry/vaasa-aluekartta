@@ -64,7 +64,7 @@ export function stitchWaysIntoRings(ways: OverpassWayElement[]): BoundaryRing[] 
       coordinates.push(...next.coordinates.slice(1))
     }
 
-    if (coordinates.length >= 3) {
+    if (coordinates.length >= 3 && nodeIds[0] === nodeIds[nodeIds.length - 1]) {
       rings.push(coordinates.map((point) => [point.lat, point.lon]))
     }
   }
@@ -73,7 +73,7 @@ export function stitchWaysIntoRings(ways: OverpassWayElement[]): BoundaryRing[] 
 }
 
 function buildWayQuery(wayIds: number[]): string {
-  return `[out:json][timeout:30];\nway(id:${wayIds.join(',')});\nout body geom;`
+  return `[out:json][timeout:45];\nway(id:${wayIds.join(',')});\nout body geom;`
 }
 
 async function fetchOverpass(query: string): Promise<OverpassWaysResponse> {
@@ -99,20 +99,43 @@ async function fetchOverpass(query: string): Promise<OverpassWaysResponse> {
     : new Error('Could not load boundary data from Overpass')
 }
 
-export async function fetchAreaBoundary(area: AreaDefinition): Promise<BoundaryRing[]> {
-  const response = await fetchOverpass(buildWayQuery(area.outerWayIds))
-  const expectedIds = new Set(area.outerWayIds)
-  const ways = response.elements.filter(
-    (element): element is OverpassWayElement =>
-      element.type === 'way' && expectedIds.has(element.id) && 'nodes' in element,
-  )
+function collectWays(response: OverpassWaysResponse): Map<number, OverpassWayElement> {
+  const ways = new Map<number, OverpassWayElement>()
 
-  if (ways.length === 0) {
-    throw new Error(`No geometry returned for ${area.name}`)
+  for (const element of response.elements) {
+    if (element.type === 'way' && 'nodes' in element) {
+      ways.set(element.id, element)
+    }
   }
 
-  const rings = stitchWaysIntoRings(ways)
-  if (rings.length === 0) {
+  return ways
+}
+
+export async function fetchAreaBoundaries(
+  areas: AreaDefinition[],
+): Promise<Map<string, BoundaryRing[]>> {
+  const uniqueWayIds = [...new Set(areas.flatMap((area) => area.outerWayIds))]
+  const response = await fetchOverpass(buildWayQuery(uniqueWayIds))
+  const waysById = collectWays(response)
+  const boundaries = new Map<string, BoundaryRing[]>()
+
+  for (const area of areas) {
+    const ways = area.outerWayIds
+      .map((wayId) => waysById.get(wayId))
+      .filter((way): way is OverpassWayElement => way !== undefined)
+    const rings = stitchWaysIntoRings(ways)
+
+    if (rings.length > 0) boundaries.set(area.slug, rings)
+  }
+
+  return boundaries
+}
+
+export async function fetchAreaBoundary(area: AreaDefinition): Promise<BoundaryRing[]> {
+  const boundaries = await fetchAreaBoundaries([area])
+  const rings = boundaries.get(area.slug)
+
+  if (!rings) {
     throw new Error(`Could not assemble the ${area.name} boundary`)
   }
 
