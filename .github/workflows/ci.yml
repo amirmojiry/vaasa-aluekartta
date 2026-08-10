@@ -20,11 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Show VaasaMap Prettier diff
-        run: |
-          npx prettier --write src/components/map/VaasaMap.vue
-          git diff -- src/components/map/VaasaMap.vue
-          git checkout -- src/components/map/VaasaMap.vue
       - name: Check formatting
         run: npm run format:check
       - name: Lint
