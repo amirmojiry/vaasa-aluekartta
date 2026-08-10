@@ -9,6 +9,8 @@ import type { BoundaryRing, PienalueBoundary } from '@/domain/areas'
 import type { BoundaryLevel } from '@/domain/boundaries'
 import { fetchAreaBoundaries, fetchPienalueBoundaries } from '@/services/boundaryData'
 
+const CURRENT_OSM_PIENALUE_COUNT = 55
+
 const mapElement = ref<HTMLElement | null>(null)
 const selectedLevel = ref<BoundaryLevel>('suuralue')
 const mappedAreaCount = ref(0)
@@ -98,7 +100,7 @@ async function renderPienalueBoundaries(token: number): Promise<void> {
   if (!map || !areaGroup) return
 
   mappedAreaCount.value = 0
-  boundaryState.value = 'Loading 60 pienalue boundaries from the local GeoJSON snapshot…'
+  boundaryState.value = 'Loading available pienalue boundaries from the local GeoJSON snapshot…'
 
   try {
     cachedPienalueBoundaries ??= await fetchPienalueBoundaries(AREAS)
@@ -129,9 +131,9 @@ async function renderPienalueBoundaries(token: number): Promise<void> {
     mappedAreaCount.value = rendered
     fitRenderedBounds()
     boundaryState.value =
-      rendered === 60
-        ? 'All 60 pienalue boundaries loaded locally. No live Overpass request was needed.'
-        : `Loaded ${rendered} of 60 pienalue boundaries from the local snapshot.`
+      rendered === CURRENT_OSM_PIENALUE_COUNT
+        ? '55 OSM pienalue boundaries loaded locally. The five Vähäkyrö pienalue boundaries are not present in the current OSM hierarchy snapshot.'
+        : `Loaded ${rendered} of ${CURRENT_OSM_PIENALUE_COUNT} currently available OSM pienalue boundaries.`
   } catch (error) {
     if (token !== renderToken) return
     boundaryState.value =
@@ -221,8 +223,9 @@ onBeforeUnmount(() => {
     <div class="map-card__note">
       <p>{{ boundaryState }}</p>
       <p>
-        Boundary geometry is served as static GeoJSON from this GitHub Pages site. OpenStreetMap and
-        Overpass are only contacted when the deployment snapshot is regenerated.
+        Boundary geometry is served as static GeoJSON from this GitHub Pages site. OpenStreetMap is
+        contacted only when the deployment snapshot is regenerated; visitors do not query boundary
+        APIs.
       </p>
     </div>
   </section>
