@@ -78,11 +78,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section
-    v-if="statistics"
-    class="area-stat-summary"
-    :aria-label="t('statisticsOverview')"
-  >
+  <section v-if="statistics" class="area-stat-summary" :aria-label="t('statisticsOverview')">
     <div class="summary-metric">
       <div class="summary-metric__heading">
         <strong>{{ t('employment') }}</strong>
