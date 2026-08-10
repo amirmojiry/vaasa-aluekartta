@@ -13,7 +13,8 @@ describe('App', () => {
     const wrapper = mount(App)
 
     expect(wrapper.get('h1').text()).toContain('understand Vaasa')
-    expect(wrapper.text()).toContain('Foundation')
+    expect(wrapper.text()).toContain('Interactive boundaries')
+    expect(wrapper.text()).toContain('Gerby')
     expect(wrapper.find('[aria-label="Map preview"]').exists()).toBe(true)
   })
 })
