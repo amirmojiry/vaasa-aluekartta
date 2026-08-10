@@ -25,28 +25,16 @@
   color: #0b3d3a;
 }
 
-html[lang='fa'] body {
-  font-family: Tahoma, Arial, sans-serif;
-}
-
+html[lang='fa'] body,
 html[lang='fa'] h1,
 html[lang='fa'] h2,
-html[lang='fa'] .related-area-list h3 {
-  font-family: Tahoma, Arial, sans-serif;
+html[lang='fa'] h3 {
+  font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
   letter-spacing: 0;
-}
-
-html[lang='fa'] h1 {
-  line-height: 1.15;
 }
 
 html[dir='rtl'] .boundary-level-control__button {
   text-align: right;
-}
-
-html[dir='rtl'] .hero__aside {
-  border-right: 3px solid var(--orange);
-  border-left: 0;
 }
 
 html[dir='rtl'] .leaflet-control-container,

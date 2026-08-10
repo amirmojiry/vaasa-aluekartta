@@ -2,7 +2,9 @@ import type {
   AreaBoundary,
   AreaDefinition,
   BoundaryRing,
+  ExternalIdentifier,
   LocalizedAreaNames,
+  LocalizedText,
   PienalueBoundary,
   WikipediaLinks,
 } from '@/domain/areas'
@@ -14,6 +16,15 @@ type MultiPolygonCoordinates = Position[][][]
 interface GeoJsonGeometry {
   type: 'Polygon' | 'MultiPolygon'
   coordinates: PolygonCoordinates | MultiPolygonCoordinates
+}
+
+interface GeoJsonExternalIdentifier {
+  property_id: string
+  value: string
+  label_fi?: string | null
+  label_en?: string | null
+  label_fa?: string | null
+  url?: string | null
 }
 
 interface BoundaryProperties {
@@ -29,8 +40,12 @@ interface BoundaryProperties {
   outer_way_ids: number[]
   source: string
   wikidata_id?: string | null
+  wikidata_description_fi?: string | null
+  wikidata_description_en?: string | null
+  wikidata_description_fa?: string | null
   wikipedia_fi?: string | null
   wikipedia_fa?: string | null
+  external_identifiers?: GeoJsonExternalIdentifier[]
   parent_slug?: string
   parent_name?: string
   parent_name_fi?: string | null
@@ -103,6 +118,34 @@ function wikipediaLinks(properties: BoundaryProperties): WikipediaLinks {
   }
 }
 
+function wikidataDescription(properties: BoundaryProperties): LocalizedText {
+  return {
+    fi: properties.wikidata_description_fi ?? null,
+    en: properties.wikidata_description_en ?? null,
+    fa: properties.wikidata_description_fa ?? null,
+  }
+}
+
+function externalIdentifiers(properties: BoundaryProperties): ExternalIdentifier[] {
+  if (!Array.isArray(properties.external_identifiers)) return []
+
+  return properties.external_identifiers
+    .filter(
+      (identifier) =>
+        typeof identifier?.property_id === 'string' && typeof identifier?.value === 'string',
+    )
+    .map((identifier) => ({
+      propertyId: identifier.property_id,
+      value: identifier.value,
+      labels: {
+        fi: identifier.label_fi ?? null,
+        en: identifier.label_en ?? null,
+        fa: identifier.label_fa ?? null,
+      },
+      url: identifier.url ?? null,
+    }))
+}
+
 export function geometryToBoundaryRings(geometry: GeoJsonGeometry): BoundaryRing[] {
   if (geometry.type === 'Polygon') {
     const polygon = geometry.coordinates as PolygonCoordinates
@@ -131,7 +174,9 @@ function featureToAreaBoundary(feature: BoundaryFeature): AreaBoundary | null {
     ref: properties.ref,
     names: localizedNames(properties),
     wikidataId: properties.wikidata_id ?? null,
+    wikidataDescription: wikidataDescription(properties),
     wikipedia: wikipediaLinks(properties),
+    externalIdentifiers: externalIdentifiers(properties),
     outerWayIds: properties.outer_way_ids,
     rings,
     source: properties.source,
@@ -186,7 +231,9 @@ function featureToPienalueBoundary(feature: BoundaryFeature): PienalueBoundary |
     ref: properties.ref,
     names: localizedNames(properties),
     wikidataId: properties.wikidata_id ?? null,
+    wikidataDescription: wikidataDescription(properties),
     wikipedia: wikipediaLinks(properties),
+    externalIdentifiers: externalIdentifiers(properties),
     parentSlug: properties.parent_slug,
     parentName: properties.parent_name,
     parentNames: localizedNames(properties, true),
