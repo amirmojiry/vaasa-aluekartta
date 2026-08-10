@@ -20,11 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Show Prettier diff
-        run: |
-          npx prettier --write src/App.vue src/components/map/VaasaMap.vue src/domain/areas.ts
-          git diff -- src/App.vue src/components/map/VaasaMap.vue src/domain/areas.ts
-          git checkout -- src/App.vue src/components/map/VaasaMap.vue src/domain/areas.ts
       - name: Check formatting
         run: npm run format:check
       - name: Lint
