@@ -2,7 +2,7 @@
 import AreaDetail from '@/components/areas/AreaDetail.vue'
 import PienalueDetail from '@/components/areas/PienalueDetail.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
-import { AREA_BY_SLUG, CONFIGURED_SUBAREA_RELATION_COUNT } from '@/config/areas'
+import { AREA_BY_SLUG } from '@/config/areas'
 
 const searchParams = new URLSearchParams(window.location.search)
 const areaSlug = searchParams.get('area')
@@ -43,8 +43,10 @@ const homeHref = import.meta.env.BASE_URL
 
         <aside class="hero__aside" aria-label="Current project status">
           <p class="hero__aside-label">Current milestone</p>
-          <strong>Interactive boundaries</strong>
-          <p>Both suuralue and pienalue modes now use clickable OpenStreetMap vector boundaries.</p>
+          <strong>Local boundary snapshots</strong>
+          <p>
+            Both map modes use clickable GeoJSON files served directly by this GitHub Pages site.
+          </p>
         </aside>
       </div>
     </header>
@@ -53,29 +55,29 @@ const homeHref = import.meta.env.BASE_URL
       <VaasaMap />
 
       <aside class="info-panel">
-        <p class="eyebrow">Boundary rollout</p>
-        <h2>Real OSM polygons</h2>
+        <p class="eyebrow">Boundary delivery</p>
+        <h2>Static GeoJSON</h2>
         <p>
-          The main map assembles statistical-area boundaries from OpenStreetMap relation members.
-          Each major or minor district polygon links to its own detail page.
+          OpenStreetMap is used as the source of the boundary snapshot, but visitors do not query
+          Overpass. The deployed site serves the generated GeoJSON files locally.
         </p>
 
         <dl class="feature-list">
           <div>
             <dt>Suuralueet</dt>
-            <dd>12 of 12 configured as clickable OSM polygons</dd>
+            <dd>12 clickable polygons from the local suuralue GeoJSON snapshot</dd>
           </div>
           <div>
             <dt>Pienalueet</dt>
-            <dd>
-              {{ CONFIGURED_SUBAREA_RELATION_COUNT }} child relation IDs are linked directly from
-              their suuralueet; Vähäkyrö's level-10 relations are resolved spatially inside its OSM
-              boundary to complete the map
-            </dd>
+            <dd>60 clickable polygons from the local pienalue GeoJSON snapshot</dd>
+          </div>
+          <div>
+            <dt>Refresh model</dt>
+            <dd>Boundary data is regenerated from OSM only when GitHub Pages is deployed</dd>
           </div>
           <div>
             <dt>Area details</dt>
-            <dd>Click any polygon to open the dedicated OSM boundary page</dd>
+            <dd>Click any polygon to open its dedicated page using the same local snapshot</dd>
           </div>
         </dl>
       </aside>
