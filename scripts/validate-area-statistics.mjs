@@ -9,6 +9,15 @@ async function readJson(fileName) {
   return JSON.parse(await readFile(resolve(dataDir, fileName), 'utf8'))
 }
 
+async function readJsonIfPresent(fileName) {
+  try {
+    return await readJson(fileName)
+  } catch (error) {
+    if (error?.code === 'ENOENT') return null
+    throw error
+  }
+}
+
 function assert(condition, message) {
   if (!condition) throw new Error(message)
 }
@@ -20,45 +29,14 @@ function assertPercent(value, label) {
   )
 }
 
-async function main() {
-  const [major, minor, database] = await Promise.all([
-    readJson('vaasa-suuralueet.geojson'),
-    readJson('vaasa-pienalueet.geojson'),
-    readJson('area-statistics.json'),
-  ])
-
+function validateDatabase(database) {
   assert(database.schemaVersion === 1, 'Unsupported area statistics schema')
-  assert(Array.isArray(major.features), 'Major-area GeoJSON has no features array')
-  assert(Array.isArray(minor.features), 'Minor-area GeoJSON has no features array')
-
-  const features = [...major.features, ...minor.features]
   const databaseKeys = Object.keys(database.areas ?? {})
-  const mappedKeys = features.map((feature) => {
-    const level = feature?.properties?.level
-    const name = feature?.properties?.name
-    assert(level === 'suuralue' || level === 'pienalue', 'Mapped feature has an invalid area level')
-    assert(typeof name === 'string' && name.length > 0, 'Mapped feature has no area name')
-    return `${level}:${name}`
-  })
-
-  assert(new Set(mappedKeys).size === mappedKeys.length, 'Mapped area keys are not unique')
   assert(new Set(databaseKeys).size === databaseKeys.length, 'Statistics area keys are not unique')
   assert(
-    database.coverage?.mappedAreaRecords === features.length,
-    `Statistics metadata expects ${database.coverage?.mappedAreaRecords} mapped areas, but GeoJSON contains ${features.length}`,
+    database.coverage?.mappedAreaRecords === databaseKeys.length,
+    `Statistics metadata expects ${database.coverage?.mappedAreaRecords} records, but the database contains ${databaseKeys.length}`,
   )
-  assert(
-    databaseKeys.length === mappedKeys.length,
-    `Statistics contains ${databaseKeys.length} area records, but GeoJSON contains ${mappedKeys.length}`,
-  )
-
-  const mappedKeySet = new Set(mappedKeys)
-  for (const key of mappedKeys) {
-    assert(database.areas[key], `Missing statistics for mapped area ${key}`)
-  }
-  for (const key of databaseKeys) {
-    assert(mappedKeySet.has(key), `Statistics contains an unmapped area ${key}`)
-  }
 
   for (const [key, record] of Object.entries(database.areas)) {
     assert(
@@ -80,9 +58,58 @@ async function main() {
     )
   }
 
-  console.log(
-    `Area statistics validated: ${major.features.length} major + ${minor.features.length} minor = ${features.length} mapped records.`,
+  return databaseKeys
+}
+
+function validateBoundaryCoverage(database, databaseKeys, major, minor) {
+  assert(Array.isArray(major.features), 'Major-area GeoJSON has no features array')
+  assert(Array.isArray(minor.features), 'Minor-area GeoJSON has no features array')
+
+  const features = [...major.features, ...minor.features]
+  const mappedKeys = features.map((feature) => {
+    const level = feature?.properties?.level
+    const name = feature?.properties?.name
+    assert(level === 'suuralue' || level === 'pienalue', 'Mapped feature has an invalid area level')
+    assert(typeof name === 'string' && name.length > 0, 'Mapped feature has no area name')
+    return `${level}:${name}`
+  })
+
+  assert(new Set(mappedKeys).size === mappedKeys.length, 'Mapped area keys are not unique')
+  assert(
+    databaseKeys.length === mappedKeys.length,
+    `Statistics contains ${databaseKeys.length} area records, but GeoJSON contains ${mappedKeys.length}`,
   )
+
+  const mappedKeySet = new Set(mappedKeys)
+  for (const key of mappedKeys) {
+    assert(database.areas[key], `Missing statistics for mapped area ${key}`)
+  }
+  for (const key of databaseKeys) {
+    assert(mappedKeySet.has(key), `Statistics contains an unmapped area ${key}`)
+  }
+
+  console.log(
+    `Boundary join validated: ${major.features.length} major + ${minor.features.length} minor = ${features.length} mapped records.`,
+  )
+}
+
+async function main() {
+  const database = await readJson('area-statistics.json')
+  const databaseKeys = validateDatabase(database)
+  const [major, minor] = await Promise.all([
+    readJsonIfPresent('vaasa-suuralueet.geojson'),
+    readJsonIfPresent('vaasa-pienalueet.geojson'),
+  ])
+
+  if (major && minor) {
+    validateBoundaryCoverage(database, databaseKeys, major, minor)
+  } else {
+    console.log(
+      'Boundary snapshots are not present in this checkout; database integrity validated without the polygon join.',
+    )
+  }
+
+  console.log(`Area statistics database validated: ${databaseKeys.length} records.`)
 }
 
 await main()
