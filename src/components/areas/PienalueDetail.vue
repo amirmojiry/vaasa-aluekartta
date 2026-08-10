@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import L, { type Map, type Polygon } from 'leaflet'
 
+import AreaStatistics from '@/components/areas/AreaStatistics.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import TechnicalInfo from '@/components/areas/TechnicalInfo.vue'
 import { AREAS } from '@/config/areas'
@@ -92,21 +93,25 @@ onBeforeUnmount(() => {
     </header>
 
     <section class="area-detail-layout">
-      <article class="map-card area-detail-map-card">
-        <div class="map-card__header">
-          <div>
-            <p class="eyebrow">{{ t('boundary') }}</p>
-            <h2>{{ title }}</h2>
+      <div class="area-detail-main">
+        <article class="map-card area-detail-map-card">
+          <div class="map-card__header">
+            <div>
+              <p class="eyebrow">{{ t('boundary') }}</p>
+              <h2>{{ title }}</h2>
+            </div>
+            <span class="map-card__status">{{ loadingMessage }}</span>
           </div>
-          <span class="map-card__status">{{ loadingMessage }}</span>
-        </div>
-        <div
-          ref="mapElement"
-          class="map-canvas area-detail-map"
-          role="region"
-          :aria-label="`${title} · ${t('boundary')}`"
-        />
-      </article>
+          <div
+            ref="mapElement"
+            class="map-canvas area-detail-map"
+            role="region"
+            :aria-label="`${title} · ${t('boundary')}`"
+          />
+        </article>
+
+        <AreaStatistics v-if="boundary" level="pienalue" :area-name="boundary.name" />
+      </div>
 
       <aside class="area-detail-sidebar">
         <section class="info-panel related-panel">
