@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import L, { type Map, type Polygon } from 'leaflet'
 
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import TechnicalInfo from '@/components/areas/TechnicalInfo.vue'
 import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import type { AreaBoundary, AreaDefinition, PienalueBoundary } from '@/domain/areas'
@@ -53,12 +54,9 @@ onMounted(async () => {
 
     const bounds = polygon.getBounds()
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
-    loadingMessage.value = t('localGeojsonLoaded')
+    loadingMessage.value = `${childAreas.value.length} ${t('minorAreas')}`
   } catch (error) {
-    loadingMessage.value =
-      error instanceof Error
-        ? `${t('boundaryLoadingFailed')}: ${error.message}`
-        : t('boundaryLoadingFailed')
+    loadingMessage.value = error instanceof Error ? error.message : t('loadingAreaFailed')
   }
 })
 
@@ -80,7 +78,6 @@ onBeforeUnmount(() => {
         </div>
         <p class="eyebrow">{{ t('majorArea') }} {{ area.ref }}</p>
         <h1>{{ title }}</h1>
-        <p>{{ t('localBoundaryIntro') }} {{ area.relationId }}.</p>
       </div>
     </header>
 
@@ -89,7 +86,7 @@ onBeforeUnmount(() => {
         <div class="map-card__header">
           <div>
             <p class="eyebrow">{{ t('boundary') }}</p>
-            <h2>{{ title }} {{ t('onOpenStreetMap') }}</h2>
+            <h2>{{ title }}</h2>
           </div>
           <span class="map-card__status">{{ loadingMessage }}</span>
         </div>
@@ -101,95 +98,35 @@ onBeforeUnmount(() => {
         />
       </article>
 
-      <aside class="info-panel area-detail-info">
-        <p class="eyebrow">{{ t('osmMetadata') }}</p>
-        <h2>{{ title }}</h2>
-        <dl class="feature-list">
-          <div>
-            <dt>{{ t('reference') }}</dt>
-            <dd>{{ area.ref }}</dd>
+      <aside class="area-detail-sidebar">
+        <section class="info-panel related-panel" :aria-labelledby="`children-${area.slug}`">
+          <p class="eyebrow">{{ t('minorAreas') }}</p>
+          <h2 :id="`children-${area.slug}`">{{ t('childAreas') }}</h2>
+          <div class="related-area-list related-area-list--flush">
+            <ul v-if="childAreas.length > 0">
+              <li v-for="child in childAreas" :key="child.relationId">
+                <a :href="buildUrl({ pienalue: child.relationId })">
+                  <span v-if="child.ref">{{ child.ref }} · </span>{{ childName(child) }}
+                </a>
+              </li>
+            </ul>
+            <p v-else>{{ t('noChildAreas') }}</p>
           </div>
-          <div>
-            <dt>{{ t('adminLevel') }}</dt>
-            <dd>9 · {{ t('majorArea') }}</dd>
-          </div>
-          <div>
-            <dt>{{ t('osmRelation') }}</dt>
-            <dd>
-              <a
-                :href="`https://www.openstreetmap.org/relation/${area.relationId}`"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {{ area.relationId }}
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt>{{ t('outerWays') }}</dt>
-            <dd>{{ boundary?.outerWayIds.length ?? area.outerWayIds.length }}</dd>
-          </div>
-          <div>
-            <dt>{{ t('minorRelations') }}</dt>
-            <dd>{{ childAreas.length }}</dd>
-          </div>
-          <div>
-            <dt>{{ t('boundaryDelivery') }}</dt>
-            <dd>{{ t('localSnapshot') }}</dd>
-          </div>
-          <div>
-            <dt>{{ t('source') }}</dt>
-            <dd>{{ boundary?.source ?? area.source }}</dd>
-          </div>
-          <div v-if="boundary?.wikidataId">
-            <dt>{{ t('wikidata') }}</dt>
-            <dd>
-              <a
-                :href="`https://www.wikidata.org/wiki/${boundary.wikidataId}`"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {{ boundary.wikidataId }}
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt>{{ t('wikipedia') }}</dt>
-            <dd class="external-link-list">
-              <a
-                v-if="boundary?.wikipedia.fi"
-                :href="boundary.wikipedia.fi"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {{ t('finnishWikipedia') }}
-              </a>
-              <a
-                v-if="boundary?.wikipedia.fa"
-                :href="boundary.wikipedia.fa"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {{ t('persianWikipedia') }}
-              </a>
-              <span v-if="!boundary?.wikipedia.fi && !boundary?.wikipedia.fa">{{
-                t('noWikipedia')
-              }}</span>
-            </dd>
-          </div>
-        </dl>
-
-        <section class="related-area-list" :aria-labelledby="`children-${area.slug}`">
-          <h3 :id="`children-${area.slug}`">{{ t('childAreas') }}</h3>
-          <ul v-if="childAreas.length > 0">
-            <li v-for="child in childAreas" :key="child.relationId">
-              <a :href="buildUrl({ pienalue: child.relationId })">
-                <span v-if="child.ref">{{ child.ref }} · </span>{{ childName(child) }}
-              </a>
-            </li>
-          </ul>
-          <p v-else>{{ t('noChildAreas') }}</p>
         </section>
+
+        <TechnicalInfo
+          :relation-id="area.relationId"
+          :reference="boundary?.ref ?? area.ref"
+          :admin-level="9"
+          :level-label="t('majorArea')"
+          :outer-way-count="boundary?.outerWayIds.length ?? area.outerWayIds.length"
+          :source="boundary?.source ?? area.source"
+          :wikidata-id="boundary?.wikidataId"
+          :wikidata-description="boundary?.wikidataDescription"
+          :wikipedia="boundary?.wikipedia ?? {}"
+          :external-identifiers="boundary?.externalIdentifiers ?? []"
+          :child-count="childAreas.length"
+        />
       </aside>
     </section>
   </main>
