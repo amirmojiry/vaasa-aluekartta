@@ -11,6 +11,30 @@ export interface AreaDefinition {
   source: string
 }
 
+export interface LocalizedAreaNames {
+  fi: string
+  en?: string | null
+  fa?: string | null
+}
+
+export interface WikipediaLinks {
+  fi?: string | null
+  fa?: string | null
+}
+
+export interface AreaBoundary {
+  slug: string
+  relationId: number
+  name: string
+  ref: string
+  names: LocalizedAreaNames
+  wikidataId?: string | null
+  wikipedia: WikipediaLinks
+  outerWayIds: number[]
+  rings: BoundaryRing[]
+  source: string
+}
+
 export interface BoundaryCoordinate {
   lat: number
   lon: number
@@ -49,8 +73,12 @@ export interface PienalueBoundary {
   relationId: number
   name: string
   ref: string
+  names: LocalizedAreaNames
+  wikidataId?: string | null
+  wikipedia: WikipediaLinks
   parentSlug: string
   parentName: string
+  parentNames: LocalizedAreaNames
   parentRef: string
   outerWayIds: number[]
   rings: BoundaryRing[]
