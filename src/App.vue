@@ -45,7 +45,8 @@ const homeHref = import.meta.env.BASE_URL
           <p class="hero__aside-label">Current milestone</p>
           <strong>Local boundary snapshots</strong>
           <p>
-            Both map modes use clickable GeoJSON files served directly by this GitHub Pages site.
+            Available OSM boundaries are packaged as GeoJSON and served directly by this GitHub Pages
+            site.
           </p>
         </aside>
       </div>
@@ -58,26 +59,29 @@ const homeHref = import.meta.env.BASE_URL
         <p class="eyebrow">Boundary delivery</p>
         <h2>Static GeoJSON</h2>
         <p>
-          OpenStreetMap is used as the source of the boundary snapshot, but visitors do not query
-          Overpass. The deployed site serves the generated GeoJSON files locally.
+          OpenStreetMap is used as the source of the boundary snapshot, but visitors do not query a
+          boundary API. The deployed site serves the generated GeoJSON files locally.
         </p>
 
         <dl class="feature-list">
           <div>
             <dt>Suuralueet</dt>
-            <dd>12 clickable polygons from the local suuralue GeoJSON snapshot</dd>
+            <dd>12 of 12 clickable polygons in the local suuralue GeoJSON snapshot</dd>
           </div>
           <div>
             <dt>Pienalueet</dt>
-            <dd>60 clickable polygons from the local pienalue GeoJSON snapshot</dd>
+            <dd>
+              55 of 60 clickable polygons are available in the current OSM hierarchy; the five
+              Vähäkyrö pienalue boundaries remain unresolved
+            </dd>
           </div>
           <div>
             <dt>Refresh model</dt>
-            <dd>Boundary data is regenerated from OSM only when GitHub Pages is deployed</dd>
+            <dd>Boundary data is regenerated from OSM when the GitHub Pages snapshot is built</dd>
           </div>
           <div>
             <dt>Area details</dt>
-            <dd>Click any polygon to open its dedicated page using the same local snapshot</dd>
+            <dd>Click any mapped polygon to open its dedicated page using the same local snapshot</dd>
           </div>
         </dl>
       </aside>
