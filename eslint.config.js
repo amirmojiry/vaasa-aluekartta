@@ -26,4 +26,12 @@ export default tseslint.config(
       'vue/singleline-html-element-content-newline': 'off',
     },
   },
+  {
+    files: ['scripts/**/*.{js,mjs,cjs}'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
 )
