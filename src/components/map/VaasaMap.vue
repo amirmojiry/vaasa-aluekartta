@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import L, { type FeatureGroup, type ImageOverlay, type Map } from 'leaflet'
+import L, { type FeatureGroup, type ImageOverlay, type Map as LeafletMap } from 'leaflet'
 
 import { AREAS } from '@/config/areas'
 import { BOUNDARY_LAYERS, VAASA_BOUNDARY_BOUNDS } from '@/config/boundaries'
@@ -13,7 +13,7 @@ const mapElement = ref<HTMLElement | null>(null)
 const selectedLevel = ref<BoundaryLevel>('suuralue')
 const mappedAreaCount = ref(0)
 const boundaryState = ref('Loading Vaasa suuralueet…')
-let map: Map | null = null
+let map: LeafletMap | null = null
 let boundaryOverlay: ImageOverlay | null = null
 let areaGroup: FeatureGroup | null = null
 let cachedBoundaries: Map<string, BoundaryRing[]> | null = null
