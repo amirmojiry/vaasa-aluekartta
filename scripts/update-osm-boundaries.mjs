@@ -181,7 +181,9 @@ async function fetchWikidataBatch(ids) {
 
 async function loadWikidataMetadata(relations) {
   const ids = [
-    ...new Set(relations.map((relation) => validWikidataId(relation.tags?.wikidata)).filter(Boolean)),
+    ...new Set(
+      relations.map((relation) => validWikidataId(relation.tags?.wikidata)).filter(Boolean),
+    ),
   ]
   const entities = new Map()
 
@@ -370,7 +372,9 @@ async function main() {
   const generatedAt = new Date().toISOString()
   const requiredRelations = [
     ...MAJOR_AREAS.map((area) => relationsById.get(area.relationId)),
-    ...MAJOR_AREAS.flatMap((area) => area.children.map((relationId) => relationsById.get(relationId))),
+    ...MAJOR_AREAS.flatMap((area) =>
+      area.children.map((relationId) => relationsById.get(relationId)),
+    ),
   ].filter(Boolean)
   const wikidataById = await loadWikidataMetadata(requiredRelations)
 
