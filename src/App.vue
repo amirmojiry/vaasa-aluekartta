@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AreaDetail from '@/components/areas/AreaDetail.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
-import { AREA_BY_SLUG } from '@/config/areas'
+import { AREA_BY_SLUG, CONFIGURED_SUBAREA_RELATION_COUNT } from '@/config/areas'
 
 const areaSlug = new URLSearchParams(window.location.search).get('area')
 const selectedArea = areaSlug ? (AREA_BY_SLUG.get(areaSlug) ?? null) : null
@@ -38,7 +38,7 @@ const homeHref = import.meta.env.BASE_URL
         <aside class="hero__aside" aria-label="Current project status">
           <p class="hero__aside-label">Current milestone</p>
           <strong>Interactive boundaries</strong>
-          <p>Gerby is the first suuralue rendered as a real clickable OSM boundary.</p>
+          <p>All 12 suuralueet are configured as clickable OpenStreetMap vector boundaries.</p>
         </aside>
       </div>
     </header>
@@ -50,22 +50,25 @@ const homeHref = import.meta.env.BASE_URL
         <p class="eyebrow">Boundary rollout</p>
         <h2>Real OSM polygons</h2>
         <p>
-          Gerby is now loaded from its OpenStreetMap relation and drawn as an interactive vector
-          polygon. The remaining suuralueet can be added using the same relation metadata pattern.
+          The main map now assembles all 12 suuralue boundaries from the outer way members of their
+          OpenStreetMap relations. Each polygon links to its own detail page.
         </p>
 
         <dl class="feature-list">
           <div>
             <dt>Suuralueet</dt>
-            <dd>1 of 12 configured as a clickable OSM polygon</dd>
+            <dd>12 of 12 configured as clickable OSM polygons</dd>
           </div>
           <div>
             <dt>Pienalueet</dt>
-            <dd>Gerby already exposes 12 child relation IDs for the next step</dd>
+            <dd>
+              {{ CONFIGURED_SUBAREA_RELATION_COUNT }} child relation IDs are already known; Vähäkyrö
+              child relations still need to be resolved
+            </dd>
           </div>
           <div>
             <dt>Area details</dt>
-            <dd>Click Gerby on the map to open its dedicated page</dd>
+            <dd>Click any suuralue polygon on the map to open its dedicated page</dd>
           </div>
         </dl>
       </aside>
