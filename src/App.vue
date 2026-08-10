@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import AreaDetail from '@/components/areas/AreaDetail.vue'
 import PienalueDetail from '@/components/areas/PienalueDetail.vue'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
 import { AREA_BY_SLUG } from '@/config/areas'
+import { useI18n } from '@/i18n'
 
 const searchParams = new URLSearchParams(window.location.search)
 const areaSlug = searchParams.get('area')
@@ -10,7 +12,8 @@ const selectedArea = areaSlug ? (AREA_BY_SLUG.get(areaSlug) ?? null) : null
 const pienalueParam = searchParams.get('pienalue')
 const pienalueRelationId =
   pienalueParam && /^\d+$/.test(pienalueParam) ? Number(pienalueParam) : null
-const homeHref = import.meta.env.BASE_URL
+const { buildUrl, t } = useI18n()
+const homeHref = buildUrl()
 </script>
 
 <template>
@@ -19,78 +22,68 @@ const homeHref = import.meta.env.BASE_URL
 
   <main v-else class="app-shell">
     <header class="hero">
-      <nav class="topbar" aria-label="Primary navigation">
-        <a class="brand" :href="homeHref" aria-label="Vaasa Aluekartta home">
+      <nav class="topbar" :aria-label="t('primaryNavigation')">
+        <a class="brand" :href="homeHref" :aria-label="t('homeAria')">
           <span class="brand__mark" aria-hidden="true">VA</span>
-          <span>Vaasa Aluekartta</span>
+          <span>{{ t('appName') }}</span>
         </a>
-        <a class="topbar__link" href="https://github.com/amirmojiry/vaasa-aluekartta"> GitHub </a>
+        <div class="topbar__actions">
+          <a class="topbar__link" href="https://github.com/amirmojiry/vaasa-aluekartta">GitHub</a>
+          <LanguageSwitcher />
+        </div>
       </nav>
 
       <div id="top" class="hero__content">
         <div class="hero__copy">
-          <p class="eyebrow">Explore Vaasa by area</p>
-          <h1>A clearer way to understand Vaasa's neighbourhood structure.</h1>
-          <p class="hero__lead">
-            Browse the city's suuralueet and pienalueet on an accessible, source-attributed map.
-          </p>
-          <div class="hero__meta" aria-label="Project characteristics">
-            <span>Open data</span>
-            <span>Mobile friendly</span>
-            <span>No tracking</span>
+          <p class="eyebrow">{{ t('exploreEyebrow') }}</p>
+          <h1>{{ t('heroTitle') }}</h1>
+          <p class="hero__lead">{{ t('heroLead') }}</p>
+          <div class="hero__meta" :aria-label="t('areaDetails')">
+            <span>{{ t('openData') }}</span>
+            <span>{{ t('mobileFriendly') }}</span>
+            <span>{{ t('noTracking') }}</span>
           </div>
         </div>
 
-        <aside class="hero__aside" aria-label="Current project status">
-          <p class="hero__aside-label">Current milestone</p>
-          <strong>Local boundary snapshots</strong>
-          <p>
-            Available OSM boundaries are packaged as GeoJSON and served directly by this GitHub
-            Pages site.
-          </p>
+        <aside class="hero__aside" :aria-label="t('currentMilestone')">
+          <p class="hero__aside-label">{{ t('currentMilestone') }}</p>
+          <strong>{{ t('localSnapshots') }}</strong>
+          <p>{{ t('localSnapshotsDescription') }}</p>
         </aside>
       </div>
     </header>
 
-    <section class="content-grid" aria-label="Map and project information">
+    <section class="content-grid" :aria-label="t('statisticalAreas')">
       <VaasaMap />
 
       <aside class="info-panel">
-        <p class="eyebrow">Boundary delivery</p>
-        <h2>Static GeoJSON</h2>
-        <p>
-          OpenStreetMap is used as the source of the boundary snapshot, but visitors do not query a
-          boundary API. The deployed site serves the generated GeoJSON files locally.
-        </p>
+        <p class="eyebrow">{{ t('boundaryDelivery') }}</p>
+        <h2>{{ t('staticGeojson') }}</h2>
+        <p>{{ t('boundaryDeliveryDescription') }}</p>
 
         <dl class="feature-list">
           <div>
-            <dt>Suuralueet</dt>
-            <dd>12 of 12 clickable polygons in the local suuralue GeoJSON snapshot</dd>
+            <dt>{{ t('majorAreas') }}</dt>
+            <dd>{{ t('majorCoverage') }}</dd>
           </div>
           <div>
-            <dt>Pienalueet</dt>
-            <dd>
-              55 of 60 clickable polygons are available in the current OSM hierarchy; the five
-              Vähäkyrö pienalue boundaries remain unresolved
-            </dd>
+            <dt>{{ t('minorAreas') }}</dt>
+            <dd>{{ t('minorCoverage') }}</dd>
           </div>
           <div>
-            <dt>Refresh model</dt>
-            <dd>Boundary data is regenerated from OSM when the GitHub Pages snapshot is built</dd>
+            <dt>{{ t('refreshModel') }}</dt>
+            <dd>{{ t('refreshDescription') }}</dd>
           </div>
           <div>
-            <dt>Area details</dt>
-            <dd>
-              Click any mapped polygon to open its dedicated page using the same local snapshot
-            </dd>
+            <dt>{{ t('areaDetails') }}</dt>
+            <dd>{{ t('areaDetailsDescription') }}</dd>
           </div>
         </dl>
       </aside>
     </section>
 
     <footer class="site-footer">
-      <p>Built as an open-source, static website for GitHub Pages.</p>
+      <p>{{ t('footer') }}</p>
     </footer>
   </main>
 </template>

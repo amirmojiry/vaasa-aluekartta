@@ -2,26 +2,39 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import L, { type Map, type Polygon } from 'leaflet'
 
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import type { PienalueBoundary } from '@/domain/areas'
-import { fetchPienalueBoundary } from '@/services/boundaryData'
+import { localizeAreaName, useI18n } from '@/i18n'
+import { fetchPienalueBoundaries } from '@/services/boundaryData'
 
 const props = defineProps<{ relationId: number }>()
 
+const { buildUrl, language, t } = useI18n()
 const mapElement = ref<HTMLElement | null>(null)
-const loadingMessage = ref('Loading pienalue boundary from local GeoJSON…')
+const loadingMessage = ref(t('loading'))
 const boundary = ref<PienalueBoundary | null>(null)
-const homeHref = import.meta.env.BASE_URL
+const siblingAreas = ref<PienalueBoundary[]>([])
+const homeHref = buildUrl()
 let map: Map | null = null
 let polygon: Polygon | null = null
 
-const title = computed(() => boundary.value?.name ?? `Pienalue ${props.relationId}`)
-const parentHref = computed(() =>
-  boundary.value
-    ? `${import.meta.env.BASE_URL}?area=${encodeURIComponent(boundary.value.parentSlug)}`
-    : homeHref,
+const title = computed(() =>
+  localizeAreaName(boundary.value?.names, `Pienalue ${props.relationId}`, language.value),
 )
+const parentName = computed(() =>
+  boundary.value
+    ? localizeAreaName(boundary.value.parentNames, boundary.value.parentName, language.value)
+    : t('loading'),
+)
+const parentHref = computed(() =>
+  boundary.value ? buildUrl({ area: boundary.value.parentSlug }) : homeHref,
+)
+
+function siblingName(area: PienalueBoundary): string {
+  return localizeAreaName(area.names, area.name, language.value)
+}
 
 onMounted(async () => {
   if (!mapElement.value) return
@@ -30,8 +43,15 @@ onMounted(async () => {
   L.tileLayer(TILE_LAYER.url, TILE_LAYER.options).addTo(map)
 
   try {
-    const result = await fetchPienalueBoundary(props.relationId, AREAS)
+    const boundaries = await fetchPienalueBoundaries(AREAS)
+    const result = boundaries.find((item) => item.relationId === props.relationId)
+    if (!result) throw new Error(`Could not find minor-area relation ${props.relationId}`)
+
     boundary.value = result
+    siblingAreas.value = boundaries.filter(
+      (item) => item.parentSlug === result.parentSlug && item.relationId !== result.relationId,
+    )
+
     polygon = L.polygon(result.rings, {
       color: '#17645d',
       weight: 4,
@@ -39,16 +59,16 @@ onMounted(async () => {
       fillColor: '#17645d',
       fillOpacity: 0.16,
     }).addTo(map)
-    polygon.bindTooltip(`${result.ref ? `${result.ref} · ` : ''}${result.name}`, { sticky: true })
+    polygon.bindTooltip(`${result.ref ? `${result.ref} · ` : ''}${title.value}`, { sticky: true })
 
     const bounds = polygon.getBounds()
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
-    loadingMessage.value = 'Local GeoJSON pienalue boundary loaded.'
+    loadingMessage.value = t('localMinorGeojsonLoaded')
   } catch (error) {
     loadingMessage.value =
       error instanceof Error
-        ? `Boundary loading failed: ${error.message}`
-        : 'Boundary loading failed.'
+        ? `${t('boundaryLoadingFailed')}: ${error.message}`
+        : t('boundaryLoadingFailed')
   }
 })
 
@@ -64,13 +84,13 @@ onBeforeUnmount(() => {
   <main class="area-detail-page">
     <header class="area-detail-hero">
       <div class="area-detail-hero__inner">
-        <a class="area-back-link" :href="homeHref">← Back to Vaasa map</a>
-        <p class="eyebrow">Pienalue {{ boundary?.ref || relationId }}</p>
+        <div class="area-detail-toolbar">
+          <a class="area-back-link" :href="homeHref">← {{ t('backToMap') }}</a>
+          <LanguageSwitcher />
+        </div>
+        <p class="eyebrow">{{ t('minorArea') }} {{ boundary?.ref || relationId }}</p>
         <h1>{{ title }}</h1>
-        <p>
-          This page renders a locally hosted GeoJSON snapshot generated from OpenStreetMap relation
-          {{ relationId }}.
-        </p>
+        <p>{{ t('localBoundaryIntro') }} {{ relationId }}.</p>
       </div>
     </header>
 
@@ -78,8 +98,8 @@ onBeforeUnmount(() => {
       <article class="map-card area-detail-map-card">
         <div class="map-card__header">
           <div>
-            <p class="eyebrow">Boundary</p>
-            <h2>{{ title }} on OpenStreetMap</h2>
+            <p class="eyebrow">{{ t('boundary') }}</p>
+            <h2>{{ title }} {{ t('onOpenStreetMap') }}</h2>
           </div>
           <span class="map-card__status">{{ loadingMessage }}</span>
         </div>
@@ -87,33 +107,31 @@ onBeforeUnmount(() => {
           ref="mapElement"
           class="map-canvas area-detail-map"
           role="region"
-          :aria-label="`${title} boundary on OpenStreetMap`"
+          :aria-label="`${title} · ${t('boundary')}`"
         />
       </article>
 
       <aside class="info-panel area-detail-info">
-        <p class="eyebrow">OSM metadata</p>
+        <p class="eyebrow">{{ t('osmMetadata') }}</p>
         <h2>{{ title }}</h2>
         <dl class="feature-list">
           <div>
-            <dt>Reference</dt>
-            <dd>{{ boundary?.ref || 'Not tagged' }}</dd>
+            <dt>{{ t('reference') }}</dt>
+            <dd>{{ boundary?.ref || t('notTagged') }}</dd>
           </div>
           <div>
-            <dt>Admin level</dt>
-            <dd>10 · pienalue</dd>
+            <dt>{{ t('adminLevel') }}</dt>
+            <dd>10 · {{ t('minorArea') }}</dd>
           </div>
           <div>
-            <dt>Parent suuralue</dt>
+            <dt>{{ t('parentMajorArea') }}</dt>
             <dd>
-              <a v-if="boundary" :href="parentHref">
-                {{ boundary.parentRef }} · {{ boundary.parentName }}
-              </a>
-              <span v-else>Loading…</span>
+              <a v-if="boundary" :href="parentHref">{{ boundary.parentRef }} · {{ parentName }}</a>
+              <span v-else>{{ t('loading') }}</span>
             </dd>
           </div>
           <div>
-            <dt>OSM relation</dt>
+            <dt>{{ t('osmRelation') }}</dt>
             <dd>
               <a
                 :href="`https://www.openstreetmap.org/relation/${relationId}`"
@@ -125,18 +143,66 @@ onBeforeUnmount(() => {
             </dd>
           </div>
           <div>
-            <dt>Outer ways</dt>
-            <dd>{{ boundary?.outerWayIds.length ?? 'Loading…' }}</dd>
+            <dt>{{ t('outerWays') }}</dt>
+            <dd>{{ boundary?.outerWayIds.length ?? t('loading') }}</dd>
           </div>
           <div>
-            <dt>Boundary delivery</dt>
-            <dd>Local GeoJSON snapshot served by this site</dd>
+            <dt>{{ t('boundaryDelivery') }}</dt>
+            <dd>{{ t('localSnapshot') }}</dd>
           </div>
           <div>
-            <dt>Source</dt>
-            <dd>{{ boundary?.source ?? 'Loading snapshot metadata…' }}</dd>
+            <dt>{{ t('source') }}</dt>
+            <dd>{{ boundary?.source ?? t('loading') }}</dd>
+          </div>
+          <div v-if="boundary?.wikidataId">
+            <dt>{{ t('wikidata') }}</dt>
+            <dd>
+              <a
+                :href="`https://www.wikidata.org/wiki/${boundary.wikidataId}`"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {{ boundary.wikidataId }}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt>{{ t('wikipedia') }}</dt>
+            <dd class="external-link-list">
+              <a
+                v-if="boundary?.wikipedia.fi"
+                :href="boundary.wikipedia.fi"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {{ t('finnishWikipedia') }}
+              </a>
+              <a
+                v-if="boundary?.wikipedia.fa"
+                :href="boundary.wikipedia.fa"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {{ t('persianWikipedia') }}
+              </a>
+              <span v-if="!boundary?.wikipedia.fi && !boundary?.wikipedia.fa">{{
+                t('noWikipedia')
+              }}</span>
+            </dd>
           </div>
         </dl>
+
+        <section class="related-area-list" aria-labelledby="sibling-areas-title">
+          <h3 id="sibling-areas-title">{{ t('siblingAreas') }}</h3>
+          <ul v-if="siblingAreas.length > 0">
+            <li v-for="sibling in siblingAreas" :key="sibling.relationId">
+              <a :href="buildUrl({ pienalue: sibling.relationId })">
+                <span v-if="sibling.ref">{{ sibling.ref }} · </span>{{ siblingName(sibling) }}
+              </a>
+            </li>
+          </ul>
+          <p v-else>{{ t('noSiblingAreas') }}</p>
+        </section>
       </aside>
     </section>
   </main>
