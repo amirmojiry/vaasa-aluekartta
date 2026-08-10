@@ -20,11 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Show Prettier diff
-        run: |
-          npx prettier --write src/config/areas.ts src/services/osmBoundary.ts
-          git diff -- src/config/areas.ts src/services/osmBoundary.ts
-          git checkout -- src/config/areas.ts src/services/osmBoundary.ts
       - name: Check formatting
         run: npm run format:check
       - name: Lint
