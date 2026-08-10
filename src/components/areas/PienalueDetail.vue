@@ -15,7 +15,7 @@ const props = defineProps<{ relationId: number }>()
 
 const { buildUrl, language, t } = useI18n()
 const mapElement = ref<HTMLElement | null>(null)
-const loadingMessage = ref(t('loading'))
+const loadError = ref('')
 const boundary = ref<PienalueBoundary | null>(null)
 const siblingAreas = ref<PienalueBoundary[]>([])
 const homeHref = buildUrl()
@@ -65,9 +65,8 @@ onMounted(async () => {
 
     const bounds = polygon.getBounds()
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
-    loadingMessage.value = `${siblingAreas.value.length + 1} ${t('minorAreas')}`
   } catch (error) {
-    loadingMessage.value = error instanceof Error ? error.message : t('loadingAreaFailed')
+    loadError.value = error instanceof Error ? error.message : t('loadingAreaFailed')
   }
 })
 
@@ -87,7 +86,6 @@ onBeforeUnmount(() => {
           <a class="area-back-link" :href="homeHref">← {{ t('backToMap') }}</a>
           <LanguageSwitcher />
         </div>
-        <p class="eyebrow">{{ t('minorArea') }} {{ boundary?.ref || relationId }}</p>
         <h1>{{ title }}</h1>
       </div>
     </header>
@@ -97,10 +95,9 @@ onBeforeUnmount(() => {
         <article class="map-card area-detail-map-card">
           <div class="map-card__header">
             <div>
-              <p class="eyebrow">{{ t('boundary') }}</p>
               <h2>{{ title }}</h2>
             </div>
-            <span class="map-card__status">{{ loadingMessage }}</span>
+            <span v-if="loadError" class="map-card__status">{{ loadError }}</span>
           </div>
           <div
             ref="mapElement"
@@ -115,7 +112,7 @@ onBeforeUnmount(() => {
 
       <aside class="area-detail-sidebar">
         <section class="info-panel related-panel">
-          <p class="eyebrow">{{ t('parentMajorArea') }}</p>
+          <p class="eyebrow">{{ t('majorArea') }}</p>
           <h2>
             <a v-if="boundary" :href="parentHref">{{ boundary.parentRef }} · {{ parentName }}</a>
             <span v-else>{{ t('loading') }}</span>

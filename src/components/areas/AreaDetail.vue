@@ -30,6 +30,11 @@ function childName(area: PienalueBoundary): string {
   return localizeAreaName(area.names, area.name, language.value)
 }
 
+function minorAreaCountLabel(count: number): string {
+  if (language.value === 'fa') return `${count} ${t('minorArea')}`
+  return `${count} ${count === 1 ? t('minorArea') : t('minorAreas')}`
+}
+
 onMounted(async () => {
   if (!mapElement.value) return
 
@@ -55,7 +60,7 @@ onMounted(async () => {
 
     const bounds = polygon.getBounds()
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
-    loadingMessage.value = `${childAreas.value.length} ${t('minorAreas')}`
+    loadingMessage.value = minorAreaCountLabel(childAreas.value.length)
   } catch (error) {
     loadingMessage.value = error instanceof Error ? error.message : t('loadingAreaFailed')
   }
@@ -77,7 +82,6 @@ onBeforeUnmount(() => {
           <a class="area-back-link" :href="homeHref">← {{ t('backToMap') }}</a>
           <LanguageSwitcher />
         </div>
-        <p class="eyebrow">{{ t('majorArea') }} {{ area.ref }}</p>
         <h1>{{ title }}</h1>
       </div>
     </header>
@@ -87,7 +91,6 @@ onBeforeUnmount(() => {
         <article class="map-card area-detail-map-card">
           <div class="map-card__header">
             <div>
-              <p class="eyebrow">{{ t('boundary') }}</p>
               <h2>{{ title }}</h2>
             </div>
             <span class="map-card__status">{{ loadingMessage }}</span>
