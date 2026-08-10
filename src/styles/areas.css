@@ -28,7 +28,7 @@
 .area-detail-hero h1 {
   max-width: none;
   margin: 0;
-  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 700;
   line-height: 1.12;
   letter-spacing: -0.025em;
@@ -145,6 +145,17 @@
   color: #596966;
   font-size: 0.88rem;
   line-height: 1.65;
+}
+
+.technical-description strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--ink);
+  font-size: 0.78rem;
+}
+
+.technical-description p {
+  margin: 0;
 }
 
 .technical-list {
