@@ -41,7 +41,10 @@ function identifierLabel(identifier: ExternalIdentifier): string {
     <p class="eyebrow">{{ t('technicalInfo') }}</p>
     <h2 :id="`technical-${relationId}`">{{ t('technicalInfo') }}</h2>
 
-    <p v-if="description" class="technical-description">{{ description }}</p>
+    <div v-if="description" class="technical-description">
+      <strong>{{ t('wikidataDescription') }}</strong>
+      <p>{{ description }}</p>
+    </div>
 
     <dl class="technical-list">
       <div>
