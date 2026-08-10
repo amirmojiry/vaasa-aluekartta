@@ -36,9 +36,7 @@ function reversed(segment: Segment): Segment {
 }
 
 export function stitchWaysIntoRings(ways: OverpassWayElement[]): BoundaryRing[] {
-  const remaining = ways
-    .map(asSegment)
-    .filter((segment): segment is Segment => segment !== null)
+  const remaining = ways.map(asSegment).filter((segment): segment is Segment => segment !== null)
   const rings: BoundaryRing[] = []
 
   while (remaining.length > 0) {
