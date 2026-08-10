@@ -45,7 +45,8 @@ export const GERBY_AREA: AreaDefinition = {
     11931681,
     11931688,
   ],
-  source: 'OpenStreetMap relation 11931679; source tag: Vaasan kaupungin paikkatietopalvelut 2016',
+  source:
+    'OpenStreetMap relation 11931679; source tag: Vaasan kaupungin paikkatietopalvelut 2016',
 }
 
 export const AREAS: AreaDefinition[] = [GERBY_AREA]
