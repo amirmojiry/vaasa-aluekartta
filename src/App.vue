@@ -1,12 +1,20 @@
 <script setup lang="ts">
+import AreaDetail from '@/components/areas/AreaDetail.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
+import { AREA_BY_SLUG } from '@/config/areas'
+
+const areaSlug = new URLSearchParams(window.location.search).get('area')
+const selectedArea = areaSlug ? (AREA_BY_SLUG.get(areaSlug) ?? null) : null
+const homeHref = import.meta.env.BASE_URL
 </script>
 
 <template>
-  <main class="app-shell">
+  <AreaDetail v-if="selectedArea" :area="selectedArea" />
+
+  <main v-else class="app-shell">
     <header class="hero">
       <nav class="topbar" aria-label="Primary navigation">
-        <a class="brand" href="#top" aria-label="Vaasa Aluekartta home">
+        <a class="brand" :href="homeHref" aria-label="Vaasa Aluekartta home">
           <span class="brand__mark" aria-hidden="true">VA</span>
           <span>Vaasa Aluekartta</span>
         </a>
@@ -29,8 +37,8 @@ import VaasaMap from '@/components/map/VaasaMap.vue'
 
         <aside class="hero__aside" aria-label="Current project status">
           <p class="hero__aside-label">Current milestone</p>
-          <strong>Foundation</strong>
-          <p>Vue, TypeScript, Leaflet, automated checks, and GitHub Pages deployment.</p>
+          <strong>Interactive boundaries</strong>
+          <p>Gerby is the first suuralue rendered as a real clickable OSM boundary.</p>
         </aside>
       </div>
     </header>
@@ -39,25 +47,25 @@ import VaasaMap from '@/components/map/VaasaMap.vue'
       <VaasaMap />
 
       <aside class="info-panel">
-        <p class="eyebrow">Coming next</p>
-        <h2>Official area boundaries</h2>
+        <p class="eyebrow">Boundary rollout</p>
+        <h2>Real OSM polygons</h2>
         <p>
-          The next milestone will connect authoritative GeoJSON data for Vaasa's statistical areas.
-          Each dataset will include its source, licence, and update date.
+          Gerby is now loaded from its OpenStreetMap relation and drawn as an interactive vector
+          polygon. The remaining suuralueet can be added using the same relation metadata pattern.
         </p>
 
         <dl class="feature-list">
           <div>
             <dt>Suuralueet</dt>
-            <dd>High-level statistical areas</dd>
+            <dd>1 of 12 configured as a clickable OSM polygon</dd>
           </div>
           <div>
             <dt>Pienalueet</dt>
-            <dd>Detailed subareas within each suuralue</dd>
+            <dd>Gerby already exposes 12 child relation IDs for the next step</dd>
           </div>
           <div>
             <dt>Area details</dt>
-            <dd>Names, hierarchy, descriptions, and verified statistics</dd>
+            <dd>Click Gerby on the map to open its dedicated page</dd>
           </div>
         </dl>
       </aside>
