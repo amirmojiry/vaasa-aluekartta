@@ -9,8 +9,8 @@ const MAJOR_AREAS = [
     ref: '01',
     name: 'Keskusta',
     children: [
-      11930883, 11930884, 11930876, 11930879, 11930878, 11930877, 11930882, 11930881,
-      11930880, 11930885,
+      11930883, 11930884, 11930876, 11930879, 11930878, 11930877, 11930882, 11930881, 11930880,
+      11930885,
     ],
   },
   {
@@ -40,8 +40,8 @@ const MAJOR_AREAS = [
     ref: '05',
     name: 'Gerby',
     children: [
-      11931680, 11931690, 11931678, 11931689, 11931684, 11931683, 11931686, 11931687,
-      11931682, 11931685, 11931681, 11931688,
+      11931680, 11931690, 11931678, 11931689, 11931684, 11931683, 11931686, 11931687, 11931682,
+      11931685, 11931681, 11931688,
     ],
   },
   {
@@ -96,12 +96,14 @@ const MAJOR_AREAS = [
 ]
 
 const OSM_API = 'https://api.openstreetmap.org/api/0.6'
-const USER_AGENT = 'vaasa-aluekartta-boundary-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
+const USER_AGENT =
+  'vaasa-aluekartta-boundary-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
 const EXPECTED_PIENALUE_COUNT = 60
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const outputDir = resolve(scriptDir, '../public/data')
 
-const sleep = (milliseconds) => new Promise((resolvePromise) => setTimeout(resolvePromise, milliseconds))
+const sleep = (milliseconds) =>
+  new Promise((resolvePromise) => setTimeout(resolvePromise, milliseconds))
 
 async function fetchRelationFull(relationId) {
   const url = `${OSM_API}/relation/${relationId}/full.json`
@@ -273,7 +275,9 @@ function sortMinorFeatures(a, b) {
 async function main() {
   const elements = await loadRequiredOsmData()
   const relationsById = new Map(
-    elements.filter((element) => element.type === 'relation').map((relation) => [relation.id, relation]),
+    elements
+      .filter((element) => element.type === 'relation')
+      .map((relation) => [relation.id, relation]),
   )
   const waysById = new Map(
     elements.filter((element) => element.type === 'way').map((way) => [way.id, way]),
@@ -356,7 +360,9 @@ async function main() {
     throw new Error(`Expected 12 suuralue features, generated ${majorFeatures.length}`)
   }
   if (minorFeatures.length !== 55) {
-    throw new Error(`Expected 55 currently configured OSM pienalue features, generated ${minorFeatures.length}`)
+    throw new Error(
+      `Expected 55 currently configured OSM pienalue features, generated ${minorFeatures.length}`,
+    )
   }
 
   const metadata = snapshotMetadata(generatedAt, minorFeatures.length)
