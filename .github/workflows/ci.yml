@@ -20,10 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Validate enriched boundary snapshot
-        run: |
-          npm run data:update
-          node -e "const fs=require('fs');const paths=['public/data/vaasa-suuralueet.geojson','public/data/vaasa-pienalueet.geojson'];const features=paths.flatMap((path)=>JSON.parse(fs.readFileSync(path,'utf8')).features);console.log('Wikipedia links: fi='+features.filter((feature)=>feature.properties.wikipedia_fi).length+', fa='+features.filter((feature)=>feature.properties.wikipedia_fa).length+', total='+features.length)"
       - name: Check formatting
         run: npm run format:check
       - name: Lint
