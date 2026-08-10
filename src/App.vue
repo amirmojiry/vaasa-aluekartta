@@ -2,6 +2,7 @@
 import AreaDetail from '@/components/areas/AreaDetail.vue'
 import PienalueDetail from '@/components/areas/PienalueDetail.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import SiteFooter from '@/components/SiteFooter.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
 import { AREA_BY_SLUG } from '@/config/areas'
 import { useI18n } from '@/i18n'
@@ -38,4 +39,6 @@ const homeHref = buildUrl()
       <VaasaMap />
     </section>
   </main>
+
+  <SiteFooter />
 </template>

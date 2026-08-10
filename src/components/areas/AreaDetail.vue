@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import L, { type Map, type Polygon } from 'leaflet'
 
 import AreaStatistics from '@/components/areas/AreaStatistics.vue'
+import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import TechnicalInfo from '@/components/areas/TechnicalInfo.vue'
 import { AREAS } from '@/config/areas'
@@ -88,6 +89,8 @@ onBeforeUnmount(() => {
 
     <section class="area-detail-layout">
       <div class="area-detail-main">
+        <AreaStatisticsSummary level="suuralue" :area-name="area.name" />
+
         <article class="map-card area-detail-map-card">
           <div class="map-card__header">
             <div>
