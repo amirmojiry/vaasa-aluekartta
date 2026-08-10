@@ -1,0 +1,107 @@
+.area-detail-page {
+  min-height: 100vh;
+}
+
+.area-detail-hero {
+  padding: 2.25rem clamp(1rem, 4vw, 4.5rem) 5rem;
+  color: #f9f5ec;
+  background: linear-gradient(135deg, #082f2d 0%, #0d4944 62%, #17645d 100%);
+}
+
+.area-detail-hero__inner {
+  width: min(1280px, 100%);
+  margin: 0 auto;
+}
+
+.area-detail-hero h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+
+.area-detail-hero p:last-child {
+  max-width: 48rem;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.7;
+}
+
+.area-back-link {
+  display: inline-block;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 750;
+  text-underline-offset: 0.25rem;
+}
+
+.area-detail-layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(18rem, 0.65fr);
+  gap: 1.25rem;
+  width: min(1280px, calc(100% - 2rem));
+  margin: -2.3rem auto 3rem;
+}
+
+.area-detail-map-card {
+  min-width: 0;
+}
+
+.area-detail-map {
+  min-height: 38rem;
+}
+
+.area-detail-info a {
+  color: var(--green);
+  font-weight: 750;
+}
+
+.subarea-list {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.subarea-list h3 {
+  margin: 0 0 0.8rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+}
+
+.subarea-list code {
+  display: inline-block;
+  margin: 0 0.35rem 0.35rem 0;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.35rem;
+  background: #eef4f1;
+  color: var(--deep-green);
+  font-size: 0.78rem;
+}
+
+.leaflet-interactive {
+  cursor: pointer;
+}
+
+@media (max-width: 850px) {
+  .area-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .area-detail-map {
+    min-height: 30rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .area-detail-hero {
+    padding-inline: 1rem;
+  }
+
+  .area-detail-layout {
+    width: min(100% - 1rem, 1280px);
+  }
+
+  .area-detail-map {
+    min-height: 26rem;
+  }
+}
