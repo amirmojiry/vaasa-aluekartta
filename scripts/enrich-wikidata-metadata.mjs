@@ -133,9 +133,7 @@ async function main() {
   const features = collections.flatMap(({ collection }) => collection.features ?? [])
   const wikidataIds = [
     ...new Set(
-      features
-        .map((feature) => validWikidataId(feature?.properties?.wikidata_id))
-        .filter(Boolean),
+      features.map((feature) => validWikidataId(feature?.properties?.wikidata_id)).filter(Boolean),
     ),
   ]
 
