@@ -184,8 +184,8 @@ onBeforeUnmount(() => {
       <template v-if="selectedLevel === 'suuralue'">
         <p>{{ boundaryState }}</p>
         <p>
-          The 12 polygons are assembled from the outer way members of the supplied OSM
-          admin_level=9 relations. Hover to highlight an area and click it for details.
+          The 12 polygons are assembled from the outer way members of the supplied OSM admin_level=9
+          relations. Hover to highlight an area and click it for details.
         </p>
       </template>
       <template v-else>
