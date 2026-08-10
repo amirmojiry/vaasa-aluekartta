@@ -34,7 +34,8 @@ const populationRank = computed(() => {
   const populations = Object.entries(database.value.areas)
     .filter(([key]) => key.startsWith(prefix))
     .map(([, value]) => value.p)
-  const rank = populations.filter((population) => population > statistics.value!.population2015).length + 1
+  const rank =
+    populations.filter((population) => population > statistics.value!.population2015).length + 1
   return { rank, total: populations.length }
 })
 
@@ -77,7 +78,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section v-if="statistics" class="area-stat-summary" :aria-label="t('statisticsOverview')">
+  <section
+    v-if="statistics"
+    class="area-stat-summary"
+    :aria-label="t('statisticsOverview')"
+  >
     <div class="summary-metric">
       <div class="summary-metric__heading">
         <strong>{{ t('employment') }}</strong>
@@ -94,8 +99,14 @@ onMounted(async () => {
         />
       </div>
       <div class="summary-legend">
-        <span><i class="legend-dot legend-dot--employed" />{{ t('employed') }} <strong>{{ formatPercent(statistics.employedShare2013) }}</strong></span>
-        <span><i class="legend-dot legend-dot--unemployed" />{{ t('unemployed') }} <strong>{{ formatPercent(statistics.unemployment2013) }}</strong></span>
+        <span>
+          <i class="legend-dot legend-dot--employed" />{{ t('employed') }}
+          <strong>{{ formatPercent(statistics.employedShare2013) }}</strong>
+        </span>
+        <span>
+          <i class="legend-dot legend-dot--unemployed" />{{ t('unemployed') }}
+          <strong>{{ formatPercent(statistics.unemployment2013) }}</strong>
+        </span>
       </div>
     </div>
 
@@ -104,14 +115,21 @@ onMounted(async () => {
         <strong>{{ t('students') }}</strong>
         <span>{{ formatPercent(statistics.studentShare2013) }} · 2013</span>
       </div>
-      <div class="student-pictogram" :aria-label="`${t('students')}: ${formatPercent(statistics.studentShare2013)}`">
+      <div
+        class="student-pictogram"
+        :aria-label="`${t('students')}: ${formatPercent(statistics.studentShare2013)}`"
+      >
         <span v-for="index in studentIcons" :key="index" class="student-icon">
           <svg class="student-icon__base" viewBox="0 0 32 40" aria-hidden="true">
-            <path d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z" />
+            <path
+              d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z"
+            />
           </svg>
           <span class="student-icon__fill" :style="{ width: studentIconFill(index) }">
             <svg viewBox="0 0 32 40" aria-hidden="true">
-              <path d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z" />
+              <path
+                d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z"
+              />
             </svg>
           </span>
         </span>
@@ -144,9 +162,18 @@ onMounted(async () => {
         />
       </div>
       <div class="summary-legend summary-legend--languages">
-        <span><i class="legend-dot legend-dot--finnish" />{{ t('finnish') }} <strong>{{ formatPercent(statistics.language2015.finnish) }}</strong></span>
-        <span><i class="legend-dot legend-dot--swedish" />{{ t('swedish') }} <strong>{{ formatPercent(statistics.language2015.swedish) }}</strong></span>
-        <span><i class="legend-dot legend-dot--other-language" />{{ t('otherLanguages') }} <strong>{{ formatPercent(statistics.language2015.other) }}</strong></span>
+        <span>
+          <i class="legend-dot legend-dot--finnish" />{{ t('finnish') }}
+          <strong>{{ formatPercent(statistics.language2015.finnish) }}</strong>
+        </span>
+        <span>
+          <i class="legend-dot legend-dot--swedish" />{{ t('swedish') }}
+          <strong>{{ formatPercent(statistics.language2015.swedish) }}</strong>
+        </span>
+        <span>
+          <i class="legend-dot legend-dot--other-language" />{{ t('otherLanguages') }}
+          <strong>{{ formatPercent(statistics.language2015.other) }}</strong>
+        </span>
       </div>
     </div>
   </section>
