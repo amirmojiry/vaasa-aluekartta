@@ -14,7 +14,7 @@ export interface AreaStatisticRecord {
   }
 }
 
-interface CompactAreaStatisticRecord {
+export interface CompactAreaStatisticRecord {
   p: number
   s: number
   u: number
