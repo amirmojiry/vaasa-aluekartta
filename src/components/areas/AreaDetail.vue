@@ -36,7 +36,9 @@ onMounted(async () => {
     loadingMessage.value = 'Live OSM boundary loaded.'
   } catch (error) {
     loadingMessage.value =
-      error instanceof Error ? `Boundary loading failed: ${error.message}` : 'Boundary loading failed.'
+      error instanceof Error
+        ? `Boundary loading failed: ${error.message}`
+        : 'Boundary loading failed.'
   }
 })
 
