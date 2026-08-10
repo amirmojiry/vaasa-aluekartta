@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import L, { type ImageOverlay, type LayerGroup, type Map, type Polygon } from 'leaflet'
+import L, { type FeatureGroup, type ImageOverlay, type Map } from 'leaflet'
 
-import { GERBY_AREA } from '@/config/areas'
+import { AREAS } from '@/config/areas'
 import { BOUNDARY_LAYERS, VAASA_BOUNDARY_BOUNDS } from '@/config/boundaries'
 import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
+import type { BoundaryRing } from '@/domain/areas'
 import type { BoundaryLevel } from '@/domain/boundaries'
-import { fetchAreaBoundary } from '@/services/osmBoundary'
+import { fetchAreaBoundaries } from '@/services/osmBoundary'
 
 const mapElement = ref<HTMLElement | null>(null)
 const selectedLevel = ref<BoundaryLevel>('suuralue')
 const mappedAreaCount = ref(0)
-const boundaryState = ref('Loading Gerby…')
+const boundaryState = ref('Loading Vaasa suuralueet…')
 let map: Map | null = null
 let boundaryOverlay: ImageOverlay | null = null
-let areaGroup: LayerGroup | null = null
-let areaPolygon: Polygon | null = null
+let areaGroup: FeatureGroup | null = null
+let cachedBoundaries: Map<string, BoundaryRing[]> | null = null
 let renderToken = 0
 
 const selectedLayer = computed(
@@ -30,7 +31,6 @@ const mapStatus = computed(() => {
 function clearBoundaryLayers(): void {
   boundaryOverlay?.remove()
   boundaryOverlay = null
-  areaPolygon = null
   areaGroup?.clearLayers()
 }
 
@@ -38,33 +38,55 @@ function openArea(slug: string): void {
   window.location.href = `${import.meta.env.BASE_URL}?area=${encodeURIComponent(slug)}`
 }
 
-async function renderGerbyBoundary(token: number): Promise<void> {
+async function renderSuuralueBoundaries(token: number): Promise<void> {
   if (!map || !areaGroup) return
 
   mappedAreaCount.value = 0
-  boundaryState.value = 'Loading Gerby from OpenStreetMap…'
+  boundaryState.value = 'Loading 12 suuralue boundaries from OpenStreetMap…'
 
   try {
-    const rings = await fetchAreaBoundary(GERBY_AREA)
+    cachedBoundaries ??= await fetchAreaBoundaries(AREAS)
     if (token !== renderToken || selectedLevel.value !== 'suuralue') return
 
-    areaPolygon = L.polygon(rings, {
-      color: '#de6d45',
-      weight: 4,
-      opacity: 1,
-      fillColor: '#de6d45',
-      fillOpacity: 0.18,
-      interactive: true,
-    }).addTo(areaGroup)
+    let rendered = 0
 
-    areaPolygon.bindTooltip('05 · Gerby · click for details', { sticky: true })
-    areaPolygon.on('click', () => openArea(GERBY_AREA.slug))
-    mappedAreaCount.value = 1
-    boundaryState.value = 'Gerby boundary loaded. Click the polygon to open its page.'
+    for (const area of AREAS) {
+      const rings = cachedBoundaries.get(area.slug)
+      if (!rings) continue
+
+      const polygon = L.polygon(rings, {
+        color: '#de6d45',
+        weight: 3,
+        opacity: 0.95,
+        fillColor: '#de6d45',
+        fillOpacity: 0.13,
+        interactive: true,
+      }).addTo(areaGroup)
+
+      polygon.bindTooltip(`${area.ref} · ${area.name} · click for details`, { sticky: true })
+      polygon.on('click', () => openArea(area.slug))
+      polygon.on('mouseover', () => polygon.setStyle({ weight: 5, fillOpacity: 0.28 }))
+      polygon.on('mouseout', () => polygon.setStyle({ weight: 3, fillOpacity: 0.13 }))
+      rendered += 1
+    }
+
+    mappedAreaCount.value = rendered
+
+    const bounds = areaGroup.getBounds()
+    if (rendered > 0 && bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [20, 20] })
+    }
+
+    boundaryState.value =
+      rendered === AREAS.length
+        ? 'All 12 suuralue boundaries loaded. Click any polygon to open its page.'
+        : `Loaded ${rendered} of ${AREAS.length} suuralue boundaries from OSM.`
   } catch (error) {
     if (token !== renderToken) return
     boundaryState.value =
-      error instanceof Error ? `Could not load Gerby: ${error.message}` : 'Could not load Gerby.'
+      error instanceof Error
+        ? `Could not load suuralue boundaries: ${error.message}`
+        : 'Could not load suuralue boundaries.'
   }
 }
 
@@ -88,7 +110,7 @@ async function renderBoundaryLayer(): Promise<void> {
   clearBoundaryLayers()
 
   if (selectedLevel.value === 'suuralue') {
-    await renderGerbyBoundary(token)
+    await renderSuuralueBoundaries(token)
     return
   }
 
@@ -109,7 +131,7 @@ onMounted(() => {
   }).setView(VAASA_CENTER, INITIAL_ZOOM)
 
   L.tileLayer(TILE_LAYER.url, TILE_LAYER.options).addTo(map)
-  areaGroup = L.layerGroup().addTo(map)
+  areaGroup = L.featureGroup().addTo(map)
   void renderBoundaryLayer()
 })
 
@@ -162,8 +184,8 @@ onBeforeUnmount(() => {
       <template v-if="selectedLevel === 'suuralue'">
         <p>{{ boundaryState }}</p>
         <p>
-          Gerby is drawn from OSM relation {{ GERBY_AREA.relationId }} using the outer way IDs from
-          the supplied relation XML. This is the pattern we can repeat for the other 11 suuralueet.
+          The 12 polygons are assembled from the outer way members of the supplied OSM
+          admin_level=9 relations. Hover to highlight an area and click it for details.
         </p>
       </template>
       <template v-else>
