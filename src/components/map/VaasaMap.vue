@@ -7,10 +7,7 @@ import { BOUNDARY_LAYERS } from '@/config/boundaries'
 import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import type { AreaBoundary, AreaLevel, PienalueBoundary } from '@/domain/areas'
 import type { BoundaryLevel } from '@/domain/boundaries'
-import type {
-  AreaStatisticsDatabase,
-  CompactAreaStatisticRecord,
-} from '@/domain/statistics'
+import type { AreaStatisticsDatabase, CompactAreaStatisticRecord } from '@/domain/statistics'
 import { localizeAreaName, useI18n } from '@/i18n'
 import { fetchStatisticsDatabase, statisticsKey } from '@/services/areaStatistics'
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
@@ -82,10 +79,7 @@ function fitRenderedBounds(): void {
   }
 }
 
-function compactStatistics(
-  level: AreaLevel,
-  name: string,
-): CompactAreaStatisticRecord | null {
+function compactStatistics(level: AreaLevel, name: string): CompactAreaStatisticRecord | null {
   return statisticsDatabase.value?.areas[statisticsKey(level, name)] ?? null
 }
 
@@ -185,8 +179,7 @@ function polygonStyle(
   }
 
   const value = metricValue(record)
-  const normalized =
-    range.max === range.min ? 0.5 : (value - range.min) / (range.max - range.min)
+  const normalized = range.max === range.min ? 0.5 : (value - range.min) / (range.max - range.min)
   const color = metricColor()
   return {
     color,
@@ -232,9 +225,7 @@ async function renderSuuralueBoundaries(token: number): Promise<void> {
       if (!boundary) continue
 
       const style = polygonStyle('suuralue', area.name, '#de6d45', 0.13)
-      const polygon = L.polygon(boundary.rings, { ...style, interactive: true }).addTo(
-        areaGroup,
-      )
+      const polygon = L.polygon(boundary.rings, { ...style, interactive: true }).addTo(areaGroup)
       const name = localizeAreaName(boundary.names, area.name, language.value)
       polygon.bindTooltip(
         `${area.ref} · ${name}${metricTooltip('suuralue', area.name)} · ${t('clickForDetails')}`,
