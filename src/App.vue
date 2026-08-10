@@ -8,7 +8,8 @@ const searchParams = new URLSearchParams(window.location.search)
 const areaSlug = searchParams.get('area')
 const selectedArea = areaSlug ? (AREA_BY_SLUG.get(areaSlug) ?? null) : null
 const pienalueParam = searchParams.get('pienalue')
-const pienalueRelationId = pienalueParam && /^\d+$/.test(pienalueParam) ? Number(pienalueParam) : null
+const pienalueRelationId =
+  pienalueParam && /^\d+$/.test(pienalueParam) ? Number(pienalueParam) : null
 const homeHref = import.meta.env.BASE_URL
 </script>
 
