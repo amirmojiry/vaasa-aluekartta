@@ -23,7 +23,9 @@ const selectedLayer = computed(
   () => BOUNDARY_LAYERS.find((layer) => layer.id === selectedLevel.value) ?? BOUNDARY_LAYERS[0],
 )
 
-const mapStatus = computed(() => `${mappedAreaCount.value}/${selectedLayer.value?.areaCount ?? 0} mapped`)
+const mapStatus = computed(
+  () => `${mappedAreaCount.value}/${selectedLayer.value?.areaCount ?? 0} mapped`,
+)
 
 function clearBoundaryLayers(): void {
   areaGroup?.clearLayers()
