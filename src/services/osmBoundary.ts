@@ -36,7 +36,9 @@ function reversed(segment: Segment): Segment {
 }
 
 export function stitchWaysIntoRings(ways: OverpassWayElement[]): BoundaryRing[] {
-  const remaining = ways.map(asSegment).filter((segment): segment is Segment => segment !== null)
+  const remaining = ways
+    .map(asSegment)
+    .filter((segment): segment is Segment => segment !== null)
   const rings: BoundaryRing[] = []
 
   while (remaining.length > 0) {
@@ -94,7 +96,9 @@ async function fetchOverpass(query: string): Promise<OverpassWaysResponse> {
     }
   }
 
-  throw lastError instanceof Error ? lastError : new Error('Could not load boundary data from Overpass')
+  throw lastError instanceof Error
+    ? lastError
+    : new Error('Could not load boundary data from Overpass')
 }
 
 export async function fetchAreaBoundary(area: AreaDefinition): Promise<BoundaryRing[]> {
