@@ -20,9 +20,7 @@ const props = defineProps<{
 
 const { language, t } = useI18n()
 
-const description = computed(() =>
-  localizeText(props.wikidataDescription, '', language.value),
-)
+const description = computed(() => localizeText(props.wikidataDescription, '', language.value))
 
 const identifiers = computed(() =>
   props.externalIdentifiers.filter(
@@ -82,11 +80,7 @@ function identifierLabel(identifier: ExternalIdentifier): string {
       <div v-if="wikidataId">
         <dt>{{ t('wikidata') }}</dt>
         <dd>
-          <a
-            :href="`https://www.wikidata.org/wiki/${wikidataId}`"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a :href="`https://www.wikidata.org/wiki/${wikidataId}`" target="_blank" rel="noreferrer">
             {{ wikidataId }}
           </a>
         </dd>
