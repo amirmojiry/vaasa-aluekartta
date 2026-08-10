@@ -3,4 +3,5 @@ coverage
 node_modules
 src/styles/main.css
 public/data/*.geojson
+public/data/area-statistics.json
 public/tools/osm-hierarchy-demo/index.html
