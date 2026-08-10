@@ -80,10 +80,7 @@ function loadPienalueCollection(): Promise<BoundaryFeatureCollection> {
   return pienaluePromise
 }
 
-function localizedNames(
-  properties: BoundaryProperties,
-  parent = false,
-): LocalizedAreaNames {
+function localizedNames(properties: BoundaryProperties, parent = false): LocalizedAreaNames {
   if (parent) {
     return {
       fi: properties.parent_name_fi ?? properties.parent_name ?? properties.name,
