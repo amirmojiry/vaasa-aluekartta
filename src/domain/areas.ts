@@ -37,9 +37,7 @@ export interface OverpassRelationElement {
 }
 
 export type OverpassBoundaryElement =
-  | OverpassWayElement
-  | OverpassRelationElement
-  | { type: string; id: number }
+  OverpassWayElement | OverpassRelationElement | { type: string; id: number }
 
 export interface OverpassBoundaryResponse {
   elements: OverpassBoundaryElement[]
