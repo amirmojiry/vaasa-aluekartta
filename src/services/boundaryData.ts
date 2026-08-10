@@ -123,7 +123,9 @@ function featureToPienalueBoundary(feature: BoundaryFeature): PienalueBoundary |
   }
 }
 
-export async function fetchPienalueBoundaries(areas: AreaDefinition[]): Promise<PienalueBoundary[]> {
+export async function fetchPienalueBoundaries(
+  areas: AreaDefinition[],
+): Promise<PienalueBoundary[]> {
   void areas
   const collection = await loadPienalueCollection()
   return collection.features
