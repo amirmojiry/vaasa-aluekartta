@@ -4,12 +4,12 @@ import L, { type Map, type Polygon } from 'leaflet'
 
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import type { AreaDefinition } from '@/domain/areas'
-import { fetchAreaBoundary } from '@/services/osmBoundary'
+import { fetchAreaBoundary } from '@/services/boundaryData'
 
 const props = defineProps<{ area: AreaDefinition }>()
 
 const mapElement = ref<HTMLElement | null>(null)
-const loadingMessage = ref('Loading boundary from OpenStreetMap…')
+const loadingMessage = ref('Loading boundary from local GeoJSON…')
 const homeHref = import.meta.env.BASE_URL
 let map: Map | null = null
 let polygon: Polygon | null = null
@@ -33,7 +33,7 @@ onMounted(async () => {
 
     const bounds = polygon.getBounds()
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
-    loadingMessage.value = 'Live OSM boundary loaded.'
+    loadingMessage.value = 'Local GeoJSON boundary loaded.'
   } catch (error) {
     loadingMessage.value =
       error instanceof Error
@@ -58,8 +58,8 @@ onBeforeUnmount(() => {
         <p class="eyebrow">Suuralue {{ area.ref }}</p>
         <h1>{{ area.name }}</h1>
         <p>
-          This page renders the administrative boundary directly from the OpenStreetMap way members
-          listed in relation {{ area.relationId }}.
+          This page renders a locally hosted GeoJSON snapshot generated from OpenStreetMap relation
+          {{ area.relationId }}.
         </p>
       </div>
     </header>
@@ -112,6 +112,10 @@ onBeforeUnmount(() => {
           <div>
             <dt>Pienalue relations</dt>
             <dd>{{ area.subareaRelationIds.length }}</dd>
+          </div>
+          <div>
+            <dt>Boundary delivery</dt>
+            <dd>Local GeoJSON snapshot served by this site</dd>
           </div>
           <div>
             <dt>Source</dt>

@@ -2,5 +2,6 @@ dist
 coverage
 node_modules
 src/styles/main.css
+public/data/*.geojson
 public/tools/georeference-major-districts/index.html
 public/tools/osm-hierarchy-demo/index.html

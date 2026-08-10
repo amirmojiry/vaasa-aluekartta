@@ -4,7 +4,7 @@ An interactive web map for exploring Vaasa's **suuralueet** and **pienalueet**.
 
 Users can browse administrative/statistical areas on an OpenStreetMap-based map, select an area, and view structured information about it. The application is designed as a static, privacy-friendly website that can be hosted on GitHub Pages.
 
-> Project status: Milestone 2 in progress. Licensed boundary reference layers are available; authoritative selectable GeoJSON remains pending.
+> Project status: Milestone 2 in progress. OSM-derived static GeoJSON covers all 12 suuralueet and 55 of the expected 60 pienalueet. The five Vähäkyrö pienalue boundaries remain unresolved, and municipality-authorized raw boundary geometry is still pending.
 
 ## Goals
 
@@ -48,64 +48,31 @@ The first usable version should include:
 
 The project should remain a client-side static application unless a backend becomes demonstrably necessary.
 
-## Suggested Project Structure
+## Project Structure
 
 ```text
 .
 ├── public/
 │   └── data/
-│       ├── suuralueet.geojson
-│       ├── pienalueet.geojson
-│       └── areas.json
+│       ├── vaasa-suuralueet.geojson
+│       ├── vaasa-pienalueet.geojson
+│       └── boundary-metadata.json
+├── scripts/
+│   └── update-osm-boundaries.mjs
 ├── src/
 │   ├── components/
 │   │   ├── map/
-│   │   └── area-details/
-│   ├── composables/
+│   │   └── areas/
 │   ├── domain/
 │   ├── services/
-│   ├── stores/
 │   ├── styles/
 │   ├── App.vue
 │   └── main.ts
-├── tests/
 ├── AGENTS.md
 └── README.md
 ```
 
-This structure is a starting point. Keep map rendering, area-domain logic, and content/data loading separated.
-
-## Data Model
-
-Boundary geometry and descriptive content should be kept separate when practical.
-
-Example area record:
-
-```json
-{
-  "id": "example-area-id",
-  "level": "pienalue",
-  "name": {
-    "fi": "Example",
-    "sv": "Exempel",
-    "en": "Example"
-  },
-  "parentId": "example-suuralue-id",
-  "description": {
-    "fi": "",
-    "sv": "",
-    "en": ""
-  },
-  "statistics": {
-    "population": null,
-    "referenceYear": null
-  },
-  "sources": [],
-  "updatedAt": null
-}
-```
-
-Stable IDs must not depend on translated display names.
+Map rendering, area-domain logic, and boundary-data loading are kept separate.
 
 ## Data Sources and Integrity
 
@@ -122,7 +89,27 @@ For every imported dataset:
 
 Generated or transformed files should be reproducible through scripts rather than manual editing whenever possible.
 
-Current boundary-source research and limitations are documented in [docs/data-sources.md](./docs/data-sources.md). The selectable suuralue/pienalue views currently use licensed cartographic reference overlays, not official raw municipal GeoJSON.
+Current boundary-source research and limitations are documented in [docs/data-sources.md](./docs/data-sources.md). The deployed selectable layers are generated from OpenStreetMap administrative relations and served as static GeoJSON by GitHub Pages. They are OSM/ODbL-derived snapshots and are not represented as municipality-authorized raw GeoJSON.
+
+The current OSM hierarchy supplies all 12 `admin_level=9` suuralue relations and 55 `admin_level=10` pienalue relations. No `admin_level=10` child relations are currently configured under Vähäkyrö in this hierarchy, so five expected Vähäkyrö pienalue boundaries are deliberately left unresolved rather than inferred or invented.
+
+## Boundary Snapshot Model
+
+Visitors do **not** query Overpass or the OSM editing API for boundary geometry. During deployment, `scripts/update-osm-boundaries.mjs` fetches the known relation IDs from the OpenStreetMap API, assembles their outer ways, validates the expected current coverage, and writes:
+
+```text
+public/data/vaasa-suuralueet.geojson
+public/data/vaasa-pienalueet.geojson
+public/data/boundary-metadata.json
+```
+
+Vite copies these generated files into the GitHub Pages build. The browser then fetches them from the same site as ordinary static assets.
+
+Current validation targets:
+
+- 12/12 suuralue polygons;
+- 55/60 pienalue polygons available from the configured OSM hierarchy;
+- 5 Vähäkyrö pienalue polygons unresolved.
 
 ## OpenStreetMap Attribution
 
@@ -132,10 +119,15 @@ Do not remove or obscure map attribution controls.
 
 ## Local Development
 
+Generate a fresh local boundary snapshot before starting the app:
+
 ```bash
 npm install
+npm run data:update
 npm run dev
 ```
+
+`npm run data:update` contacts the OpenStreetMap API during generation. Normal page loads then read the generated static files and do not contact a boundary API.
 
 Before submitting changes:
 
@@ -155,9 +147,11 @@ The production build works below the repository path:
 https://amirmojiry.github.io/vaasa-aluekartta/
 ```
 
-Vite's base path, asset URLs, router behavior, and deep-link strategy must all account for this subdirectory deployment.
+Vite's base path, asset URLs, and URL-based area detail views account for this subdirectory deployment.
 
-Deployment is handled by a GitHub Actions workflow that builds the application and publishes the generated static assets to GitHub Pages.
+Deployment is handled by GitHub Actions. The workflow regenerates the OSM-derived GeoJSON snapshot once, builds the application, and publishes the static assets to GitHub Pages. Visitors only download the generated files from GitHub Pages.
+
+Running **Deploy GitHub Pages → Run workflow** manually also refreshes the boundary snapshot.
 
 ## Accessibility
 
@@ -178,7 +172,7 @@ Required principles:
 - Simplify geometry for web display while preserving useful boundary accuracy.
 - Avoid unnecessary reactive copies of large GeoJSON objects.
 - Keep the first load small enough for normal mobile connections.
-- Cache versioned static data where appropriate.
+- Cache static data where appropriate.
 
 ## Roadmap
 
@@ -193,10 +187,12 @@ Required principles:
 
 - [x] Identify and document boundary authorities, licensed references, and redistribution limitations.
 - [x] Add selectable suuralue and pienalue cartographic reference layers with attribution.
-- [x] Add typed hierarchy metadata and automated 12/60 count validation.
+- [x] Add typed hierarchy metadata and automated 12/60 target-count validation.
+- [x] Generate reproducible OSM-derived GeoJSON for all 12 suuralueet and the 55 currently available pienalueet.
+- [x] Render the available OSM polygons as individually selectable areas with verified parent hierarchy.
+- [ ] Resolve the five missing Vähäkyrö pienalue geometries from a suitable source.
 - [ ] Acquire municipality-authorized georeferenced boundary geometry.
-- [ ] Add validated suuralue and pienalue GeoJSON.
-- [ ] Render individually selectable polygons with verified parent hierarchy.
+- [ ] Validate the OSM-derived geometry against a municipality-authorized source before treating it as official municipal boundary data.
 
 Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.com/amirmojiry/vaasa-aluekartta/issues/2).
 
@@ -218,17 +214,3 @@ Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.c
 - [ ] Add browser tests for core journeys.
 - [ ] Audit performance and map-data size.
 - [ ] Publish the first stable GitHub Pages release.
-
-## Contributing
-
-1. Read [AGENTS.md](./AGENTS.md) before making implementation changes.
-2. Keep changes focused and independently testable.
-3. Document new datasets and external dependencies.
-4. Include tests for domain logic and important user interactions.
-5. Verify the production build with the GitHub Pages base path.
-
-## Licence
-
-A project licence has not yet been selected.
-
-Before redistributing boundary data or other external datasets, verify and document their individual licences. The application source-code licence and dataset licences may differ.

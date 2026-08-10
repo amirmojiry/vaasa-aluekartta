@@ -5,12 +5,12 @@ import L, { type Map, type Polygon } from 'leaflet'
 import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import type { PienalueBoundary } from '@/domain/areas'
-import { fetchPienalueBoundary } from '@/services/osmBoundary'
+import { fetchPienalueBoundary } from '@/services/boundaryData'
 
 const props = defineProps<{ relationId: number }>()
 
 const mapElement = ref<HTMLElement | null>(null)
-const loadingMessage = ref('Loading pienalue boundary from OpenStreetMap…')
+const loadingMessage = ref('Loading pienalue boundary from local GeoJSON…')
 const boundary = ref<PienalueBoundary | null>(null)
 const homeHref = import.meta.env.BASE_URL
 let map: Map | null = null
@@ -43,7 +43,7 @@ onMounted(async () => {
 
     const bounds = polygon.getBounds()
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
-    loadingMessage.value = 'Live OSM pienalue boundary loaded.'
+    loadingMessage.value = 'Local GeoJSON pienalue boundary loaded.'
   } catch (error) {
     loadingMessage.value =
       error instanceof Error
@@ -68,8 +68,8 @@ onBeforeUnmount(() => {
         <p class="eyebrow">Pienalue {{ boundary?.ref || relationId }}</p>
         <h1>{{ title }}</h1>
         <p>
-          This page renders the minor statistical district directly from OpenStreetMap relation
-          {{ relationId }} and its outer way members.
+          This page renders a locally hosted GeoJSON snapshot generated from OpenStreetMap relation
+          {{ relationId }}.
         </p>
       </div>
     </header>
@@ -129,8 +129,12 @@ onBeforeUnmount(() => {
             <dd>{{ boundary?.outerWayIds.length ?? 'Loading…' }}</dd>
           </div>
           <div>
+            <dt>Boundary delivery</dt>
+            <dd>Local GeoJSON snapshot served by this site</dd>
+          </div>
+          <div>
             <dt>Source</dt>
-            <dd>{{ boundary?.source ?? 'Loading OpenStreetMap metadata…' }}</dd>
+            <dd>{{ boundary?.source ?? 'Loading snapshot metadata…' }}</dd>
           </div>
         </dl>
       </aside>
