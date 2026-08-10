@@ -2,8 +2,11 @@ import type {
   AreaDefinition,
   BoundaryCoordinate,
   BoundaryRing,
+  OverpassBoundaryElement,
+  OverpassBoundaryResponse,
+  OverpassRelationElement,
   OverpassWayElement,
-  OverpassWaysResponse,
+  PienalueBoundary,
 } from '@/domain/areas'
 
 const OVERPASS_ENDPOINTS = [
@@ -72,11 +75,60 @@ export function stitchWaysIntoRings(ways: OverpassWayElement[]): BoundaryRing[] 
   return rings
 }
 
+function isWayElement(element: OverpassBoundaryElement): element is OverpassWayElement {
+  return element.type === 'way' && 'nodes' in element
+}
+
+function isRelationElement(element: OverpassBoundaryElement): element is OverpassRelationElement {
+  return element.type === 'relation' && 'members' in element
+}
+
 function buildWayQuery(wayIds: number[]): string {
   return `[out:json][timeout:45];\nway(id:${wayIds.join(',')});\nout body geom;`
 }
 
-async function fetchOverpass(query: string): Promise<OverpassWaysResponse> {
+export function buildPienalueQuery(areas: AreaDefinition[]): string {
+  const knownRelationIds = areas.flatMap((area) => area.subareaRelationIds)
+  const vahakyro = areas.find((area) => area.slug === 'vahakyro')
+  const lines = ['[out:json][timeout:60];']
+
+  if (knownRelationIds.length > 0) {
+    lines.push(`rel(id:${knownRelationIds.join(',')})->.known;`)
+  }
+
+  if (vahakyro) {
+    lines.push(`rel(${vahakyro.relationId});`)
+    lines.push('map_to_area->.vahakyroArea;')
+    lines.push(
+      'rel(area.vahakyroArea)["boundary"="administrative"]["admin_level"="10"]->.vahakyroChildren;',
+    )
+  }
+
+  if (knownRelationIds.length > 0 && vahakyro) {
+    lines.push('(.known;.vahakyroChildren;)->.children;')
+  } else if (knownRelationIds.length > 0) {
+    lines.push('.known->.children;')
+  } else {
+    lines.push('.vahakyroChildren->.children;')
+  }
+
+  lines.push('.children out body;')
+  lines.push('way(r.children:"outer");')
+  lines.push('out body geom;')
+  return lines.join('\n')
+}
+
+function buildSinglePienalueQuery(relationId: number): string {
+  return [
+    '[out:json][timeout:45];',
+    `rel(${relationId})->.children;`,
+    '.children out body;',
+    'way(r.children:"outer");',
+    'out body geom;',
+  ].join('\n')
+}
+
+async function fetchOverpass(query: string): Promise<OverpassBoundaryResponse> {
   let lastError: unknown
 
   for (const endpoint of OVERPASS_ENDPOINTS) {
@@ -88,7 +140,7 @@ async function fetchOverpass(query: string): Promise<OverpassWaysResponse> {
       })
 
       if (!response.ok) throw new Error(`Overpass returned HTTP ${response.status}`)
-      return (await response.json()) as OverpassWaysResponse
+      return (await response.json()) as OverpassBoundaryResponse
     } catch (error) {
       lastError = error
     }
@@ -99,13 +151,11 @@ async function fetchOverpass(query: string): Promise<OverpassWaysResponse> {
     : new Error('Could not load boundary data from Overpass')
 }
 
-function collectWays(response: OverpassWaysResponse): Map<number, OverpassWayElement> {
+function collectWays(response: OverpassBoundaryResponse): Map<number, OverpassWayElement> {
   const ways = new Map<number, OverpassWayElement>()
 
   for (const element of response.elements) {
-    if (element.type === 'way' && 'nodes' in element) {
-      ways.set(element.id, element)
-    }
+    if (isWayElement(element)) ways.set(element.id, element)
   }
 
   return ways
@@ -140,4 +190,83 @@ export async function fetchAreaBoundary(area: AreaDefinition): Promise<BoundaryR
   }
 
   return rings
+}
+
+export function parsePienalueResponse(
+  response: OverpassBoundaryResponse,
+  areas: AreaDefinition[],
+): PienalueBoundary[] {
+  const waysById = collectWays(response)
+  const parentByRelationId = new Map<number, AreaDefinition>()
+
+  for (const area of areas) {
+    for (const relationId of area.subareaRelationIds) {
+      parentByRelationId.set(relationId, area)
+    }
+  }
+
+  const vahakyro = areas.find((area) => area.slug === 'vahakyro')
+  const boundaries: PienalueBoundary[] = []
+
+  for (const element of response.elements) {
+    if (!isRelationElement(element)) continue
+    if (element.tags?.boundary !== 'administrative' || element.tags?.admin_level !== '10') continue
+
+    const parent = parentByRelationId.get(element.id) ?? vahakyro
+    if (!parent) continue
+
+    const outerWayIds = element.members
+      .filter((member) => member.type === 'way' && member.role === 'outer')
+      .map((member) => member.ref)
+    const outerWays = outerWayIds
+      .map((wayId) => waysById.get(wayId))
+      .filter((way): way is OverpassWayElement => way !== undefined)
+    const rings = stitchWaysIntoRings(outerWays)
+
+    if (rings.length === 0) continue
+
+    boundaries.push({
+      relationId: element.id,
+      name: element.tags.name ?? `OSM relation ${element.id}`,
+      ref: element.tags.ref ?? '',
+      parentSlug: parent.slug,
+      parentName: parent.name,
+      parentRef: parent.ref,
+      outerWayIds,
+      rings,
+      source: element.tags.source
+        ? `OpenStreetMap relation ${element.id}; source tag: ${element.tags.source}`
+        : `OpenStreetMap relation ${element.id}`,
+    })
+  }
+
+  return boundaries.sort((a, b) => {
+    const parentOrder = a.parentRef.localeCompare(b.parentRef, undefined, { numeric: true })
+    if (parentOrder !== 0) return parentOrder
+    const refOrder = a.ref.localeCompare(b.ref, undefined, { numeric: true })
+    if (refOrder !== 0) return refOrder
+    return a.name.localeCompare(b.name)
+  })
+}
+
+export async function fetchPienalueBoundaries(
+  areas: AreaDefinition[],
+): Promise<PienalueBoundary[]> {
+  const response = await fetchOverpass(buildPienalueQuery(areas))
+  return parsePienalueResponse(response, areas)
+}
+
+export async function fetchPienalueBoundary(
+  relationId: number,
+  areas: AreaDefinition[],
+): Promise<PienalueBoundary> {
+  const response = await fetchOverpass(buildSinglePienalueQuery(relationId))
+  const boundaries = parsePienalueResponse(response, areas)
+  const boundary = boundaries.find((item) => item.relationId === relationId)
+
+  if (!boundary) {
+    throw new Error(`Could not assemble pienalue relation ${relationId}`)
+  }
+
+  return boundary
 }

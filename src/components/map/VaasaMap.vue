@@ -1,41 +1,50 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import L, { type FeatureGroup, type ImageOverlay, type Map as LeafletMap } from 'leaflet'
+import L, { type FeatureGroup, type Map as LeafletMap } from 'leaflet'
 
 import { AREAS } from '@/config/areas'
-import { BOUNDARY_LAYERS, VAASA_BOUNDARY_BOUNDS } from '@/config/boundaries'
+import { BOUNDARY_LAYERS } from '@/config/boundaries'
 import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
-import type { BoundaryRing } from '@/domain/areas'
+import type { BoundaryRing, PienalueBoundary } from '@/domain/areas'
 import type { BoundaryLevel } from '@/domain/boundaries'
-import { fetchAreaBoundaries } from '@/services/osmBoundary'
+import { fetchAreaBoundaries, fetchPienalueBoundaries } from '@/services/osmBoundary'
 
 const mapElement = ref<HTMLElement | null>(null)
 const selectedLevel = ref<BoundaryLevel>('suuralue')
 const mappedAreaCount = ref(0)
 const boundaryState = ref('Loading Vaasa suuralueet…')
 let map: LeafletMap | null = null
-let boundaryOverlay: ImageOverlay | null = null
 let areaGroup: FeatureGroup | null = null
-let cachedBoundaries: Map<string, BoundaryRing[]> | null = null
+let cachedSuuralueBoundaries: Map<string, BoundaryRing[]> | null = null
+let cachedPienalueBoundaries: PienalueBoundary[] | null = null
 let renderToken = 0
 
 const selectedLayer = computed(
   () => BOUNDARY_LAYERS.find((layer) => layer.id === selectedLevel.value) ?? BOUNDARY_LAYERS[0],
 )
 
-const mapStatus = computed(() => {
-  if (selectedLevel.value === 'suuralue') return `${mappedAreaCount.value}/12 mapped`
-  return `${selectedLayer.value?.areaCount ?? 0} areas`
-})
+const mapStatus = computed(
+  () => `${mappedAreaCount.value}/${selectedLayer.value?.areaCount ?? 0} mapped`,
+)
 
 function clearBoundaryLayers(): void {
-  boundaryOverlay?.remove()
-  boundaryOverlay = null
   areaGroup?.clearLayers()
 }
 
 function openArea(slug: string): void {
   window.location.href = `${import.meta.env.BASE_URL}?area=${encodeURIComponent(slug)}`
+}
+
+function openPienalue(relationId: number): void {
+  window.location.href = `${import.meta.env.BASE_URL}?pienalue=${relationId}`
+}
+
+function fitRenderedBounds(): void {
+  if (!map || !areaGroup) return
+  const bounds = areaGroup.getBounds()
+  if (mappedAreaCount.value > 0 && bounds.isValid()) {
+    map.fitBounds(bounds, { padding: [20, 20] })
+  }
 }
 
 async function renderSuuralueBoundaries(token: number): Promise<void> {
@@ -45,13 +54,13 @@ async function renderSuuralueBoundaries(token: number): Promise<void> {
   boundaryState.value = 'Loading 12 suuralue boundaries from OpenStreetMap…'
 
   try {
-    cachedBoundaries ??= await fetchAreaBoundaries(AREAS)
+    cachedSuuralueBoundaries ??= await fetchAreaBoundaries(AREAS)
     if (token !== renderToken || selectedLevel.value !== 'suuralue') return
 
     let rendered = 0
 
     for (const area of AREAS) {
-      const rings = cachedBoundaries.get(area.slug)
+      const rings = cachedSuuralueBoundaries.get(area.slug)
       if (!rings) continue
 
       const polygon = L.polygon(rings, {
@@ -71,12 +80,7 @@ async function renderSuuralueBoundaries(token: number): Promise<void> {
     }
 
     mappedAreaCount.value = rendered
-
-    const bounds = areaGroup.getBounds()
-    if (rendered > 0 && bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [20, 20] })
-    }
-
+    fitRenderedBounds()
     boundaryState.value =
       rendered === AREAS.length
         ? 'All 12 suuralue boundaries loaded. Click any polygon to open its page.'
@@ -90,16 +94,51 @@ async function renderSuuralueBoundaries(token: number): Promise<void> {
   }
 }
 
-function renderPienalueReference(): void {
-  if (!map || !selectedLayer.value) return
+async function renderPienalueBoundaries(token: number): Promise<void> {
+  if (!map || !areaGroup) return
 
-  boundaryOverlay = L.imageOverlay(selectedLayer.value.imageUrl, VAASA_BOUNDARY_BOUNDS, {
-    opacity: 0.72,
-    alt: `${selectedLayer.value.label} boundary reference map`,
-    interactive: false,
-    crossOrigin: true,
-  }).addTo(map)
-  boundaryState.value = 'Reference artwork; vector pienalue boundaries have not been added yet.'
+  mappedAreaCount.value = 0
+  boundaryState.value = 'Loading Vaasa pienalue boundaries from OpenStreetMap…'
+
+  try {
+    cachedPienalueBoundaries ??= await fetchPienalueBoundaries(AREAS)
+    if (token !== renderToken || selectedLevel.value !== 'pienalue') return
+
+    let rendered = 0
+
+    for (const area of cachedPienalueBoundaries) {
+      const polygon = L.polygon(area.rings, {
+        color: '#17645d',
+        weight: 2,
+        opacity: 0.95,
+        fillColor: '#17645d',
+        fillOpacity: 0.12,
+        interactive: true,
+      }).addTo(areaGroup)
+
+      const reference = area.ref ? `${area.ref} · ` : ''
+      polygon.bindTooltip(`${reference}${area.name} · ${area.parentName} · click for details`, {
+        sticky: true,
+      })
+      polygon.on('click', () => openPienalue(area.relationId))
+      polygon.on('mouseover', () => polygon.setStyle({ weight: 4, fillOpacity: 0.3 }))
+      polygon.on('mouseout', () => polygon.setStyle({ weight: 2, fillOpacity: 0.12 }))
+      rendered += 1
+    }
+
+    mappedAreaCount.value = rendered
+    fitRenderedBounds()
+    boundaryState.value =
+      rendered === 60
+        ? 'All 60 pienalue boundaries loaded. Click any polygon to open its page.'
+        : `Loaded ${rendered} of 60 pienalue boundaries from OSM.`
+  } catch (error) {
+    if (token !== renderToken) return
+    boundaryState.value =
+      error instanceof Error
+        ? `Could not load pienalue boundaries: ${error.message}`
+        : 'Could not load pienalue boundaries.'
+  }
 }
 
 async function renderBoundaryLayer(): Promise<void> {
@@ -114,8 +153,7 @@ async function renderBoundaryLayer(): Promise<void> {
     return
   }
 
-  mappedAreaCount.value = 0
-  renderPienalueReference()
+  await renderPienalueBoundaries(token)
 }
 
 function selectLevel(level: BoundaryLevel): void {
@@ -191,11 +229,8 @@ onBeforeUnmount(() => {
       <template v-else>
         <p>{{ boundaryState }}</p>
         <p>
-          Boundary artwork by
-          <a :href="selectedLayer?.sourcePageUrl" target="_blank" rel="noreferrer">
-            {{ selectedLayer?.author }} / Wikimedia Commons
-          </a>
-          ({{ selectedLayer?.licence }}).
+          Known child relations are loaded directly from the 11 suuralue relations. Vähäkyrö's
+          admin_level=10 relations are resolved spatially inside its OSM boundary.
         </p>
       </template>
     </div>
