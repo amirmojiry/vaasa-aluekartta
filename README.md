@@ -4,7 +4,7 @@ An interactive web map for exploring Vaasa's **suuralueet** and **pienalueet**.
 
 Users can browse administrative/statistical areas on an OpenStreetMap-based map, select an area, and view structured information about it. The application is designed as a static, privacy-friendly website that can be hosted on GitHub Pages.
 
-> Project status: Milestone 2 in progress. Licensed boundary reference layers are available; authoritative selectable GeoJSON remains pending.
+> Project status: Milestone 2 in progress. Selectable OSM-derived GeoJSON snapshots are generated for the site; municipality-authorized raw boundary geometry remains pending.
 
 ## Goals
 
@@ -54,9 +54,11 @@ The project should remain a client-side static application unless a backend beco
 .
 ├── public/
 │   └── data/
-│       ├── suuralueet.geojson
-│       ├── pienalueet.geojson
-│       └── areas.json
+│       ├── vaasa-suuralueet.geojson
+│       ├── vaasa-pienalueet.geojson
+│       └── boundary-metadata.json
+├── scripts/
+│   └── update-osm-boundaries.mjs
 ├── src/
 │   ├── components/
 │   │   ├── map/
@@ -122,7 +124,7 @@ For every imported dataset:
 
 Generated or transformed files should be reproducible through scripts rather than manual editing whenever possible.
 
-Current boundary-source research and limitations are documented in [docs/data-sources.md](./docs/data-sources.md). The selectable suuralue/pienalue views currently use licensed cartographic reference overlays, not official raw municipal GeoJSON.
+Current boundary-source research and limitations are documented in [docs/data-sources.md](./docs/data-sources.md). The deployed selectable layers are generated from OpenStreetMap administrative relations. They are local static GeoJSON snapshots at runtime, but they are not represented as municipality-authorized raw GeoJSON.
 
 ## OpenStreetMap Attribution
 
@@ -132,10 +134,15 @@ Do not remove or obscure map attribution controls.
 
 ## Local Development
 
+Generate a fresh local boundary snapshot before starting the app:
+
 ```bash
 npm install
+npm run data:update
 npm run dev
 ```
+
+`npm run data:update` contacts Overpass once and writes the generated files under `public/data/`. Normal page loads then read those static local files and do not contact Overpass.
 
 Before submitting changes:
 
@@ -157,7 +164,9 @@ https://amirmojiry.github.io/vaasa-aluekartta/
 
 Vite's base path, asset URLs, router behavior, and deep-link strategy must all account for this subdirectory deployment.
 
-Deployment is handled by a GitHub Actions workflow that builds the application and publishes the generated static assets to GitHub Pages.
+Deployment is handled by a GitHub Actions workflow. The workflow regenerates the OSM-derived GeoJSON snapshot once, builds the application, and publishes the static assets to GitHub Pages. Visitors only download the generated files from GitHub Pages; they do not query Overpass.
+
+Running **Deploy GitHub Pages → Run workflow** manually also refreshes the boundary snapshot.
 
 ## Accessibility
 
@@ -194,9 +203,10 @@ Required principles:
 - [x] Identify and document boundary authorities, licensed references, and redistribution limitations.
 - [x] Add selectable suuralue and pienalue cartographic reference layers with attribution.
 - [x] Add typed hierarchy metadata and automated 12/60 count validation.
+- [x] Generate reproducible OSM-derived suuralue and pienalue GeoJSON snapshots for the deployed site.
+- [x] Render individually selectable polygons with the OSM parent hierarchy.
 - [ ] Acquire municipality-authorized georeferenced boundary geometry.
-- [ ] Add validated suuralue and pienalue GeoJSON.
-- [ ] Render individually selectable polygons with verified parent hierarchy.
+- [ ] Validate the OSM-derived geometry against a municipality-authorized source before treating it as official municipal boundary data.
 
 Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.com/amirmojiry/vaasa-aluekartta/issues/2).
 
@@ -218,17 +228,3 @@ Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.c
 - [ ] Add browser tests for core journeys.
 - [ ] Audit performance and map-data size.
 - [ ] Publish the first stable GitHub Pages release.
-
-## Contributing
-
-1. Read [AGENTS.md](./AGENTS.md) before making implementation changes.
-2. Keep changes focused and independently testable.
-3. Document new datasets and external dependencies.
-4. Include tests for domain logic and important user interactions.
-5. Verify the production build with the GitHub Pages base path.
-
-## Licence
-
-A project licence has not yet been selected.
-
-Before redistributing boundary data or other external datasets, verify and document their individual licences. The application source-code licence and dataset licences may differ.
