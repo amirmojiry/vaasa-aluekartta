@@ -36,7 +36,6 @@ function identifierLabel(identifier: ExternalIdentifier): string {
 
 <template>
   <section class="technical-panel" :aria-labelledby="`technical-${relationId}`">
-    <p class="eyebrow">{{ t('technicalInfo') }}</p>
     <h2 :id="`technical-${relationId}`">{{ t('technicalInfo') }}</h2>
 
     <div v-if="description" class="technical-description">
