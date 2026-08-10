@@ -82,13 +82,20 @@ function loadPienalueCollection(): Promise<BoundaryFeatureCollection> {
 
 function localizedNames(
   properties: BoundaryProperties,
-  prefix: '' | 'parent_' = '',
+  parent = false,
 ): LocalizedAreaNames {
-  const fallback = prefix ? properties.parent_name : properties.name
+  if (parent) {
+    return {
+      fi: properties.parent_name_fi ?? properties.parent_name ?? properties.name,
+      en: properties.parent_name_en ?? null,
+      fa: properties.parent_name_fa ?? null,
+    }
+  }
+
   return {
-    fi: properties[`${prefix}name_fi`] ?? fallback ?? properties.name,
-    en: properties[`${prefix}name_en`] ?? null,
-    fa: properties[`${prefix}name_fa`] ?? null,
+    fi: properties.name_fi ?? properties.name,
+    en: properties.name_en ?? null,
+    fa: properties.name_fa ?? null,
   }
 }
 
@@ -185,7 +192,7 @@ function featureToPienalueBoundary(feature: BoundaryFeature): PienalueBoundary |
     wikipedia: wikipediaLinks(properties),
     parentSlug: properties.parent_slug,
     parentName: properties.parent_name,
-    parentNames: localizedNames(properties, 'parent_'),
+    parentNames: localizedNames(properties, true),
     parentRef: properties.parent_ref,
     outerWayIds: properties.outer_way_ids,
     rings,
