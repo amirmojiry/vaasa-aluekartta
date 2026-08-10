@@ -66,7 +66,9 @@ onMounted(async () => {
     loadingMessage.value = t('localMinorGeojsonLoaded')
   } catch (error) {
     loadingMessage.value =
-      error instanceof Error ? `${t('boundaryLoadingFailed')}: ${error.message}` : t('boundaryLoadingFailed')
+      error instanceof Error
+        ? `${t('boundaryLoadingFailed')}: ${error.message}`
+        : t('boundaryLoadingFailed')
   }
 })
 
@@ -183,7 +185,9 @@ onBeforeUnmount(() => {
               >
                 {{ t('persianWikipedia') }}
               </a>
-              <span v-if="!boundary?.wikipedia.fi && !boundary?.wikipedia.fa">{{ t('noWikipedia') }}</span>
+              <span v-if="!boundary?.wikipedia.fi && !boundary?.wikipedia.fa">{{
+                t('noWikipedia')
+              }}</span>
             </dd>
           </div>
         </dl>
