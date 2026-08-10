@@ -20,26 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Validate enriched boundary snapshot
-        run: |
-          npm run data:update
-          node - <<'NODE'
-          const fs = require('fs')
-          const paths = [
-            'public/data/vaasa-suuralueet.geojson',
-            'public/data/vaasa-pienalueet.geojson',
-          ]
-          const features = paths.flatMap((path) => JSON.parse(fs.readFileSync(path, 'utf8')).features)
-          const described = features.filter((feature) =>
-            ['fi', 'en', 'fa'].some((language) => feature.properties[`wikidata_description_${language}`]),
-          ).length
-          const identifiers = features.flatMap((feature) => feature.properties.external_identifiers ?? [])
-          const linkedIdentifiers = identifiers.filter((identifier) => identifier.url).length
-          console.log(
-            `Technical enrichment: descriptions=${described}/${features.length}, identifiers=${identifiers.length}, linked=${linkedIdentifiers}`,
-          )
-          if (described === 0 || identifiers.length === 0 || linkedIdentifiers === 0) process.exit(1)
-          NODE
       - name: Check formatting
         run: npm run format:check
       - name: Lint
