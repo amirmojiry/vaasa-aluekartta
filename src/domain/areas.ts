@@ -23,8 +23,38 @@ export interface OverpassWayElement {
   geometry?: BoundaryCoordinate[]
 }
 
-export interface OverpassWaysResponse {
-  elements: Array<OverpassWayElement | { type: string; id: number }>
+export interface OverpassRelationMember {
+  type: 'node' | 'way' | 'relation'
+  ref: number
+  role: string
+}
+
+export interface OverpassRelationElement {
+  type: 'relation'
+  id: number
+  members: OverpassRelationMember[]
+  tags?: Record<string, string>
+}
+
+export type OverpassBoundaryElement =
+  | OverpassWayElement
+  | OverpassRelationElement
+  | { type: string; id: number }
+
+export interface OverpassBoundaryResponse {
+  elements: OverpassBoundaryElement[]
 }
 
 export type BoundaryRing = Array<[number, number]>
+
+export interface PienalueBoundary {
+  relationId: number
+  name: string
+  ref: string
+  parentSlug: string
+  parentName: string
+  parentRef: string
+  outerWayIds: number[]
+  rings: BoundaryRing[]
+  source: string
+}
