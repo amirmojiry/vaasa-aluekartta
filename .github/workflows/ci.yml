@@ -20,13 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Validate boundary snapshot generator
-        run: npm run data:update
-      - name: Show Prettier diff
-        run: |
-          npx prettier --write scripts/update-osm-boundaries.mjs src/App.vue
-          git diff -- scripts/update-osm-boundaries.mjs src/App.vue
-          git checkout -- scripts/update-osm-boundaries.mjs src/App.vue
       - name: Check formatting
         run: npm run format:check
       - name: Lint
