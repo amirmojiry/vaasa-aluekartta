@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import MetricAnalysisPage from '@/components/analysis/MetricAnalysisPage.vue'
+import PartyAnalysisPage from '@/components/analysis/PartyAnalysisPage.vue'
 import AreaDetail from '@/components/areas/AreaDetail.vue'
 import CityStatistics from '@/components/areas/CityStatistics.vue'
 import CityStatisticsSummary from '@/components/areas/CityStatisticsSummary.vue'
@@ -9,8 +11,12 @@ import SiteFooter from '@/components/SiteFooter.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
 import { AREA_BY_SLUG } from '@/config/areas'
 import { useI18n } from '@/i18n'
+import { isAnalysisMetric } from '@/services/analysisMetrics'
 
 const searchParams = new URLSearchParams(window.location.search)
+const partyCode = searchParams.get('party')?.trim().toUpperCase() || null
+const metricParam = searchParams.get('metric')
+const analysisMetric = isAnalysisMetric(metricParam) ? metricParam : null
 const areaSlug = searchParams.get('area')
 const selectedArea = areaSlug ? (AREA_BY_SLUG.get(areaSlug) ?? null) : null
 const pienalueParam = searchParams.get('pienalue')
@@ -21,7 +27,9 @@ const homeHref = buildUrl()
 </script>
 
 <template>
-  <PienalueDetail v-if="pienalueRelationId" :relation-id="pienalueRelationId" />
+  <PartyAnalysisPage v-if="partyCode" :party-code="partyCode" />
+  <MetricAnalysisPage v-else-if="analysisMetric" :metric="analysisMetric" />
+  <PienalueDetail v-else-if="pienalueRelationId" :relation-id="pienalueRelationId" />
   <AreaDetail v-else-if="selectedArea" :area="selectedArea" />
 
   <main v-else class="app-shell">
