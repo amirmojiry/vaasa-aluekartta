@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { PoiFeature } from '@/domain/pois'
+import { POI_CATEGORIES, type PoiFeature } from '@/domain/pois'
 import { localizedPoiName, parsePoiFeatureCollection } from '@/services/poiData'
 
 const feature: PoiFeature = {
@@ -16,6 +16,24 @@ const feature: PoiFeature = {
   },
 }
 
+describe('POI categories', () => {
+  it('includes education and public transport categories', () => {
+    expect(POI_CATEGORIES).toEqual([
+      'attractions',
+      'supermarkets',
+      'police',
+      'healthcare',
+      'libraries',
+      'universities',
+      'schools',
+      'daycare',
+      'train-stations',
+      'airports',
+      'bus-stops',
+    ])
+  })
+})
+
 describe('parsePoiFeatureCollection', () => {
   it('accepts a valid POI feature collection', () => {
     const collection = parsePoiFeatureCollection({
@@ -25,6 +43,20 @@ describe('parsePoiFeatureCollection', () => {
 
     expect(collection.features).toHaveLength(1)
     expect(collection.features[0]?.properties.category).toBe('attractions')
+  })
+
+  it('accepts a newly supported category', () => {
+    const collection = parsePoiFeatureCollection({
+      type: 'FeatureCollection',
+      features: [
+        {
+          ...feature,
+          properties: { ...feature.properties, category: 'schools' },
+        },
+      ],
+    })
+
+    expect(collection.features[0]?.properties.category).toBe('schools')
   })
 
   it('rejects unknown categories', () => {

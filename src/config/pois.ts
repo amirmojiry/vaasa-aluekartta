@@ -33,6 +33,36 @@ export const POI_CATEGORY_DEFINITIONS: PoiCategoryDefinition[] = [
     color: '#72508c',
     labels: { en: 'Libraries', fi: 'Kirjastot', fa: 'کتابخانه‌ها' },
   },
+  {
+    id: 'universities',
+    color: '#6d4aa2',
+    labels: { en: 'Universities', fi: 'Korkeakoulut', fa: 'دانشگاه‌ها' },
+  },
+  {
+    id: 'schools',
+    color: '#c98324',
+    labels: { en: 'Schools', fi: 'Koulut', fa: 'مدرسه‌ها' },
+  },
+  {
+    id: 'daycare',
+    color: '#c8507c',
+    labels: { en: 'Day care', fi: 'Päiväkodit', fa: 'مهدکودک‌ها' },
+  },
+  {
+    id: 'train-stations',
+    color: '#44546a',
+    labels: { en: 'Train stations', fi: 'Rautatieasemat', fa: 'ایستگاه‌های قطار' },
+  },
+  {
+    id: 'airports',
+    color: '#2477a8',
+    labels: { en: 'Airports', fi: 'Lentoasemat', fa: 'فرودگاه‌ها' },
+  },
+  {
+    id: 'bus-stops',
+    color: '#6a8d32',
+    labels: { en: 'Bus stops', fi: 'Bussipysäkit', fa: 'ایستگاه‌های اتوبوس' },
+  },
 ]
 
 export function poiCategoryDefinition(category: PoiCategory): PoiCategoryDefinition {

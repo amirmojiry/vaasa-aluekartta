@@ -2,7 +2,19 @@ import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const CATEGORIES = ['attractions', 'supermarkets', 'police', 'healthcare', 'libraries']
+const CATEGORIES = [
+  'attractions',
+  'supermarkets',
+  'police',
+  'healthcare',
+  'libraries',
+  'universities',
+  'schools',
+  'daycare',
+  'train-stations',
+  'airports',
+  'bus-stops',
+]
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const poiPath = resolve(scriptDir, '../public/data/vaasa-pois.geojson')
 

@@ -37,7 +37,7 @@ The SVG maps are displayed as image overlays inside an approximate Vaasa boundin
 
 ## Points of interest
 
-The main map displays a committed static point-of-interest snapshot derived from OpenStreetMap at `public/data/vaasa-pois.geojson`. The initial snapshot contains named examples in all supported categories so normal builds and GitHub Pages deployments do not depend on a live third-party POI API.
+The application displays a committed static point-of-interest snapshot derived from OpenStreetMap at `public/data/vaasa-pois.geojson`. Normal browsing and GitHub Pages deployments do not depend on a live third-party POI API: the browser only downloads this repository asset.
 
 Current categories are:
 
@@ -45,9 +45,17 @@ Current categories are:
 - supermarkets: `shop=supermarket`;
 - police: `amenity=police`;
 - healthcare: selected `amenity=*` and `healthcare=*` values for hospitals, clinics, doctors, and pharmacies;
-- libraries: `amenity=library`.
+- libraries: `amenity=library`;
+- universities: named `amenity=university` and `amenity=college` objects;
+- schools: named `amenity=school` objects;
+- day care: named `amenity=kindergarten` and `amenity=childcare` objects;
+- train stations: named `railway=station` and `railway=halt` objects;
+- airports: named `aeroway=aerodrome` objects;
+- bus stops: named `highway=bus_stop`, `amenity=bus_station`, and `public_transport=platform` objects tagged `bus=yes`.
 
-The browser never queries Overpass directly. It only reads the committed GeoJSON asset. `npm run pois:check` validates the snapshot in CI, including stable IDs, coordinates, categories, OSM source identifiers, licence metadata, and category coverage.
+The same citywide snapshot is available on the main map and on every major-area and minor-area detail map. Area pages initially focus on the selected boundary but load POIs from all Vaasa areas; a map control can zoom out to the complete citywide POI extent.
+
+The browser never queries Overpass directly. `npm run pois:check` validates the committed snapshot in CI, including stable IDs, coordinates, categories, OSM source identifiers, licence metadata, and category coverage.
 
 For an explicit refresh, `npm run pois:update` first regenerates the Vaasa major-area boundaries and then runs `scripts/update-osm-pois.mjs`. The refresh script calculates a bounding box from those boundary polygons, queries public Overpass instances for matching OSM tags, and clips every returned point to the actual major-area polygons before writing a replacement snapshot. Refresh is intentionally separate from the normal deployment pipeline because public Overpass instances can be rate-limited, overloaded, or temporarily unavailable.
 

@@ -4,6 +4,12 @@ export const POI_CATEGORIES = [
   'police',
   'healthcare',
   'libraries',
+  'universities',
+  'schools',
+  'daycare',
+  'train-stations',
+  'airports',
+  'bus-stops',
 ] as const
 
 export type PoiCategory = (typeof POI_CATEGORIES)[number]
