@@ -27,7 +27,7 @@ const props = defineProps<{
   areaName: string
 }>()
 
-const { language, t } = useI18n()
+const { buildUrl, language, t } = useI18n()
 const statistics = ref<AreaStatisticRecord | null>(null)
 const database = ref<AreaStatisticsDatabase | null>(null)
 const populationHistory = ref<MajorAreaPopulationHistory | null>(null)
@@ -127,6 +127,10 @@ const otherLanguageRank = computed(() =>
   statistics.value ? rankFor(statistics.value.language2015.other, (record) => record.l[2]) : null,
 )
 
+function metricHref(metric: string): string {
+  return buildUrl({ metric, level: props.level })
+}
+
 function compactRankText(rank: { rank: number; total: number } | null): string {
   if (!rank) return ''
   if (language.value === 'fa') {
@@ -224,24 +228,32 @@ onMounted(async () => {
       <div class="summary-legend">
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--employed" />
-          <span>{{ t('employed') }}</span>
+          <a class="summary-analysis-link" :href="metricHref('employed')">{{ t('employed') }}</a>
           <strong>{{ formatPercent(statistics.employedShare2013) }}</strong>
-          <small>{{ compactRankText(employedRank) }}</small>
+          <a class="summary-rank-link" :href="metricHref('employed')">
+            <small>{{ compactRankText(employedRank) }}</small>
+          </a>
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--unemployed" />
-          <span>{{ t('unemployed') }}</span>
+          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{ t('unemployed') }}</a>
           <strong>{{ formatPercent(statistics.unemployment2013) }}</strong>
-          <small>{{ compactRankText(unemployedRank) }}</small>
+          <a class="summary-rank-link" :href="metricHref('unemployed')">
+            <small>{{ compactRankText(unemployedRank) }}</small>
+          </a>
         </span>
       </div>
     </div>
 
     <div class="summary-metric">
       <div class="summary-metric__heading">
-        <strong>{{ t('students') }}</strong>
+        <strong>
+          <a class="summary-analysis-link" :href="metricHref('students')">{{ t('students') }}</a>
+        </strong>
         <span>
-          {{ formatPercent(statistics.studentShare2013) }} {{ compactRankText(studentRank) }} · 2013
+          {{ formatPercent(statistics.studentShare2013) }} ·
+          <a class="summary-rank-link" :href="metricHref('students')">{{ compactRankText(studentRank) }}</a>
+          · 2013
         </span>
       </div>
       <div
@@ -257,7 +269,7 @@ onMounted(async () => {
           <span class="student-icon__fill" :style="{ width: studentIconFill(index) }">
             <svg viewBox="0 0 32 40" aria-hidden="true">
               <path
-                d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z"
+                d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z"
               />
             </svg>
           </span>
@@ -266,9 +278,14 @@ onMounted(async () => {
     </div>
 
     <div v-if="displayedPopulation !== null" class="summary-population">
-      <span>{{ t('population') }} · {{ displayedPopulationYear }}</span>
+      <span>
+        <a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a>
+        · {{ displayedPopulationYear }}
+      </span>
       <strong>{{ formatNumber(displayedPopulation) }}</strong>
-      <small>{{ populationRankText }}</small>
+      <a class="summary-rank-link" :href="metricHref('population')">
+        <small>{{ populationRankText }}</small>
+      </a>
       <span
         v-if="populationChangeText"
         :class="['population-change', `population-change--${populationChangeDirection}`]"
@@ -302,21 +319,27 @@ onMounted(async () => {
       <div class="summary-legend summary-legend--languages">
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--finnish" />
-          <span>{{ t('finnish') }}</span>
+          <a class="summary-analysis-link" :href="metricHref('language-finnish')">{{ t('finnish') }}</a>
           <strong>{{ formatPercent(statistics.language2015.finnish) }}</strong>
-          <small>{{ compactRankText(finnishRank) }}</small>
+          <a class="summary-rank-link" :href="metricHref('language-finnish')">
+            <small>{{ compactRankText(finnishRank) }}</small>
+          </a>
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--swedish" />
-          <span>{{ t('swedish') }}</span>
+          <a class="summary-analysis-link" :href="metricHref('language-swedish')">{{ t('swedish') }}</a>
           <strong>{{ formatPercent(statistics.language2015.swedish) }}</strong>
-          <small>{{ compactRankText(swedishRank) }}</small>
+          <a class="summary-rank-link" :href="metricHref('language-swedish')">
+            <small>{{ compactRankText(swedishRank) }}</small>
+          </a>
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--other-language" />
-          <span>{{ t('otherLanguages') }}</span>
+          <a class="summary-analysis-link" :href="metricHref('language-other')">{{ t('otherLanguages') }}</a>
           <strong>{{ formatPercent(statistics.language2015.other) }}</strong>
-          <small>{{ compactRankText(otherLanguageRank) }}</small>
+          <a class="summary-rank-link" :href="metricHref('language-other')">
+            <small>{{ compactRankText(otherLanguageRank) }}</small>
+          </a>
         </span>
       </div>
     </div>
@@ -328,3 +351,19 @@ onMounted(async () => {
     {{ t('statisticsUnavailable') }}
   </p>
 </template>
+
+<style scoped>
+.summary-analysis-link,
+.summary-rank-link {
+  color: inherit;
+  text-underline-offset: 0.15rem;
+}
+
+.summary-analysis-link {
+  font-weight: inherit;
+}
+
+.summary-rank-link {
+  color: #667570;
+}
+</style>
