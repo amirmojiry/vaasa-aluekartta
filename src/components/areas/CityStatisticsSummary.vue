@@ -4,7 +4,10 @@ import { computed, onMounted, ref } from 'vue'
 import type { ElectionStatisticsDatabase, ResolvedElectionDataset } from '@/domain/elections'
 import { localeForLanguage, useI18n } from '@/i18n'
 import { fetchStatisticsDatabase } from '@/services/areaStatistics'
-import { buildCityStatisticsSnapshot, type CityStatisticsSnapshot } from '@/services/cityStatistics'
+import {
+  buildCityStatisticsSnapshot,
+  type CityStatisticsSnapshot,
+} from '@/services/cityStatistics'
 import {
   featuredElection,
   fetchCityElectionStatistics,
@@ -94,7 +97,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section v-if="statistics" class="area-stat-summary city-stat-summary" :aria-label="t('statisticsOverview')">
+  <section
+    v-if="statistics"
+    class="area-stat-summary city-stat-summary"
+    :aria-label="t('statisticsOverview')"
+  >
     <div class="summary-metric">
       <div class="summary-metric__heading">
         <strong>{{ t('employment') }}</strong>
@@ -127,16 +134,25 @@ onMounted(async () => {
     <div class="summary-metric">
       <div class="summary-metric__heading">
         <strong>{{ t('students') }}</strong>
-        <span>{{ formatPercent(statistics.studentShare2013) }} · 2013 · {{ t('derivedMetric') }}</span>
+        <span>
+          {{ formatPercent(statistics.studentShare2013) }} · 2013 · {{ t('derivedMetric') }}
+        </span>
       </div>
-      <div class="student-pictogram" :aria-label="`${t('students')}: ${formatPercent(statistics.studentShare2013)}`">
+      <div
+        class="student-pictogram"
+        :aria-label="`${t('students')}: ${formatPercent(statistics.studentShare2013)}`"
+      >
         <span v-for="index in studentIcons" :key="index" class="student-icon">
           <svg class="student-icon__base" viewBox="0 0 32 40" aria-hidden="true">
-            <path d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z" />
+            <path
+              d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z"
+            />
           </svg>
           <span class="student-icon__fill" :style="{ width: studentIconFill(index) }">
             <svg viewBox="0 0 32 40" aria-hidden="true">
-              <path d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z" />
+              <path
+                d="M16 2 2 8.3l14 6.3 11-4.9v6.7h2V8.3L16 2Zm-7.6 10.4v5.1c0 3.2 3.4 5.8 7.6 5.8s7.6-2.6 7.6-5.8v-5.1L16 15.8l-7.6-3.4ZM16 24.7c-6.5 0-11.2 3.7-11.2 8.9V38h22.4v-4.4c0-5.2-4.7-8.9-11.2-8.9Z"
+              />
             </svg>
           </span>
         </span>
@@ -157,10 +173,16 @@ onMounted(async () => {
         <div v-for="party in parties" :key="party.party" class="party-bar-row">
           <div class="party-bar-row__label">
             <span>{{ party.party }} · {{ partyName(party.party) }}</span>
-            <strong>{{ percentFormatter.format(party.percent) }}% · {{ numberFormatter.format(party.votes) }} {{ t('votes') }}</strong>
+            <strong>
+              {{ percentFormatter.format(party.percent) }}% ·
+              {{ numberFormatter.format(party.votes) }} {{ t('votes') }}
+            </strong>
           </div>
           <div class="party-bar-row__track" aria-hidden="true">
-            <span class="party-bar-row__fill" :style="{ width: `${party.percent}%`, backgroundColor: partyColor(party.party) }" />
+            <span
+              class="party-bar-row__fill"
+              :style="{ width: `${party.percent}%`, backgroundColor: partyColor(party.party) }"
+            />
           </div>
         </div>
       </div>
