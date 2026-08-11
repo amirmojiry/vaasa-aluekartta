@@ -11,10 +11,12 @@ import type {
 import { useI18n } from '@/i18n'
 import {
   chartParties,
+  featuredElection,
   fetchAreaElectionStatistics,
   fetchCityElectionStatistics,
   fetchElectionStatisticsDatabase,
   partyColor,
+  topParties,
 } from '@/services/electionStatistics'
 
 const props = withDefaults(
@@ -22,8 +24,9 @@ const props = withDefaults(
     level?: AreaLevel
     areaName?: string
     city?: boolean
+    showTopParties?: boolean
   }>(),
-  { level: 'suuralue', areaName: '', city: false },
+  { level: 'suuralue', areaName: '', city: false, showTopParties: false },
 )
 
 const { language, t } = useI18n()
@@ -32,6 +35,11 @@ const database = ref<ElectionStatisticsDatabase | null>(null)
 const loading = ref(true)
 
 const visibleParties = computed(() => (dataset.value ? chartParties(dataset.value, 6) : []))
+const latestEvent = computed(() => (dataset.value ? featuredElection(dataset.value) : null))
+const latestTopParties = computed(() =>
+  latestEvent.value ? topParties(latestEvent.value, 3) : [],
+)
+const reversedEvents = computed(() => [...(dataset.value?.events ?? [])].reverse())
 const numberFormatter = computed(
   () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
 )
@@ -96,6 +104,33 @@ onMounted(async () => {
     <p v-if="dataset.note" class="election-scope-note">{{ localized(dataset.note) }}</p>
     <p class="election-history__comparison-note">{{ t('electionComparisonNote') }}</p>
 
+    <section
+      v-if="showTopParties && latestEvent && latestTopParties.length"
+      class="election-history__top-parties"
+    >
+      <div class="summary-metric__heading">
+        <strong>{{ t('topParties') }}</strong>
+        <span>{{ eventLabel(latestEvent) }}</span>
+      </div>
+      <div class="party-bars">
+        <div v-for="party in latestTopParties" :key="party.party" class="party-bar-row">
+          <div class="party-bar-row__label">
+            <span>{{ party.party }} · {{ partyName(party.party) }}</span>
+            <strong>
+              {{ percentFormatter.format(party.percent) }}% ·
+              {{ numberFormatter.format(party.votes) }} {{ t('votes') }}
+            </strong>
+          </div>
+          <div class="party-bar-row__track" aria-hidden="true">
+            <span
+              class="party-bar-row__fill"
+              :style="{ width: `${party.percent}%`, backgroundColor: partyColor(party.party) }"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div class="election-legend">
       <span v-for="party in visibleParties" :key="party">
         <i :style="{ backgroundColor: partyColor(party) }" />
@@ -129,7 +164,7 @@ onMounted(async () => {
             </tr>
           </thead>
           <tbody>
-            <template v-for="event in [...dataset.events].reverse()" :key="event.id">
+            <template v-for="event in reversedEvents" :key="event.id">
               <tr v-for="(party, partyIndex) in event.parties" :key="`${event.id}-${party.party}`">
                 <td>{{ partyIndex === 0 ? eventLabel(event) : '' }}</td>
                 <td><strong>{{ party.party }}</strong> · {{ partyName(party.party) }}</td>
