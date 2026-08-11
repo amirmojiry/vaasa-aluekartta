@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 import ElectionLineChart from '@/components/areas/ElectionLineChart.vue'
 import type { AreaLevel } from '@/domain/areas'
 import type {
   ElectionEvent,
   ElectionStatisticsDatabase,
+  PartyResult,
   ResolvedElectionDataset,
 } from '@/domain/elections'
 import { useI18n } from '@/i18n'
@@ -18,6 +19,9 @@ import {
   partyColor,
   topParties,
 } from '@/services/electionStatistics'
+
+type SortKey = 'party' | 'votes' | 'percent'
+type SortDirection = 'asc' | 'desc'
 
 const props = withDefaults(
   defineProps<{
@@ -33,13 +37,25 @@ const { language, t } = useI18n()
 const dataset = ref<ResolvedElectionDataset | null>(null)
 const database = ref<ElectionStatisticsDatabase | null>(null)
 const loading = ref(true)
+const selectedParty = ref<string | null>(null)
+const sortKey = ref<SortKey | null>(null)
+const sortDirection = ref<SortDirection>('asc')
 
 const visibleParties = computed(() => (dataset.value ? chartParties(dataset.value, 6) : []))
 const latestEvent = computed(() => (dataset.value ? featuredElection(dataset.value) : null))
 const latestTopParties = computed(() => (latestEvent.value ? topParties(latestEvent.value, 3) : []))
 const reversedEvents = computed(() => [...(dataset.value?.events ?? [])].reverse())
+const partyLabels = computed<Record<string, string>>(() =>
+  Object.fromEntries(visibleParties.value.map((party) => [party, partyName(party)])),
+)
 const numberFormatter = computed(
   () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
+)
+const yearFormatter = computed(
+  () =>
+    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+      useGrouping: false,
+    }),
 )
 const percentFormatter = computed(
   () =>
@@ -67,10 +83,47 @@ function eventTypeLabel(event: ElectionEvent): string {
 }
 
 function eventLabel(event: ElectionEvent): string {
-  return `${eventTypeLabel(event)} ${numberFormatter.value.format(event.year)}`
+  return `${eventTypeLabel(event)} ${yearFormatter.value.format(event.year)}`
+}
+
+function toggleParty(party: string): void {
+  selectedParty.value = selectedParty.value === party ? null : party
+}
+
+function handleDocumentClick(event: MouseEvent): void {
+  const target = event.target
+  if (target instanceof Element && target.closest('[data-party-selection-control]')) return
+  selectedParty.value = null
+}
+
+function toggleSort(key: SortKey): void {
+  if (sortKey.value === key) {
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
+    return
+  }
+  sortKey.value = key
+  sortDirection.value = 'asc'
+}
+
+function sortedParties(event: ElectionEvent): PartyResult[] {
+  if (!sortKey.value) return event.parties
+  const direction = sortDirection.value === 'asc' ? 1 : -1
+  const key = sortKey.value
+  return [...event.parties].sort((left, right) => {
+    if (key === 'party') {
+      return partyName(left.party).localeCompare(partyName(right.party), language.value) * direction
+    }
+    return (left[key] - right[key]) * direction
+  })
+}
+
+function sortIndicator(key: SortKey): string {
+  if (sortKey.value !== key) return '↕'
+  return sortDirection.value === 'asc' ? '↑' : '↓'
 }
 
 onMounted(async () => {
+  document.addEventListener('click', handleDocumentClick)
   try {
     const [resolved, db] = await Promise.all([
       props.city
@@ -85,6 +138,10 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleDocumentClick)
 })
 </script>
 
@@ -101,7 +158,7 @@ onMounted(async () => {
     <p class="election-history__scope">
       <strong>{{ t('dataScope') }}:</strong> {{ localized(dataset.scope) }}
     </p>
-    <p v-if="dataset.note" class="election-scope-note">{{ localized(dataset.note) }}</p>
+    <p v-if="dataset.note && !city" class="election-scope-note">{{ localized(dataset.note) }}</p>
     <p class="election-history__comparison-note">{{ t('electionComparisonNote') }}</p>
 
     <section
@@ -131,24 +188,37 @@ onMounted(async () => {
       </div>
     </section>
 
-    <div class="election-legend">
-      <span v-for="party in visibleParties" :key="party">
+    <div class="election-legend" data-party-selection-control>
+      <button
+        v-for="party in visibleParties"
+        :key="party"
+        type="button"
+        :class="['election-legend__party', { 'is-selected': selectedParty === party }]"
+        :aria-pressed="selectedParty === party"
+        @click.stop="toggleParty(party)"
+      >
         <i :style="{ backgroundColor: partyColor(party) }" />
         <strong>{{ party }}</strong> · {{ partyName(party) }}
-      </span>
+      </button>
     </div>
 
     <ElectionLineChart
       v-if="dataset.events.length > 1"
       :events="dataset.events"
       :parties="visibleParties"
+      :party-labels="partyLabels"
+      :selected-party="selectedParty"
       metric="percent"
+      @toggle-party="toggleParty"
     />
     <ElectionLineChart
       v-if="dataset.events.length > 1"
       :events="dataset.events"
       :parties="visibleParties"
+      :party-labels="partyLabels"
+      :selected-party="selectedParty"
       metric="votes"
+      @toggle-party="toggleParty"
     />
 
     <details class="election-table-details">
@@ -158,14 +228,29 @@ onMounted(async () => {
           <thead>
             <tr>
               <th>{{ t('election') }}</th>
-              <th>{{ t('party') }}</th>
-              <th>{{ t('votes') }}</th>
-              <th>{{ t('voteShare') }}</th>
+              <th>
+                <button type="button" class="election-table-sort" @click="toggleSort('party')">
+                  {{ t('party') }} <span aria-hidden="true">{{ sortIndicator('party') }}</span>
+                </button>
+              </th>
+              <th>
+                <button type="button" class="election-table-sort" @click="toggleSort('votes')">
+                  {{ t('votes') }} <span aria-hidden="true">{{ sortIndicator('votes') }}</span>
+                </button>
+              </th>
+              <th>
+                <button type="button" class="election-table-sort" @click="toggleSort('percent')">
+                  {{ t('voteShare') }} <span aria-hidden="true">{{ sortIndicator('percent') }}</span>
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
             <template v-for="event in reversedEvents" :key="event.id">
-              <tr v-for="(party, partyIndex) in event.parties" :key="`${event.id}-${party.party}`">
+              <tr
+                v-for="(party, partyIndex) in sortedParties(event)"
+                :key="`${event.id}-${party.party}`"
+              >
                 <td>{{ partyIndex === 0 ? eventLabel(event) : '' }}</td>
                 <td>
                   <strong>{{ party.party }}</strong> · {{ partyName(party.party) }}
