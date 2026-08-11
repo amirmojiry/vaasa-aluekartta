@@ -21,7 +21,7 @@ const feature: PoiFeature = {
 }
 
 describe('POI categories', () => {
-  it('includes education and public transport categories', () => {
+  it('includes education, transport, and residential-service categories', () => {
     expect(POI_CATEGORIES).toEqual([
       'attractions',
       'supermarkets',
@@ -34,6 +34,14 @@ describe('POI categories', () => {
       'train-stations',
       'airports',
       'bus-stops',
+      'restaurants',
+      'cafes',
+      'parks-playgrounds',
+      'sports',
+      'shopping',
+      'banking',
+      'post-services',
+      'fuel-charging',
     ])
   })
 })
@@ -55,12 +63,12 @@ describe('parsePoiFeatureCollection', () => {
       features: [
         {
           ...feature,
-          properties: { ...feature.properties, category: 'schools' },
+          properties: { ...feature.properties, category: 'restaurants' },
         },
       ],
     })
 
-    expect(collection.features[0]?.properties.category).toBe('schools')
+    expect(collection.features[0]?.properties.category).toBe('restaurants')
   })
 
   it('rejects unknown categories', () => {
