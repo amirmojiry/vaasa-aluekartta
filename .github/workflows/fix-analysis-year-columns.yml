@@ -1,0 +1,78 @@
+name: Fix analysis year columns
+
+on:
+  push:
+    branches:
+      - agent/inline-analysis-years
+
+permissions:
+  contents: write
+
+jobs:
+  fix-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/inline-analysis-years
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Inline years in detail table values
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs')
+          const path = 'src/components/analysis/MetricAnalysisPage.vue'
+          let source = fs.readFileSync(path, 'utf8')
+
+          for (const line of ["    year: 'Year',\n", "    year: 'Vuosi',\n", "    year: 'سال',\n"]) {
+            if (!source.includes(line)) throw new Error(`Missing expected year label: ${line.trim()}`)
+            source = source.replace(line, '')
+          }
+
+          const header = `                  <th>{{ text.value }}</th>\n                  <th>{{ text.year }}</th>`
+          if (!source.includes(header)) throw new Error('Missing separate value/year table headers')
+          source = source.replace(header, `                  <th>{{ text.value }}</th>`)
+
+          const cells = `                  <td>{{ formatValue(item.value) }}</td>\n                  <td>{{ numberFormatter.format(item.year) }}</td>`
+          if (!source.includes(cells)) throw new Error('Missing separate value/year table cells')
+          source = source.replace(
+            cells,
+            `                  <td>\n                    {{ formatValue(item.value) }} · {{ numberFormatter.format(item.year) }}\n                  </td>`,
+          )
+
+          fs.writeFileSync(path, source)
+          NODE
+
+      - name: Format changed file
+        run: npx prettier --write src/components/analysis/MetricAnalysisPage.vue
+
+      - name: Validate
+        run: |
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Commit fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/analysis/MetricAnalysisPage.vue
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Keep analysis years with values"
+          git push origin HEAD:agent/inline-analysis-years
