@@ -1,0 +1,31 @@
+name: POI Overpass probe
+
+on:
+  push:
+    branches: [agent/map-pois]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe Vaasa supermarket query
+        shell: bash
+        run: |
+          query='[out:json][timeout:15];area(3601855926)->.vaasa;nwr(area.vaasa)["shop"="supermarket"]["name"];out count;'
+          for endpoint in \
+            'https://overpass.private.coffee/api/interpreter' \
+            'https://overpass-api.de/api/interpreter'
+          do
+            echo "Trying $endpoint"
+            if curl --silent --show-error --fail --max-time 20 \
+              --data-urlencode "data=$query" \
+              "$endpoint"
+            then
+              echo
+              exit 0
+            fi
+          done
+          exit 1
