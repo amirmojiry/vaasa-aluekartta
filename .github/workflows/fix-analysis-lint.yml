@@ -1,0 +1,188 @@
+name: Fix analysis lint
+
+on:
+  push:
+    branches:
+      - agent/thematic-analysis-pages
+
+permissions:
+  contents: write
+
+jobs:
+  fix-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/thematic-analysis-pages
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Apply semantic markup fixes
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs')
+
+          function replaceRequired(source, before, after, label) {
+            if (!source.includes(before)) throw new Error(`Missing expected snippet: ${label}`)
+            return source.replace(before, after)
+          }
+
+          const incomePath = 'src/components/areas/AreaIncomeSummary.vue'
+          let income = fs.readFileSync(incomePath, 'utf8')
+          const incomeHeading = `      <strong
+                ><a class="income-summary__analysis-link" :href="incomePageHref">{{
+                  text.title
+                }}</a></strong
+              >`
+          const incomeHeadingReplacement = `      <a
+                class="income-summary__analysis-link income-summary__analysis-link--heading"
+                :href="incomePageHref"
+              >
+                {{ text.title }}
+              </a>`
+          if ((income.match(new RegExp(incomeHeading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length !== 2) {
+            throw new Error('Expected two income heading snippets')
+          }
+          income = income.split(incomeHeading).join(incomeHeadingReplacement)
+          income = replaceRequired(
+            income,
+            `.income-summary__rank-link {\n  color: #65736f;\n  font-weight: 750;\n}`,
+            `.income-summary__analysis-link--heading {\n  font-weight: 800;\n}\n\n.income-summary__rank-link {\n  color: #65736f;\n  font-weight: 750;\n}`,
+            'income heading style',
+          )
+          fs.writeFileSync(incomePath, income)
+
+          const cityPath = 'src/components/areas/CityStatisticsSummary.vue'
+          let city = fs.readFileSync(cityPath, 'utf8')
+          city = replaceRequired(
+            city,
+            `        <strong
+                  ><a class="summary-analysis-link" :href="metricHref('students')">{{
+                    t('students')
+                  }}</a></strong
+                >`,
+            `        <a
+                  class="summary-analysis-link summary-analysis-link--heading"
+                  :href="metricHref('students')"
+                >
+                  {{ t('students') }}
+                </a>`,
+            'students heading',
+          )
+          city = replaceRequired(
+            city,
+            `      <span
+                ><a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a>
+                · {{ yearFormatter.format(statistics.populationYear) }}</span
+              >`,
+            `      <span class="summary-population__label">
+                <a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a>
+                <span aria-hidden="true">·</span>
+                {{ yearFormatter.format(statistics.populationYear) }}
+              </span>`,
+            'population label',
+          )
+          city = replaceRequired(
+            city,
+            `        <strong
+                  ><a class="summary-analysis-link" :href="metricHref('income')">{{
+                    incomeLabel
+                  }}</a></strong
+                >`,
+            `        <a
+                  class="summary-analysis-link summary-analysis-link--heading"
+                  :href="metricHref('income')"
+                >
+                  {{ incomeLabel }}
+                </a>`,
+            'income heading',
+          )
+          city = replaceRequired(
+            city,
+            `      <a
+                v-if="incomeSourceUrl"
+                class="city-income-summary__source"
+                :href="incomeSourceUrl"
+                target="_blank"
+                rel="noreferrer"
+                >{{ incomeSourceLabel }} · Statistics Finland 2014b / Sanna Komsi (2016)</a
+              >`,
+            `      <a
+                v-if="incomeSourceUrl"
+                class="city-income-summary__source"
+                :href="incomeSourceUrl"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {{ incomeSourceLabel }} · Statistics Finland 2014b / Sanna Komsi (2016)
+              </a>`,
+            'income source link',
+          )
+          city = replaceRequired(
+            city,
+            `            <a class="summary-analysis-link" :href="partyHref(party.party)"
+                      >{{ party.party }} · {{ partyName(party.party) }}</a
+                    >`,
+            `            <a class="summary-analysis-link" :href="partyHref(party.party)">
+                      {{ party.party }} · {{ partyName(party.party) }}
+                    </a>`,
+            'party link',
+          )
+          city = replaceRequired(
+            city,
+            `.summary-analysis-link {\n  color: inherit;\n  font-weight: inherit;\n  text-underline-offset: 0.16rem;\n}`,
+            `.summary-analysis-link {\n  color: inherit;\n  font-weight: inherit;\n  text-underline-offset: 0.16rem;\n}\n\n.summary-analysis-link--heading {\n  font-weight: 800;\n}`,
+            'city heading style',
+          )
+          fs.writeFileSync(cityPath, city)
+
+          const partyPath = 'src/components/analysis/PartyAnalysisPage.vue'
+          let party = fs.readFileSync(partyPath, 'utf8')
+          party = party.replace(
+            `return value.fa || value.en || value.fi`,
+            `return value.fa || value.en || value.fi || ''`,
+          )
+          party = party.replace(
+            `return value.fi || value.en || value.fa`,
+            `return value.fi || value.en || value.fa || ''`,
+          )
+          party = party.replace(
+            `return value.en || value.fi || value.fa`,
+            `return value.en || value.fi || value.fa || ''`,
+          )
+          fs.writeFileSync(partyPath, party)
+          NODE
+
+      - name: Format changed files
+        run: npx prettier --write src/components/areas/AreaIncomeSummary.vue src/components/areas/CityStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue
+
+      - name: Validate
+        run: |
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Commit fixes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/areas/AreaIncomeSummary.vue src/components/areas/CityStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Fix analysis markup and validation"
+          git push origin HEAD:agent/thematic-analysis-pages
