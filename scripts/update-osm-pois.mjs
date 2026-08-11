@@ -2,15 +2,19 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
+const OVERPASS_URLS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.private.coffee/api/interpreter',
+]
 const USER_AGENT =
   'vaasa-aluekartta-poi-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
+const REQUEST_TIMEOUT_MS = 45_000
 const VAASA_RELATION_ID = 1855926
 const VAASA_AREA_ID = 3_600_000_000 + VAASA_RELATION_ID
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const outputPath = resolve(scriptDir, '../public/data/vaasa-pois.geojson')
 
-const query = `[out:json][timeout:90];
+const query = `[out:json][timeout:40];
 area(${VAASA_AREA_ID})->.vaasa;
 (
   nwr(area.vaasa)["tourism"~"^(attraction|museum|gallery|viewpoint|zoo|aquarium|theme_park)$"]["name"];
@@ -27,9 +31,15 @@ const sleep = (milliseconds) =>
 
 async function fetchOverpass() {
   let lastError
-  for (let attempt = 1; attempt <= 4; attempt += 1) {
+  const attempts = OVERPASS_URLS.length * 2
+
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    const endpoint = OVERPASS_URLS[attempt % OVERPASS_URLS.length]
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+
     try {
-      const response = await fetch(OVERPASS_URL, {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -37,16 +47,20 @@ async function fetchOverpass() {
           'User-Agent': USER_AGENT,
         },
         body: new URLSearchParams({ data: query }),
+        signal: controller.signal,
       })
-      if (!response.ok) throw new Error(`Overpass returned HTTP ${response.status}`)
+      if (!response.ok) throw new Error(`${endpoint} returned HTTP ${response.status}`)
       const data = await response.json()
       if (!Array.isArray(data.elements)) throw new Error('Overpass response has no elements array')
       return data.elements
     } catch (error) {
       lastError = error
-      if (attempt < 4) await sleep(attempt * 2500)
+      if (attempt + 1 < attempts) await sleep((attempt + 1) * 1500)
+    } finally {
+      clearTimeout(timeout)
     }
   }
+
   throw lastError
 }
 
