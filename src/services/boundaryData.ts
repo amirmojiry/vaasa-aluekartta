@@ -74,7 +74,8 @@ let suuraluePromise: Promise<BoundaryFeatureCollection> | null = null
 let pienaluePromise: Promise<BoundaryFeatureCollection> | null = null
 
 async function loadFeatureCollection(url: string): Promise<BoundaryFeatureCollection> {
-  const response = await fetch(url, { cache: 'force-cache' })
+  // Boundary snapshots are regenerated during every Pages deploy, so always revalidate the stable URL.
+  const response = await fetch(url, { cache: 'no-cache' })
   if (!response.ok) throw new Error(`Boundary snapshot returned HTTP ${response.status}`)
 
   const data = (await response.json()) as BoundaryFeatureCollection
