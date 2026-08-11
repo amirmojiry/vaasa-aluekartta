@@ -41,7 +41,15 @@ function partyName(code: string): string {
 
 function eventLabel(): string {
   if (!event.value) return ''
-  return `${t(`electionType_${event.value.type}`)} ${numberFormatter.value.format(event.value.year)}`
+  const type =
+    event.value.type === 'municipal'
+      ? t('electionTypeMunicipal')
+      : event.value.type === 'regional'
+        ? t('electionTypeRegional')
+        : event.value.type === 'european'
+          ? t('electionTypeEuropean')
+          : t('electionTypeParliamentary')
+  return `${type} ${numberFormatter.value.format(event.value.year)}`
 }
 
 onMounted(async () => {
