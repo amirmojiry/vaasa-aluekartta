@@ -140,15 +140,14 @@ async function submitSearch(): Promise<void> {
     <form class="address-search__form" @submit.prevent="submitSearch">
       <label class="address-search__label" for="vaasa-address-search">{{ messages.label }}</label>
       <div class="address-search__controls">
-        <!-- eslint-disable vue/html-self-closing -->
+        <!-- prettier-ignore -->
         <input
           id="vaasa-address-search"
           v-model="query"
           type="search"
           autocomplete="street-address"
           :placeholder="messages.placeholder"
-        />
-        <!-- eslint-enable vue/html-self-closing -->
+        >
         <button type="submit" :disabled="searching || !query.trim()">
           {{ searching ? messages.searching : messages.button }}
         </button>
