@@ -1,0 +1,140 @@
+name: Temporary collapsible POI box
+
+on:
+  push:
+    branches:
+      - agent/collapsible-poi-box
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.event.head_commit.message != 'Make POI controls collapsible'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: agent/collapsible-poi-box
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --package-lock=false
+
+      - name: Apply changes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_once(text: str, old: str, new: str, label: str) -> str:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one match, found {count}')
+              return text.replace(old, new, 1)
+
+          components = [
+              (
+                  Path('src/components/map/VaasaMap.vue'),
+                  '    <section class="poi-control" :aria-label="poiLabel(\'places\')">\n      <div class="poi-control__header">\n        <div class="poi-control__title">\n          <strong>{{ poiLabel(\'places\') }}</strong>\n          <small>{{ poiLabel(\'placesHint\') }}</small>\n        </div>\n        <div class="poi-control__actions">',
+                  '    <details class="poi-control" :aria-label="poiLabel(\'places\')">\n      <summary class="poi-control__summary">\n        <span class="poi-control__title">\n          <strong>{{ poiLabel(\'places\') }}</strong>\n          <small>{{ poiLabel(\'placesHint\') }}</small>\n        </span>\n      </summary>\n\n      <div class="poi-control__body">\n        <div class="poi-control__actions">',
+                  '    </section>\n\n    <div\n      ref="mapElement"',
+                  '      </div>\n    </details>\n\n    <div\n      ref="mapElement"',
+              ),
+              (
+                  Path('src/components/areas/AreaDetail.vue'),
+                  '          <section class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <div class="poi-control__header">\n              <div class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </div>\n              <div class="poi-control__actions">',
+                  '          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <summary class="poi-control__summary">\n              <span class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </span>\n            </summary>\n\n            <div class="poi-control__body">\n              <div class="poi-control__actions">',
+                  '          </section>\n\n          <div\n            ref="mapElement"',
+                  '            </div>\n          </details>\n\n          <div\n            ref="mapElement"',
+              ),
+              (
+                  Path('src/components/areas/PienalueDetail.vue'),
+                  '          <section class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <div class="poi-control__header">\n              <div class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </div>\n              <div class="poi-control__actions">',
+                  '          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <summary class="poi-control__summary">\n              <span class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </span>\n            </summary>\n\n            <div class="poi-control__body">\n              <div class="poi-control__actions">',
+                  '          </section>\n\n          <div\n            ref="mapElement"',
+                  '            </div>\n          </details>\n\n          <div\n            ref="mapElement"',
+              ),
+          ]
+
+          for path, old_open, new_open, old_close, new_close in components:
+              text = path.read_text()
+              text = replace_once(text, old_open, new_open, f'{path}: open block')
+              text = replace_once(text, old_close, new_close, f'{path}: close block')
+              path.write_text(text)
+
+          path = Path('src/styles/pois.css')
+          text = path.read_text()
+          old = '''.poi-control {
+            display: grid;
+            gap: 0.7rem;
+            margin: 0 0.5rem 1rem;
+            padding: 0.85rem;
+            border: 1px solid var(--line);
+            border-radius: 0.6rem;
+            background: #f8f8f4;
+          }
+          '''
+          new = '''.poi-control {
+            margin: 0 0.5rem 1rem;
+            border: 1px solid var(--line);
+            border-radius: 0.6rem;
+            background: #f8f8f4;
+          }
+
+          .poi-control__summary {
+            padding: 0.85rem;
+            cursor: pointer;
+          }
+
+          .poi-control__summary::marker {
+            color: var(--green);
+          }
+
+          .poi-control__summary .poi-control__title {
+            display: inline-grid;
+            margin-inline-start: 0.35rem;
+            vertical-align: middle;
+          }
+
+          .poi-control__body {
+            display: grid;
+            gap: 0.7rem;
+            padding: 0 0.85rem 0.85rem;
+          }
+
+          .poi-control[open] .poi-control__summary {
+            margin-bottom: 0.7rem;
+            border-bottom: 1px solid var(--line);
+          }
+          '''
+          text = replace_once(text, old, new, 'POI control styles')
+          path.write_text(text)
+          PY
+
+      - name: Format
+        run: npm run format
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit changes
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add src/components/map/VaasaMap.vue src/components/areas/AreaDetail.vue src/components/areas/PienalueDetail.vue src/styles/pois.css
+          git commit -m "Make POI controls collapsible"
+          git push origin HEAD:agent/collapsible-poi-box
