@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
+import AreaIncomeSummary from '@/components/areas/AreaIncomeSummary.vue'
 import ElectionTopParties from '@/components/areas/ElectionTopParties.vue'
 import type { AreaLevel } from '@/domain/areas'
 import type {
@@ -276,6 +277,8 @@ onMounted(async () => {
         {{ populationChangeText }}
       </span>
     </div>
+
+    <AreaIncomeSummary :level="level" :area-name="areaName" />
 
     <div class="summary-metric">
       <div class="summary-metric__heading">
