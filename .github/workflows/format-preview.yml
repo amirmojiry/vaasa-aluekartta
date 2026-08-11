@@ -1,0 +1,38 @@
+name: Format preview
+
+on:
+  push:
+    branches: [agent/home-city-statistics]
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - name: Format target files
+        run: >-
+          npx prettier --write
+          src/App.spec.ts
+          src/components/areas/CityStatistics.vue
+          src/components/areas/CityStatisticsSummary.vue
+          src/services/cityStatistics.ts
+      - name: Print formatted files
+        run: |
+          for file in \
+            src/App.spec.ts \
+            src/components/areas/CityStatistics.vue \
+            src/components/areas/CityStatisticsSummary.vue \
+            src/services/cityStatistics.ts
+          do
+            echo "===== BEGIN $file ====="
+            cat "$file"
+            echo
+            echo "===== END $file ====="
+          done
