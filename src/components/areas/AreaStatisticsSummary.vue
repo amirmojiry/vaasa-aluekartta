@@ -58,7 +58,12 @@ const legacyPopulationRank = computed(() => {
     .map(([, value]) => value.p)
   const rank =
     populations.filter((population) => population > statistics.value!.population2015).length + 1
-  return { rank, total: populations.length, population: statistics.value.population2015, year: 2015 }
+  return {
+    rank,
+    total: populations.length,
+    population: statistics.value.population2015,
+    year: 2015,
+  }
 })
 
 const displayedPopulation = computed(() => {
