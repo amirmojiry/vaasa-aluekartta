@@ -11,7 +11,7 @@ import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import { POI_CATEGORY_DEFINITIONS } from '@/config/pois'
 import type { AreaBoundary, AreaDefinition, PienalueBoundary } from '@/domain/areas'
-import type { PoiCategory, PoiFeature } from '@/domain/pois'
+import { POI_CATEGORIES, type PoiCategory, type PoiFeature } from '@/domain/pois'
 import { localizeAreaName, useI18n } from '@/i18n'
 import { poiText, type PoiMessageKey } from '@/poiI18n'
 import { fetchAreaRecord, fetchPienalueBoundaries } from '@/services/boundaryData'
@@ -26,6 +26,7 @@ const loadingMessage = ref(t('loading'))
 const boundary = ref<AreaBoundary | null>(null)
 const childAreas = ref<PienalueBoundary[]>([])
 const poiFeatures = ref<PoiFeature[]>([])
+const activePoiCategories = ref<PoiCategory[]>([...POI_CATEGORIES])
 const poiLoading = ref(true)
 const poiFailed = ref(false)
 const poiSourceUrl = ref('https://www.openstreetmap.org/copyright')
@@ -40,10 +41,15 @@ const title = computed(() =>
 const numberFormatter = computed(
   () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
 )
+const visiblePoiFeatures = computed(() =>
+  poiFeatures.value.filter((feature) =>
+    activePoiCategories.value.includes(feature.properties.category),
+  ),
+)
 const poiStatus = computed(() => {
   if (poiLoading.value) return poiLabel('loading')
   if (poiFailed.value) return poiLabel('unavailable')
-  return `${poiLabel('placesShown')}: ${numberFormatter.value.format(poiFeatures.value.length)}`
+  return `${poiLabel('placesShown')}: ${numberFormatter.value.format(visiblePoiFeatures.value.length)}/${numberFormatter.value.format(poiFeatures.value.length)}`
 })
 
 function childName(area: PienalueBoundary): string {
@@ -62,6 +68,33 @@ function poiLabel(key: PoiMessageKey): string {
 
 function poiCategoryCount(category: PoiCategory): number {
   return poiFeatures.value.filter((feature) => feature.properties.category === category).length
+}
+
+function isPoiCategoryActive(category: PoiCategory): boolean {
+  return activePoiCategories.value.includes(category)
+}
+
+function renderPoiLayers(): void {
+  if (!map) return
+  poiGroup?.remove()
+  poiGroup = addPoiFeatureGroup(map, visiblePoiFeatures.value, language.value)
+}
+
+function togglePoiCategory(category: PoiCategory): void {
+  activePoiCategories.value = isPoiCategoryActive(category)
+    ? activePoiCategories.value.filter((value) => value !== category)
+    : [...activePoiCategories.value, category]
+  renderPoiLayers()
+}
+
+function showAllPois(): void {
+  activePoiCategories.value = [...POI_CATEGORIES]
+  renderPoiLayers()
+}
+
+function hideAllPois(): void {
+  activePoiCategories.value = []
+  renderPoiLayers()
 }
 
 function fitAreaOnMap(): void {
@@ -84,8 +117,7 @@ async function loadPois(): Promise<void> {
     const collection = await fetchPoiFeatureCollection()
     poiFeatures.value = collection.features
     poiSourceUrl.value = collection.source?.url || poiSourceUrl.value
-    poiGroup?.remove()
-    poiGroup = addPoiFeatureGroup(map, collection.features, language.value)
+    renderPoiLayers()
   } catch {
     poiFailed.value = true
   } finally {
@@ -166,18 +198,34 @@ onBeforeUnmount(() => {
               </div>
               <div class="poi-control__actions">
                 <button type="button" @click="fitAreaOnMap">{{ poiLabel('focusArea') }}</button>
-                <button type="button" :disabled="poiLoading || poiFailed" @click="fitAllPoisOnMap">
+                <button
+                  type="button"
+                  :disabled="poiLoading || poiFailed || visiblePoiFeatures.length === 0"
+                  @click="fitAllPoisOnMap"
+                >
                   {{ poiLabel('showAllVaasa') }}
                 </button>
+                <button type="button" @click="showAllPois">{{ poiLabel('showAll') }}</button>
+                <button type="button" @click="hideAllPois">{{ poiLabel('hideAll') }}</button>
               </div>
             </div>
 
-            <div class="poi-area-legend">
-              <span v-for="definition in POI_CATEGORY_DEFINITIONS" :key="definition.id">
+            <div class="poi-control__categories">
+              <button
+                v-for="definition in POI_CATEGORY_DEFINITIONS"
+                :key="definition.id"
+                type="button"
+                :class="[
+                  'poi-control__category',
+                  { 'is-active': isPoiCategoryActive(definition.id) },
+                ]"
+                :aria-pressed="isPoiCategoryActive(definition.id)"
+                @click="togglePoiCategory(definition.id)"
+              >
                 <i :style="{ backgroundColor: definition.color }" aria-hidden="true" />
                 {{ definition.labels[language] }}
-                <small>{{ numberFormatter.format(poiCategoryCount(definition.id)) }}</small>
-              </span>
+                <span>{{ numberFormatter.format(poiCategoryCount(definition.id)) }}</span>
+              </button>
             </div>
 
             <div class="poi-control__footer">

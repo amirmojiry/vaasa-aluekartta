@@ -10,6 +10,14 @@ export const POI_CATEGORIES = [
   'train-stations',
   'airports',
   'bus-stops',
+  'restaurants',
+  'cafes',
+  'parks-playgrounds',
+  'sports',
+  'shopping',
+  'banking',
+  'post-services',
+  'fuel-charging',
 ] as const
 
 export type PoiCategory = (typeof POI_CATEGORIES)[number]
