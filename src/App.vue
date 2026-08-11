@@ -38,7 +38,7 @@ const homeHref = buildUrl()
 
     <section class="home-map-section" :aria-label="t('statisticalAreas')">
       <VaasaMap />
-      <ElectionHistory city />
+      <ElectionHistory city show-top-parties />
     </section>
   </main>
 
