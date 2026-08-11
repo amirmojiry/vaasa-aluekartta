@@ -10,13 +10,15 @@ vi.mock('@/components/map/VaasaMap.vue', () => ({
 
 vi.mock('@/components/areas/CityStatisticsSummary.vue', () => ({
   default: {
-    template: '<section aria-label="City statistics summary">City statistics summary</section>',
+    template:
+      '<section aria-label="City statistics summary">City statistics summary</section>',
   },
 }))
 
 vi.mock('@/components/areas/CityStatistics.vue', () => ({
   default: {
-    template: '<section aria-label="City historical statistics">City historical statistics</section>',
+    template:
+      '<section aria-label="City historical statistics">City historical statistics</section>',
   },
 }))
 
