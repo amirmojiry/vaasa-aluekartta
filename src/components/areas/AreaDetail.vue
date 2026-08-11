@@ -4,6 +4,7 @@ import L, { type Map, type Polygon } from 'leaflet'
 
 import AreaStatistics from '@/components/areas/AreaStatistics.vue'
 import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'
+import ElectionHistory from '@/components/areas/ElectionHistory.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import TechnicalInfo from '@/components/areas/TechnicalInfo.vue'
 import { AREAS } from '@/config/areas'
@@ -107,6 +108,7 @@ onBeforeUnmount(() => {
         </article>
 
         <AreaStatistics level="suuralue" :area-name="area.name" />
+        <ElectionHistory level="suuralue" :area-name="area.name" />
       </div>
 
       <aside class="area-detail-sidebar">

@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "parties": {
+    "RKP": {"fi":"Ruotsalainen kansanpuolue","en":"Swedish People's Party","fa":"حزب مردم سوئدی فنلاند"},
+    "SDP": {"fi":"Sosiaalidemokraatit","en":"Social Democratic Party","fa":"حزب سوسیال‌دموکرات فنلاند"},
+    "KOK": {"fi":"Kokoomus","en":"National Coalition Party","fa":"حزب ائتلاف ملی"},
+    "PS": {"fi":"Perussuomalaiset","en":"Finns Party","fa":"حزب فنلاندی‌ها"},
+    "VIHR": {"fi":"Vihreät","en":"Green League","fa":"اتحادیه سبز"},
+    "VAS": {"fi":"Vasemmistoliitto","en":"Left Alliance","fa":"ائتلاف چپ"},
+    "KESK": {"fi":"Keskusta","en":"Centre Party","fa":"حزب مرکز"},
+    "KD": {"fi":"Kristillisdemokraatit","en":"Christian Democrats","fa":"دموکرات‌های مسیحی"},
+    "LIIK": {"fi":"Liike Nyt","en":"Movement Now","fa":"جنبش اکنون"},
+    "LIB": {"fi":"Liberaalipuolue","en":"Liberal Party","fa":"حزب لیبرال"},
+    "VL": {"fi":"Vapauden liitto","en":"Freedom Alliance","fa":"اتحاد آزادی"},
+    "VKK": {"fi":"Valta kuuluu kansalle","en":"Power Belongs to the People","fa":"قدرت متعلق به مردم است"},
+    "PIR": {"fi":"Piraattipuolue","en":"Pirate Party","fa":"حزب دزدان دریایی"},
+    "KRIP": {"fi":"Kristallipuolue","en":"Crystal Party","fa":"حزب کریستال"}
+  },
+  "areas": {
+    "suuralue:Keskusta": {
+      "coverage":"associated",
+      "scope":{"fi":"Keskusta Pohjoinen -äänestysalue","en":"Keskusta Pohjoinen voting district","fa":"حوزه رأی‌گیری Keskusta Pohjoinen"},
+      "note":{"fi":"Äänestysalue kattaa keskustan pohjoisosan ja Vaskiluodon, joten luvut eivät kuvaa koko Keskustan suuraluetta.","en":"The voting district covers the northern city centre and Vaskiluoto, so these figures do not represent the whole Keskusta major area.","fa":"این حوزه بخش شمالی مرکز شهر و Vaskiluoto را شامل می‌شود؛ بنابراین این ارقام آمار کل منطقه بزرگ Keskusta نیستند."},
+      "sourceUrl":"https://fi.wikipedia.org/wiki/Keskustan_suuralue_(Vaasa)",
+      "featuredLatestId":"municipal-2025",
+      "events":[
+        {"id":"parliamentary-2019","year":2019,"type":"parliamentary","parties":[["RKP",1163,43.2],["KOK",468,17.4],["SDP",412,15.3],["PS",225,8.4],["VIHR",185,6.9],["VAS",97,3.6],["KESK",58,2.2],["KD",56,2.1]]},
+        {"id":"european-2019","year":2019,"type":"european","parties":[["RKP",764,40.3],["SDP",350,18.5],["KOK",308,16.3],["VIHR",163,8.6],["PS",134,7.1],["KESK",55,2.9],["VAS",47,2.5],["KD",47,2.5]]},
+        {"id":"municipal-2021","year":2021,"type":"municipal","parties":[["RKP",985,43.6],["KOK",501,22.2],["SDP",273,12.1],["VIHR",146,6.5],["PS",145,6.4],["VAS",79,3.5],["KD",61,2.7],["KESK",48,2.1],["LIIK",11,0.5]]},
+        {"id":"regional-2022","year":2022,"type":"regional","parties":[["RKP",889,44.2],["KOK",443,22.0],["SDP",264,13.1],["VIHR",123,6.1],["PS",89,4.4],["VAS",64,3.2],["KD",62,3.1],["KESK",42,2.1],["LIIK",17,0.8]]},
+        {"id":"parliamentary-2023","year":2023,"type":"parliamentary","parties":[["RKP",1140,41.5],["KOK",536,19.5],["SDP",409,14.9],["VIHR",205,7.5],["PS",203,7.4],["KD",72,2.6],["VAS",71,2.6],["KESK",48,1.7],["LIIK",34,1.2]]},
+        {"id":"european-2024","year":2024,"type":"european","parties":[["RKP",667,37.0],["KOK",385,21.3],["VAS",276,15.3],["SDP",150,8.3],["VIHR",146,8.1],["PS",65,3.6],["KD",62,3.4],["KESK",42,2.3],["LIIK",1,0.1]]},
+        {"id":"regional-2025","year":2025,"type":"regional","parties":[["RKP",842,40.6],["KOK",404,19.5],["SDP",332,16.0],["VIHR",184,8.9],["KD",101,4.9],["VAS",92,4.4],["PS",68,3.3],["KESK",37,1.8],["LIIK",7,0.3]]},
+        {"id":"municipal-2025","year":2025,"type":"municipal","parties":[["RKP",949,43.8],["KOK",434,20.0],["SDP",289,13.3],["VIHR",184,8.5],["VAS",117,5.4],["PS",77,3.6],["KD",73,3.4],["KESK",40,1.8],["LIIK",6,0.3]]}
+      ]
+    },
+    "suuralue:Vöyrinkaupunki": {
+      "coverage":"exact",
+      "scope":{"fi":"Vöyrinkaupungin äänestysalue","en":"Vöyrinkaupunki voting district","fa":"حوزه رأی‌گیری Vöyrinkaupunki"},
+      "sourceUrl":"https://fi.wikipedia.org/wiki/Vöyrinkaupungin_suuralue",
+      "featuredLatestId":"municipal-2025",
+      "events":[
+        {"id":"parliamentary-2019","year":2019,"type":"parliamentary","parties":[["RKP",388,22.9],["SDP",343,20.2],["KOK",265,15.6],["PS",251,14.8],["VIHR",203,12.0],["VAS",90,5.3],["KESK",64,3.8],["KD",52,3.1],["PIR",13,0.8],["LIB",9,0.5]]},
+        {"id":"european-2019","year":2019,"type":"european","parties":[["RKP",235,23.1],["SDP",192,18.8],["KOK",138,13.5],["VIHR",140,13.7],["PS",128,12.6],["KESK",58,5.7],["VAS",57,5.6],["KD",42,4.1],["PIR",12,1.2],["LIB",3,0.3]]},
+        {"id":"municipal-2021","year":2021,"type":"municipal","parties":[["RKP",351,24.2],["KOK",328,22.7],["SDP",215,14.8],["PS",188,13.0],["VIHR",154,10.6],["VAS",108,7.5],["KESK",44,3.0],["KD",41,2.8],["LIIK",9,0.6],["PIR",9,0.6]]},
+        {"id":"parliamentary-2023","year":2023,"type":"parliamentary","parties":[["RKP",427,21.0],["KOK",370,18.2],["SDP",373,18.3],["PS",307,15.1],["VIHR",188,9.2],["VAS",110,5.4],["KESK",84,4.1],["KD",66,3.2],["LIIK",54,2.7],["LIB",22,1.1],["VL",22,1.1]]},
+        {"id":"european-2024","year":2024,"type":"european","parties":[["VAS",243,21.9],["RKP",238,21.5],["KOK",210,19.0],["SDP",119,10.7],["VIHR",120,10.8],["PS",82,7.4],["KESK",42,3.8],["KD",31,2.8],["LIIK",11,1.0],["VL",7,0.6]]},
+        {"id":"municipal-2025","year":2025,"type":"municipal","parties":[["RKP",397,25.2],["SDP",350,22.2],["KOK",295,18.7],["VIHR",179,11.4],["VAS",139,8.8],["PS",99,6.3],["KD",58,3.7],["KESK",44,2.8],["LIIK",13,0.8],["LIB",2,0.2]]}
+      ]
+    },
+    "suuralue:Palosaari": {
+      "coverage":"partial",
+      "scope":{"fi":"Palosaaren äänestysalue","en":"Palosaari voting district","fa":"حوزه رأی‌گیری Palosaari"},
+      "note":{"fi":"Äänestysalue ei sisällä Vikingaa, joten luvut eivät kata koko Palosaaren suuraluetta.","en":"The voting district excludes Vikinga, so the figures do not cover the whole Palosaari major area.","fa":"حوزه رأی‌گیری Vikinga را شامل نمی‌شود؛ بنابراین ارقام کل منطقه بزرگ Palosaari را پوشش نمی‌دهند."},
+      "sourceUrl":"https://fi.wikipedia.org/wiki/Palosaari_(Vaasa)",
+      "featuredLatestId":"municipal-2025",
+      "events":[
+        {"id":"parliamentary-2019","year":2019,"type":"parliamentary","parties":[["RKP",472,28.1],["SDP",336,20.0],["PS",244,14.5],["KOK",239,14.3],["VIHR",139,8.3],["VAS",100,6.0],["KD",66,3.9],["KESK",46,2.7],["LIB",6,0.4]]},
+        {"id":"european-2019","year":2019,"type":"european","parties":[["RKP",272,27.1],["SDP",251,25.0],["PS",129,12.8],["KOK",112,11.1],["VIHR",82,8.2],["VAS",53,5.3],["KESK",44,4.4],["KD",42,4.2],["LIB",2,0.2]]},
+        {"id":"municipal-2021","year":2021,"type":"municipal","parties":[["RKP",405,31.3],["KOK",236,18.3],["SDP",235,18.2],["PS",151,10.7],["VIHR",96,7.4],["VAS",74,5.7],["KD",52,4.0],["KESK",32,2.5],["LIIK",6,0.5]]},
+        {"id":"regional-2022","year":2022,"type":"regional","parties":[["RKP",341,31.0],["SDP",215,19.5],["KOK",195,17.7],["PS",100,9.1],["VIHR",73,6.6],["VAS",66,6.0],["KD",42,3.8],["KESK",35,3.2],["LIIK",20,1.8],["VKK",13,1.2]]},
+        {"id":"parliamentary-2023","year":2023,"type":"parliamentary","parties":[["RKP",459,28.0],["SDP",306,18.6],["PS",254,15.5],["KOK",241,14.7],["VIHR",115,7.0],["VAS",72,4.4],["KD",66,4.0],["KESK",53,3.2],["LIIK",38,2.3],["LIB",16,1.0],["VL",13,0.8],["VKK",4,0.2]]},
+        {"id":"european-2024","year":2024,"type":"european","parties":[["RKP",251,27.4],["VAS",169,18.5],["KOK",148,16.2],["SDP",123,13.4],["VIHR",76,8.3],["PS",53,5.8],["KESK",41,4.5],["KD",30,3.3],["VL",11,1.2],["LIIK",6,0.7],["LIB",4,0.4]]},
+        {"id":"regional-2025","year":2025,"type":"regional","parties":[["RKP",306,26.5],["SDP",275,23.8],["KOK",190,16.5],["VIHR",110,9.5],["VAS",77,6.7],["KD",72,6.2],["PS",65,5.6],["KESK",45,3.9],["LIIK",13,1.1]]},
+        {"id":"municipal-2025","year":2025,"type":"municipal","parties":[["RKP",379,31.1],["SDP",263,21.6],["KOK",184,15.1],["VIHR",107,8.8],["VAS",84,6.9],["PS",77,6.3],["KD",75,6.1],["KESK",39,3.2],["LIIK",12,1.0]]}
+      ]
+    },
+    "suuralue:Kotiranta": {
+      "coverage":"exact",
+      "scope":{"fi":"Kotirannan äänestysalue","en":"Kotiranta voting district","fa":"حوزه رأی‌گیری Kotiranta"},
+      "sourceUrl":"https://fi.wikipedia.org/wiki/Kotirannan_suuralue",
+      "featuredLatestId":"municipal-2025",
+      "events":[
+        {"id":"parliamentary-2019","year":2019,"type":"parliamentary","parties":[["RKP",673,27.1],["SDP",551,22.2],["PS",422,17.0],["KOK",400,16.1],["VIHR",138,5.6],["VAS",90,3.6],["KD",88,3.5],["KESK",81,3.3]]},
+        {"id":"european-2019","year":2019,"type":"european","parties":[["SDP",398,27.6],["RKP",343,23.8],["KOK",203,14.1],["PS",186,12.9],["VIHR",100,6.9],["KD",73,5.1],["KESK",65,4.5],["VAS",47,3.3]]},
+        {"id":"municipal-2021","year":2021,"type":"municipal","parties":[["RKP",551,26.0],["KOK",493,23.3],["SDP",373,17.6],["PS",312,14.7],["VIHR",154,7.3],["KD",92,4.3],["VAS",62,2.9],["KESK",59,2.8],["LIIK",10,0.5]]},
+        {"id":"parliamentary-2023","year":2023,"type":"parliamentary","parties":[["RKP",648,24.9],["KOK",526,20.2],["PS",448,17.2],["SDP",428,16.5],["VIHR",148,5.7],["KD",106,4.1],["KESK",100,3.8],["VAS",79,3.0],["LIIK",57,2.2],["VL",31,1.2]]},
+        {"id":"european-2024","year":2024,"type":"european","parties":[["RKP",402,26.3],["KOK",332,21.7],["VAS",224,14.7],["SDP",167,10.9],["PS",124,8.1],["VIHR",110,7.2],["KESK",78,5.1],["KD",56,3.7],["LIIK",17,1.1],["VL",13,0.9]]},
+        {"id":"municipal-2025","year":2025,"type":"municipal","parties":[["RKP",547,26.3],["KOK",485,23.3],["SDP",437,21.0],["PS",188,9.0],["VIHR",136,6.5],["KD",109,5.2],["VAS",91,4.4],["KESK",65,3.1],["LIIK",25,1.2]]}
+      ]
+    },
+    "suuralue:Suvilahti": {
+      "coverage":"exact",
+      "scope":{"fi":"Suvilahden äänestysalue","en":"Suvilahti voting district","fa":"حوزه رأی‌گیری Suvilahti"},
+      "sourceUrl":"https://fi.wikipedia.org/wiki/Suvilahden_suuralue",
+      "featuredLatestId":"municipal-2025",
+      "events":[
+        {"id":"parliamentary-2019","year":2019,"type":"parliamentary","parties":[["SDP",658,30.5],["PS",486,22.5],["RKP",332,15.4],["KOK",249,11.5],["VAS",128,5.9],["VIHR",120,5.6],["KD",73,3.4],["KESK",70,3.2]]},
+        {"id":"european-2019","year":2019,"type":"european","parties":[["SDP",482,36.4],["PS",267,20.2],["RKP",146,11.0],["KOK",122,9.2],["VIHR",96,7.3],["KD",69,5.2],["KESK",68,5.1],["VAS",49,3.7]]},
+        {"id":"municipal-2021","year":2021,"type":"municipal","parties":[["SDP",464,26.5],["PS",380,21.7],["KOK",310,17.7],["RKP",274,14.1],["VIHR",112,6.4],["VAS",103,5.9],["KESK",59,3.4],["KD",56,3.2],["LIIK",6,0.3]]},
+        {"id":"parliamentary-2023","year":2023,"type":"parliamentary","parties":[["SDP",536,26.1],["PS",525,25.6],["KOK",280,13.6],["RKP",270,13.2],["VIHR",91,4.4],["KESK",88,4.3],["VAS",81,3.9],["KD",76,3.7],["LIIK",60,2.9],["VL",25,1.0]]},
+        {"id":"european-2024","year":2024,"type":"european","parties":[["KOK",220,20.2],["SDP",197,18.1],["VAS",193,17.7],["RKP",156,14.3],["PS",114,10.5],["KESK",73,6.7],["VIHR",66,6.1],["KD",44,4.0],["LIIK",7,0.6],["VL",7,0.6]]},
+        {"id":"municipal-2025","year":2025,"type":"municipal","parties":[["SDP",486,32.9],["KOK",263,17.8],["RKP",225,15.2],["PS",175,11.8],["VAS",96,6.5],["VIHR",89,6.0],["KD",61,4.1],["KESK",59,4.0],["LIIK",24,1.6]]}
+      ]
+    },
+    "suuralue:Sundom": {
+      "coverage":"exact",
+      "scope":{"fi":"Sundomin äänestysalue","en":"Sundom voting district","fa":"حوزه رأی‌گیری Sundom"},
+      "sourceUrl":"https://fi.wikipedia.org/wiki/Sundom",
+      "featuredLatestId":"municipal-2025",
+      "events":[
+        {"id":"parliamentary-2019","year":2019,"type":"parliamentary","parties":[["RKP",1038,68.7],["SDP",185,12.3],["PS",88,5.8],["KOK",68,4.5],["KD",48,3.2],["VIHR",39,2.6],["VAS",19,1.3],["KESK",11,0.7]]},
+        {"id":"european-2019","year":2019,"type":"european","parties":[["RKP",613,61.1],["SDP",170,16.9],["KOK",53,5.3],["PS",53,5.3],["VIHR",51,5.1],["KD",47,4.7],["KESK",13,1.3],["VAS",7,0.7]]},
+        {"id":"municipal-2021","year":2021,"type":"municipal","parties":[["RKP",928,71.9],["SDP",102,7.9],["KOK",78,6.0],["PS",75,5.8],["KD",43,3.3],["VIHR",36,2.8],["VAS",16,1.2],["KESK",9,0.7],["LIIK",1,0.1]]},
+        {"id":"parliamentary-2023","year":2023,"type":"parliamentary","parties":[["RKP",963,62.4],["SDP",186,12.0],["PS",125,8.1],["KOK",100,6.5],["KD",70,4.5],["VIHR",34,2.2],["KESK",18,1.2],["LIIK",16,1.0],["VL",15,1.0],["VAS",13,0.8]]},
+        {"id":"european-2024","year":2024,"type":"european","parties":[["RKP",668,64.7],["VAS",89,8.6],["KOK",77,7.5],["SDP",59,5.7],["KD",47,4.5],["PS",32,3.1],["VIHR",32,3.1],["KESK",17,1.6],["VL",5,0.5],["LIIK",3,0.3]]},
+        {"id":"municipal-2025","year":2025,"type":"municipal","parties":[["RKP",819,65.8],["SDP",141,11.3],["KOK",107,8.6],["KD",51,4.1],["VIHR",42,3.4],["VAS",40,3.2],["PS",26,2.1],["LIIK",13,1.0],["KESK",5,0.4]]}
+      ]
+    }
+  },
+  "city": {
+    "coverage":"exact",
+    "scope":{"fi":"Vaasan kaupunki","en":"City of Vaasa","fa":"شهر واسا"},
+    "note":{"fi":"Äänimäärä- ja kannatussarja sisältää tässä vaiheessa kuntavaalit 2017 ja 2021. Vaasan Wikipedia-sivun vuoden 2025 taulukko esittää valtuustopaikat, ei puolueiden äänimääriä.","en":"The vote/share series currently contains the 2017 and 2021 municipal elections. The 2025 table on Vaasa's Wikipedia page reports council seats rather than party vote totals.","fa":"در این مرحله سری تعداد و سهم رأی شهر شامل انتخابات شهری ۲۰۱۷ و ۲۰۲۱ است. جدول ۲۰۲۵ در صفحه ویکی‌پدیای واسا تعداد کرسی‌های شورا را نشان می‌دهد، نه تعداد رأی احزاب."},
+    "sourceUrl":"https://vaalit.yle.fi/kv2021/fi/regions/10/municipalities/905/",
+    "featuredLatestId":"municipal-2021",
+    "events":[
+      {"id":"municipal-2017","year":2017,"type":"municipal","parties":[["RKP",9631,29.5],["SDP",6799,20.8],["KOK",5132,15.7],["PS",3201,9.8],["VIHR",2537,7.8],["VAS",2085,6.4],["KESK",1527,4.7],["KD",1385,4.2],["PIR",135,0.4]]},
+      {"id":"municipal-2021","year":2021,"type":"municipal","parties":[["RKP",8343,27.5],["SDP",5762,19.0],["KOK",5460,18.0],["PS",4889,16.1],["VIHR",1929,6.3],["VAS",1424,4.7],["KESK",1200,3.9],["KD",1117,3.7],["LIIK",113,0.4],["PIR",99,0.3],["KRIP",52,0.2]]}
+    ]
+  }
+}

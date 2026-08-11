@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
+import ElectionTopParties from '@/components/areas/ElectionTopParties.vue'
 import type { AreaLevel } from '@/domain/areas'
 import type {
   MajorAreaPopulationHistory,
@@ -99,9 +100,7 @@ const populationChangeText = computed(() => {
   if (props.level !== 'suuralue' || !change?.previous || change.percent === null) return ''
   const percent = `${percentFormatter.value.format(Math.abs(change.percent))}%`
   const previousYear = numberFormatter.value.format(change.previous.year)
-  return language.value === 'fa'
-    ? `${percent} ${t('comparedWith')} ${previousYear}`
-    : `${percent} ${t('comparedWith')} ${previousYear}`
+  return `${percent} ${t('comparedWith')} ${previousYear}`
 })
 
 const populationChangeDirection = computed(() => {
@@ -165,12 +164,14 @@ onMounted(async () => {
         />
       </div>
       <div class="summary-legend">
-        <span>
-          <i class="legend-dot legend-dot--employed" />{{ t('employed') }}
+        <span class="summary-legend__item">
+          <i class="legend-dot legend-dot--employed" />
+          <span>{{ t('employed') }}</span>
           <strong>{{ formatPercent(statistics.employedShare2013) }}</strong>
         </span>
-        <span>
-          <i class="legend-dot legend-dot--unemployed" />{{ t('unemployed') }}
+        <span class="summary-legend__item">
+          <i class="legend-dot legend-dot--unemployed" />
+          <span>{{ t('unemployed') }}</span>
           <strong>{{ formatPercent(statistics.unemployment2013) }}</strong>
         </span>
       </div>
@@ -235,20 +236,25 @@ onMounted(async () => {
         />
       </div>
       <div class="summary-legend summary-legend--languages">
-        <span>
-          <i class="legend-dot legend-dot--finnish" />{{ t('finnish') }}
+        <span class="summary-legend__item">
+          <i class="legend-dot legend-dot--finnish" />
+          <span>{{ t('finnish') }}</span>
           <strong>{{ formatPercent(statistics.language2015.finnish) }}</strong>
         </span>
-        <span>
-          <i class="legend-dot legend-dot--swedish" />{{ t('swedish') }}
+        <span class="summary-legend__item">
+          <i class="legend-dot legend-dot--swedish" />
+          <span>{{ t('swedish') }}</span>
           <strong>{{ formatPercent(statistics.language2015.swedish) }}</strong>
         </span>
-        <span>
-          <i class="legend-dot legend-dot--other-language" />{{ t('otherLanguages') }}
+        <span class="summary-legend__item">
+          <i class="legend-dot legend-dot--other-language" />
+          <span>{{ t('otherLanguages') }}</span>
           <strong>{{ formatPercent(statistics.language2015.other) }}</strong>
         </span>
       </div>
     </div>
+
+    <ElectionTopParties v-if="level === 'suuralue'" :level="level" :area-name="areaName" />
   </section>
 
   <p v-else-if="failed" class="area-stat-summary area-stat-summary--empty">

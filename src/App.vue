@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AreaDetail from '@/components/areas/AreaDetail.vue'
+import ElectionHistory from '@/components/areas/ElectionHistory.vue'
 import PienalueDetail from '@/components/areas/PienalueDetail.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
@@ -37,6 +38,7 @@ const homeHref = buildUrl()
 
     <section class="home-map-section" :aria-label="t('statisticalAreas')">
       <VaasaMap />
+      <ElectionHistory city show-top-parties />
     </section>
   </main>
 
