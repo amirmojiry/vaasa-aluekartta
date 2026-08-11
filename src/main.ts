@@ -8,5 +8,6 @@ import './styles/i18n.css'
 import './styles/visualizations.css'
 import './styles/election-interactions.css'
 import './styles/statistics-ranks.css'
+import './styles/city-statistics.css'
 
 createApp(App).mount('#app')

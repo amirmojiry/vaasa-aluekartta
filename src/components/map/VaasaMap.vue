@@ -48,6 +48,12 @@ const isLanguageMetric = computed(() => visualizationMetric.value.startsWith('la
 const numberFormatter = computed(
   () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
 )
+const yearFormatter = computed(
+  () =>
+    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+      useGrouping: false,
+    }),
+)
 const percentFormatter = computed(
   () =>
     new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
@@ -57,7 +63,7 @@ const percentFormatter = computed(
 )
 const populationFilterLabel = computed(() => {
   const year = selectedLevel.value === 'suuralue' ? 2024 : 2015
-  return `${t('populationView')} (${numberFormatter.value.format(year)})`
+  return `${t('populationView')} (${yearFormatter.value.format(year)})`
 })
 
 const mapStatus = computed(() => {
@@ -136,7 +142,7 @@ function metricColor(): string {
 function metricLabel(level: AreaLevel): string {
   if (visualizationMetric.value === 'population') {
     const year = level === 'suuralue' ? 2024 : 2015
-    return `${t('population')} · ${numberFormatter.value.format(year)}`
+    return `${t('population')} · ${yearFormatter.value.format(year)}`
   }
   switch (visualizationMetric.value) {
     case 'employment':
