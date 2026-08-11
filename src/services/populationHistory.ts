@@ -15,14 +15,16 @@ function decodeObservations(values: [number, number][]): PopulationObservation[]
 }
 
 export async function fetchMajorAreaPopulationHistoryDatabase(): Promise<MajorAreaPopulationHistoryDatabase> {
-  databasePromise ??= fetch(POPULATION_HISTORY_URL, { cache: 'force-cache' }).then(async (response) => {
-    if (!response.ok) throw new Error(`Population history returned HTTP ${response.status}`)
-    const data = (await response.json()) as MajorAreaPopulationHistoryDatabase
-    if (data.schemaVersion !== 1 || !data.areas) {
-      throw new Error('Population history database has an unsupported schema')
-    }
-    return data
-  })
+  databasePromise ??= fetch(POPULATION_HISTORY_URL, { cache: 'force-cache' }).then(
+    async (response) => {
+      if (!response.ok) throw new Error(`Population history returned HTTP ${response.status}`)
+      const data = (await response.json()) as MajorAreaPopulationHistoryDatabase
+      if (data.schemaVersion !== 1 || !data.areas) {
+        throw new Error('Population history database has an unsupported schema')
+      }
+      return data
+    },
+  )
 
   return databasePromise
 }
@@ -41,9 +43,10 @@ export function latestPopulationChange(
   const current = history.observations.at(-1)
   if (!current) return null
   const previous = history.observations.at(-2) ?? null
-  const percent = previous && previous.population > 0
-    ? ((current.population - previous.population) / previous.population) * 100
-    : null
+  const percent =
+    previous && previous.population > 0
+      ? ((current.population - previous.population) / previous.population) * 100
+      : null
   return { current, previous, percent }
 }
 
