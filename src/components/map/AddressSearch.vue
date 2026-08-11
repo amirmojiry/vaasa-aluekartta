@@ -146,7 +146,7 @@ async function submitSearch(): Promise<void> {
           type="search"
           autocomplete="street-address"
           :placeholder="messages.placeholder"
-        />
+        >
         <button type="submit" :disabled="searching || !query.trim()">
           {{ searching ? messages.searching : messages.button }}
         </button>
