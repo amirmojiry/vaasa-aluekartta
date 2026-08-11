@@ -4,10 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 import PopulationTrendChart from '@/components/areas/PopulationTrendChart.vue'
 import { localeForLanguage, useI18n } from '@/i18n'
 import { fetchStatisticsDatabase } from '@/services/areaStatistics'
-import {
-  buildCityStatisticsSnapshot,
-  type CityStatisticsSnapshot,
-} from '@/services/cityStatistics'
+import { buildCityStatisticsSnapshot, type CityStatisticsSnapshot } from '@/services/cityStatistics'
 import { fetchMajorAreaPopulationHistoryDatabase } from '@/services/populationHistory'
 
 const { language, t } = useI18n()
