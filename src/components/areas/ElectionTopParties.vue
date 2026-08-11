@@ -2,10 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 
 import type { AreaLevel } from '@/domain/areas'
-import type {
-  ElectionStatisticsDatabase,
-  ResolvedElectionDataset,
-} from '@/domain/elections'
+import type { ElectionStatisticsDatabase, ResolvedElectionDataset } from '@/domain/elections'
 import { useI18n } from '@/i18n'
 import {
   featuredElection,
