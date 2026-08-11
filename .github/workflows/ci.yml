@@ -20,9 +20,10 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Show Prettier diff
+      - name: Show formatter and lint diff
         run: |
           npx prettier --write src/components/areas/AreaDetail.vue src/components/areas/AreaStatisticsSummary.vue src/components/areas/ElectionHistory.vue src/components/areas/ElectionLineChart.vue src/components/areas/ElectionTopParties.vue src/components/map/VaasaMap.vue
+          npx eslint src/components/areas/AreaDetail.vue src/components/areas/AreaStatisticsSummary.vue src/components/areas/ElectionHistory.vue src/components/areas/ElectionLineChart.vue src/components/areas/ElectionTopParties.vue src/components/map/VaasaMap.vue --fix
           git diff -- src/components/areas/AreaDetail.vue src/components/areas/AreaStatisticsSummary.vue src/components/areas/ElectionHistory.vue src/components/areas/ElectionLineChart.vue src/components/areas/ElectionTopParties.vue src/components/map/VaasaMap.vue
       - name: Check formatting
         run: npm run format:check
