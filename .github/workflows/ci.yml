@@ -20,10 +20,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Show ElectionHistory Prettier diff
-        run: |
-          npx prettier --write src/components/areas/ElectionHistory.vue
-          git diff -- src/components/areas/ElectionHistory.vue
       - name: Check formatting
         run: npm run format:check
       - name: Lint
