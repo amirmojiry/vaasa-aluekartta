@@ -3,9 +3,11 @@ import { computed, onMounted, ref, watch } from 'vue'
 
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import ThematicMap from '@/components/analysis/ThematicMap.vue'
-import type { AreaLevel } from '@/domain/areas'
+import { AREAS } from '@/config/areas'
+import type { AreaLevel, LocalizedText } from '@/domain/areas'
 import type { ElectionStatisticsDatabase, ElectionType } from '@/domain/elections'
 import { localeForLanguage, useI18n } from '@/i18n'
+import { fetchPienalueBoundaries } from '@/services/boundaryData'
 import {
   fetchElectionStatisticsDatabase,
   partyColor,
@@ -17,6 +19,7 @@ const { buildUrl, language, t } = useI18n()
 const requestedLevel = new URLSearchParams(window.location.search).get('level')
 const level = ref<AreaLevel>(requestedLevel === 'pienalue' ? 'pienalue' : 'suuralue')
 const database = ref<ElectionStatisticsDatabase | null>(null)
+const minorAreaRelationIds = ref(new Map<string, number>())
 const selectedEventId = ref('')
 const loading = ref(true)
 const failed = ref(false)
@@ -35,6 +38,8 @@ const labels = {
     coverage: 'Coverage',
     source: 'Source',
     noData: 'No source-backed political data is available for this party at this area level and election.',
+    comparisonNote: 'For a valid cross-area comparison, the map, ranking, and bars include only election datasets whose voting-district scope exactly matches the statistical area.',
+    excludedTitle: 'Available but excluded from the comparison because the election scope does not exactly match the statistical area:',
     back: 'Back to Vaasa map',
     dedicated: 'Dedicated page',
   },
@@ -51,6 +56,8 @@ const labels = {
     coverage: 'Kattavuus',
     source: 'Lähde',
     noData: 'Tälle puolueelle ei ole lähteeseen perustuvia poliittisia tietoja tällä aluetasolla ja vaalilla.',
+    comparisonNote: 'Alueiden vertailukelpoisuuden säilyttämiseksi kartta, sijoitus ja pylväät sisältävät vain vaaliaineistot, joiden äänestysalue vastaa täsmälleen tilastoaluetta.',
+    excludedTitle: 'Aineisto on saatavilla, mutta se jätetään vertailun ulkopuolelle, koska vaalialue ei vastaa täsmälleen tilastoaluetta:',
     back: 'Takaisin Vaasan kartalle',
     dedicated: 'Oma sivu',
   },
@@ -67,6 +74,8 @@ const labels = {
     coverage: 'دامنه داده',
     source: 'منبع',
     noData: 'برای این حزب در این سطح منطقه و انتخابات، داده سیاسی مستند موجود نیست.',
+    comparisonNote: 'برای مقایسه معتبر بین مناطق، نقشه، رتبه‌بندی و نمودار میله‌ای فقط داده‌های انتخاباتی را نشان می‌دهند که محدوده حوزه رأی‌گیری دقیقاً با منطقه آماری منطبق باشد.',
+    excludedTitle: 'داده برای موارد زیر موجود است، اما چون محدوده انتخاباتی دقیقاً با منطقه آماری منطبق نیست در مقایسه لحاظ نشده است:',
     back: 'بازگشت به نقشه واسا',
     dedicated: 'صفحه اختصاصی',
   },
@@ -85,6 +94,11 @@ interface AreaPartyResult {
   percent: number
   coverage: string
   sourceUrl: string
+}
+
+interface ExcludedAreaPartyResult extends AreaPartyResult {
+  scope: string
+  note: string
 }
 
 const text = computed(() => labels[language.value])
@@ -109,6 +123,13 @@ const yearFormatter = computed(
   () => new Intl.NumberFormat(localeForLanguage(language.value), { useGrouping: false }),
 )
 
+function localized(value: LocalizedText | undefined): string {
+  if (!value) return ''
+  if (language.value === 'fa') return value.fa || value.en || value.fi
+  if (language.value === 'fi') return value.fi || value.en || value.fa
+  return value.en || value.fi || value.fa
+}
+
 function eventPriority(type: ElectionType): number {
   if (type === 'municipal') return 4
   if (type === 'regional') return 3
@@ -121,7 +142,7 @@ const eventOptions = computed<EventOption[]>(() => {
   const prefix = `${level.value}:`
   const options = new Map<string, EventOption>()
   for (const [key, dataset] of Object.entries(database.value.areas)) {
-    if (!key.startsWith(prefix)) continue
+    if (!key.startsWith(prefix) || dataset.coverage !== 'exact') continue
     for (const event of dataset.events) {
       if (!event.parties.some(([code]) => code === props.partyCode)) continue
       const current = options.get(event.id)
@@ -152,27 +173,64 @@ const results = computed<AreaPartyResult[]>(() => {
   if (!database.value || !selectedEventId.value) return []
   const prefix = `${level.value}:`
   return Object.entries(database.value.areas)
-    .filter(([key]) => key.startsWith(prefix))
+    .filter(([key, dataset]) => key.startsWith(prefix) && dataset.coverage === 'exact')
     .flatMap(([key, dataset]) => {
       const event = dataset.events.find((item) => item.id === selectedEventId.value)
       const result = event?.parties.find(([code]) => code === props.partyCode)
       if (!result) return []
-      return [{
-        name: key.slice(prefix.length),
-        votes: result[1],
-        percent: result[2],
-        coverage: dataset.coverage,
-        sourceUrl: dataset.sourceUrl,
-      }]
+      return [
+        {
+          name: key.slice(prefix.length),
+          votes: result[1],
+          percent: result[2],
+          coverage: dataset.coverage,
+          sourceUrl: dataset.sourceUrl,
+        },
+      ]
     })
     .sort((left, right) => right.percent - left.percent || right.votes - left.votes)
 })
 
+const excludedResults = computed<ExcludedAreaPartyResult[]>(() => {
+  if (!database.value || !selectedEventId.value) return []
+  const prefix = `${level.value}:`
+  return Object.entries(database.value.areas)
+    .filter(([key, dataset]) => key.startsWith(prefix) && dataset.coverage !== 'exact')
+    .flatMap(([key, dataset]) => {
+      const event = dataset.events.find((item) => item.id === selectedEventId.value)
+      const result = event?.parties.find(([code]) => code === props.partyCode)
+      if (!result) return []
+      return [
+        {
+          name: key.slice(prefix.length),
+          votes: result[1],
+          percent: result[2],
+          coverage: dataset.coverage,
+          sourceUrl: dataset.sourceUrl,
+          scope: localized(dataset.scope),
+          note: localized(dataset.note),
+        },
+      ]
+    })
+})
+
 const maxPercent = computed(() => Math.max(1, ...results.value.map((item) => item.percent)))
-const mapItems = computed(() => results.value.map((item) => ({ name: item.name, value: item.percent })))
+const mapItems = computed(() =>
+  results.value.map((item) => ({ name: item.name, value: item.percent })),
+)
 
 function formatPercent(value: number): string {
   return `${percentFormatter.value.format(value)}%`
+}
+
+function areaHref(name: string): string | null {
+  if (level.value === 'suuralue') {
+    const area = AREAS.find((candidate) => candidate.name === name)
+    return area ? buildUrl({ area: area.slug }) : null
+  }
+
+  const relationId = minorAreaRelationIds.value.get(name)
+  return relationId ? buildUrl({ pienalue: relationId }) : null
 }
 
 function setLevel(next: AreaLevel): void {
@@ -189,7 +247,14 @@ function ensureSelectedEvent(): void {
 
 onMounted(async () => {
   try {
-    database.value = await fetchElectionStatisticsDatabase()
+    const [electionDatabase, minorBoundaries] = await Promise.all([
+      fetchElectionStatisticsDatabase(),
+      fetchPienalueBoundaries(AREAS),
+    ])
+    database.value = electionDatabase
+    minorAreaRelationIds.value = new Map(
+      minorBoundaries.map((boundary) => [boundary.name, boundary.relationId]),
+    )
     ensureSelectedEvent()
   } catch {
     failed.value = true
@@ -217,8 +282,12 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
         <h1>{{ partyName }}</h1>
         <p>{{ text.title }}. {{ text.intro }}</p>
         <div class="party-page__links">
-          <a v-if="wikipedia.fa" :href="wikipedia.fa" target="_blank" rel="noreferrer">{{ t('persianWikipedia') }}</a>
-          <a v-if="wikipedia.fi" :href="wikipedia.fi" target="_blank" rel="noreferrer">{{ t('finnishWikipedia') }}</a>
+          <a v-if="wikipedia.fa" :href="wikipedia.fa" target="_blank" rel="noreferrer">
+            {{ t('persianWikipedia') }}
+          </a>
+          <a v-if="wikipedia.fi" :href="wikipedia.fi" target="_blank" rel="noreferrer">
+            {{ t('finnishWikipedia') }}
+          </a>
         </div>
       </div>
     </header>
@@ -226,22 +295,60 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
     <section class="party-page__content">
       <div class="party-controls">
         <div class="analysis-level-toggle" :aria-label="t('boundaryLevel')">
-          <button type="button" :class="{ 'is-active': level === 'suuralue' }" :aria-pressed="level === 'suuralue'" @click="setLevel('suuralue')">{{ t('majorAreas') }}</button>
-          <button type="button" :class="{ 'is-active': level === 'pienalue' }" :aria-pressed="level === 'pienalue'" @click="setLevel('pienalue')">{{ t('minorAreas') }}</button>
+          <button
+            type="button"
+            :class="{ 'is-active': level === 'suuralue' }"
+            :aria-pressed="level === 'suuralue'"
+            @click="setLevel('suuralue')"
+          >
+            {{ t('majorAreas') }}
+          </button>
+          <button
+            type="button"
+            :class="{ 'is-active': level === 'pienalue' }"
+            :aria-pressed="level === 'pienalue'"
+            @click="setLevel('pienalue')"
+          >
+            {{ t('minorAreas') }}
+          </button>
         </div>
         <label v-if="eventOptions.length" class="party-event-select">
           <span>{{ text.election }}</span>
           <select v-model="selectedEventId">
-            <option v-for="option in eventOptions" :key="option.id" :value="option.id">{{ eventLabel(option) }}</option>
+            <option v-for="option in eventOptions" :key="option.id" :value="option.id">
+              {{ eventLabel(option) }}
+            </option>
           </select>
         </label>
       </div>
 
       <p v-if="loading" class="party-state">{{ t('loading') }}</p>
-      <p v-else-if="failed || !party" class="party-state">{{ t('electionStatisticsUnavailable') }}</p>
+      <p v-else-if="failed || !party" class="party-state">
+        {{ t('electionStatisticsUnavailable') }}
+      </p>
 
       <template v-else>
-        <ThematicMap :level="level" :items="mapItems" :color="partyColor(partyCode)" :format-value="formatPercent" />
+        <p class="party-comparison-note">{{ text.comparisonNote }}</p>
+
+        <div v-if="excludedResults.length" class="party-comparison-note party-comparison-note--excluded">
+          <strong>{{ text.excludedTitle }}</strong>
+          <ul>
+            <li v-for="item in excludedResults" :key="`excluded-${item.name}`">
+              <a v-if="areaHref(item.name)" :href="areaHref(item.name) ?? undefined">{{ item.name }}</a>
+              <span v-else>{{ item.name }}</span>
+              <span> · {{ item.scope }}</span>
+              <span v-if="item.note"> — {{ item.note }}</span>
+              <a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ text.source }}</a>
+            </li>
+          </ul>
+        </div>
+
+        <ThematicMap
+          :level="level"
+          :items="mapItems"
+          :color="partyColor(partyCode)"
+          :format-value="formatPercent"
+        />
         <p v-if="results.length === 0" class="party-state">{{ text.noData }}</p>
 
         <section v-else class="party-card">
@@ -249,11 +356,25 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
           <div class="party-bars-analysis">
             <div v-for="(item, index) in results" :key="item.name" class="party-analysis-row">
               <div class="party-analysis-row__label">
-                <span><strong>{{ numberFormatter.format(index + 1) }}.</strong> {{ item.name }}</span>
-                <strong>{{ formatPercent(item.percent) }} · {{ numberFormatter.format(item.votes) }} {{ t('votes') }}</strong>
+                <span>
+                  <strong>{{ numberFormatter.format(index + 1) }}.</strong>
+                  <a v-if="areaHref(item.name)" class="party-area-link" :href="areaHref(item.name) ?? undefined">
+                    {{ item.name }}
+                  </a>
+                  <span v-else>{{ item.name }}</span>
+                </span>
+                <strong>
+                  {{ formatPercent(item.percent) }} · {{ numberFormatter.format(item.votes) }}
+                  {{ t('votes') }}
+                </strong>
               </div>
               <div class="party-analysis-row__track" aria-hidden="true">
-                <span :style="{ width: `${(item.percent / maxPercent) * 100}%`, backgroundColor: partyColor(partyCode) }" />
+                <span
+                  :style="{
+                    width: `${(item.percent / maxPercent) * 100}%`,
+                    backgroundColor: partyColor(partyCode),
+                  }"
+                />
               </div>
             </div>
           </div>
@@ -264,16 +385,30 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
           <div class="party-table-wrap">
             <table>
               <thead>
-                <tr><th>{{ text.rank }}</th><th>{{ text.area }}</th><th>{{ text.share }}</th><th>{{ text.votes }}</th><th>{{ text.coverage }}</th><th>{{ text.source }}</th></tr>
+                <tr>
+                  <th>{{ text.rank }}</th>
+                  <th>{{ text.area }}</th>
+                  <th>{{ text.share }}</th>
+                  <th>{{ text.votes }}</th>
+                  <th>{{ text.coverage }}</th>
+                  <th>{{ text.source }}</th>
+                </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in results" :key="`table-${item.name}`">
                   <td>{{ numberFormatter.format(index + 1) }}</td>
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <a v-if="areaHref(item.name)" class="party-area-link" :href="areaHref(item.name) ?? undefined">
+                      {{ item.name }}
+                    </a>
+                    <span v-else>{{ item.name }}</span>
+                  </td>
                   <td>{{ formatPercent(item.percent) }}</td>
                   <td>{{ numberFormatter.format(item.votes) }}</td>
                   <td>{{ item.coverage }}</td>
-                  <td><a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ text.source }}</a></td>
+                  <td>
+                    <a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ text.source }}</a>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -300,7 +435,12 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
 .analysis-level-toggle button.is-active { border-color: var(--green); background: #dfeee9; color: #0c514b; }
 .party-event-select { display: grid; gap: .3rem; min-width: min(100%, 22rem); color: #586763; font-size: .78rem; font-weight: 750; }
 .party-event-select select { padding: .55rem .7rem; border: 1px solid var(--line); border-radius: .5rem; background: #fffdf8; color: var(--ink); }
-.party-state, .party-card { margin: 0; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--paper); box-shadow: var(--shadow); }
+.party-state, .party-card, .party-comparison-note { margin: 0; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--paper); box-shadow: var(--shadow); }
+.party-comparison-note { color: #596964; font-size: .82rem; line-height: 1.6; }
+.party-comparison-note--excluded { border-color: #d8bd7d; background: #fff8e8; }
+.party-comparison-note ul { margin: .65rem 0 0; padding-inline-start: 1.25rem; }
+.party-comparison-note li + li { margin-top: .45rem; }
+.party-comparison-note a, .party-area-link { color: var(--green); font-weight: 750; text-underline-offset: .15rem; }
 .party-card h2 { margin: 0 0 1rem; font-size: 1.15rem; }
 .party-bars-analysis { display: grid; gap: .7rem; }
 .party-analysis-row { display: grid; gap: .3rem; }
