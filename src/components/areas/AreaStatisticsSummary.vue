@@ -7,7 +7,11 @@ import type {
   MajorAreaPopulationHistory,
   MajorAreaPopulationHistoryDatabase,
 } from '@/domain/populationHistory'
-import type { AreaStatisticRecord, AreaStatisticsDatabase } from '@/domain/statistics'
+import type {
+  AreaStatisticRecord,
+  AreaStatisticsDatabase,
+  CompactAreaStatisticRecord,
+} from '@/domain/statistics'
 import { localeForLanguage, useI18n } from '@/i18n'
 import { fetchAreaStatistics, fetchStatisticsDatabase } from '@/services/areaStatistics'
 import {
@@ -88,7 +92,10 @@ const populationRank = computed(() =>
   props.level === 'suuralue' ? majorPopulationRank.value : legacyPopulationRank.value,
 )
 
-function rankFor(value: number, selector: (record: AreaStatisticRecord) => number): {
+function rankFor(
+  value: number,
+  selector: (record: CompactAreaStatisticRecord) => number,
+): {
   rank: number
   total: number
 } | null {
@@ -101,34 +108,22 @@ function rankFor(value: number, selector: (record: AreaStatisticRecord) => numbe
 }
 
 const employedRank = computed(() =>
-  statistics.value
-    ? rankFor(statistics.value.employedShare2013, (record) => record.employedShare2013)
-    : null,
+  statistics.value ? rankFor(statistics.value.employedShare2013, (record) => record.e) : null,
 )
 const unemployedRank = computed(() =>
-  statistics.value
-    ? rankFor(statistics.value.unemployment2013, (record) => record.unemployment2013)
-    : null,
+  statistics.value ? rankFor(statistics.value.unemployment2013, (record) => record.u) : null,
 )
 const studentRank = computed(() =>
-  statistics.value
-    ? rankFor(statistics.value.studentShare2013, (record) => record.studentShare2013)
-    : null,
+  statistics.value ? rankFor(statistics.value.studentShare2013, (record) => record.s) : null,
 )
 const finnishRank = computed(() =>
-  statistics.value
-    ? rankFor(statistics.value.language2015.finnish, (record) => record.language2015.finnish)
-    : null,
+  statistics.value ? rankFor(statistics.value.language2015.finnish, (record) => record.l[0]) : null,
 )
 const swedishRank = computed(() =>
-  statistics.value
-    ? rankFor(statistics.value.language2015.swedish, (record) => record.language2015.swedish)
-    : null,
+  statistics.value ? rankFor(statistics.value.language2015.swedish, (record) => record.l[1]) : null,
 )
 const otherLanguageRank = computed(() =>
-  statistics.value
-    ? rankFor(statistics.value.language2015.other, (record) => record.language2015.other)
-    : null,
+  statistics.value ? rankFor(statistics.value.language2015.other, (record) => record.l[2]) : null,
 )
 
 function compactRankText(rank: { rank: number; total: number } | null): string {
