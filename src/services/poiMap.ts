@@ -76,10 +76,9 @@ export function addPoiFeatureGroup(
       fillOpacity: 0.94,
     }).addTo(group)
 
-    marker.bindTooltip(
-      `${definition.labels[language]} · ${localizedPoiName(feature, language)}`,
-      { sticky: true },
-    )
+    marker.bindTooltip(`${definition.labels[language]} · ${localizedPoiName(feature, language)}`, {
+      sticky: true,
+    })
     marker.bindPopup(poiPopup(feature, language))
   }
 

@@ -27,7 +27,8 @@ const messages = {
     loading: 'Paikkoja ladataan…',
     unavailable: 'Paikkatietoja ei juuri nyt ole saatavilla.',
     source: 'POI-aineisto: OpenStreetMapin tekijät',
-    allAreasHint: 'Tällä aluekartalla ladataan kaikki Vaasan POI-kohteet, ei vain tämän alueen kohteita.',
+    allAreasHint:
+      'Tällä aluekartalla ladataan kaikki Vaasan POI-kohteet, ei vain tämän alueen kohteita.',
     focusArea: 'Kohdista alueeseen',
     showAllVaasa: 'Näytä kaikki Vaasan paikat',
   },
@@ -42,7 +43,8 @@ const messages = {
     loading: 'در حال بارگذاری مکان‌ها…',
     unavailable: 'در حال حاضر داده مکان‌ها در دسترس نیست.',
     source: 'داده POI: مشارکت‌کنندگان OpenStreetMap',
-    allAreasHint: 'همه POIهای واسا روی نقشه این منطقه بارگذاری می‌شوند، نه فقط مکان‌های داخل همین منطقه.',
+    allAreasHint:
+      'همه POIهای واسا روی نقشه این منطقه بارگذاری می‌شوند، نه فقط مکان‌های داخل همین منطقه.',
     focusArea: 'تمرکز روی این منطقه',
     showAllVaasa: 'نمایش همه مکان‌های واسا',
   },
