@@ -119,11 +119,12 @@ onMounted(async () => {
 <template>
   <div v-if="income" class="summary-metric income-summary">
     <div class="summary-metric__heading">
-      <strong
-        ><a class="income-summary__analysis-link" :href="incomePageHref">{{
-          text.title
-        }}</a></strong
+      <a
+        class="income-summary__analysis-link income-summary__analysis-link--heading"
+        :href="incomePageHref"
       >
+        {{ text.title }}
+      </a>
       <span>{{ text.basis }} · {{ income.year }}</span>
     </div>
 
@@ -151,11 +152,12 @@ onMounted(async () => {
 
   <div v-else-if="loaded" class="summary-metric income-summary income-summary--empty">
     <div class="summary-metric__heading">
-      <strong
-        ><a class="income-summary__analysis-link" :href="incomePageHref">{{
-          text.title
-        }}</a></strong
+      <a
+        class="income-summary__analysis-link income-summary__analysis-link--heading"
+        :href="incomePageHref"
       >
+        {{ text.title }}
+      </a>
       <span>2014</span>
     </div>
     <span>{{ text.unavailable }}</span>
@@ -203,6 +205,10 @@ onMounted(async () => {
 .income-summary__rank-link {
   color: inherit;
   text-underline-offset: 0.16rem;
+}
+
+.income-summary__analysis-link--heading {
+  font-weight: 800;
 }
 
 .income-summary__rank-link {

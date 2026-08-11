@@ -135,9 +135,9 @@ const yearFormatter = computed(
 
 function localized(value: LocalizedText | undefined): string {
   if (!value) return ''
-  if (language.value === 'fa') return value.fa || value.en || value.fi
-  if (language.value === 'fi') return value.fi || value.en || value.fa
-  return value.en || value.fi || value.fa
+  if (language.value === 'fa') return value.fa || value.en || value.fi || ''
+  if (language.value === 'fi') return value.fi || value.en || value.fa || ''
+  return value.en || value.fi || value.fa || ''
 }
 
 function eventPriority(type: ElectionType): number {

@@ -103,13 +103,12 @@ export async function fetchAnalysisMetricDataset(
     return {
       metric,
       unit: 'people',
-      observations: Object.entries(database.areas)
-        .map(([name, values]) => {
+      observations: Object.entries(database.areas).flatMap(
+        ([name, values]): AnalysisObservation[] => {
           const latest = values.at(-1)
-          if (!latest) return null
-          return { level, name, year: latest[0], value: latest[1] }
-        })
-        .filter((value): value is AnalysisObservation => value !== null),
+          return latest ? [{ level, name, year: latest[0], value: latest[1] }] : []
+        },
+      ),
       sourceUrl: database.source.url,
       sourceLabel: database.source.title,
       note: database.source.note,
