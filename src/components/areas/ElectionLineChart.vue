@@ -18,7 +18,7 @@ const emit = defineEmits<{
   'toggle-party': [party: string]
 }>()
 
-const { language, t } = useI18n()
+const { buildUrl, language, t } = useI18n()
 const hoveredParty = ref<string | null>(null)
 const profileOpen = ref(false)
 const profileLoading = ref(false)
@@ -40,6 +40,11 @@ const percentFormatter = computed(
       maximumFractionDigits: 1,
     }),
 )
+const dedicatedPageLabel = computed(() => {
+  if (language.value === 'fa') return 'صفحه اختصاصی'
+  if (language.value === 'fi') return 'Oma sivu'
+  return 'Dedicated page'
+})
 
 const selectedLinks = computed(() =>
   props.selectedParty ? partyWikipediaLinks(props.selectedParty) : {},
@@ -192,7 +197,9 @@ watch(
         <a v-if="selectedLinks.fa" :href="selectedLinks.fa" target="_blank" rel="noreferrer">
           {{ t('persianWikipedia') }}
         </a>
-        <span v-if="selectedLinks.fa && selectedLinks.fi" aria-hidden="true">|</span>
+        <span v-if="selectedLinks.fa" aria-hidden="true">|</span>
+        <a :href="buildUrl({ party: selectedParty })">{{ dedicatedPageLabel }}</a>
+        <span v-if="selectedLinks.fi" aria-hidden="true">|</span>
         <a v-if="selectedLinks.fi" :href="selectedLinks.fi" target="_blank" rel="noreferrer">
           {{ t('finnishWikipedia') }}
         </a>
