@@ -1,0 +1,252 @@
+name: Temporary address search integration
+
+on:
+  push:
+    branches:
+      - agent/address-search-v2
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.event.head_commit.message != 'Integrate address search'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: agent/address-search-v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --package-lock=false
+
+      - name: Integrate address search
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new, label):
+              text = path.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one match, found {count}')
+              path.write_text(text.replace(old, new, 1))
+
+          # Global style import.
+          path = Path('src/main.ts')
+          replace_once(
+              path,
+              "import './styles/pois.css'\n",
+              "import './styles/pois.css'\nimport './styles/address-search.css'\n",
+              'main style import',
+          )
+
+          # Home map search control.
+          path = Path('src/components/map/VaasaMap.vue')
+          replace_once(
+              path,
+              "import { AREAS } from '@/config/areas'",
+              "import AddressSearch from '@/components/map/AddressSearch.vue'\nimport { AREAS } from '@/config/areas'",
+              'VaasaMap import',
+          )
+          replace_once(
+              path,
+              '    <div class="boundary-level-control" :aria-label="t(\'boundaryLevel\')">',
+              '    <AddressSearch mode="home" />\n\n    <div class="boundary-level-control" :aria-label="t(\'boundaryLevel\')">',
+              'VaasaMap template',
+          )
+
+          # Major area map search and marker.
+          path = Path('src/components/areas/AreaDetail.vue')
+          replace_once(
+              path,
+              "import L, { type FeatureGroup, type Map, type Polygon } from 'leaflet'",
+              "import L, { type CircleMarker, type FeatureGroup, type Map, type Polygon } from 'leaflet'",
+              'AreaDetail leaflet import',
+          )
+          replace_once(
+              path,
+              "import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'",
+              "import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'\nimport AddressSearch from '@/components/map/AddressSearch.vue'",
+              'AreaDetail component import',
+          )
+          replace_once(
+              path,
+              "import type { AreaBoundary, AreaDefinition, PienalueBoundary } from '@/domain/areas'",
+              "import type { AreaBoundary, AreaDefinition, PienalueBoundary } from '@/domain/areas'\nimport type { GeocodedAddress } from '@/domain/addressSearch'",
+              'AreaDetail address type',
+          )
+          replace_once(
+              path,
+              "import { addPoiFeatureGroup } from '@/services/poiMap'",
+              "import { addAddressMarker } from '@/services/addressMap'\nimport { addPoiFeatureGroup } from '@/services/poiMap'",
+              'AreaDetail marker import',
+          )
+          replace_once(
+              path,
+              'let poiGroup: FeatureGroup | null = null',
+              'let poiGroup: FeatureGroup | null = null\nlet addressMarker: CircleMarker | null = null',
+              'AreaDetail marker state',
+          )
+          replace_once(
+              path,
+              'async function loadPois(): Promise<void> {',
+              "function showAddress(address: GeocodedAddress): void {\n  if (!map) return\n  addressMarker?.remove()\n  addressMarker = addAddressMarker(map, address)\n}\n\nasync function loadPois(): Promise<void> {",
+              'AreaDetail show address',
+          )
+          replace_once(
+              path,
+              '          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">',
+              '          <AddressSearch\n            mode="major"\n            :current-major-slug="area.slug"\n            @found-here="showAddress"\n          />\n\n          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">',
+              'AreaDetail search template',
+          )
+          replace_once(
+              path,
+              'onBeforeUnmount(() => {\n  poiGroup?.remove()',
+              'onBeforeUnmount(() => {\n  addressMarker?.remove()\n  addressMarker = null\n  poiGroup?.remove()',
+              'AreaDetail cleanup',
+          )
+
+          # Minor area map search, marker, and deep-linked marker restoration.
+          path = Path('src/components/areas/PienalueDetail.vue')
+          replace_once(
+              path,
+              "import L, { type FeatureGroup, type Map, type Polygon } from 'leaflet'",
+              "import L, { type CircleMarker, type FeatureGroup, type Map, type Polygon } from 'leaflet'",
+              'Pienalue leaflet import',
+          )
+          replace_once(
+              path,
+              "import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'",
+              "import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'\nimport AddressSearch from '@/components/map/AddressSearch.vue'",
+              'Pienalue component import',
+          )
+          replace_once(
+              path,
+              "import type { PienalueBoundary } from '@/domain/areas'",
+              "import type { PienalueBoundary } from '@/domain/areas'\nimport type { GeocodedAddress } from '@/domain/addressSearch'",
+              'Pienalue address type',
+          )
+          replace_once(
+              path,
+              "import { fetchPienalueBoundaries } from '@/services/boundaryData'",
+              "import { pointInPienalue } from '@/services/addressSearch'\nimport { addAddressMarker, readAddressSearchParams } from '@/services/addressMap'\nimport { fetchPienalueBoundaries } from '@/services/boundaryData'",
+              'Pienalue address services',
+          )
+          replace_once(
+              path,
+              'let poiGroup: FeatureGroup | null = null',
+              'let poiGroup: FeatureGroup | null = null\nlet addressMarker: CircleMarker | null = null',
+              'Pienalue marker state',
+          )
+          replace_once(
+              path,
+              'async function loadPois(): Promise<void> {',
+              "function showAddress(address: GeocodedAddress): void {\n  if (!map) return\n  addressMarker?.remove()\n  addressMarker = addAddressMarker(map, address)\n}\n\nasync function loadPois(): Promise<void> {",
+              'Pienalue show address',
+          )
+          replace_once(
+              path,
+              '    fitAreaOnMap()\n  } catch (error) {',
+              "    fitAreaOnMap()\n    const initialAddress = readAddressSearchParams()\n    if (initialAddress && pointInPienalue(initialAddress.lat, initialAddress.lon, result)) {\n      showAddress(initialAddress)\n    }\n  } catch (error) {",
+              'Pienalue restore marker',
+          )
+          replace_once(
+              path,
+              '          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">',
+              '          <AddressSearch\n            mode="minor"\n            :current-minor-relation-id="relationId"\n            @found-here="showAddress"\n          />\n\n          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">',
+              'Pienalue search template',
+          )
+          replace_once(
+              path,
+              'onBeforeUnmount(() => {\n  poiGroup?.remove()',
+              'onBeforeUnmount(() => {\n  addressMarker?.remove()\n  addressMarker = null\n  poiGroup?.remove()',
+              'Pienalue cleanup',
+          )
+
+          # Persian spelling corrections and deterministic overrides.
+          path = Path('src/i18n.ts')
+          text = path.read_text()
+          text = text.replace("  Gerby: 'گربی',", "  Gerby: 'گربو',")
+          text = text.replace("  Vähäkyrö: 'وهاکورو',", "  Vähäkyrö: 'وهه‌کورو',")
+          old = '''function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
+            const finnishName = names?.fi || fallback
+            for (const [source, persian] of Object.entries(PERSIAN_MAJOR_AREA_NAMES)) {
+              if (finnishName === source) return persian
+              if (finnishName.startsWith(`${source} `)) {
+                return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
+              }
+            }
+            return toPersianDigits(finnishName)
+          }
+          '''
+          new = '''function persianMajorAreaOverride(
+            names: LocalizedAreaNames | undefined,
+            fallback: string,
+          ): string | null {
+            const finnishName = names?.fi || fallback
+            for (const [source, persian] of Object.entries(PERSIAN_MAJOR_AREA_NAMES)) {
+              if (finnishName === source) return persian
+              if (finnishName.startsWith(`${source} `)) {
+                return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
+              }
+            }
+            return null
+          }
+
+          function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
+            return persianMajorAreaOverride(names, fallback) ?? toPersianDigits(names?.fi || fallback)
+          }
+          '''
+          if old not in text:
+              raise SystemExit('i18n fallback block not found')
+          text = text.replace(old, new, 1)
+          text = text.replace(
+              "  if (targetLanguage === 'fa') return names?.fa || persianAreaNameFallback(names, fallback)",
+              "  if (targetLanguage === 'fa')\n    return persianMajorAreaOverride(names, fallback) ?? names?.fa ?? persianAreaNameFallback(names, fallback)",
+              1,
+          )
+          path.write_text(text)
+
+          path = Path('src/i18n.spec.ts')
+          text = path.read_text()
+          text = text.replace("      'گربی',", "      'گربو',")
+          marker = "    expect(localizeAreaName({ fi: 'Keskusta 4', en: 'Keskusta 4' }, 'Keskusta 4', 'fa')).toBe(\n      'مرکز شهر ۴',\n    )"
+          if marker not in text:
+              raise SystemExit('i18n spec insertion marker not found')
+          text = text.replace(
+              marker,
+              marker + "\n    expect(localizeAreaName({ fi: 'Vähäkyrö', fa: 'قدیمی' }, 'Vähäkyrö', 'fa')).toBe(\n      'وهه‌کورو',\n    )",
+              1,
+          )
+          path.write_text(text)
+          PY
+
+      - name: Format
+        run: npm run format
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit changes
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add src/main.ts src/components/map/VaasaMap.vue src/components/areas/AreaDetail.vue src/components/areas/PienalueDetail.vue src/i18n.ts src/i18n.spec.ts src/domain/addressSearch.ts src/services/addressSearch.ts src/services/addressMap.ts src/services/addressSearch.spec.ts src/components/map/AddressSearch.vue src/styles/address-search.css
+          git commit -m "Integrate address search"
+          git push origin HEAD:agent/address-search-v2
