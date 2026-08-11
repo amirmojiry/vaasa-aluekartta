@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "latestAvailableYear": 2024,
+  "source": {
+    "title": "Vaasan suuralueet – Suuraluet ja väkiluvun kehitys",
+    "url": "https://fi.wikipedia.org/wiki/Vaasan_suuralueet",
+    "accessed": "2026-08-11",
+    "note": "The current Finnish Wikipedia table provides measurements for 31.12.2002, 31.12.2015, 31.12.2017 and 31.12.2024. Its citations point to City of Vaasa, Sanna Komsi (2016) and VASEK sources. The 2002 Vähäkyrö value predates its merger into Vaasa."
+  },
+  "areas": {
+    "Keskusta": [[2002, 13772], [2015, 14474], [2017, 14603], [2024, 15657]],
+    "Vöyrinkaupunki": [[2002, 2627], [2015, 3340], [2017, 3468], [2024, 4810]],
+    "Vaskiluoto": [[2002, 419], [2015, 358], [2017, 338], [2024, 230]],
+    "Palosaari": [[2002, 5678], [2015, 5861], [2017, 5758], [2024, 6350]],
+    "Gerby": [[2002, 9564], [2015, 10918], [2017, 10961], [2024, 10725]],
+    "Kotiranta": [[2002, 2764], [2015, 4531], [2017, 4623], [2024, 5027]],
+    "Huutoniemi": [[2002, 8008], [2015, 8961], [2017, 8764], [2024, 8622]],
+    "Ristinummi": [[2002, 7769], [2015, 7467], [2017, 7184], [2024, 7453]],
+    "Höstvesi": [[2002, 420], [2015, 411], [2017, 394], [2024, 367]],
+    "Suvilahti": [[2002, 3548], [2015, 3879], [2017, 3779], [2024, 3866]],
+    "Sundom": [[2002, 1946], [2015, 2458], [2017, 2530], [2024, 2633]],
+    "Vähäkyrö": [[2002, 4706], [2015, 4620], [2017, 4526], [2024, 4045]]
+  }
+}
