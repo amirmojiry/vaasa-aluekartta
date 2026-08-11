@@ -3,6 +3,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import ThematicMap from '@/components/analysis/ThematicMap.vue'
+import { AREAS } from '@/config/areas'
 import type { AreaLevel } from '@/domain/areas'
 import { localeForLanguage, useI18n } from '@/i18n'
 import {
@@ -11,14 +12,17 @@ import {
   type AnalysisMetric,
   type AnalysisMetricDataset,
 } from '@/services/analysisMetrics'
+import { fetchPienalueBoundaries } from '@/services/boundaryData'
 
 const props = defineProps<{ metric: AnalysisMetric }>()
 const { buildUrl, language, t } = useI18n()
 const requestedLevel = new URLSearchParams(window.location.search).get('level')
 const level = ref<AreaLevel>(requestedLevel === 'pienalue' ? 'pienalue' : 'suuralue')
 const dataset = ref<AnalysisMetricDataset | null>(null)
+const minorAreaRelationIds = ref(new Map<string, number>())
 const loading = ref(true)
 const failed = ref(false)
+let loadToken = 0
 
 const labels = {
   en: {
@@ -121,6 +125,16 @@ function formatValue(value: number): string {
   return numberFormatter.value.format(value)
 }
 
+function areaHref(name: string): string | null {
+  if (level.value === 'suuralue') {
+    const area = AREAS.find((candidate) => candidate.name === name)
+    return area ? buildUrl({ area: area.slug }) : null
+  }
+
+  const relationId = minorAreaRelationIds.value.get(name)
+  return relationId ? buildUrl({ pienalue: relationId }) : null
+}
+
 function setLevel(next: AreaLevel): void {
   level.value = next
   const search = new URLSearchParams(window.location.search)
@@ -129,15 +143,50 @@ function setLevel(next: AreaLevel): void {
 }
 
 async function load(): Promise<void> {
+  const token = ++loadToken
+  const requestedMetric = props.metric
+  const requestedAreaLevel = level.value
   loading.value = true
   failed.value = false
+
   try {
-    dataset.value = await fetchAnalysisMetricDataset(props.metric, level.value)
+    const [nextDataset, minorBoundaries] = await Promise.all([
+      fetchAnalysisMetricDataset(requestedMetric, requestedAreaLevel),
+      requestedAreaLevel === 'pienalue' ? fetchPienalueBoundaries(AREAS) : Promise.resolve(null),
+    ])
+
+    if (
+      token !== loadToken ||
+      requestedMetric !== props.metric ||
+      requestedAreaLevel !== level.value
+    ) {
+      return
+    }
+
+    if (minorBoundaries) {
+      minorAreaRelationIds.value = new Map(
+        minorBoundaries.map((boundary) => [boundary.name, boundary.relationId]),
+      )
+    }
+    dataset.value = nextDataset
   } catch {
+    if (
+      token !== loadToken ||
+      requestedMetric !== props.metric ||
+      requestedAreaLevel !== level.value
+    ) {
+      return
+    }
     dataset.value = null
     failed.value = true
   } finally {
-    loading.value = false
+    if (
+      token === loadToken &&
+      requestedMetric === props.metric &&
+      requestedAreaLevel === level.value
+    ) {
+      loading.value = false
+    }
   }
 }
 
@@ -164,10 +213,20 @@ watch([() => props.metric, level], () => void load())
 
     <section class="analysis-page__content">
       <div class="analysis-level-toggle" :aria-label="t('boundaryLevel')">
-        <button type="button" :class="{ 'is-active': level === 'suuralue' }" :aria-pressed="level === 'suuralue'" @click="setLevel('suuralue')">
+        <button
+          type="button"
+          :class="{ 'is-active': level === 'suuralue' }"
+          :aria-pressed="level === 'suuralue'"
+          @click="setLevel('suuralue')"
+        >
           {{ t('majorAreas') }}
         </button>
-        <button type="button" :class="{ 'is-active': level === 'pienalue' }" :aria-pressed="level === 'pienalue'" @click="setLevel('pienalue')">
+        <button
+          type="button"
+          :class="{ 'is-active': level === 'pienalue' }"
+          :aria-pressed="level === 'pienalue'"
+          @click="setLevel('pienalue')"
+        >
           {{ t('minorAreas') }}
         </button>
       </div>
@@ -176,7 +235,12 @@ watch([() => props.metric, level], () => void load())
       <p v-else-if="failed" class="analysis-state">{{ t('statisticsUnavailable') }}</p>
 
       <template v-else-if="dataset">
-        <ThematicMap :level="level" :items="dataset.observations" :color="metricColors[metric]" :format-value="formatValue" />
+        <ThematicMap
+          :level="level"
+          :items="dataset.observations"
+          :color="metricColors[metric]"
+          :format-value="formatValue"
+        />
 
         <p v-if="dataset.observations.length === 0" class="analysis-state">{{ text.noData }}</p>
 
@@ -185,11 +249,22 @@ watch([() => props.metric, level], () => void load())
           <div class="analysis-bars">
             <div v-for="item in ranked" :key="item.name" class="analysis-bar-row">
               <div class="analysis-bar-row__label">
-                <span><strong>{{ numberFormatter.format(item.rank) }}.</strong> {{ item.name }}</span>
+                <span>
+                  <strong>{{ numberFormatter.format(item.rank) }}.</strong>
+                  <a v-if="areaHref(item.name)" class="analysis-area-link" :href="areaHref(item.name) ?? undefined">
+                    {{ item.name }}
+                  </a>
+                  <span v-else>{{ item.name }}</span>
+                </span>
                 <strong>{{ formatValue(item.value) }}</strong>
               </div>
               <div class="analysis-bar-row__track" aria-hidden="true">
-                <span :style="{ width: `${(item.value / maxValue) * 100}%`, backgroundColor: metricColors[metric] }" />
+                <span
+                  :style="{
+                    width: `${(item.value / maxValue) * 100}%`,
+                    backgroundColor: metricColors[metric],
+                  }"
+                />
               </div>
             </div>
           </div>
@@ -210,7 +285,12 @@ watch([() => props.metric, level], () => void load())
               <tbody>
                 <tr v-for="item in ranked" :key="`table-${item.name}`">
                   <td>{{ numberFormatter.format(item.rank) }}</td>
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <a v-if="areaHref(item.name)" class="analysis-area-link" :href="areaHref(item.name) ?? undefined">
+                      {{ item.name }}
+                    </a>
+                    <span v-else>{{ item.name }}</span>
+                  </td>
                   <td>{{ formatValue(item.value) }}</td>
                   <td>{{ numberFormatter.format(item.year) }}</td>
                 </tr>
@@ -246,6 +326,7 @@ watch([() => props.metric, level], () => void load())
 .analysis-bar-row__label { display: flex; justify-content: space-between; gap: 1rem; font-size: .82rem; }
 .analysis-bar-row__track { height: .55rem; overflow: hidden; border-radius: 999px; background: #e3e8e5; }
 .analysis-bar-row__track span { display: block; min-width: 2px; height: 100%; border-radius: inherit; }
+.analysis-area-link { color: inherit; font-weight: 750; text-underline-offset: .15rem; }
 .analysis-details summary { color: var(--green); font-weight: 800; cursor: pointer; }
 .analysis-table-wrap { margin-top: 1rem; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: .82rem; }
