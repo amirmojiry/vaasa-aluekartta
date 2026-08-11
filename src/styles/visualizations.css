@@ -165,7 +165,7 @@ textarea {
   align-items: baseline;
 }
 
-.summary-population > span {
+.summary-population > span:first-child {
   color: #65736f;
   font-size: 0.8rem;
   font-weight: 750;
@@ -181,6 +181,129 @@ textarea {
   grid-column: 1 / -1;
   color: #77837f;
   font-size: 0.75rem;
+}
+
+.population-change {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  width: fit-content;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.population-change--up {
+  color: #16724f;
+}
+
+.population-change--down {
+  color: #b8453b;
+}
+
+.population-change--neutral {
+  color: #697774;
+}
+
+.population-trend {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: #f8f8f4;
+}
+
+.population-trend__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.population-trend__heading h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.population-trend__heading span {
+  color: #77837f;
+  font-size: 0.76rem;
+}
+
+.population-trend__chart-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.population-trend__chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 12rem;
+  font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+}
+
+.population-trend__axis {
+  stroke: rgba(23, 48, 46, 0.24);
+  stroke-width: 1.5;
+}
+
+.population-trend__guide {
+  stroke: rgba(23, 48, 46, 0.1);
+  stroke-dasharray: 3 4;
+}
+
+.population-trend__line {
+  fill: none;
+  stroke: #17645d;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.population-trend__point {
+  fill: #de6d45;
+  stroke: #fffdf8;
+  stroke-width: 3;
+}
+
+.population-trend__value {
+  fill: #17302e;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.population-trend__year {
+  fill: #65736f;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.population-trend__source {
+  margin: -0.55rem 0 1rem;
+  color: #71807c;
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+.population-trend__source a {
+  color: var(--green);
+  font-weight: 750;
+}
+
+.area-detail-parent-link {
+  display: inline-block;
+  margin-top: 0.65rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.88rem;
+  font-weight: 650;
+  text-underline-offset: 0.2rem;
+}
+
+.area-detail-parent-link:hover {
+  color: #fff;
 }
 
 .map-visualization-control {
@@ -263,7 +386,12 @@ textarea {
     grid-template-columns: 1fr;
   }
 
-  .summary-population > small {
+  .summary-population > small,
+  .population-change {
     grid-column: auto;
+  }
+
+  .population-trend {
+    padding: 0.75rem;
   }
 }

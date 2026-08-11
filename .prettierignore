@@ -4,4 +4,5 @@ node_modules
 src/styles/main.css
 public/data/*.geojson
 public/data/area-statistics.json
+public/data/major-area-population-history.json
 public/tools/osm-hierarchy-demo/index.html

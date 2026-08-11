@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
+import PopulationTrendChart from '@/components/areas/PopulationTrendChart.vue'
 import type { AreaLevel } from '@/domain/areas'
+import type {
+  MajorAreaPopulationHistory,
+  MajorAreaPopulationHistoryDatabase,
+} from '@/domain/populationHistory'
 import type { AreaStatisticRecord, AreaStatisticsDatabase } from '@/domain/statistics'
 import { useI18n } from '@/i18n'
 import { fetchAreaStatistics, fetchStatisticsDatabase } from '@/services/areaStatistics'
+import {
+  fetchMajorAreaPopulationHistory,
+  fetchMajorAreaPopulationHistoryDatabase,
+  latestPopulationChange,
+} from '@/services/populationHistory'
 
 const props = defineProps<{
   level: AreaLevel
@@ -14,6 +24,8 @@ const props = defineProps<{
 const { language, t } = useI18n()
 const statistics = ref<AreaStatisticRecord | null>(null)
 const database = ref<AreaStatisticsDatabase | null>(null)
+const populationHistory = ref<MajorAreaPopulationHistory | null>(null)
+const populationHistoryDatabase = ref<MajorAreaPopulationHistoryDatabase | null>(null)
 const loading = ref(true)
 const failed = ref(false)
 
@@ -28,6 +40,19 @@ const percentFormatter = computed(
     }),
 )
 const source = computed(() => database.value?.sources.komsi2016)
+const latestMajorPopulation = computed(() =>
+  populationHistory.value ? latestPopulationChange(populationHistory.value) : null,
+)
+const displayedPopulation = computed(() =>
+  props.level === 'suuralue' && latestMajorPopulation.value
+    ? latestMajorPopulation.value.current.population
+    : statistics.value?.population2015,
+)
+const displayedPopulationYear = computed(() =>
+  props.level === 'suuralue' && latestMajorPopulation.value
+    ? latestMajorPopulation.value.current.year
+    : 2015,
+)
 
 function formatNumber(value: number): string {
   return numberFormatter.value.format(value)
@@ -39,12 +64,20 @@ function formatPercent(value: number): string {
 
 onMounted(async () => {
   try {
-    const [record, loadedDatabase] = await Promise.all([
+    const [record, loadedDatabase, history, historyDatabase] = await Promise.all([
       fetchAreaStatistics(props.level, props.areaName),
       fetchStatisticsDatabase(),
+      props.level === 'suuralue'
+        ? fetchMajorAreaPopulationHistory(props.areaName)
+        : Promise.resolve(null),
+      props.level === 'suuralue'
+        ? fetchMajorAreaPopulationHistoryDatabase()
+        : Promise.resolve(null),
     ])
     statistics.value = record
     database.value = loadedDatabase
+    populationHistory.value = history
+    populationHistoryDatabase.value = historyDatabase
   } catch {
     failed.value = true
   } finally {
@@ -69,11 +102,24 @@ onMounted(async () => {
     </p>
 
     <template v-else>
+      <PopulationTrendChart
+        v-if="level === 'suuralue' && populationHistory"
+        :observations="populationHistory.observations"
+      />
+      <p v-if="level === 'suuralue' && populationHistoryDatabase" class="population-trend__source">
+        {{ t('populationHistorySource') }}:
+        <a :href="populationHistoryDatabase.source.url" target="_blank" rel="noreferrer">
+          {{ populationHistoryDatabase.source.title }}
+        </a>
+      </p>
+
       <div class="statistics-grid">
         <article class="stat-card stat-card--primary">
           <span class="stat-card__label">{{ t('population') }}</span>
-          <strong>{{ formatNumber(statistics.population2015) }}</strong>
-          <small>2015</small>
+          <strong v-if="displayedPopulation !== undefined">{{
+            formatNumber(displayedPopulation)
+          }}</strong>
+          <small>{{ displayedPopulationYear }}</small>
         </article>
 
         <article class="stat-card">
