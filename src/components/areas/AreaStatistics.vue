@@ -8,7 +8,7 @@ import type {
   MajorAreaPopulationHistoryDatabase,
 } from '@/domain/populationHistory'
 import type { AreaStatisticRecord, AreaStatisticsDatabase } from '@/domain/statistics'
-import { useI18n } from '@/i18n'
+import { localeForLanguage, useI18n } from '@/i18n'
 import { fetchAreaStatistics, fetchStatisticsDatabase } from '@/services/areaStatistics'
 import {
   fetchMajorAreaPopulationHistory,
@@ -29,12 +29,10 @@ const populationHistoryDatabase = ref<MajorAreaPopulationHistoryDatabase | null>
 const loading = ref(true)
 const failed = ref(false)
 
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
-)
+const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
 const percentFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     }),
