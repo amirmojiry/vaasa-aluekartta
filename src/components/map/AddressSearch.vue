@@ -156,9 +156,7 @@ async function submitSearch(): Promise<void> {
 
     <div v-if="status" class="address-search__result" role="status">
       <span>{{ status }}</span>
-      <a v-if="targetHref" :href="targetHref">
-        {{ targetAreaName }} · {{ messages.openArea }}
-      </a>
+      <a v-if="targetHref" :href="targetHref"> {{ targetAreaName }} · {{ messages.openArea }} </a>
     </div>
 
     <a

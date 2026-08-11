@@ -10,5 +10,6 @@ import './styles/election-interactions.css'
 import './styles/statistics-ranks.css'
 import './styles/city-statistics.css'
 import './styles/pois.css'
+import './styles/address-search.css'
 
 createApp(App).mount('#app')

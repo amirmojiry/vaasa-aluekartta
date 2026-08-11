@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import L, { type FeatureGroup, type Map, type Polygon } from 'leaflet'
+import L, { type CircleMarker, type FeatureGroup, type Map, type Polygon } from 'leaflet'
 
 import AreaStatistics from '@/components/areas/AreaStatistics.vue'
 import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'
+import AddressSearch from '@/components/map/AddressSearch.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import TechnicalInfo from '@/components/areas/TechnicalInfo.vue'
 import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import { POI_CATEGORY_GROUPS, poiCategoryDefinition } from '@/config/pois'
 import type { PienalueBoundary } from '@/domain/areas'
+import type { GeocodedAddress } from '@/domain/addressSearch'
 import { POI_CATEGORIES, type PoiCategory, type PoiFeature } from '@/domain/pois'
 import { localizeAreaName, useI18n } from '@/i18n'
 import { poiText, type PoiMessageKey } from '@/poiI18n'
+import { pointInPienalue } from '@/services/addressSearch'
+import { addAddressMarker, readAddressSearchParams } from '@/services/addressMap'
 import { fetchPienalueBoundaries } from '@/services/boundaryData'
 import { fetchPoiFeatureCollection } from '@/services/poiData'
 import { addPoiFeatureGroup } from '@/services/poiMap'
@@ -33,6 +37,7 @@ const homeHref = buildUrl()
 let map: Map | null = null
 let polygon: Polygon | null = null
 let poiGroup: FeatureGroup | null = null
+let addressMarker: CircleMarker | null = null
 
 const title = computed(() =>
   localizeAreaName(boundary.value?.names, `Pienalue ${props.relationId}`, language.value),
@@ -110,6 +115,12 @@ function fitAllPoisOnMap(): void {
   if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
 }
 
+function showAddress(address: GeocodedAddress): void {
+  if (!map) return
+  addressMarker?.remove()
+  addressMarker = addAddressMarker(map, address)
+}
+
 async function loadPois(): Promise<void> {
   if (!map) return
   poiLoading.value = true
@@ -153,12 +164,18 @@ onMounted(async () => {
     polygon.bindTooltip(`${result.ref ? `${result.ref} · ` : ''}${title.value}`, { sticky: true })
 
     fitAreaOnMap()
+    const initialAddress = readAddressSearchParams()
+    if (initialAddress && pointInPienalue(initialAddress.lat, initialAddress.lon, result)) {
+      showAddress(initialAddress)
+    }
   } catch (error) {
     loadError.value = error instanceof Error ? error.message : t('loadingAreaFailed')
   }
 })
 
 onBeforeUnmount(() => {
+  addressMarker?.remove()
+  addressMarker = null
   poiGroup?.remove()
   poiGroup = null
   polygon?.remove()
@@ -194,6 +211,12 @@ onBeforeUnmount(() => {
             </div>
             <span v-if="loadError" class="map-card__status">{{ loadError }}</span>
           </div>
+
+          <AddressSearch
+            mode="minor"
+            :current-minor-relation-id="relationId"
+            @found-here="showAddress"
+          />
 
           <details class="poi-control poi-control--area" :aria-label="poiLabel('places')">
             <summary class="poi-control__summary">

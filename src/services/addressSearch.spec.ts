@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
 import type { PienalueBoundary } from '@/domain/areas'
-import { findPienalueForPoint, locateBestAddressCandidate, pointInPienalue } from '@/services/addressSearch'
+import {
+  findPienalueForPoint,
+  locateBestAddressCandidate,
+  pointInPienalue,
+} from '@/services/addressSearch'
 
 const area = {
   relationId: 101,

@@ -23,11 +23,12 @@ describe('localizeAreaName', () => {
 
   it('uses the stable Persian major-area fallback when a source translation is missing', () => {
     expect(localizeAreaName({ fi: 'Gerby', en: 'Gerby major district' }, 'Gerby', 'fa')).toBe(
-      'گربی',
+      'گربو',
     )
     expect(localizeAreaName({ fi: 'Keskusta 4', en: 'Keskusta 4' }, 'Keskusta 4', 'fa')).toBe(
       'مرکز شهر ۴',
     )
+    expect(localizeAreaName({ fi: 'Vähäkyrö', fa: 'قدیمی' }, 'Vähäkyrö', 'fa')).toBe('وهه‌کورو')
   })
 
   it('prefers the Finnish source name over an English fallback in Persian mode', () => {

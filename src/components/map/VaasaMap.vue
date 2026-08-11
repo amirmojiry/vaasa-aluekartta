@@ -7,6 +7,7 @@ import L, {
   type PathOptions,
 } from 'leaflet'
 
+import AddressSearch from '@/components/map/AddressSearch.vue'
 import { AREAS } from '@/config/areas'
 import { BOUNDARY_LAYERS } from '@/config/boundaries'
 import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
@@ -562,6 +563,8 @@ onBeforeUnmount(() => {
       </div>
       <span class="map-card__status">{{ mapStatus }}</span>
     </div>
+
+    <AddressSearch mode="home" />
 
     <div class="boundary-level-control" :aria-label="t('boundaryLevel')">
       <button
