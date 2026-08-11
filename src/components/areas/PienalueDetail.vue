@@ -88,6 +88,9 @@ onBeforeUnmount(() => {
           <LanguageSwitcher />
         </div>
         <h1>{{ title }}</h1>
+        <a v-if="boundary" class="area-detail-parent-link" :href="parentHref">
+          {{ t('majorArea') }}: {{ boundary.parentRef }} · {{ parentName }}
+        </a>
       </div>
     </header>
 
