@@ -8,6 +8,23 @@ import type { AreaLevel } from '@/domain/areas'
 const ELECTION_STATISTICS_URL = `${import.meta.env.BASE_URL}data/election-statistics.json`
 let databasePromise: Promise<ElectionStatisticsDatabase> | null = null
 
+const PARTY_COLORS: Record<string, string> = {
+  RKP: '#d6a900',
+  SDP: '#c4454d',
+  KOK: '#356f9f',
+  PS: '#9b7a15',
+  VIHR: '#4f8b57',
+  VAS: '#a64d6d',
+  KESK: '#5d8a65',
+  KD: '#6f6aa8',
+  LIIK: '#5f7780',
+  LIB: '#85735b',
+  VL: '#6b6b6b',
+  VKK: '#7c625f',
+  PIR: '#765987',
+  KRIP: '#8b6d7a',
+}
+
 export async function fetchElectionStatisticsDatabase(): Promise<ElectionStatisticsDatabase> {
   databasePromise ??= fetch(ELECTION_STATISTICS_URL, { cache: 'force-cache' }).then(
     async (response) => {
@@ -49,7 +66,11 @@ export async function fetchCityElectionStatistics(): Promise<ResolvedElectionDat
 }
 
 export function featuredElection(dataset: ResolvedElectionDataset): ElectionEvent | null {
-  return dataset.events.find((event) => event.id === dataset.featuredLatestId) ?? dataset.events.at(-1) ?? null
+  return (
+    dataset.events.find((event) => event.id === dataset.featuredLatestId) ??
+    dataset.events.at(-1) ??
+    null
+  )
 }
 
 export function topParties(event: ElectionEvent, count = 3) {
@@ -60,4 +81,8 @@ export function chartParties(dataset: ResolvedElectionDataset, count = 6): strin
   const latest = featuredElection(dataset)
   if (!latest) return []
   return topParties(latest, count).map((result) => result.party)
+}
+
+export function partyColor(party: string): string {
+  return PARTY_COLORS[party] ?? '#64736f'
 }
