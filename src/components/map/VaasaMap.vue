@@ -82,7 +82,9 @@ const populationFilterLabel = computed(() => {
   return `${t('populationView')} (${yearFormatter.value.format(year)})`
 })
 const visiblePoiFeatures = computed(() =>
-  poiFeatures.value.filter((feature) => activePoiCategories.value.includes(feature.properties.category)),
+  poiFeatures.value.filter((feature) =>
+    activePoiCategories.value.includes(feature.properties.category),
+  ),
 )
 const poiStatus = computed(() => {
   if (poiLoading.value) return poiLabel('loading')
@@ -695,7 +697,9 @@ onBeforeUnmount(() => {
             <strong>{{ localizedPoiName(feature, language) }}</strong>
             <span class="poi-list__category">
               <i
-                :style="{ backgroundColor: poiCategoryDefinition(feature.properties.category).color }"
+                :style="{
+                  backgroundColor: poiCategoryDefinition(feature.properties.category).color,
+                }"
                 aria-hidden="true"
               />
               {{ poiCategoryLabel(feature.properties.category) }}

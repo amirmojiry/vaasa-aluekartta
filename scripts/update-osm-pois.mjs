@@ -3,7 +3,8 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
-const USER_AGENT = 'vaasa-aluekartta-poi-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
+const USER_AGENT =
+  'vaasa-aluekartta-poi-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const outputPath = resolve(scriptDir, '../public/data/vaasa-pois.geojson')
 

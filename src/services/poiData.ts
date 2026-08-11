@@ -30,7 +30,8 @@ export function parsePoiFeatureCollection(value: unknown): PoiFeatureCollection 
   if (collection.type !== 'FeatureCollection' || !Array.isArray(collection.features)) {
     throw new Error('POI data is not a GeoJSON FeatureCollection')
   }
-  if (!collection.features.every(isPoiFeature)) throw new Error('POI data contains invalid features')
+  if (!collection.features.every(isPoiFeature))
+    throw new Error('POI data contains invalid features')
   return collection as PoiFeatureCollection
 }
 
