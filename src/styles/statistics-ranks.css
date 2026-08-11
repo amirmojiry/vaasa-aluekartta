@@ -1,0 +1,16 @@
+.summary-legend__item small {
+  color: #74817d;
+  font-size: 0.67rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.summary-metric__heading > span {
+  text-align: end;
+}
+
+@media (max-width: 650px) {
+  .summary-legend__item {
+    flex-wrap: wrap;
+  }
+}
