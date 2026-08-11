@@ -91,6 +91,15 @@ function overpassQuery({ west, south, east, north }) {
   nwr["highway"="bus_stop"]["name"](${bbox});
   nwr["amenity"="bus_station"]["name"](${bbox});
   nwr["public_transport"="platform"]["bus"="yes"]["name"](${bbox});
+  nwr["amenity"="restaurant"]["name"](${bbox});
+  nwr["amenity"="cafe"]["name"](${bbox});
+  nwr["leisure"~"^(park|playground)$"]["name"](${bbox});
+  nwr["leisure"~"^(sports_centre|fitness_centre|stadium|swimming_pool|pitch)$"]["name"](${bbox});
+  nwr["shop"~"^(convenience|mall|department_store)$"]["name"](${bbox});
+  nwr["amenity"="marketplace"]["name"](${bbox});
+  nwr["amenity"~"^(bank|atm)$"](${bbox});
+  nwr["amenity"~"^(post_office|parcel_locker)$"](${bbox});
+  nwr["amenity"~"^(fuel|charging_station)$"](${bbox});
 );
 out center tags qt;`
 }
@@ -146,6 +155,23 @@ function categoryFor(tags) {
   ) {
     return 'bus-stops'
   }
+  if (tags.amenity === 'restaurant') return 'restaurants'
+  if (tags.amenity === 'cafe') return 'cafes'
+  if (['park', 'playground'].includes(tags.leisure)) return 'parks-playgrounds'
+  if (
+    ['sports_centre', 'fitness_centre', 'stadium', 'swimming_pool', 'pitch'].includes(tags.leisure)
+  ) {
+    return 'sports'
+  }
+  if (
+    ['convenience', 'mall', 'department_store'].includes(tags.shop) ||
+    tags.amenity === 'marketplace'
+  ) {
+    return 'shopping'
+  }
+  if (['bank', 'atm'].includes(tags.amenity)) return 'banking'
+  if (['post_office', 'parcel_locker'].includes(tags.amenity)) return 'post-services'
+  if (['fuel', 'charging_station'].includes(tags.amenity)) return 'fuel-charging'
   if (
     ['hospital', 'clinic', 'doctors', 'pharmacy'].includes(tags.amenity) ||
     ['hospital', 'clinic', 'doctor', 'pharmacy'].includes(tags.healthcare)
@@ -160,6 +186,16 @@ function categoryFor(tags) {
     return 'attractions'
   }
   return null
+}
+
+function fallbackName(tags) {
+  if (tags.amenity === 'atm') return 'Pankkiautomaatti'
+  if (tags.amenity === 'bank') return 'Pankki'
+  if (tags.amenity === 'post_office') return 'Posti'
+  if (tags.amenity === 'parcel_locker') return 'Pakettiautomaatti'
+  if (tags.amenity === 'fuel') return 'Huoltoasema'
+  if (tags.amenity === 'charging_station') return 'Sähköauton latausasema'
+  return undefined
 }
 
 function coordinatesFor(element) {
@@ -229,13 +265,13 @@ function featureFor(element, boundaries) {
   const tags = element.tags ?? {}
   const category = categoryFor(tags)
   const coordinates = coordinatesFor(element)
-  if (!category || !coordinates || !tags.name || !isInsideVaasa(coordinates, boundaries))
-    return null
+  const name = tags.name || tags.brand || tags.operator || fallbackName(tags)
+  if (!category || !coordinates || !name || !isInsideVaasa(coordinates, boundaries)) return null
 
   const properties = {
     id: `${element.type}/${element.id}`,
     category,
-    name: tags.name,
+    name,
     osmType: element.type,
     osmId: element.id,
   }
@@ -275,7 +311,7 @@ function buildFeatureCollection(elements, boundaries) {
     return left.properties.id.localeCompare(right.properties.id)
   })
 
-  if (features.length < 11) {
+  if (features.length < 19) {
     throw new Error(`POI snapshot unexpectedly contains only ${features.length} features`)
   }
 
