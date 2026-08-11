@@ -24,6 +24,11 @@ function valueFor(event: ElectionEvent, party: string): number | null {
   return result ? result[props.metric] : null
 }
 
+function eventX(index: number): number {
+  const innerWidth = width - padding.left - padding.right
+  return padding.left + (innerWidth * index) / Math.max(1, props.events.length - 1)
+}
+
 const maxValue = computed(() => {
   const values = props.events.flatMap((event) =>
     props.parties
@@ -34,16 +39,14 @@ const maxValue = computed(() => {
 })
 
 const series = computed(() => {
-  const innerWidth = width - padding.left - padding.right
   const innerHeight = height - padding.top - padding.bottom
-  const divisor = Math.max(1, props.events.length - 1)
   return props.parties.map((party) => {
     const points = props.events.map((event, index) => {
       const value = valueFor(event, party)
       return {
         event,
         value,
-        x: padding.left + (innerWidth * index) / divisor,
+        x: eventX(index),
         y:
           value === null
             ? null
@@ -91,14 +94,14 @@ function eventShort(event: ElectionEvent): string {
       />
       <g v-for="(event, index) in events" :key="event.id">
         <line
-          :x1="padding.left + ((width - padding.left - padding.right) * index) / Math.max(1, events.length - 1)"
-          :x2="padding.left + ((width - padding.left - padding.right) * index) / Math.max(1, events.length - 1)"
+          :x1="eventX(index)"
+          :x2="eventX(index)"
           :y1="padding.top"
           :y2="height - padding.bottom"
           class="election-chart-guide"
         />
         <text
-          :x="padding.left + ((width - padding.left - padding.right) * index) / Math.max(1, events.length - 1)"
+          :x="eventX(index)"
           :y="height - padding.bottom + 24"
           text-anchor="middle"
           class="election-chart-label"
