@@ -15,12 +15,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
-      - name: Format POI files and print diff
-        run: |
-          npx prettier --write scripts/update-osm-pois.mjs src/components/map/VaasaMap.vue src/services/poiData.ts
-          git diff -- scripts/update-osm-pois.mjs src/components/map/VaasaMap.vue src/services/poiData.ts
       - name: Generate POI snapshot
         run: npm run pois:update
       - name: Validate generated categories
