@@ -22,7 +22,10 @@ async function main() {
   assert(income.schemaVersion === 1, 'Unsupported area income schema')
   assert(income.year === 2014, 'Area income reference year must be 2014')
   assert(income.cityAverage === 29119, 'Vaasa-wide 2014 average income must be EUR 29,119')
-  assert(income.source?.underlyingSource?.includes('Statistics Finland'), 'Income source is missing')
+  assert(
+    income.source?.underlyingSource?.includes('Statistics Finland'),
+    'Income source is missing',
+  )
 
   const mappedKeys = Object.keys(statistics.areas ?? {})
   const valueKeys = Object.keys(income.areas ?? {})

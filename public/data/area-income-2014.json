@@ -22,9 +22,7 @@
     "values": 66,
     "missing": 1
   },
-  "missingAreas": [
-    "pienalue:Sundomin saaristo"
-  ],
+  "missingAreas": ["pienalue:Sundomin saaristo"],
   "areas": {
     "suuralue:Keskusta": 27760,
     "suuralue:Vöyrinkaupunki": 18656,

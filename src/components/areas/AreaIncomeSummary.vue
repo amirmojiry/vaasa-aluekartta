@@ -4,7 +4,11 @@ import { computed, onMounted, ref } from 'vue'
 import type { AreaLevel } from '@/domain/areas'
 import type { AreaIncomeRecord } from '@/domain/income'
 import { localeForLanguage, useI18n } from '@/i18n'
-import { fetchAreaIncome, fetchAreaIncomeDatabase, incomeDifferencePercent } from '@/services/areaIncome'
+import {
+  fetchAreaIncome,
+  fetchAreaIncomeDatabase,
+  incomeDifferencePercent,
+} from '@/services/areaIncome'
 
 const props = defineProps<{
   level: AreaLevel
