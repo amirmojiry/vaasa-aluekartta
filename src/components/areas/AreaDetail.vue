@@ -34,6 +34,7 @@ function childName(area: PienalueBoundary): string {
 
 function minorAreaCountLabel(count: number): string {
   if (language.value === 'fa') return `${count} ${t('minorArea')}`
+  if (language.value === 'fi') return `${count} pienaluetta`
   return `${count} ${count === 1 ? t('minorArea') : t('minorAreas')}`
 }
 
