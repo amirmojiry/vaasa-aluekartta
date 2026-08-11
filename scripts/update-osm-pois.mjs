@@ -83,6 +83,14 @@ function overpassQuery({ west, south, east, north }) {
   nwr["amenity"~"^(hospital|clinic|doctors|pharmacy)$"]["name"](${bbox});
   nwr["healthcare"~"^(hospital|clinic|doctor|pharmacy)$"]["name"](${bbox});
   nwr["amenity"="library"]["name"](${bbox});
+  nwr["amenity"~"^(university|college)$"]["name"](${bbox});
+  nwr["amenity"="school"]["name"](${bbox});
+  nwr["amenity"~"^(kindergarten|childcare)$"]["name"](${bbox});
+  nwr["railway"~"^(station|halt)$"]["name"](${bbox});
+  nwr["aeroway"="aerodrome"]["name"](${bbox});
+  nwr["highway"="bus_stop"]["name"](${bbox});
+  nwr["amenity"="bus_station"]["name"](${bbox});
+  nwr["public_transport"="platform"]["bus"="yes"]["name"](${bbox});
 );
 out center tags qt;`
 }
@@ -126,6 +134,18 @@ function categoryFor(tags) {
   if (tags.shop === 'supermarket') return 'supermarkets'
   if (tags.amenity === 'police') return 'police'
   if (tags.amenity === 'library') return 'libraries'
+  if (['university', 'college'].includes(tags.amenity)) return 'universities'
+  if (tags.amenity === 'school') return 'schools'
+  if (['kindergarten', 'childcare'].includes(tags.amenity)) return 'daycare'
+  if (['station', 'halt'].includes(tags.railway)) return 'train-stations'
+  if (tags.aeroway === 'aerodrome') return 'airports'
+  if (
+    tags.highway === 'bus_stop' ||
+    tags.amenity === 'bus_station' ||
+    (tags.public_transport === 'platform' && tags.bus === 'yes')
+  ) {
+    return 'bus-stops'
+  }
   if (
     ['hospital', 'clinic', 'doctors', 'pharmacy'].includes(tags.amenity) ||
     ['hospital', 'clinic', 'doctor', 'pharmacy'].includes(tags.healthcare)
@@ -255,7 +275,7 @@ function buildFeatureCollection(elements, boundaries) {
     return left.properties.id.localeCompare(right.properties.id)
   })
 
-  if (features.length < 5) {
+  if (features.length < 11) {
     throw new Error(`POI snapshot unexpectedly contains only ${features.length} features`)
   }
 

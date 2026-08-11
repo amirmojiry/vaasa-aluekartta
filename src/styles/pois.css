@@ -51,6 +51,11 @@
   cursor: pointer;
 }
 
+.poi-control button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .poi-control__actions button {
   padding: 0.35rem 0.6rem;
   font-size: 0.7rem;
@@ -63,7 +68,8 @@
 }
 
 .poi-control__category i,
-.poi-list__category i {
+.poi-list__category i,
+.poi-area-legend i {
   display: inline-block;
   width: 0.6rem;
   height: 0.6rem;
@@ -92,6 +98,34 @@
   color: var(--green);
   font-size: 0.7rem;
   font-weight: 750;
+}
+
+.poi-control--area {
+  margin-inline: 0.5rem;
+}
+
+.poi-area-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.poi-area-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf8;
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.poi-area-legend small {
+  color: #71807c;
+  font-size: 0.64rem;
 }
 
 .poi-list {

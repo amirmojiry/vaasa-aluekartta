@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import L, { type Map, type Polygon } from 'leaflet'
+import L, { type FeatureGroup, type Map, type Polygon } from 'leaflet'
 
 import AreaStatistics from '@/components/areas/AreaStatistics.vue'
 import AreaStatisticsSummary from '@/components/areas/AreaStatisticsSummary.vue'
@@ -8,9 +8,14 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import TechnicalInfo from '@/components/areas/TechnicalInfo.vue'
 import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
+import { POI_CATEGORY_DEFINITIONS } from '@/config/pois'
 import type { PienalueBoundary } from '@/domain/areas'
+import type { PoiCategory, PoiFeature } from '@/domain/pois'
 import { localizeAreaName, useI18n } from '@/i18n'
+import { poiText, type PoiMessageKey } from '@/poiI18n'
 import { fetchPienalueBoundaries } from '@/services/boundaryData'
+import { fetchPoiFeatureCollection } from '@/services/poiData'
+import { addPoiFeatureGroup } from '@/services/poiMap'
 
 const props = defineProps<{ relationId: number }>()
 
@@ -19,9 +24,14 @@ const mapElement = ref<HTMLElement | null>(null)
 const loadError = ref('')
 const boundary = ref<PienalueBoundary | null>(null)
 const siblingAreas = ref<PienalueBoundary[]>([])
+const poiFeatures = ref<PoiFeature[]>([])
+const poiLoading = ref(true)
+const poiFailed = ref(false)
+const poiSourceUrl = ref('https://www.openstreetmap.org/copyright')
 const homeHref = buildUrl()
 let map: Map | null = null
 let polygon: Polygon | null = null
+let poiGroup: FeatureGroup | null = null
 
 const title = computed(() =>
   localizeAreaName(boundary.value?.names, `Pienalue ${props.relationId}`, language.value),
@@ -34,9 +44,54 @@ const parentName = computed(() =>
 const parentHref = computed(() =>
   boundary.value ? buildUrl({ area: boundary.value.parentSlug }) : homeHref,
 )
+const numberFormatter = computed(
+  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
+)
+const poiStatus = computed(() => {
+  if (poiLoading.value) return poiLabel('loading')
+  if (poiFailed.value) return poiLabel('unavailable')
+  return `${poiLabel('placesShown')}: ${numberFormatter.value.format(poiFeatures.value.length)}`
+})
 
 function siblingName(area: PienalueBoundary): string {
   return localizeAreaName(area.names, area.name, language.value)
+}
+
+function poiLabel(key: PoiMessageKey): string {
+  return poiText(language.value, key)
+}
+
+function poiCategoryCount(category: PoiCategory): number {
+  return poiFeatures.value.filter((feature) => feature.properties.category === category).length
+}
+
+function fitAreaOnMap(): void {
+  if (!map || !polygon) return
+  const bounds = polygon.getBounds()
+  if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
+}
+
+function fitAllPoisOnMap(): void {
+  if (!map || !poiGroup) return
+  const bounds = poiGroup.getBounds()
+  if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
+}
+
+async function loadPois(): Promise<void> {
+  if (!map) return
+  poiLoading.value = true
+  poiFailed.value = false
+  try {
+    const collection = await fetchPoiFeatureCollection()
+    poiFeatures.value = collection.features
+    poiSourceUrl.value = collection.source?.url || poiSourceUrl.value
+    poiGroup?.remove()
+    poiGroup = addPoiFeatureGroup(map, collection.features, language.value)
+  } catch {
+    poiFailed.value = true
+  } finally {
+    poiLoading.value = false
+  }
 }
 
 onMounted(async () => {
@@ -44,6 +99,7 @@ onMounted(async () => {
 
   map = L.map(mapElement.value, { zoomControl: true }).setView(VAASA_CENTER, 11)
   L.tileLayer(TILE_LAYER.url, TILE_LAYER.options).addTo(map)
+  void loadPois()
 
   try {
     const boundaries = await fetchPienalueBoundaries(AREAS)
@@ -64,14 +120,15 @@ onMounted(async () => {
     }).addTo(map)
     polygon.bindTooltip(`${result.ref ? `${result.ref} · ` : ''}${title.value}`, { sticky: true })
 
-    const bounds = polygon.getBounds()
-    if (bounds.isValid()) map.fitBounds(bounds, { padding: [28, 28] })
+    fitAreaOnMap()
   } catch (error) {
     loadError.value = error instanceof Error ? error.message : t('loadingAreaFailed')
   }
 })
 
 onBeforeUnmount(() => {
+  poiGroup?.remove()
+  poiGroup = null
   polygon?.remove()
   polygon = null
   map?.remove()
@@ -105,6 +162,37 @@ onBeforeUnmount(() => {
             </div>
             <span v-if="loadError" class="map-card__status">{{ loadError }}</span>
           </div>
+
+          <section class="poi-control poi-control--area" :aria-label="poiLabel('places')">
+            <div class="poi-control__header">
+              <div class="poi-control__title">
+                <strong>{{ poiLabel('places') }}</strong>
+                <small>{{ poiLabel('allAreasHint') }}</small>
+              </div>
+              <div class="poi-control__actions">
+                <button type="button" @click="fitAreaOnMap">{{ poiLabel('focusArea') }}</button>
+                <button type="button" :disabled="poiLoading || poiFailed" @click="fitAllPoisOnMap">
+                  {{ poiLabel('showAllVaasa') }}
+                </button>
+              </div>
+            </div>
+
+            <div class="poi-area-legend">
+              <span v-for="definition in POI_CATEGORY_DEFINITIONS" :key="definition.id">
+                <i :style="{ backgroundColor: definition.color }" aria-hidden="true" />
+                {{ definition.labels[language] }}
+                <small>{{ numberFormatter.format(poiCategoryCount(definition.id)) }}</small>
+              </span>
+            </div>
+
+            <div class="poi-control__footer">
+              <span class="poi-control__status" role="status">{{ poiStatus }}</span>
+              <a class="poi-control__source" :href="poiSourceUrl" target="_blank" rel="noreferrer">
+                {{ poiLabel('source') }}
+              </a>
+            </div>
+          </section>
+
           <div
             ref="mapElement"
             class="map-canvas area-detail-map"
