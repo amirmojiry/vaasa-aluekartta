@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 
 import type { ElectionStatisticsDatabase, ResolvedElectionDataset } from '@/domain/elections'
 import { localeForLanguage, useI18n } from '@/i18n'
+import { fetchAreaIncomeDatabase } from '@/services/areaIncome'
 import { fetchStatisticsDatabase } from '@/services/areaStatistics'
 import { buildCityStatisticsSnapshot, type CityStatisticsSnapshot } from '@/services/cityStatistics'
 import {
@@ -14,10 +15,12 @@ import {
 } from '@/services/electionStatistics'
 import { fetchMajorAreaPopulationHistoryDatabase } from '@/services/populationHistory'
 
-const { language, t } = useI18n()
+const { buildUrl, language, t } = useI18n()
 const statistics = ref<CityStatisticsSnapshot | null>(null)
 const elections = ref<ResolvedElectionDataset | null>(null)
 const electionDatabase = ref<ElectionStatisticsDatabase | null>(null)
+const cityAverageIncome = ref<number | null>(null)
+const incomeSourceUrl = ref<string | null>(null)
 const failed = ref(false)
 const studentIcons = Array.from({ length: 10 }, (_, index) => index)
 
@@ -32,8 +35,39 @@ const percentFormatter = computed(
       maximumFractionDigits: 1,
     }),
 )
+const currencyFormatter = computed(
+  () =>
+    new Intl.NumberFormat(localeForLanguage(language.value), {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }),
+)
 const featured = computed(() => (elections.value ? featuredElection(elections.value) : null))
 const parties = computed(() => (featured.value ? topParties(featured.value, 3) : []))
+const incomeLabel = computed(() => {
+  if (language.value === 'fa') return 'میانگین درآمد مشمول مالیات'
+  if (language.value === 'fi') return 'Keskimääräiset veronalaiset tulot'
+  return 'Average taxable income'
+})
+const incomeBasis = computed(() => {
+  if (language.value === 'fa') return 'افراد ۱۵ سال به بالا · ۲۰۱۴'
+  if (language.value === 'fi') return '15 vuotta täyttäneet · 2014'
+  return 'Residents aged 15+ · 2014'
+})
+const incomeSourceLabel = computed(() => {
+  if (language.value === 'fa') return 'منبع درآمد'
+  if (language.value === 'fi') return 'Tulojen lähde'
+  return 'Income source'
+})
+
+function metricHref(metric: string): string {
+  return buildUrl({ metric })
+}
+
+function partyHref(code: string): string {
+  return buildUrl({ party: code })
+}
 
 function formatPercent(value: number): string {
   return `${percentFormatter.value.format(value)}%`
@@ -78,15 +112,19 @@ const derivedNote = computed(() => {
 
 onMounted(async () => {
   try {
-    const [statisticsDatabase, populationDatabase, cityElections, electionsDb] = await Promise.all([
-      fetchStatisticsDatabase(),
-      fetchMajorAreaPopulationHistoryDatabase(),
-      fetchCityElectionStatistics(),
-      fetchElectionStatisticsDatabase(),
-    ])
+    const [statisticsDatabase, populationDatabase, cityElections, electionsDb, incomeDatabase] =
+      await Promise.all([
+        fetchStatisticsDatabase(),
+        fetchMajorAreaPopulationHistoryDatabase(),
+        fetchCityElectionStatistics(),
+        fetchElectionStatisticsDatabase(),
+        fetchAreaIncomeDatabase(),
+      ])
     statistics.value = buildCityStatisticsSnapshot(statisticsDatabase, populationDatabase)
     elections.value = cityElections
     electionDatabase.value = electionsDb
+    cityAverageIncome.value = incomeDatabase.cityAverage
+    incomeSourceUrl.value = incomeDatabase.source.pdfUrl
   } catch {
     failed.value = true
   }
@@ -117,12 +155,14 @@ onMounted(async () => {
       <div class="summary-legend">
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--employed" />
-          <span>{{ t('employed') }}</span>
+          <a class="summary-analysis-link" :href="metricHref('employed')">{{ t('employed') }}</a>
           <strong>{{ formatPercent(statistics.employedShare2013) }}</strong>
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--unemployed" />
-          <span>{{ t('unemployed') }}</span>
+          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{
+            t('unemployed')
+          }}</a>
           <strong>{{ formatPercent(statistics.unemployment2013) }}</strong>
         </span>
       </div>
@@ -130,7 +170,12 @@ onMounted(async () => {
 
     <div class="summary-metric">
       <div class="summary-metric__heading">
-        <strong>{{ t('students') }}</strong>
+        <a
+          class="summary-analysis-link summary-analysis-link--heading"
+          :href="metricHref('students')"
+        >
+          {{ t('students') }}
+        </a>
         <span>
           {{ formatPercent(statistics.studentShare2013) }} · 2013 · {{ t('derivedMetric') }}
         </span>
@@ -157,8 +202,36 @@ onMounted(async () => {
     </div>
 
     <div class="summary-population">
-      <span>{{ t('population') }} · {{ yearFormatter.format(statistics.populationYear) }}</span>
+      <span class="summary-population__label">
+        <a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a>
+        <span aria-hidden="true">·</span>
+        {{ yearFormatter.format(statistics.populationYear) }}
+      </span>
       <strong>{{ numberFormatter.format(statistics.population) }}</strong>
+    </div>
+
+    <div v-if="cityAverageIncome !== null" class="summary-metric city-income-summary">
+      <div class="summary-metric__heading">
+        <a
+          class="summary-analysis-link summary-analysis-link--heading"
+          :href="metricHref('income')"
+        >
+          {{ incomeLabel }}
+        </a>
+        <span>{{ incomeBasis }}</span>
+      </div>
+      <strong class="city-income-summary__value">{{
+        currencyFormatter.format(cityAverageIncome)
+      }}</strong>
+      <a
+        v-if="incomeSourceUrl"
+        class="city-income-summary__source"
+        :href="incomeSourceUrl"
+        target="_blank"
+        rel="noreferrer"
+      >
+        {{ incomeSourceLabel }} · Statistics Finland 2014b / Sanna Komsi (2016)
+      </a>
     </div>
 
     <div v-if="featured && parties.length" class="election-top-parties">
@@ -169,7 +242,9 @@ onMounted(async () => {
       <div class="party-bars">
         <div v-for="party in parties" :key="party.party" class="party-bar-row">
           <div class="party-bar-row__label">
-            <span>{{ party.party }} · {{ partyName(party.party) }}</span>
+            <a class="summary-analysis-link" :href="partyHref(party.party)">
+              {{ party.party }} · {{ partyName(party.party) }}
+            </a>
             <strong>
               {{ percentFormatter.format(party.percent) }}% ·
               {{ numberFormatter.format(party.votes) }} {{ t('votes') }}
@@ -192,3 +267,28 @@ onMounted(async () => {
     {{ t('statisticsUnavailable') }}
   </p>
 </template>
+
+<style scoped>
+.summary-analysis-link {
+  color: inherit;
+  font-weight: inherit;
+  text-underline-offset: 0.16rem;
+}
+
+.summary-analysis-link--heading {
+  font-weight: 800;
+}
+
+.city-income-summary__value {
+  color: var(--deep-green);
+  font-size: clamp(1.55rem, 3.6vw, 2.35rem);
+  line-height: 1;
+}
+
+.city-income-summary__source {
+  width: fit-content;
+  color: var(--green);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+</style>

@@ -13,7 +13,7 @@ import {
 } from '@/services/electionStatistics'
 
 const props = defineProps<{ level: AreaLevel; areaName: string }>()
-const { language, t } = useI18n()
+const { buildUrl, language, t } = useI18n()
 const dataset = ref<ResolvedElectionDataset | null>(null)
 const database = ref<ElectionStatisticsDatabase | null>(null)
 
@@ -85,7 +85,9 @@ onMounted(async () => {
     <div class="party-bars">
       <div v-for="party in parties" :key="party.party" class="party-bar-row">
         <div class="party-bar-row__label">
-          <span>{{ party.party }} · {{ partyName(party.party) }}</span>
+          <a class="party-analysis-link" :href="buildUrl({ party: party.party })">
+            {{ party.party }} · {{ partyName(party.party) }}
+          </a>
           <strong>
             {{ percentFormatter.format(party.percent) }}% ·
             {{ numberFormatter.format(party.votes) }} {{ t('votes') }}
@@ -101,3 +103,11 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.party-analysis-link {
+  color: inherit;
+  font-weight: 750;
+  text-underline-offset: 0.16rem;
+}
+</style>
