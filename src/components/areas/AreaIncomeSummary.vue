@@ -15,7 +15,7 @@ const props = defineProps<{
   areaName: string
 }>()
 
-const { language, t } = useI18n()
+const { buildUrl, language, t } = useI18n()
 const income = ref<AreaIncomeRecord | null>(null)
 const sourceUrl = ref<string | null>(null)
 const loaded = ref(false)
@@ -63,6 +63,7 @@ const labels = {
 } as const
 
 const text = computed(() => labels[language.value])
+const incomePageHref = computed(() => buildUrl({ metric: 'income', level: props.level }))
 const currencyFormatter = computed(
   () =>
     new Intl.NumberFormat(localeForLanguage(language.value), {
@@ -118,7 +119,7 @@ onMounted(async () => {
 <template>
   <div v-if="income" class="summary-metric income-summary">
     <div class="summary-metric__heading">
-      <strong>{{ text.title }}</strong>
+      <strong><a class="income-summary__analysis-link" :href="incomePageHref">{{ text.title }}</a></strong>
       <span>{{ text.basis }} · {{ income.year }}</span>
     </div>
 
@@ -128,7 +129,7 @@ onMounted(async () => {
     </div>
 
     <div class="income-summary__context">
-      <span>{{ rankText }}</span>
+      <a class="income-summary__rank-link" :href="incomePageHref">{{ rankText }}</a>
       <span>{{ comparisonText }}</span>
       <span>{{ text.cityAverage }}: {{ currencyFormatter.format(income.cityAverage) }}</span>
     </div>
@@ -146,7 +147,7 @@ onMounted(async () => {
 
   <div v-else-if="loaded" class="summary-metric income-summary income-summary--empty">
     <div class="summary-metric__heading">
-      <strong>{{ text.title }}</strong>
+      <strong><a class="income-summary__analysis-link" :href="incomePageHref">{{ text.title }}</a></strong>
       <span>2014</span>
     </div>
     <span>{{ text.unavailable }}</span>
@@ -188,6 +189,17 @@ onMounted(async () => {
   flex-wrap: wrap;
   gap: 0.3rem 0.8rem;
   line-height: 1.5;
+}
+
+.income-summary__analysis-link,
+.income-summary__rank-link {
+  color: inherit;
+  text-underline-offset: 0.16rem;
+}
+
+.income-summary__rank-link {
+  color: #65736f;
+  font-weight: 750;
 }
 
 .income-summary__source {
