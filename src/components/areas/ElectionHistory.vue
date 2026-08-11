@@ -36,9 +36,7 @@ const loading = ref(true)
 
 const visibleParties = computed(() => (dataset.value ? chartParties(dataset.value, 6) : []))
 const latestEvent = computed(() => (dataset.value ? featuredElection(dataset.value) : null))
-const latestTopParties = computed(() =>
-  latestEvent.value ? topParties(latestEvent.value, 3) : [],
-)
+const latestTopParties = computed(() => (latestEvent.value ? topParties(latestEvent.value, 3) : []))
 const reversedEvents = computed(() => [...(dataset.value?.events ?? [])].reverse())
 const numberFormatter = computed(
   () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
@@ -169,7 +167,9 @@ onMounted(async () => {
             <template v-for="event in reversedEvents" :key="event.id">
               <tr v-for="(party, partyIndex) in event.parties" :key="`${event.id}-${party.party}`">
                 <td>{{ partyIndex === 0 ? eventLabel(event) : '' }}</td>
-                <td><strong>{{ party.party }}</strong> · {{ partyName(party.party) }}</td>
+                <td>
+                  <strong>{{ party.party }}</strong> · {{ partyName(party.party) }}
+                </td>
                 <td>{{ numberFormatter.format(party.votes) }}</td>
                 <td>{{ percentFormatter.format(party.percent) }}%</td>
               </tr>
