@@ -25,7 +25,7 @@ const { language, languageUrl, t } = useI18n()
       :href="languageUrl('fa')"
       :aria-current="language === 'fa' ? 'page' : undefined"
     >
-      فارسی
+      فا
     </a>
   </nav>
 </template>
