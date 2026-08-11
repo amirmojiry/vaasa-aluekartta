@@ -119,7 +119,11 @@ onMounted(async () => {
 <template>
   <div v-if="income" class="summary-metric income-summary">
     <div class="summary-metric__heading">
-      <strong><a class="income-summary__analysis-link" :href="incomePageHref">{{ text.title }}</a></strong>
+      <strong
+        ><a class="income-summary__analysis-link" :href="incomePageHref">{{
+          text.title
+        }}</a></strong
+      >
       <span>{{ text.basis }} · {{ income.year }}</span>
     </div>
 
@@ -147,7 +151,11 @@ onMounted(async () => {
 
   <div v-else-if="loaded" class="summary-metric income-summary income-summary--empty">
     <div class="summary-metric__heading">
-      <strong><a class="income-summary__analysis-link" :href="incomePageHref">{{ text.title }}</a></strong>
+      <strong
+        ><a class="income-summary__analysis-link" :href="incomePageHref">{{
+          text.title
+        }}</a></strong
+      >
       <span>2014</span>
     </div>
     <span>{{ text.unavailable }}</span>

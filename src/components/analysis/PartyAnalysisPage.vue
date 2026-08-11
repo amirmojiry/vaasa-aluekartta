@@ -27,7 +27,8 @@ const failed = ref(false)
 const labels = {
   en: {
     title: 'Party support by area',
-    intro: 'Darker areas indicate a higher vote share for the selected party in the selected election.',
+    intro:
+      'Darker areas indicate a higher vote share for the selected party in the selected election.',
     election: 'Election',
     barChart: 'Party support across areas',
     table: 'Show detailed area table',
@@ -37,15 +38,19 @@ const labels = {
     share: 'Vote share',
     coverage: 'Coverage',
     source: 'Source',
-    noData: 'No source-backed political data is available for this party at this area level and election.',
-    comparisonNote: 'For a valid cross-area comparison, the map, ranking, and bars include only election datasets whose voting-district scope exactly matches the statistical area.',
-    excludedTitle: 'Available but excluded from the comparison because the election scope does not exactly match the statistical area:',
+    noData:
+      'No source-backed political data is available for this party at this area level and election.',
+    comparisonNote:
+      'For a valid cross-area comparison, the map, ranking, and bars include only election datasets whose voting-district scope exactly matches the statistical area.',
+    excludedTitle:
+      'Available but excluded from the comparison because the election scope does not exactly match the statistical area:',
     back: 'Back to Vaasa map',
     dedicated: 'Dedicated page',
   },
   fi: {
     title: 'Puolueen kannatus alueittain',
-    intro: 'Tummempi alue tarkoittaa suurempaa ääniosuutta valitulle puolueelle valituissa vaaleissa.',
+    intro:
+      'Tummempi alue tarkoittaa suurempaa ääniosuutta valitulle puolueelle valituissa vaaleissa.',
     election: 'Vaalit',
     barChart: 'Puolueen kannatus alueittain',
     table: 'Näytä tarkka aluetaulukko',
@@ -55,9 +60,12 @@ const labels = {
     share: 'Ääniosuus',
     coverage: 'Kattavuus',
     source: 'Lähde',
-    noData: 'Tälle puolueelle ei ole lähteeseen perustuvia poliittisia tietoja tällä aluetasolla ja vaalilla.',
-    comparisonNote: 'Alueiden vertailukelpoisuuden säilyttämiseksi kartta, sijoitus ja pylväät sisältävät vain vaaliaineistot, joiden äänestysalue vastaa täsmälleen tilastoaluetta.',
-    excludedTitle: 'Aineisto on saatavilla, mutta se jätetään vertailun ulkopuolelle, koska vaalialue ei vastaa täsmälleen tilastoaluetta:',
+    noData:
+      'Tälle puolueelle ei ole lähteeseen perustuvia poliittisia tietoja tällä aluetasolla ja vaalilla.',
+    comparisonNote:
+      'Alueiden vertailukelpoisuuden säilyttämiseksi kartta, sijoitus ja pylväät sisältävät vain vaaliaineistot, joiden äänestysalue vastaa täsmälleen tilastoaluetta.',
+    excludedTitle:
+      'Aineisto on saatavilla, mutta se jätetään vertailun ulkopuolelle, koska vaalialue ei vastaa täsmälleen tilastoaluetta:',
     back: 'Takaisin Vaasan kartalle',
     dedicated: 'Oma sivu',
   },
@@ -74,8 +82,10 @@ const labels = {
     coverage: 'دامنه داده',
     source: 'منبع',
     noData: 'برای این حزب در این سطح منطقه و انتخابات، داده سیاسی مستند موجود نیست.',
-    comparisonNote: 'برای مقایسه معتبر بین مناطق، نقشه، رتبه‌بندی و نمودار میله‌ای فقط داده‌های انتخاباتی را نشان می‌دهند که محدوده حوزه رأی‌گیری دقیقاً با منطقه آماری منطبق باشد.',
-    excludedTitle: 'داده برای موارد زیر موجود است، اما چون محدوده انتخاباتی دقیقاً با منطقه آماری منطبق نیست در مقایسه لحاظ نشده است:',
+    comparisonNote:
+      'برای مقایسه معتبر بین مناطق، نقشه، رتبه‌بندی و نمودار میله‌ای فقط داده‌های انتخاباتی را نشان می‌دهند که محدوده حوزه رأی‌گیری دقیقاً با منطقه آماری منطبق باشد.',
+    excludedTitle:
+      'داده برای موارد زیر موجود است، اما چون محدوده انتخاباتی دقیقاً با منطقه آماری منطبق نیست در مقایسه لحاظ نشده است:',
     back: 'بازگشت به نقشه واسا',
     dedicated: 'صفحه اختصاصی',
   },
@@ -330,11 +340,16 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
       <template v-else>
         <p class="party-comparison-note">{{ text.comparisonNote }}</p>
 
-        <div v-if="excludedResults.length" class="party-comparison-note party-comparison-note--excluded">
+        <div
+          v-if="excludedResults.length"
+          class="party-comparison-note party-comparison-note--excluded"
+        >
           <strong>{{ text.excludedTitle }}</strong>
           <ul>
             <li v-for="item in excludedResults" :key="`excluded-${item.name}`">
-              <a v-if="areaHref(item.name)" :href="areaHref(item.name) ?? undefined">{{ item.name }}</a>
+              <a v-if="areaHref(item.name)" :href="areaHref(item.name) ?? undefined">{{
+                item.name
+              }}</a>
               <span v-else>{{ item.name }}</span>
               <span> · {{ item.scope }}</span>
               <span v-if="item.note"> — {{ item.note }}</span>
@@ -358,7 +373,11 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
               <div class="party-analysis-row__label">
                 <span>
                   <strong>{{ numberFormatter.format(index + 1) }}.</strong>
-                  <a v-if="areaHref(item.name)" class="party-area-link" :href="areaHref(item.name) ?? undefined">
+                  <a
+                    v-if="areaHref(item.name)"
+                    class="party-area-link"
+                    :href="areaHref(item.name) ?? undefined"
+                  >
                     {{ item.name }}
                   </a>
                   <span v-else>{{ item.name }}</span>
@@ -398,7 +417,11 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
                 <tr v-for="(item, index) in results" :key="`table-${item.name}`">
                   <td>{{ numberFormatter.format(index + 1) }}</td>
                   <td>
-                    <a v-if="areaHref(item.name)" class="party-area-link" :href="areaHref(item.name) ?? undefined">
+                    <a
+                      v-if="areaHref(item.name)"
+                      class="party-area-link"
+                      :href="areaHref(item.name) ?? undefined"
+                    >
                       {{ item.name }}
                     </a>
                     <span v-else>{{ item.name }}</span>
@@ -420,37 +443,184 @@ watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)
 </template>
 
 <style scoped>
-.party-page { min-height: 100vh; background: #f3f0e8; color: var(--ink); }
-.party-page__hero { padding-bottom: 2rem; background: var(--deep-green); color: #fff; }
-.party-page__intro { width: min(1100px, calc(100% - 2rem)); margin: 2rem auto 0; }
-.party-page__intro > p:first-of-type { margin: .5rem 0 0; color: #f2c66d; font-weight: 850; letter-spacing: .08em; }
-.party-page__intro h1 { margin: .15rem 0 .55rem; font-size: clamp(2rem, 5vw, 3.6rem); }
-.party-page__intro > p:last-of-type { max-width: 50rem; color: rgba(255,255,255,.8); }
-.party-page__back, .party-page__links a { color: rgba(255,255,255,.88); font-weight: 750; }
-.party-page__links { display: flex; flex-wrap: wrap; gap: .8rem; }
-.party-page__content { display: grid; gap: 1.25rem; width: min(1100px, calc(100% - 2rem)); margin: 0 auto; padding: 1.5rem 0 3rem; }
-.party-controls { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; }
-.analysis-level-toggle { display: flex; flex-wrap: wrap; gap: .5rem; }
-.analysis-level-toggle button { padding: .55rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: #fffdf8; color: var(--ink); font-weight: 750; cursor: pointer; }
-.analysis-level-toggle button.is-active { border-color: var(--green); background: #dfeee9; color: #0c514b; }
-.party-event-select { display: grid; gap: .3rem; min-width: min(100%, 22rem); color: #586763; font-size: .78rem; font-weight: 750; }
-.party-event-select select { padding: .55rem .7rem; border: 1px solid var(--line); border-radius: .5rem; background: #fffdf8; color: var(--ink); }
-.party-state, .party-card, .party-comparison-note { margin: 0; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--paper); box-shadow: var(--shadow); }
-.party-comparison-note { color: #596964; font-size: .82rem; line-height: 1.6; }
-.party-comparison-note--excluded { border-color: #d8bd7d; background: #fff8e8; }
-.party-comparison-note ul { margin: .65rem 0 0; padding-inline-start: 1.25rem; }
-.party-comparison-note li + li { margin-top: .45rem; }
-.party-comparison-note a, .party-area-link { color: var(--green); font-weight: 750; text-underline-offset: .15rem; }
-.party-card h2 { margin: 0 0 1rem; font-size: 1.15rem; }
-.party-bars-analysis { display: grid; gap: .7rem; }
-.party-analysis-row { display: grid; gap: .3rem; }
-.party-analysis-row__label { display: flex; justify-content: space-between; gap: 1rem; font-size: .82rem; }
-.party-analysis-row__track { height: .55rem; overflow: hidden; border-radius: 999px; background: #e3e8e5; }
-.party-analysis-row__track span { display: block; min-width: 2px; height: 100%; border-radius: inherit; }
-.party-details summary { color: var(--green); font-weight: 800; cursor: pointer; }
-.party-table-wrap { margin-top: 1rem; overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
-th, td { padding: .55rem .65rem; border-bottom: 1px solid var(--line); text-align: start; white-space: nowrap; }
-td a { color: var(--green); font-weight: 750; }
-@media (max-width: 650px) { .party-analysis-row__label { align-items: flex-start; flex-direction: column; gap: .15rem; } }
+.party-page {
+  min-height: 100vh;
+  background: #f3f0e8;
+  color: var(--ink);
+}
+.party-page__hero {
+  padding-bottom: 2rem;
+  background: var(--deep-green);
+  color: #fff;
+}
+.party-page__intro {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 2rem auto 0;
+}
+.party-page__intro > p:first-of-type {
+  margin: 0.5rem 0 0;
+  color: #f2c66d;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+.party-page__intro h1 {
+  margin: 0.15rem 0 0.55rem;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+}
+.party-page__intro > p:last-of-type {
+  max-width: 50rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+.party-page__back,
+.party-page__links a {
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 750;
+}
+.party-page__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.party-page__content {
+  display: grid;
+  gap: 1.25rem;
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 3rem;
+}
+.party-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.analysis-level-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.analysis-level-toggle button {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf8;
+  color: var(--ink);
+  font-weight: 750;
+  cursor: pointer;
+}
+.analysis-level-toggle button.is-active {
+  border-color: var(--green);
+  background: #dfeee9;
+  color: #0c514b;
+}
+.party-event-select {
+  display: grid;
+  gap: 0.3rem;
+  min-width: min(100%, 22rem);
+  color: #586763;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+.party-event-select select {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: #fffdf8;
+  color: var(--ink);
+}
+.party-state,
+.party-card,
+.party-comparison-note {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.party-comparison-note {
+  color: #596964;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.party-comparison-note--excluded {
+  border-color: #d8bd7d;
+  background: #fff8e8;
+}
+.party-comparison-note ul {
+  margin: 0.65rem 0 0;
+  padding-inline-start: 1.25rem;
+}
+.party-comparison-note li + li {
+  margin-top: 0.45rem;
+}
+.party-comparison-note a,
+.party-area-link {
+  color: var(--green);
+  font-weight: 750;
+  text-underline-offset: 0.15rem;
+}
+.party-card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+}
+.party-bars-analysis {
+  display: grid;
+  gap: 0.7rem;
+}
+.party-analysis-row {
+  display: grid;
+  gap: 0.3rem;
+}
+.party-analysis-row__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.82rem;
+}
+.party-analysis-row__track {
+  height: 0.55rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e3e8e5;
+}
+.party-analysis-row__track span {
+  display: block;
+  min-width: 2px;
+  height: 100%;
+  border-radius: inherit;
+}
+.party-details summary {
+  color: var(--green);
+  font-weight: 800;
+  cursor: pointer;
+}
+.party-table-wrap {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+th,
+td {
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid var(--line);
+  text-align: start;
+  white-space: nowrap;
+}
+td a {
+  color: var(--green);
+  font-weight: 750;
+}
+@media (max-width: 650px) {
+  .party-analysis-row__label {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}
 </style>

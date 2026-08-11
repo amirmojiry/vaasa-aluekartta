@@ -160,7 +160,9 @@ onMounted(async () => {
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--unemployed" />
-          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{ t('unemployed') }}</a>
+          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{
+            t('unemployed')
+          }}</a>
           <strong>{{ formatPercent(statistics.unemployment2013) }}</strong>
         </span>
       </div>
@@ -168,7 +170,11 @@ onMounted(async () => {
 
     <div class="summary-metric">
       <div class="summary-metric__heading">
-        <strong><a class="summary-analysis-link" :href="metricHref('students')">{{ t('students') }}</a></strong>
+        <strong
+          ><a class="summary-analysis-link" :href="metricHref('students')">{{
+            t('students')
+          }}</a></strong
+        >
         <span>
           {{ formatPercent(statistics.studentShare2013) }} · 2013 · {{ t('derivedMetric') }}
         </span>
@@ -195,17 +201,33 @@ onMounted(async () => {
     </div>
 
     <div class="summary-population">
-      <span><a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a> · {{ yearFormatter.format(statistics.populationYear) }}</span>
+      <span
+        ><a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a>
+        · {{ yearFormatter.format(statistics.populationYear) }}</span
+      >
       <strong>{{ numberFormatter.format(statistics.population) }}</strong>
     </div>
 
     <div v-if="cityAverageIncome !== null" class="summary-metric city-income-summary">
       <div class="summary-metric__heading">
-        <strong><a class="summary-analysis-link" :href="metricHref('income')">{{ incomeLabel }}</a></strong>
+        <strong
+          ><a class="summary-analysis-link" :href="metricHref('income')">{{
+            incomeLabel
+          }}</a></strong
+        >
         <span>{{ incomeBasis }}</span>
       </div>
-      <strong class="city-income-summary__value">{{ currencyFormatter.format(cityAverageIncome) }}</strong>
-      <a v-if="incomeSourceUrl" class="city-income-summary__source" :href="incomeSourceUrl" target="_blank" rel="noreferrer">{{ incomeSourceLabel }} · Statistics Finland 2014b / Sanna Komsi (2016)</a>
+      <strong class="city-income-summary__value">{{
+        currencyFormatter.format(cityAverageIncome)
+      }}</strong>
+      <a
+        v-if="incomeSourceUrl"
+        class="city-income-summary__source"
+        :href="incomeSourceUrl"
+        target="_blank"
+        rel="noreferrer"
+        >{{ incomeSourceLabel }} · Statistics Finland 2014b / Sanna Komsi (2016)</a
+      >
     </div>
 
     <div v-if="featured && parties.length" class="election-top-parties">
@@ -216,7 +238,9 @@ onMounted(async () => {
       <div class="party-bars">
         <div v-for="party in parties" :key="party.party" class="party-bar-row">
           <div class="party-bar-row__label">
-            <a class="summary-analysis-link" :href="partyHref(party.party)">{{ party.party }} · {{ partyName(party.party) }}</a>
+            <a class="summary-analysis-link" :href="partyHref(party.party)"
+              >{{ party.party }} · {{ partyName(party.party) }}</a
+            >
             <strong>
               {{ percentFormatter.format(party.percent) }}% ·
               {{ numberFormatter.format(party.votes) }} {{ t('votes') }}

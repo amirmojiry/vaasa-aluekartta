@@ -251,7 +251,11 @@ watch([() => props.metric, level], () => void load())
               <div class="analysis-bar-row__label">
                 <span>
                   <strong>{{ numberFormatter.format(item.rank) }}.</strong>
-                  <a v-if="areaHref(item.name)" class="analysis-area-link" :href="areaHref(item.name) ?? undefined">
+                  <a
+                    v-if="areaHref(item.name)"
+                    class="analysis-area-link"
+                    :href="areaHref(item.name) ?? undefined"
+                  >
                     {{ item.name }}
                   </a>
                   <span v-else>{{ item.name }}</span>
@@ -286,7 +290,11 @@ watch([() => props.metric, level], () => void load())
                 <tr v-for="item in ranked" :key="`table-${item.name}`">
                   <td>{{ numberFormatter.format(item.rank) }}</td>
                   <td>
-                    <a v-if="areaHref(item.name)" class="analysis-area-link" :href="areaHref(item.name) ?? undefined">
+                    <a
+                      v-if="areaHref(item.name)"
+                      class="analysis-area-link"
+                      :href="areaHref(item.name) ?? undefined"
+                    >
                       {{ item.name }}
                     </a>
                     <span v-else>{{ item.name }}</span>
@@ -301,7 +309,9 @@ watch([() => props.metric, level], () => void load())
 
         <p v-if="dataset.sourceUrl" class="analysis-source">
           {{ text.source }}:
-          <a :href="dataset.sourceUrl" target="_blank" rel="noreferrer">{{ dataset.sourceLabel }}</a>
+          <a :href="dataset.sourceUrl" target="_blank" rel="noreferrer">{{
+            dataset.sourceLabel
+          }}</a>
         </p>
       </template>
     </section>
@@ -309,29 +319,137 @@ watch([() => props.metric, level], () => void load())
 </template>
 
 <style scoped>
-.analysis-page { min-height: 100vh; background: #f3f0e8; color: var(--ink); }
-.analysis-page__hero { padding: 0 0 2rem; background: var(--deep-green); color: #fff; }
-.analysis-page__intro { width: min(1100px, calc(100% - 2rem)); margin: 2rem auto 0; }
-.analysis-page__intro h1 { margin: 0.45rem 0; font-size: clamp(2rem, 5vw, 3.6rem); }
-.analysis-page__intro p { max-width: 46rem; margin: 0; color: rgba(255,255,255,.78); }
-.analysis-page__back { color: rgba(255,255,255,.82); font-weight: 750; }
-.analysis-page__content { display: grid; gap: 1.25rem; width: min(1100px, calc(100% - 2rem)); margin: 0 auto; padding: 1.5rem 0 3rem; }
-.analysis-level-toggle { display: flex; flex-wrap: wrap; gap: .5rem; }
-.analysis-level-toggle button { padding: .55rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: #fffdf8; color: var(--ink); font-weight: 750; cursor: pointer; }
-.analysis-level-toggle button.is-active { border-color: var(--green); background: #dfeee9; color: #0c514b; }
-.analysis-state, .analysis-card { margin: 0; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--paper); box-shadow: var(--shadow); }
-.analysis-card h2 { margin: 0 0 1rem; font-size: 1.15rem; }
-.analysis-bars { display: grid; gap: .7rem; }
-.analysis-bar-row { display: grid; gap: .3rem; }
-.analysis-bar-row__label { display: flex; justify-content: space-between; gap: 1rem; font-size: .82rem; }
-.analysis-bar-row__track { height: .55rem; overflow: hidden; border-radius: 999px; background: #e3e8e5; }
-.analysis-bar-row__track span { display: block; min-width: 2px; height: 100%; border-radius: inherit; }
-.analysis-area-link { color: inherit; font-weight: 750; text-underline-offset: .15rem; }
-.analysis-details summary { color: var(--green); font-weight: 800; cursor: pointer; }
-.analysis-table-wrap { margin-top: 1rem; overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
-th, td { padding: .55rem .65rem; border-bottom: 1px solid var(--line); text-align: start; }
-.analysis-source { margin: 0; color: #667570; font-size: .78rem; }
-.analysis-source a { color: var(--green); font-weight: 750; }
-@media (max-width: 650px) { .analysis-bar-row__label { align-items: flex-start; flex-direction: column; gap: .15rem; } }
+.analysis-page {
+  min-height: 100vh;
+  background: #f3f0e8;
+  color: var(--ink);
+}
+.analysis-page__hero {
+  padding: 0 0 2rem;
+  background: var(--deep-green);
+  color: #fff;
+}
+.analysis-page__intro {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 2rem auto 0;
+}
+.analysis-page__intro h1 {
+  margin: 0.45rem 0;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+}
+.analysis-page__intro p {
+  max-width: 46rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+.analysis-page__back {
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 750;
+}
+.analysis-page__content {
+  display: grid;
+  gap: 1.25rem;
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 3rem;
+}
+.analysis-level-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.analysis-level-toggle button {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf8;
+  color: var(--ink);
+  font-weight: 750;
+  cursor: pointer;
+}
+.analysis-level-toggle button.is-active {
+  border-color: var(--green);
+  background: #dfeee9;
+  color: #0c514b;
+}
+.analysis-state,
+.analysis-card {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.analysis-card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+}
+.analysis-bars {
+  display: grid;
+  gap: 0.7rem;
+}
+.analysis-bar-row {
+  display: grid;
+  gap: 0.3rem;
+}
+.analysis-bar-row__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.82rem;
+}
+.analysis-bar-row__track {
+  height: 0.55rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e3e8e5;
+}
+.analysis-bar-row__track span {
+  display: block;
+  min-width: 2px;
+  height: 100%;
+  border-radius: inherit;
+}
+.analysis-area-link {
+  color: inherit;
+  font-weight: 750;
+  text-underline-offset: 0.15rem;
+}
+.analysis-details summary {
+  color: var(--green);
+  font-weight: 800;
+  cursor: pointer;
+}
+.analysis-table-wrap {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+th,
+td {
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid var(--line);
+  text-align: start;
+}
+.analysis-source {
+  margin: 0;
+  color: #667570;
+  font-size: 0.78rem;
+}
+.analysis-source a {
+  color: var(--green);
+  font-weight: 750;
+}
+@media (max-width: 650px) {
+  .analysis-bar-row__label {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}
 </style>

@@ -236,7 +236,9 @@ onMounted(async () => {
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--unemployed" />
-          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{ t('unemployed') }}</a>
+          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{
+            t('unemployed')
+          }}</a>
           <strong>{{ formatPercent(statistics.unemployment2013) }}</strong>
           <a class="summary-rank-link" :href="metricHref('unemployed')">
             <small>{{ compactRankText(unemployedRank) }}</small>
@@ -252,7 +254,9 @@ onMounted(async () => {
         </strong>
         <span>
           {{ formatPercent(statistics.studentShare2013) }} ·
-          <a class="summary-rank-link" :href="metricHref('students')">{{ compactRankText(studentRank) }}</a>
+          <a class="summary-rank-link" :href="metricHref('students')">{{
+            compactRankText(studentRank)
+          }}</a>
           · 2013
         </span>
       </div>
@@ -319,7 +323,9 @@ onMounted(async () => {
       <div class="summary-legend summary-legend--languages">
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--finnish" />
-          <a class="summary-analysis-link" :href="metricHref('language-finnish')">{{ t('finnish') }}</a>
+          <a class="summary-analysis-link" :href="metricHref('language-finnish')">{{
+            t('finnish')
+          }}</a>
           <strong>{{ formatPercent(statistics.language2015.finnish) }}</strong>
           <a class="summary-rank-link" :href="metricHref('language-finnish')">
             <small>{{ compactRankText(finnishRank) }}</small>
@@ -327,7 +333,9 @@ onMounted(async () => {
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--swedish" />
-          <a class="summary-analysis-link" :href="metricHref('language-swedish')">{{ t('swedish') }}</a>
+          <a class="summary-analysis-link" :href="metricHref('language-swedish')">{{
+            t('swedish')
+          }}</a>
           <strong>{{ formatPercent(statistics.language2015.swedish) }}</strong>
           <a class="summary-rank-link" :href="metricHref('language-swedish')">
             <small>{{ compactRankText(swedishRank) }}</small>
@@ -335,7 +343,9 @@ onMounted(async () => {
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--other-language" />
-          <a class="summary-analysis-link" :href="metricHref('language-other')">{{ t('otherLanguages') }}</a>
+          <a class="summary-analysis-link" :href="metricHref('language-other')">{{
+            t('otherLanguages')
+          }}</a>
           <strong>{{ formatPercent(statistics.language2015.other) }}</strong>
           <a class="summary-rank-link" :href="metricHref('language-other')">
             <small>{{ compactRankText(otherLanguageRank) }}</small>
