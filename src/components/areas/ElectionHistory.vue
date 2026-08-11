@@ -240,7 +240,8 @@ onBeforeUnmount(() => {
               </th>
               <th>
                 <button type="button" class="election-table-sort" @click="toggleSort('percent')">
-                  {{ t('voteShare') }} <span aria-hidden="true">{{ sortIndicator('percent') }}</span>
+                  {{ t('voteShare') }}
+                  <span aria-hidden="true">{{ sortIndicator('percent') }}</span>
                 </button>
               </th>
             </tr>
