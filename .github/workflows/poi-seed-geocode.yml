@@ -1,0 +1,37 @@
+name: POI seed geocode
+
+on:
+  push:
+    branches: [agent/map-pois]
+
+permissions:
+  contents: read
+
+jobs:
+  geocode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Geocode named Vaasa seed POIs
+        shell: bash
+        run: |
+          places=(
+            'Pohjanmaan museo, Vaasa, Finland'
+            'Tikanojan taidekoti, Vaasa, Finland'
+            'Prisma Vaasa, Vaasa, Finland'
+            'K-Citymarket Vaasa, Vaasa, Finland'
+            'Vaasan pääpoliisiasema, Vaasa, Finland'
+            'Vaasan keskussairaala, Vaasa, Finland'
+            'Vaasan pääkirjasto, Vaasa, Finland'
+            'Vähänkyrön kirjasto, Vaasa, Finland'
+          )
+          for place in "${places[@]}"; do
+            echo "===== $place ====="
+            curl --silent --show-error --fail --max-time 15 \
+              --get 'https://nominatim.openstreetmap.org/search' \
+              --data-urlencode "q=$place" \
+              --data 'format=jsonv2' \
+              --data 'limit=1' \
+              --header 'User-Agent: vaasa-aluekartta-seed/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
+            echo
+            sleep 2
+          done
