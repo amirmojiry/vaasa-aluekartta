@@ -14,6 +14,14 @@ const CATEGORIES = [
   'train-stations',
   'airports',
   'bus-stops',
+  'restaurants',
+  'cafes',
+  'parks-playgrounds',
+  'sports',
+  'shopping',
+  'banking',
+  'post-services',
+  'fuel-charging',
 ]
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const poiPath = resolve(scriptDir, '../public/data/vaasa-pois.geojson')
