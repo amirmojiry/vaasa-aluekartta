@@ -1,0 +1,22 @@
+name: POI format preview
+
+on:
+  push:
+    branches: [agent/map-pois]
+
+permissions:
+  contents: read
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - name: Format POI files
+        run: npx prettier --write scripts/update-osm-pois.mjs src/components/map/VaasaMap.vue src/services/poiData.ts
+      - name: Print formatting diff
+        run: git diff -- scripts/update-osm-pois.mjs src/components/map/VaasaMap.vue src/services/poiData.ts
