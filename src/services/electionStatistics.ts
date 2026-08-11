@@ -25,6 +25,49 @@ const PARTY_COLORS: Record<string, string> = {
   KRIP: '#8b6d7a',
 }
 
+export interface PartyWikipediaLinks {
+  fa?: string
+  fi?: string
+}
+
+const PARTY_WIKIPEDIA: Record<string, PartyWikipediaLinks> = {
+  RKP: {
+    fa: 'https://fa.wikipedia.org/wiki/حزب_سوئدی‌های_فنلاند',
+    fi: 'https://fi.wikipedia.org/wiki/Suomen_ruotsalainen_kansanpuolue',
+  },
+  SDP: {
+    fa: 'https://fa.wikipedia.org/wiki/حزب_سوسیال_دموکرات_فنلاند',
+    fi: 'https://fi.wikipedia.org/wiki/Suomen_Sosialidemokraattinen_Puolue',
+  },
+  KOK: {
+    fa: 'https://fa.wikipedia.org/wiki/حزب_ائتلاف_ملی',
+    fi: 'https://fi.wikipedia.org/wiki/Kansallinen_Kokoomus',
+  },
+  PS: {
+    fa: 'https://fa.wikipedia.org/wiki/فنلاندی‌های_واقعی',
+    fi: 'https://fi.wikipedia.org/wiki/Perussuomalaiset',
+  },
+  VIHR: {
+    fa: 'https://fa.wikipedia.org/wiki/لیگ_سبز_(فنلاند)',
+    fi: 'https://fi.wikipedia.org/wiki/Vihreä_liitto',
+  },
+  VAS: {
+    fa: 'https://fa.wikipedia.org/wiki/ائتلاف_چپ_(فنلاند)',
+    fi: 'https://fi.wikipedia.org/wiki/Vasemmistoliitto',
+  },
+  KESK: {
+    fa: 'https://fa.wikipedia.org/wiki/حزب_مرکز_(فنلاند)',
+    fi: 'https://fi.wikipedia.org/wiki/Suomen_Keskusta',
+  },
+  KD: {
+    fa: 'https://fa.wikipedia.org/wiki/حزب_دموکرات‌های_مسیحی_فنلاند',
+    fi: 'https://fi.wikipedia.org/wiki/Suomen_Kristillisdemokraatit',
+  },
+  LIIK: {
+    fi: 'https://fi.wikipedia.org/wiki/Liike_Nyt',
+  },
+}
+
 export async function fetchElectionStatisticsDatabase(): Promise<ElectionStatisticsDatabase> {
   databasePromise ??= fetch(ELECTION_STATISTICS_URL, { cache: 'force-cache' }).then(
     async (response) => {
@@ -85,4 +128,8 @@ export function chartParties(dataset: ResolvedElectionDataset, count = 6): strin
 
 export function partyColor(party: string): string {
   return PARTY_COLORS[party] ?? '#64736f'
+}
+
+export function partyWikipediaLinks(party: string): PartyWikipediaLinks {
+  return PARTY_WIKIPEDIA[party] ?? {}
 }
