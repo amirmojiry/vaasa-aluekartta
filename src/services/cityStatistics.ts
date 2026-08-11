@@ -38,10 +38,7 @@ function populationWeightedAverage(
   const population = records.reduce((total, record) => total + record.p, 0)
   if (population <= 0) throw new Error('City statistics cannot be weighted without population data')
 
-  const weightedTotal = records.reduce(
-    (total, record) => total + selector(record) * record.p,
-    0,
-  )
+  const weightedTotal = records.reduce((total, record) => total + selector(record) * record.p, 0)
   return roundPercent(weightedTotal / population)
 }
 
