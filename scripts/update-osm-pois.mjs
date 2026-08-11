@@ -5,11 +5,13 @@ import { fileURLToPath } from 'node:url'
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
 const USER_AGENT =
   'vaasa-aluekartta-poi-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
+const VAASA_RELATION_ID = 1855926
+const VAASA_AREA_ID = 3_600_000_000 + VAASA_RELATION_ID
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const outputPath = resolve(scriptDir, '../public/data/vaasa-pois.geojson')
 
 const query = `[out:json][timeout:90];
-area["boundary"="administrative"]["admin_level"="8"]["name"="Vaasa"]->.vaasa;
+area(${VAASA_AREA_ID})->.vaasa;
 (
   nwr(area.vaasa)["tourism"~"^(attraction|museum|gallery|viewpoint|zoo|aquarium|theme_park)$"]["name"];
   nwr(area.vaasa)["shop"="supermarket"]["name"];
