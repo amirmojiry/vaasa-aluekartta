@@ -1,0 +1,18 @@
+.home-map-section > .city-stat-summary,
+.home-map-section > .city-statistics {
+  margin-top: 1.2rem;
+}
+
+.city-stat-summary__note,
+.city-statistics__note {
+  margin: 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+  color: #65736f;
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+
+.city-statistics__note {
+  margin-top: 1rem;
+}
