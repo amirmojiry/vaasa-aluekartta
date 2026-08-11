@@ -220,7 +220,10 @@ onBeforeUnmount(() => {
                 v-for="definition in POI_CATEGORY_DEFINITIONS"
                 :key="definition.id"
                 type="button"
-                :class="['poi-control__category', { 'is-active': isPoiCategoryActive(definition.id) }]"
+                :class="[
+                  'poi-control__category',
+                  { 'is-active': isPoiCategoryActive(definition.id) },
+                ]"
                 :aria-pressed="isPoiCategoryActive(definition.id)"
                 @click="togglePoiCategory(definition.id)"
               >
