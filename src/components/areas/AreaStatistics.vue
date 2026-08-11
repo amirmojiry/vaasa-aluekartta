@@ -106,10 +106,7 @@ onMounted(async () => {
         v-if="level === 'suuralue' && populationHistory"
         :observations="populationHistory.observations"
       />
-      <p
-        v-if="level === 'suuralue' && populationHistoryDatabase"
-        class="population-trend__source"
-      >
+      <p v-if="level === 'suuralue' && populationHistoryDatabase" class="population-trend__source">
         {{ t('populationHistorySource') }}:
         <a :href="populationHistoryDatabase.source.url" target="_blank" rel="noreferrer">
           {{ populationHistoryDatabase.source.title }}
@@ -119,7 +116,9 @@ onMounted(async () => {
       <div class="statistics-grid">
         <article class="stat-card stat-card--primary">
           <span class="stat-card__label">{{ t('population') }}</span>
-          <strong v-if="displayedPopulation !== undefined">{{ formatNumber(displayedPopulation) }}</strong>
+          <strong v-if="displayedPopulation !== undefined">{{
+            formatNumber(displayedPopulation)
+          }}</strong>
           <small>{{ displayedPopulationYear }}</small>
         </article>
 
