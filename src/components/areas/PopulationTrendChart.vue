@@ -19,7 +19,9 @@ const numberFormatter = computed(
 
 const minPopulation = computed(() => Math.min(...props.observations.map((item) => item.population)))
 const maxPopulation = computed(() => Math.max(...props.observations.map((item) => item.population)))
-const populationPadding = computed(() => Math.max(100, (maxPopulation.value - minPopulation.value) * 0.12))
+const populationPadding = computed(() =>
+  Math.max(100, (maxPopulation.value - minPopulation.value) * 0.12),
+)
 const yMin = computed(() => Math.max(0, minPopulation.value - populationPadding.value))
 const yMax = computed(() => maxPopulation.value + populationPadding.value)
 
@@ -36,7 +38,9 @@ const points = computed(() => {
   }))
 })
 
-const polylinePoints = computed(() => points.value.map((point) => `${point.x},${point.y}`).join(' '))
+const polylinePoints = computed(() =>
+  points.value.map((point) => `${point.x},${point.y}`).join(' '),
+)
 
 function formatNumber(value: number): string {
   return numberFormatter.value.format(value)
@@ -77,12 +81,7 @@ function formatNumber(value: number): string {
             class="population-trend__guide"
           />
           <circle :cx="point.x" :cy="point.y" r="6" class="population-trend__point" />
-          <text
-            :x="point.x"
-            :y="point.y - 13"
-            text-anchor="middle"
-            class="population-trend__value"
-          >
+          <text :x="point.x" :y="point.y - 13" text-anchor="middle" class="population-trend__value">
             {{ formatNumber(point.population) }}
           </text>
           <text
