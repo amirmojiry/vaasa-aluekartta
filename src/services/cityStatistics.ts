@@ -70,7 +70,8 @@ export function buildCityStatisticsSnapshot(
   populationHistoryDatabase: MajorAreaPopulationHistoryDatabase,
 ): CityStatisticsSnapshot {
   const records = majorAreaStatistics(statisticsDatabase)
-  if (!records.length) throw new Error('No major-area statistics are available for city aggregation')
+  if (!records.length)
+    throw new Error('No major-area statistics are available for city aggregation')
 
   const populationHistory = aggregatePopulationHistory(populationHistoryDatabase)
   const latestPopulation = populationHistory.at(-1)
