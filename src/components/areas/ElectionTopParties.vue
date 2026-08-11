@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 
 import type { AreaLevel } from '@/domain/areas'
 import type { ElectionStatisticsDatabase, ResolvedElectionDataset } from '@/domain/elections'
-import { useI18n } from '@/i18n'
+import { localeForLanguage, useI18n } from '@/i18n'
 import {
   featuredElection,
   fetchAreaElectionStatistics,
@@ -19,12 +19,13 @@ const database = ref<ElectionStatisticsDatabase | null>(null)
 
 const event = computed(() => (dataset.value ? featuredElection(dataset.value) : null))
 const parties = computed(() => (event.value ? topParties(event.value, 3) : []))
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
+const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
+const yearFormatter = computed(
+  () => new Intl.NumberFormat(localeForLanguage(language.value), { useGrouping: false }),
 )
 const percentFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     }),
@@ -33,7 +34,16 @@ const percentFormatter = computed(
 function partyName(code: string): string {
   const meta = database.value?.parties[code]
   if (!meta) return code
-  return language.value === 'fa' ? meta.fa : meta.en
+  if (language.value === 'fa') return meta.fa || meta.en || meta.fi
+  if (language.value === 'fi') return meta.fi || meta.en || meta.fa
+  return meta.en || meta.fi || meta.fa
+}
+
+function localizedNote(): string {
+  if (!dataset.value?.note) return ''
+  if (language.value === 'fa') return dataset.value.note.fa || dataset.value.note.en
+  if (language.value === 'fi') return dataset.value.note.fi || dataset.value.note.en
+  return dataset.value.note.en || dataset.value.note.fi
 }
 
 function eventLabel(): string {
@@ -46,7 +56,7 @@ function eventLabel(): string {
         : event.value.type === 'european'
           ? t('electionTypeEuropean')
           : t('electionTypeParliamentary')
-  return `${type} ${numberFormatter.value.format(event.value.year)}`
+  return `${type} ${yearFormatter.value.format(event.value.year)}`
 }
 
 onMounted(async () => {
@@ -70,7 +80,7 @@ onMounted(async () => {
       <span>{{ eventLabel() }}</span>
     </div>
     <p v-if="dataset.coverage !== 'exact'" class="election-scope-note">
-      {{ language === 'fa' ? dataset.note?.fa : dataset.note?.en }}
+      {{ localizedNote() }}
     </p>
     <div class="party-bars">
       <div v-for="party in parties" :key="party.party" class="party-bar-row">

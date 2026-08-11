@@ -43,6 +43,11 @@
   font-weight: 800;
 }
 
+.election-chart-party-context {
+  display: grid;
+  gap: 0.55rem;
+}
+
 .election-chart-party-links {
   display: flex;
   flex-wrap: wrap;
@@ -58,10 +63,90 @@
   color: var(--ink);
 }
 
-.election-chart-party-links a {
+.election-chart-party-links a,
+.party-profile-box a {
   color: var(--green);
   font-weight: 750;
   text-underline-offset: 0.18rem;
+}
+
+.party-info-button {
+  display: inline-grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 1px solid rgba(23, 100, 93, 0.5);
+  border-radius: 50%;
+  background: #fffdf8;
+  color: var(--green);
+  font: inherit;
+  font-size: 0.77rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.party-info-button:hover,
+.party-info-button.is-active {
+  background: var(--green);
+  color: #fff;
+}
+
+.party-profile-box {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(23, 100, 93, 0.2);
+  border-radius: 0.6rem;
+  background: #f5f8f5;
+  color: #53635f;
+  font-size: 0.76rem;
+  line-height: 1.65;
+}
+
+.party-profile-box__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  color: var(--ink);
+}
+
+.party-profile-box__header strong {
+  font-size: 0.86rem;
+}
+
+.party-profile-box__header span {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.party-profile-box__basis,
+.party-profile-box__status {
+  margin: 0;
+}
+
+.party-profile-box__basis {
+  color: #73807c;
+  font-size: 0.7rem;
+}
+
+.party-profile-box ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.15rem;
+}
+
+.party-profile-box li strong {
+  color: var(--ink);
+}
+
+.party-profile-box li a {
+  margin-inline-start: 0.25rem;
+  font-size: 0.7rem;
 }
 
 .election-party-series {
@@ -124,5 +209,9 @@
 
   .election-chart-point-detail {
     font-size: 9px;
+  }
+
+  .party-profile-box__header {
+    display: grid;
   }
 }

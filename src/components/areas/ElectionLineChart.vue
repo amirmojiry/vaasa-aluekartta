@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import type { ElectionEvent, PartyResult } from '@/domain/elections'
-import { useI18n } from '@/i18n'
+import { localeForLanguage, localizeText, useI18n } from '@/i18n'
 import { partyColor, partyWikipediaLinks } from '@/services/electionStatistics'
+import { fetchPartyProfile, type PartyProfile } from '@/services/partyProfiles'
 
 const props = defineProps<{
   events: ElectionEvent[]
@@ -19,21 +20,22 @@ const emit = defineEmits<{
 
 const { language, t } = useI18n()
 const hoveredParty = ref<string | null>(null)
+const profileOpen = ref(false)
+const profileLoading = ref(false)
+const profile = ref<PartyProfile | null>(null)
 const width = 760
 const height = 330
 const padding = { top: 48, right: 30, bottom: 68, left: 58 }
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
-)
+const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
 const yearFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       useGrouping: false,
     }),
 )
 const percentFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     }),
@@ -134,6 +136,32 @@ function pointLabelY(y: number | null): number {
 function toggleParty(party: string): void {
   emit('toggle-party', party)
 }
+
+async function toggleProfile(): Promise<void> {
+  if (!props.selectedParty) return
+  if (profileOpen.value) {
+    profileOpen.value = false
+    return
+  }
+
+  profileOpen.value = true
+  profileLoading.value = true
+  try {
+    profile.value = await fetchPartyProfile(props.selectedParty)
+  } catch {
+    profile.value = null
+  } finally {
+    profileLoading.value = false
+  }
+}
+
+watch(
+  () => props.selectedParty,
+  () => {
+    profileOpen.value = false
+    profile.value = null
+  },
+)
 </script>
 
 <template>
@@ -143,21 +171,50 @@ function toggleParty(party: string): void {
       <span v-if="hoveredParty" class="election-chart-hover-label">{{ hoveredPartyLabel }}</span>
     </div>
 
-    <p
-      v-if="selectedParty && (selectedLinks.fa || selectedLinks.fi)"
-      class="election-chart-party-links"
+    <div
+      v-if="selectedParty"
+      class="election-chart-party-context"
       data-party-selection-control
       @click.stop
     >
-      <strong>{{ partyLabels[selectedParty] ?? selectedParty }}:</strong>
-      <a v-if="selectedLinks.fa" :href="selectedLinks.fa" target="_blank" rel="noreferrer">
-        {{ t('persianWikipedia') }}
-      </a>
-      <span v-if="selectedLinks.fa && selectedLinks.fi" aria-hidden="true">|</span>
-      <a v-if="selectedLinks.fi" :href="selectedLinks.fi" target="_blank" rel="noreferrer">
-        {{ t('finnishWikipedia') }}
-      </a>
-    </p>
+      <p class="election-chart-party-links">
+        <strong>{{ partyLabels[selectedParty] ?? selectedParty }}:</strong>
+        <button
+          type="button"
+          class="party-info-button"
+          :class="{ 'is-active': profileOpen }"
+          :aria-label="t('partyInfoAria')"
+          :aria-expanded="profileOpen"
+          @click="toggleProfile"
+        >
+          !
+        </button>
+        <a v-if="selectedLinks.fa" :href="selectedLinks.fa" target="_blank" rel="noreferrer">
+          {{ t('persianWikipedia') }}
+        </a>
+        <span v-if="selectedLinks.fa && selectedLinks.fi" aria-hidden="true">|</span>
+        <a v-if="selectedLinks.fi" :href="selectedLinks.fi" target="_blank" rel="noreferrer">
+          {{ t('finnishWikipedia') }}
+        </a>
+      </p>
+
+      <section v-if="profileOpen" class="party-profile-box" :aria-label="t('partyInfo')">
+        <div class="party-profile-box__header">
+          <strong>{{ t('partyInfo') }}</strong>
+          <span>{{ partyLabels[selectedParty] ?? selectedParty }}</span>
+        </div>
+        <p class="party-profile-box__basis">{{ t('partyProfileBasis') }}</p>
+        <p v-if="profileLoading" class="party-profile-box__status">{{ t('loading') }}</p>
+        <ul v-else-if="profile">
+          <li v-for="item in profile.items" :key="`${item.topic.fi}-${item.sourceUrl}`">
+            <strong>{{ localizeText(item.topic, '', language) }}:</strong>
+            {{ localizeText(item.text, '', language) }}
+            <a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ t('source') }}</a>
+          </li>
+        </ul>
+        <p v-else class="party-profile-box__status">{{ t('partyProfileUnavailable') }}</p>
+      </section>
+    </div>
 
     <svg :viewBox="`0 0 ${width} ${height}`" role="img" :aria-label="t('electionChartAria')">
       <line

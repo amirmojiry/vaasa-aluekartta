@@ -7,8 +7,12 @@ import type {
   MajorAreaPopulationHistory,
   MajorAreaPopulationHistoryDatabase,
 } from '@/domain/populationHistory'
-import type { AreaStatisticRecord, AreaStatisticsDatabase } from '@/domain/statistics'
-import { useI18n } from '@/i18n'
+import type {
+  AreaStatisticRecord,
+  AreaStatisticsDatabase,
+  CompactAreaStatisticRecord,
+} from '@/domain/statistics'
+import { localeForLanguage, useI18n } from '@/i18n'
 import { fetchAreaStatistics, fetchStatisticsDatabase } from '@/services/areaStatistics'
 import {
   fetchMajorAreaPopulationHistory,
@@ -30,12 +34,10 @@ const populationHistoryDatabase = ref<MajorAreaPopulationHistoryDatabase | null>
 const failed = ref(false)
 const studentIcons = Array.from({ length: 10 }, (_, index) => index)
 
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
-)
+const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
 const percentFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     }),
@@ -51,12 +53,17 @@ const majorPopulationRank = computed(() =>
     : null,
 )
 
-const legacyPopulationRank = computed(() => {
-  if (!statistics.value || !database.value) return null
+const peerStatistics = computed(() => {
+  if (!database.value) return []
   const prefix = `${props.level}:`
-  const populations = Object.entries(database.value.areas)
+  return Object.entries(database.value.areas)
     .filter(([key]) => key.startsWith(prefix))
-    .map(([, value]) => value.p)
+    .map(([, value]) => value)
+})
+
+const legacyPopulationRank = computed(() => {
+  if (!statistics.value) return null
+  const populations = peerStatistics.value.map((value) => value.p)
   const rank =
     populations.filter((population) => population > statistics.value!.population2015).length + 1
   return {
@@ -85,12 +92,60 @@ const populationRank = computed(() =>
   props.level === 'suuralue' ? majorPopulationRank.value : legacyPopulationRank.value,
 )
 
+function rankFor(
+  value: number,
+  selector: (record: CompactAreaStatisticRecord) => number,
+): {
+  rank: number
+  total: number
+} | null {
+  const peers = peerStatistics.value
+  if (!peers.length) return null
+  return {
+    rank: peers.filter((record) => selector(record) > value).length + 1,
+    total: peers.length,
+  }
+}
+
+const employedRank = computed(() =>
+  statistics.value ? rankFor(statistics.value.employedShare2013, (record) => record.e) : null,
+)
+const unemployedRank = computed(() =>
+  statistics.value ? rankFor(statistics.value.unemployment2013, (record) => record.u) : null,
+)
+const studentRank = computed(() =>
+  statistics.value ? rankFor(statistics.value.studentShare2013, (record) => record.s) : null,
+)
+const finnishRank = computed(() =>
+  statistics.value ? rankFor(statistics.value.language2015.finnish, (record) => record.l[0]) : null,
+)
+const swedishRank = computed(() =>
+  statistics.value ? rankFor(statistics.value.language2015.swedish, (record) => record.l[1]) : null,
+)
+const otherLanguageRank = computed(() =>
+  statistics.value ? rankFor(statistics.value.language2015.other, (record) => record.l[2]) : null,
+)
+
+function compactRankText(rank: { rank: number; total: number } | null): string {
+  if (!rank) return ''
+  if (language.value === 'fa') {
+    return `(${t('rank')} ${numberFormatter.value.format(rank.rank)} ${t('rankOf')} ${numberFormatter.value.format(rank.total)})`
+  }
+  if (language.value === 'fi') {
+    return `(${t('rank')} ${numberFormatter.value.format(rank.rank)}/${numberFormatter.value.format(rank.total)})`
+  }
+  return `(${t('rank')} ${numberFormatter.value.format(rank.rank)} ${t('rankOf')} ${numberFormatter.value.format(rank.total)})`
+}
+
 const populationRankText = computed(() => {
   if (!populationRank.value) return ''
   const { rank, total } = populationRank.value
   const group = props.level === 'suuralue' ? t('majorAreas') : t('minorAreas')
   if (language.value === 'fa') {
     return `(${t('populationRank')} ${numberFormatter.value.format(rank)} ${t('rankOf')} ${numberFormatter.value.format(total)} ${t('among')} ${group})`
+  }
+  if (language.value === 'fi') {
+    return `(${t('populationRank')} ${numberFormatter.value.format(rank)}/${numberFormatter.value.format(total)}, ${group.toLowerCase()})`
   }
   return `(${t('populationRank')} ${numberFormatter.value.format(rank)} ${t('rankOf')} ${numberFormatter.value.format(total)} ${group})`
 })
@@ -99,7 +154,9 @@ const populationChangeText = computed(() => {
   const change = latestMajorPopulation.value
   if (props.level !== 'suuralue' || !change?.previous || change.percent === null) return ''
   const percent = `${percentFormatter.value.format(Math.abs(change.percent))}%`
-  const previousYear = numberFormatter.value.format(change.previous.year)
+  const previousYear = new Intl.NumberFormat(localeForLanguage(language.value), {
+    useGrouping: false,
+  }).format(change.previous.year)
   return `${percent} ${t('comparedWith')} ${previousYear}`
 })
 
@@ -168,11 +225,13 @@ onMounted(async () => {
           <i class="legend-dot legend-dot--employed" />
           <span>{{ t('employed') }}</span>
           <strong>{{ formatPercent(statistics.employedShare2013) }}</strong>
+          <small>{{ compactRankText(employedRank) }}</small>
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--unemployed" />
           <span>{{ t('unemployed') }}</span>
           <strong>{{ formatPercent(statistics.unemployment2013) }}</strong>
+          <small>{{ compactRankText(unemployedRank) }}</small>
         </span>
       </div>
     </div>
@@ -180,11 +239,13 @@ onMounted(async () => {
     <div class="summary-metric">
       <div class="summary-metric__heading">
         <strong>{{ t('students') }}</strong>
-        <span>{{ formatPercent(statistics.studentShare2013) }} · 2013</span>
+        <span>
+          {{ formatPercent(statistics.studentShare2013) }} {{ compactRankText(studentRank) }} · 2013
+        </span>
       </div>
       <div
         class="student-pictogram"
-        :aria-label="`${t('students')}: ${formatPercent(statistics.studentShare2013)}`"
+        :aria-label="`${t('students')}: ${formatPercent(statistics.studentShare2013)} ${compactRankText(studentRank)}`"
       >
         <span v-for="index in studentIcons" :key="index" class="student-icon">
           <svg class="student-icon__base" viewBox="0 0 32 40" aria-hidden="true">
@@ -240,16 +301,19 @@ onMounted(async () => {
           <i class="legend-dot legend-dot--finnish" />
           <span>{{ t('finnish') }}</span>
           <strong>{{ formatPercent(statistics.language2015.finnish) }}</strong>
+          <small>{{ compactRankText(finnishRank) }}</small>
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--swedish" />
           <span>{{ t('swedish') }}</span>
           <strong>{{ formatPercent(statistics.language2015.swedish) }}</strong>
+          <small>{{ compactRankText(swedishRank) }}</small>
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--other-language" />
           <span>{{ t('otherLanguages') }}</span>
           <strong>{{ formatPercent(statistics.language2015.other) }}</strong>
+          <small>{{ compactRankText(otherLanguageRank) }}</small>
         </span>
       </div>
     </div>

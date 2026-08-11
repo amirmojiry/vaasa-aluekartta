@@ -14,6 +14,13 @@ const { language, languageUrl, t } = useI18n()
       EN
     </a>
     <a
+      :class="['language-switcher__link', { 'is-active': language === 'fi' }]"
+      :href="languageUrl('fi')"
+      :aria-current="language === 'fi' ? 'page' : undefined"
+    >
+      FI
+    </a>
+    <a
       :class="['language-switcher__link', { 'is-active': language === 'fa' }]"
       :href="languageUrl('fa')"
       :aria-current="language === 'fa' ? 'page' : undefined"

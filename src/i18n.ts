@@ -2,13 +2,14 @@ import { computed, ref } from 'vue'
 
 import type { LocalizedAreaNames, LocalizedText } from '@/domain/areas'
 
-export type AppLanguage = 'en' | 'fa'
+export type AppLanguage = 'en' | 'fi' | 'fa'
 
 const messages = {
   en: {
     appName: 'Vaasa Aluekartta',
     language: 'Language',
     english: 'English',
+    finnishLanguage: 'Suomi',
     persian: 'فارسی',
     primaryNavigation: 'Primary navigation',
     homeAria: 'Vaasa Aluekartta home',
@@ -61,6 +62,7 @@ const messages = {
     unemployed: 'Unemployed',
     students: 'Students',
     populationRank: 'rank',
+    rank: 'rank',
     rankOf: 'of',
     among: 'among',
     comparedWith: 'vs',
@@ -105,12 +107,129 @@ const messages = {
     electionShortEuropean: 'EU',
     electionShortParliamentary: 'Parl.',
     electionChartAria: 'Party support over the available election measurements',
+    partyInfo: 'Party positions',
+    partyInfoAria: 'Show documented party positions',
+    partyProfileBasis:
+      'Concise summary of the party’s own published programmes and policy pages. This is not an independent political rating.',
+    partyProfileUnavailable: 'No documented profile is available for this party yet.',
+    partyProfileSources: 'Official sources',
     designedBy: 'Design: Amir Mojiri',
+  },
+  fi: {
+    appName: 'Vaasan aluekartta',
+    language: 'Kieli',
+    english: 'English',
+    finnishLanguage: 'Suomi',
+    persian: 'فارسی',
+    primaryNavigation: 'Päänavigointi',
+    homeAria: 'Vaasan aluekartan etusivu',
+    majorAreas: 'Suuralueet',
+    minorAreas: 'Pienalueet',
+    interactiveMap: 'Interaktiivinen kartta',
+    statisticalAreas: 'Vaasan tilastoalueet',
+    boundaryLevel: 'Aluetaso',
+    areas: 'aluetta',
+    clickForDetails: 'avaa tiedot',
+    mapped: 'kartalla',
+    backToMap: 'Takaisin Vaasan kartalle',
+    majorArea: 'Suuralue',
+    minorArea: 'Pienalue',
+    boundary: 'Alueraja',
+    reference: 'Tunnus',
+    adminLevel: 'Hallinnollinen taso',
+    osmRelation: 'OSM-relaatio',
+    outerWays: 'Ulkorajan viivat',
+    minorRelations: 'Pienaluerelaatiot',
+    source: 'Lähde',
+    parentMajorArea: 'Suuralue',
+    loading: 'Ladataan…',
+    notTagged: 'Ei tunnistetta',
+    childAreas: 'Suuralueen pienalueet',
+    noChildAreas: 'Tälle suuralueelle ei ole tällä hetkellä kartoitettuja pienalueita.',
+    siblingAreas: 'Muut saman suuralueen pienalueet',
+    noSiblingAreas: 'Muita kartoitettuja saman tason alueita ei ole tällä hetkellä.',
+    wikipedia: 'Wikipedia',
+    finnishWikipedia: 'Suomenkielinen Wikipedia',
+    persianWikipedia: 'Persiankielinen Wikipedia',
+    wikidata: 'Wikidata',
+    noWikipedia: 'Linkitettyä suomen- tai persiankielistä Wikipedia-artikkelia ei löytynyt.',
+    technicalInfo: 'Tekniset tiedot',
+    wikidataDescription: 'Wikidata-kuvaus',
+    externalIdentifiers: 'Ulkoiset tunnisteet',
+    noExternalIdentifiers: 'Wikidatassa ei ole muita ulkoisia tunnisteita.',
+    loadingAreaFailed: 'Alueen lataaminen epäonnistui',
+    areaStatistics: 'Alueen tilastot',
+    historicalStatistics: 'Historialliset tilastot',
+    statisticsYearNote: 'Luvut ovat historiallisia; viitevuosi näkyy kunkin mittarin yhteydessä.',
+    statisticsUnavailable: 'Tälle kartta-alueelle ei ole vielä rakenteisia tilastotietoja.',
+    statisticsOverview: 'Tilastojen yhteenveto',
+    population: 'Väestö',
+    studentsShare: 'Opiskelijat (osuus työvoimasta)',
+    employedShare: 'Työlliset (osuus työvoimasta)',
+    unemploymentRate: 'Työttömät (osuus työvoimasta)',
+    employment: 'Työllisyys',
+    employed: 'Työlliset',
+    unemployed: 'Työttömät',
+    students: 'Opiskelijat',
+    populationRank: 'sija',
+    rank: 'sija',
+    rankOf: '/',
+    among: 'joukossa',
+    comparedWith: 'verrattuna vuoteen',
+    populationHistory: 'Väestökehitys',
+    populationHistoryChartAria: 'Väestökehitys käytettävissä olevina mittausvuosina',
+    populationHistorySource: 'Väestökehityksen lähde',
+    derivedMetric: 'laskettu arvo',
+    motherTongue: 'Äidinkieli',
+    languageShare: 'Äidinkielten osuudet',
+    finnish: 'Suomi',
+    swedish: 'Ruotsi',
+    otherLanguages: 'Muut kielet',
+    statisticsSource: 'Tilastolähde',
+    colorMapBy: 'Väritä kartta muuttujan mukaan',
+    normalView: 'Perusnäkymä',
+    populationView: 'Väestö',
+    employmentView: 'Työllisyys',
+    studentsView: 'Opiskelijat',
+    languageView: 'Kieliosuus',
+    politics: 'Politiikka ja vaalit',
+    electionStatistics: 'Vaalitilastot',
+    electionHistory: 'Puolueiden kannatuksen kehitys',
+    vaasaElectionHistory: 'Puolueiden kannatus Vaasassa',
+    topParties: 'Kolme suosituinta puoluetta',
+    votes: 'ääntä',
+    voteShare: 'Ääniosuus',
+    voteShareTrend: 'Ääniosuuden kehitys',
+    voteCountTrend: 'Äänimäärän kehitys',
+    dataScope: 'Aineiston kattavuus',
+    electionComparisonNote:
+      'Sarja sisältää eri vaalityyppejä; pisteitä tulee verrata vaalityyppi huomioiden.',
+    showElectionTable: 'Näytä koko vaalitaulukko',
+    election: 'Vaalit',
+    party: 'Puolue',
+    electionStatisticsUnavailable: 'Tälle alueelle ei ole vielä rakenteista puolueiden äänisarjaa.',
+    electionTypeMunicipal: 'Kuntavaalit',
+    electionTypeRegional: 'Aluevaalit',
+    electionTypeEuropean: 'Europarlamenttivaalit',
+    electionTypeParliamentary: 'Eduskuntavaalit',
+    electionShortMunicipal: 'Kunta',
+    electionShortRegional: 'Alue',
+    electionShortEuropean: 'EU',
+    electionShortParliamentary: 'Eduskunta',
+    electionChartAria: 'Puolueiden kannatus käytettävissä olevissa vaalimittauksissa',
+    partyInfo: 'Puolueen linjaukset',
+    partyInfoAria: 'Näytä dokumentoidut puolueen linjaukset',
+    partyProfileBasis:
+      'Tiivistelmä perustuu puolueen omiin julkaistuihin ohjelmiin ja politiikkasivuihin. Se ei ole riippumaton poliittinen arvio.',
+    partyProfileUnavailable: 'Tälle puolueelle ei ole vielä dokumentoitua profiilia.',
+    partyProfileSources: 'Viralliset lähteet',
+    designedBy: 'Suunnittelu: Amir Mojiri',
   },
   fa: {
     appName: 'نقشه مناطق واسا',
     language: 'زبان',
     english: 'English',
+    finnishLanguage: 'Suomi',
     persian: 'فارسی',
     primaryNavigation: 'ناوبری اصلی',
     homeAria: 'صفحه اصلی نقشه مناطق واسا',
@@ -132,7 +251,7 @@ const messages = {
     outerWays: 'تعداد مسیرهای مرزی',
     minorRelations: 'تعداد مناطق کوچک',
     source: 'منبع',
-    parentMajorArea: 'منطقه بزرگ والد',
+    parentMajorArea: 'منطقه بزرگ',
     loading: 'در حال بارگذاری…',
     notTagged: 'بدون برچسب',
     childAreas: 'مناطق کوچک این منطقه بزرگ',
@@ -163,6 +282,7 @@ const messages = {
     unemployed: 'بیکاران',
     students: 'دانشجویان',
     populationRank: 'رتبه',
+    rank: 'رتبه',
     rankOf: 'از',
     among: 'در میان',
     comparedWith: 'نسبت به',
@@ -207,14 +327,21 @@ const messages = {
     electionShortEuropean: 'اروپا',
     electionShortParliamentary: 'پارلمان',
     electionChartAria: 'نمودار تغییرات آرای احزاب در اندازه‌گیری‌های انتخاباتی موجود',
+    partyInfo: 'دیدگاه‌های حزب',
+    partyInfoAria: 'نمایش دیدگاه‌های مستند حزب',
+    partyProfileBasis:
+      'این خلاصه بر اساس برنامه‌ها و صفحات رسمی منتشرشده خود حزب تهیه شده و ارزیابی سیاسی مستقل نیست.',
+    partyProfileUnavailable: 'هنوز پروفایل مستندی برای این حزب ثبت نشده است.',
+    partyProfileSources: 'منابع رسمی',
     designedBy: 'طراحی: امیر مجیری',
   },
 } as const
 
 export type MessageKey = keyof (typeof messages)['en']
 
+const requestedLanguage = new URLSearchParams(window.location.search).get('lang')
 const initialLanguage: AppLanguage =
-  new URLSearchParams(window.location.search).get('lang') === 'fa' ? 'fa' : 'en'
+  requestedLanguage === 'fa' || requestedLanguage === 'fi' ? requestedLanguage : 'en'
 const language = ref<AppLanguage>(initialLanguage)
 
 function applyDocumentLanguage(): void {
@@ -224,6 +351,12 @@ function applyDocumentLanguage(): void {
 
 applyDocumentLanguage()
 
+export function localeForLanguage(targetLanguage: AppLanguage = language.value): string {
+  if (targetLanguage === 'fa') return 'fa-IR'
+  if (targetLanguage === 'fi') return 'fi-FI'
+  return 'en-FI'
+}
+
 export function localizeText(
   text: LocalizedText | undefined,
   fallback: string,
@@ -231,6 +364,7 @@ export function localizeText(
 ): string {
   if (!text) return fallback
   if (targetLanguage === 'fa') return text.fa || text.en || text.fi || fallback
+  if (targetLanguage === 'fi') return text.fi || text.en || text.fa || fallback
   return text.en || text.fi || text.fa || fallback
 }
 

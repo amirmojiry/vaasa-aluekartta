@@ -9,7 +9,7 @@ import type {
   PartyResult,
   ResolvedElectionDataset,
 } from '@/domain/elections'
-import { useI18n } from '@/i18n'
+import { localeForLanguage, useI18n } from '@/i18n'
 import {
   chartParties,
   featuredElection,
@@ -48,31 +48,33 @@ const reversedEvents = computed(() => [...(dataset.value?.events ?? [])].reverse
 const partyLabels = computed<Record<string, string>>(() =>
   Object.fromEntries(visibleParties.value.map((party) => [party, partyName(party)])),
 )
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
-)
+const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
 const yearFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       useGrouping: false,
     }),
 )
 const percentFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     }),
 )
 
 function localized(value: { fi: string; en: string; fa: string }): string {
-  return language.value === 'fa' ? value.fa : value.en
+  if (language.value === 'fa') return value.fa || value.en || value.fi
+  if (language.value === 'fi') return value.fi || value.en || value.fa
+  return value.en || value.fi || value.fa
 }
 
 function partyName(code: string): string {
   const meta = database.value?.parties[code]
   if (!meta) return code
-  return language.value === 'fa' ? meta.fa : meta.en
+  if (language.value === 'fa') return meta.fa || meta.en || meta.fi
+  if (language.value === 'fi') return meta.fi || meta.en || meta.fa
+  return meta.en || meta.fi || meta.fa
 }
 
 function eventTypeLabel(event: ElectionEvent): string {

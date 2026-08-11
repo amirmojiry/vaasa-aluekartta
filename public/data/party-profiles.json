@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-08-11",
+  "profiles": {
+    "RKP": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Defines itself as a liberal party focused on democracy, rule of law, individual freedom and an open, international Finland, with a particularly strong commitment to Finland's bilingual Swedish–Finnish character.","fi":"Määrittelee itsensä liberaaliksi puolueeksi, joka painottaa demokratiaa, oikeusvaltiota, yksilönvapautta ja avointa kansainvälistä Suomea sekä erityisesti Suomen ruotsin- ja suomenkielistä kaksikielisyyttä.","fa":"خود را حزبی لیبرال می‌داند که بر دموکراسی، حاکمیت قانون، آزادی فردی و فنلاندی باز و بین‌المللی تأکید دارد و دفاع از دو‌زبانه‌بودن سوئدی–فنلاندی کشور از اولویت‌های اصلی آن است."},
+          "sourceUrl": "https://sfp.fi/en/politics/policy-programmes/swedish-peoples-party-party-platform/"
+        },
+        {
+          "topic": {"en":"Immigration","fi":"Maahanmuutto","fa":"مهاجرت"},
+          "text": {"en":"Supports an open immigration policy, easier work-based immigration and faster routes into employment and language learning in Finnish or Swedish; it presents diversity and successful integration as assets for Finland.","fi":"Kannattaa avointa maahanmuuttopolitiikkaa, työperäisen maahanmuuton sujuvoittamista sekä nopeampia polkuja työhön ja suomen tai ruotsin kielen oppimiseen; puolue pitää moninaisuutta ja onnistunutta kotoutumista Suomelle voimavarana.","fa":"از سیاست مهاجرتی بازتر، تسهیل مهاجرت کاری و مسیر سریع‌تر برای ورود به بازار کار و یادگیری فنلاندی یا سوئدی حمایت می‌کند و تنوع و ادغام موفق مهاجران را برای فنلاند یک مزیت می‌داند."},
+          "sourceUrl": "https://sfp.fi/fi/artikkelit/politiikka/muuttoliike-ja-integraatio/"
+        },
+        {
+          "topic": {"en":"Economy and welfare","fi":"Talous ja hyvinvointi","fa":"اقتصاد و رفاه"},
+          "text": {"en":"Combines a Nordic welfare-state model with policies aimed at higher employment, entrepreneurship and investment; recent proposals include easier recruitment and work-based immigration and simpler rules for small businesses.","fi":"Yhdistää pohjoismaisen hyvinvointivaltion korkeamman työllisyyden, yrittäjyyden ja investointien edistämiseen; viimeaikaisissa esityksissä korostuvat rekrytoinnin ja työperäisen maahanmuuton sujuvoittaminen sekä pk-yritysten sääntelyn keventäminen.","fa":"مدل دولت رفاه نوردیک را با افزایش اشتغال، کارآفرینی و سرمایه‌گذاری ترکیب می‌کند؛ در پیشنهادهای اخیر بر آسان‌ترشدن استخدام و مهاجرت کاری و کاهش پیچیدگی مقررات برای کسب‌وکارهای کوچک تأکید کرده است."},
+          "sourceUrl": "https://sfp.fi/en/articles/swedish-parliamentary-groups-measures-for-increasing-employment-growth-and-investment/"
+        }
+      ]
+    },
+    "SDP": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Centres its programme on a fairer society, a strong welfare state, equality, work and social security, and on rebuilding trust through decisions it describes as durable over time.","fi":"Rakentaa ohjelmansa oikeudenmukaisemman yhteiskunnan, vahvan hyvinvointivaltion, tasa-arvon, työn ja sosiaaliturvan ympärille sekä korostaa luottamuksen vahvistamista pitkäjänteisellä päätöksenteolla.","fa":"بر جامعه‌ای عادلانه‌تر، دولت رفاه قوی، برابری، کار و تأمین اجتماعی تمرکز دارد و بازسازی اعتماد عمومی از طریق تصمیم‌های بلندمدت را از محورهای اصلی خود می‌داند."},
+          "sourceUrl": "https://www.sdp.fi/tutustu/politiikka/poliittinen-ohjelma/"
+        },
+        {
+          "topic": {"en":"Immigration","fi":"Maahanmuutto","fa":"مهاجرت"},
+          "text": {"en":"Supports a more unified EU migration and asylum system with stronger external-border control, quicker asylum and return procedures and safeguards for legal protection and international obligations; it stresses that protection should go to people genuinely in need.","fi":"Kannattaa yhtenäisempää EU:n muuttoliike- ja turvapaikkajärjestelmää, vahvempaa ulkorajavalvontaa sekä nopeampia turvapaikka- ja palautusprosesseja niin, että oikeusturva ja kansainväliset velvoitteet säilyvät; suojelun tulee kohdistua sitä aidosti tarvitseville.","fa":"از نظام هماهنگ‌تر مهاجرت و پناهندگی در اتحادیه اروپا، کنترل قوی‌تر مرزهای خارجی و روند سریع‌تر رسیدگی و بازگشت حمایت می‌کند، در عین حال بر حفظ حقوق قانونی و تعهدات بین‌المللی و اختصاص حمایت به افراد واقعاً نیازمند تأکید دارد."},
+          "sourceUrl": "https://www.sdp.fi/ajankohtaista/sdpn-eveliina-heinaluoma-eun-maahanmuuttopaketin-toimeenpano-on-tarkea-askel-kohti-yhtenaisempaa-maahanmuuttopolitiikkaa/"
+        },
+        {
+          "topic": {"en":"Climate and growth","fi":"Ilmasto ja kasvu","fa":"اقلیم و رشد"},
+          "text": {"en":"Maintains Finland's 2035 carbon-neutrality target and argues that climate policy, green investment, security of supply and economic growth can reinforce one another.","fi":"Pitää kiinni Suomen vuoden 2035 hiilineutraaliustavoitteesta ja katsoo, että ilmastopolitiikka, vihreät investoinnit, huoltovarmuus ja talouskasvu voidaan yhdistää toisiaan vahvistavaksi kokonaisuudeksi.","fa":"بر هدف کربن‌خنثی‌شدن فنلاند تا ۲۰۳۵ تأکید دارد و معتقد است سیاست اقلیمی، سرمایه‌گذاری سبز، امنیت تأمین و رشد اقتصادی می‌توانند هم‌زمان تقویت شوند."},
+          "sourceUrl": "https://www.sdp.fi/ajankohtaista/sdpn-heinaluoma-vaatii-ilmastotavoitteista-kiinni-pitamista-ja-uutta-luontolakia/"
+        }
+      ]
+    },
+    "KOK": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Emphasises individual freedom together with responsibility, democracy, an open Western society, education and equal opportunities; it places itself in the European centre-right tradition.","fi":"Korostaa yksilönvapautta ja siihen liittyvää vastuuta, demokratiaa, avointa länsimaista yhteiskuntaa, sivistystä ja mahdollisuuksien tasa-arvoa; puolue sijoittaa itsensä eurooppalaiseen keskustaoikeistolaiseen perinteeseen.","fa":"بر آزادی فردی همراه با مسئولیت، دموکراسی، جامعه باز غربی، آموزش و برابری فرصت‌ها تأکید دارد و خود را بخشی از سنت راست میانه اروپایی می‌داند."},
+          "sourceUrl": "https://www.kokoomus.fi/tietoa-kokoomuksesta/arvot-periaateohjelma/"
+        },
+        {
+          "topic": {"en":"Economy","fi":"Talous","fa":"اقتصاد"},
+          "text": {"en":"Prioritises entrepreneurship, investment, employment incentives and sustainable public finances, generally favouring market-based solutions and a public sector that enables rather than replaces private initiative.","fi":"Painottaa yrittäjyyttä, investointeja, työnteon kannustimia ja kestävää julkista taloutta sekä suosii yleisesti markkinaehtoisia ratkaisuja ja julkista sektoria, joka mahdollistaa yksityisen toimeliaisuuden.","fa":"کارآفرینی، سرمایه‌گذاری، مشوق‌های اشتغال و پایداری مالی دولت را در اولویت می‌گذارد و عموماً از راه‌حل‌های بازارمحور و نقش تسهیل‌گر بخش عمومی حمایت می‌کند."},
+          "sourceUrl": "https://www.kokoomus.fi/periaateohjelma/"
+        },
+        {
+          "topic": {"en":"Immigration","fi":"Maahanmuutto","fa":"مهاجرت"},
+          "text": {"en":"Regards work-based immigration as important for growth and the welfare-state workforce and has advocated faster permits and international recruitment; it also supports faster asylum decisions and more effective returns after negative decisions.","fi":"Pitää työperäistä maahanmuuttoa tärkeänä talouskasvulle ja hyvinvointipalvelujen työvoimalle sekä on ajanut nopeampia lupaprosesseja ja kansainvälistä rekrytointia; samalla se kannattaa nopeampia turvapaikkapäätöksiä ja kielteisen päätöksen saaneiden palautusten tehostamista.","fa":"مهاجرت کاری را برای رشد اقتصادی و تأمین نیروی کار خدمات رفاهی مهم می‌داند و از مجوزهای سریع‌تر و جذب نیروی بین‌المللی حمایت کرده است؛ هم‌زمان خواهان تصمیم‌گیری سریع‌تر درباره پناهندگی و اجرای مؤثرتر بازگشت پس از تصمیم منفی است."},
+          "sourceUrl": "https://www.kokoomus.fi/avainsanat/tyoperainen-maahanmuutto/"
+        }
+      ]
+    },
+    "PS": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Describes itself as patriotic and Christian-social and says national interest, Finnish sovereignty, internal fairness and the interests of ordinary Finnish citizens should guide policy.","fi":"Määrittelee itsensä isänmaalliseksi ja kristillissosiaaliseksi puolueeksi ja korostaa kansallista etua, Suomen itsemääräämisoikeutta, sisäistä oikeudenmukaisuutta ja tavallisten suomalaisten etua politiikan lähtökohtina.","fa":"خود را حزبی میهن‌گرا و مسیحی-اجتماعی معرفی می‌کند و منافع ملی، حاکمیت فنلاند، عدالت داخلی و منافع شهروندان عادی فنلاندی را مبنای سیاست خود می‌داند."},
+          "sourceUrl": "https://www.perussuomalaiset.fi/tietoa-meista/puolueohjelma/"
+        },
+        {
+          "topic": {"en":"Immigration","fi":"Maahanmuutto","fa":"مهاجرت"},
+          "text": {"en":"Advocates a substantially stricter immigration policy and a strong reduction in immigration from outside the EU/EEA, arguing that current levels create fiscal, social, cultural and security costs.","fi":"Kannattaa selvästi nykyistä tiukempaa maahanmuuttopolitiikkaa ja EU-/ETA-alueen ulkopuolisen maahanmuuton voimakasta vähentämistä perustellen linjaa julkistaloudellisilla, sosiaalisilla, kulttuurisilla ja turvallisuuteen liittyvillä haitoilla.","fa":"از سیاست مهاجرتی به‌مراتب سخت‌گیرانه‌تر و کاهش شدید مهاجرت از خارج اتحادیه اروپا/منطقه اقتصادی اروپا حمایت می‌کند و برای این موضع به هزینه‌های مالی، اجتماعی، فرهنگی و امنیتی اشاره می‌کند."},
+          "sourceUrl": "https://www.perussuomalaiset.fi/tietoa-meista/puolueohjelma/maahanmuuttopoliittinen_ohjelma/"
+        },
+        {
+          "topic": {"en":"Economy and EU","fi":"Talous ja EU","fa":"اقتصاد و اتحادیه اروپا"},
+          "text": {"en":"Calls for tighter public spending, lower taxes on work and everyday costs, and prioritisation of domestic workers, entrepreneurs and services; it is critical of deeper EU integration and of climate measures it considers too costly for households and industry.","fi":"Korostaa julkisten menojen hillintää, työn ja arjen kustannusten verotuksen keventämistä sekä kotimaisten työntekijöiden, yrittäjien ja palvelujen priorisointia; suhtautuu kriittisesti EU:n syvenevään integraatioon ja liian kalliiksi katsomiinsa ilmastotoimiin.","fa":"بر مهار هزینه‌های عمومی، کاهش مالیات بر کار و هزینه‌های روزمره و اولویت‌دادن به کارکنان، کارآفرینان و خدمات داخلی تأکید دارد؛ نسبت به تعمیق ادغام اتحادیه اروپا و سیاست‌های اقلیمی‌ای که آن‌ها را پرهزینه می‌داند منتقد است."},
+          "sourceUrl": "https://www.perussuomalaiset.fi/tietoa-meista/puolueohjelma/"
+        }
+      ]
+    },
+    "VIHR": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Puts climate, biodiversity, human rights, equality and a socially fair ecological transition at the centre of its politics.","fi":"Asettaa ilmaston, luonnon monimuotoisuuden, ihmisoikeudet, tasa-arvon ja sosiaalisesti oikeudenmukaisen ekologisen siirtymän politiikkansa ytimeen.","fa":"اقلیم، تنوع زیستی، حقوق بشر، برابری و گذار زیست‌محیطیِ عادلانه از نظر اجتماعی را در مرکز سیاست خود قرار می‌دهد."},
+          "sourceUrl": "https://www.vihreat.fi/ohjelmat/"
+        },
+        {
+          "topic": {"en":"Immigration","fi":"Maahanmuutto","fa":"مهاجرت"},
+          "text": {"en":"Supports easier work- and study-based immigration, removal of labour availability testing, longer job-search residence periods, easier family reunification and strong investment in integration, language learning and recognition of qualifications.","fi":"Kannattaa työ- ja opiskeluperäisen maahanmuuton helpottamista, saatavuusharkinnasta luopumista, pidempiä työnhakuaikoja oleskeluluvilla, perheenyhdistämisen helpottamista sekä vahvaa panostusta kotoutumiseen, kielikoulutukseen ja osaamisen tunnistamiseen.","fa":"از تسهیل مهاجرت کاری و تحصیلی، حذف آزمون دسترسی نیروی کار، مهلت طولانی‌تر جست‌وجوی کار، آسان‌ترشدن پیوستن خانواده و سرمایه‌گذاری جدی در ادغام، آموزش زبان و به‌رسمیت‌شناختن مدارک حمایت می‌کند."},
+          "sourceUrl": "https://www.vihreat.fi/maahanmuuttopoliittinen-ohjelma/"
+        },
+        {
+          "topic": {"en":"Economy and welfare","fi":"Talous ja hyvinvointi","fa":"اقتصاد و رفاه"},
+          "text": {"en":"Argues that public finances, welfare services and green investment must be put on a sustainable footing together, with climate costs distributed fairly and poverty and inequality reduced at the same time.","fi":"Katsoo, että julkinen talous, hyvinvointipalvelut ja vihreät investoinnit on saatava kestävälle pohjalle samanaikaisesti ja että ilmastotoimien kustannukset on jaettava oikeudenmukaisesti samalla kun köyhyyttä ja eriarvoisuutta vähennetään.","fa":"معتقد است پایداری مالی دولت، خدمات رفاهی و سرمایه‌گذاری سبز باید هم‌زمان تقویت شوند و هزینه سیاست اقلیمی به‌صورت عادلانه توزیع شود، در حالی که فقر و نابرابری نیز کاهش می‌یابد."},
+          "sourceUrl": "https://www.vihreat.fi/tavoitteet/talouden-uudistaminen/"
+        }
+      ]
+    },
+    "VAS": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Defines its central goal as an ecologically sustainable and socially just society in which everyone has the material conditions for a dignified life.","fi":"Määrittelee keskeiseksi tavoitteekseen ekologisesti kestävän ja sosiaalisesti oikeudenmukaisen yhteiskunnan, jossa kaikilla on aineelliset edellytykset ihmisarvoiseen elämään.","fa":"هدف محوری خود را جامعه‌ای از نظر زیست‌محیطی پایدار و از نظر اجتماعی عادلانه می‌داند که در آن همه از شرایط مادی لازم برای زندگی باکرامت برخوردار باشند."},
+          "sourceUrl": "https://vasemmisto.fi/vasemmistoliiton-tavoitteet/periaateohjelma-tavoitteet/"
+        },
+        {
+          "topic": {"en":"Public services and work","fi":"Julkiset palvelut ja työ","fa":"خدمات عمومی و کار"},
+          "text": {"en":"Prioritises strong publicly provided services, affordable care and education, worker well-being and reducing inequality rather than service cuts driven primarily by savings targets.","fi":"Painottaa vahvoja julkisia palveluja, kohtuuhintaista hoitoa ja koulutusta, työntekijöiden hyvinvointia sekä eriarvoisuuden vähentämistä säästötavoitteista lähtevien palveluleikkausten sijaan.","fa":"خدمات عمومی قوی، مراقبت و آموزش قابل‌دسترس، رفاه کارکنان و کاهش نابرابری را بر کاهش خدمات صرفاً با هدف صرفه‌جویی مقدم می‌داند."},
+          "sourceUrl": "https://vasemmisto.fi/vasemmistoliiton-kunta-ja-aluevaaliohjelma-2025/"
+        },
+        {
+          "topic": {"en":"Equality and minorities","fi":"Yhdenvertaisuus ja vähemmistöt","fa":"برابری و اقلیت‌ها"},
+          "text": {"en":"Treats equal rights, anti-discrimination and protection of linguistic and cultural minorities as core social-policy questions, alongside wider economic equality.","fi":"Pitää yhdenvertaisia oikeuksia, syrjimättömyyttä sekä kielellisten ja kulttuuristen vähemmistöjen suojaa keskeisinä yhteiskuntapoliittisina kysymyksinä taloudellisen tasa-arvon rinnalla.","fa":"حقوق برابر، مقابله با تبعیض و حمایت از اقلیت‌های زبانی و فرهنگی را در کنار برابری اقتصادی از مسائل اساسی سیاست اجتماعی می‌داند."},
+          "sourceUrl": "https://vasemmisto.fi/kotimaisten-kielivahemmistojen-ohjelma-julkaistu/"
+        }
+      ]
+    },
+    "KESK": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Presents itself as a moderate, conciliatory party for all of Finland, stressing regional vitality, families, community, equality, sustainability and reasonable livelihoods throughout the country.","fi":"Kuvaa itseään koko Suomen maltilliseksi ja sovittelevaksi puolueeksi, joka korostaa alueiden elinvoimaa, perheitä, yhteisöllisyyttä, tasa-arvoa, kestävyyttä ja kohtuullista toimeentuloa kaikkialla maassa.","fa":"خود را حزبی میانه‌رو و مصالحه‌جو برای سراسر فنلاند معرفی می‌کند و بر پویایی مناطق، خانواده، اجتماع، برابری، پایداری و معیشت مناسب در همه نقاط کشور تأکید دارد."},
+          "sourceUrl": "https://keskusta.fi/periaateohjelma-2026/"
+        },
+        {
+          "topic": {"en":"Immigration","fi":"Maahanmuutto","fa":"مهاجرت"},
+          "text": {"en":"Supports managed work- and skills-based immigration tied to labour-market and growth needs, proposes a points-based model, wants foreign graduates to have a path to permanent residence and citizenship, and stresses commitment to Finnish laws and social norms as part of integration.","fi":"Kannattaa hallittua työ- ja osaamisperusteista maahanmuuttoa työmarkkinoiden ja kasvun tarpeisiin, esittää pisteytysmallia, haluaa Suomessa valmistuneille ulkomaalaisille polun pysyvään oleskeluun ja kansalaisuuteen sekä korostaa kotoutumisessa sitoutumista Suomen lakeihin ja yhteiskunnan pelisääntöihin.","fa":"از مهاجرت کاری و مهارت‌محورِ کنترل‌شده متناسب با نیاز بازار کار و رشد حمایت می‌کند، مدل امتیازی پیشنهاد می‌دهد، برای فارغ‌التحصیلان خارجی مسیر اقامت و شهروندی می‌خواهد و در ادغام بر پایبندی به قوانین و قواعد اجتماعی فنلاند تأکید می‌کند."},
+          "sourceUrl": "https://keskusta.fi/ajankohtaista/uutiset/keskustalta-maahanmuuttopoliittinen-linjapaperi-keskiossa-suomalaiset-arvot-ja-pelisaannot/"
+        },
+        {
+          "topic": {"en":"Economy and regions","fi":"Talous ja alueet","fa":"اقتصاد و مناطق"},
+          "text": {"en":"Links economic policy to the viability of regions, local enterprise, agriculture and a sustainable transition, while emphasising moderation and keeping basic services and opportunities available outside the largest cities.","fi":"Kytkee talouspolitiikan alueiden elinvoimaan, paikalliseen yrittäjyyteen, maatalouteen ja kestävään siirtymään sekä korostaa kohtuullisuutta ja peruspalvelujen ja mahdollisuuksien säilymistä myös suurimpien kaupunkien ulkopuolella.","fa":"سیاست اقتصادی را با زنده‌ماندن مناطق، کسب‌وکار محلی، کشاورزی و گذار پایدار پیوند می‌دهد و بر حفظ خدمات پایه و فرصت‌ها در خارج از بزرگ‌ترین شهرها تأکید دارد."},
+          "sourceUrl": "https://keskusta.fi/periaateohjelma-2026/"
+        }
+      ]
+    },
+    "KD": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Builds its politics on Christian-democratic values, human dignity, family and community responsibility, support for vulnerable people and a socially responsible market economy.","fi":"Rakentaa politiikkansa kristillisdemokraattisille arvoille, ihmisarvolle, perheen ja yhteisön vastuulle, heikommassa asemassa olevien tukemiselle ja sosiaalisesti vastuulliselle markkinataloudelle.","fa":"سیاست خود را بر ارزش‌های دموکراسی مسیحی، کرامت انسانی، مسئولیت خانواده و جامعه، حمایت از افراد آسیب‌پذیر و اقتصاد بازار با مسئولیت اجتماعی بنا می‌کند."},
+          "sourceUrl": "https://www.kd.fi/politiikka/"
+        },
+        {
+          "topic": {"en":"Immigration","fi":"Maahanmuutto","fa":"مهاجرت"},
+          "text": {"en":"Supports controlled and humane immigration, is positive toward work-based immigration and faster permits, favours quota-refugee intake, and stresses language learning, integration and making better use of immigrants' existing skills.","fi":"Kannattaa hallittua ja inhimillistä maahanmuuttoa, suhtautuu myönteisesti työperäiseen maahanmuuttoon ja lupaprosessien nopeuttamiseen, tukee kiintiöpakolaisjärjestelmää sekä korostaa kielikoulutusta, kotoutumista ja maahanmuuttajien osaamisen hyödyntämistä.","fa":"از مهاجرت کنترل‌شده و انسانی حمایت می‌کند، نسبت به مهاجرت کاری و تسریع مجوزها دیدگاه مثبت دارد، پذیرش پناهنده از مسیر سهمیه را تأیید می‌کند و بر آموزش زبان، ادغام و استفاده از مهارت‌های مهاجران تأکید دارد."},
+          "sourceUrl": "https://www.kd.fi/kristillisdemokraattiset-aakkoset/"
+        },
+        {
+          "topic": {"en":"Family and social policy","fi":"Perhe- ja sosiaalipolitiikka","fa":"خانواده و سیاست اجتماعی"},
+          "text": {"en":"Gives unusually high priority to family policy, children, older people and social cohesion, alongside education and access to health and social services.","fi":"Antaa poikkeuksellisen vahvan painon perhepolitiikalle, lapsille, ikääntyneille ja yhteisöllisyydelle sekä koulutukselle ja sosiaali- ja terveyspalvelujen saatavuudelle.","fa":"به سیاست خانواده، کودکان، سالمندان و انسجام اجتماعی وزن زیادی می‌دهد و هم‌زمان بر آموزش و دسترسی به خدمات اجتماعی و درمانی تأکید دارد."},
+          "sourceUrl": "https://www.kd.fi/ohjelmat/"
+        }
+      ]
+    },
+    "LIIK": {
+      "items": [
+        {
+          "topic": {"en":"Core focus","fi":"Keskeinen painotus","fa":"تمرکز اصلی"},
+          "text": {"en":"Emphasises evidence- and expert-based decision-making, citizen participation outside traditional party blocs, individual responsibility and pragmatic problem-solving.","fi":"Korostaa tutkittuun tietoon ja asiantuntijuuteen perustuvaa päätöksentekoa, kansalaisten osallistumista perinteisten puolueleirien ulkopuolella, yksilön vastuuta ja käytännönläheistä ongelmanratkaisua.","fa":"بر تصمیم‌گیری مبتنی بر شواهد و نظر کارشناسی، مشارکت شهروندان فراتر از بلوک‌های سنتی حزبی، مسئولیت فردی و حل مسئله عمل‌گرایانه تأکید دارد."},
+          "sourceUrl": "https://www.liikenyt.fi/periaatteet"
+        },
+        {
+          "topic": {"en":"Economy","fi":"Talous","fa":"اقتصاد"},
+          "text": {"en":"Currently puts economic growth, entrepreneurship and private-sector job creation at the top of its agenda; its growth programme proposes lower corporate taxation for investment and reforms intended to make small-business growth easier.","fi":"Asettaa tällä hetkellä talouskasvun, yrittäjyyden ja yksityisen sektorin työpaikkojen luomisen politiikkansa kärkeen; kasvuohjelmassa esitetään investointeihin kannustavaa yhteisöverotusta ja pienten yritysten kasvua helpottavia uudistuksia.","fa":"در حال حاضر رشد اقتصادی، کارآفرینی و ایجاد شغل در بخش خصوصی را در صدر اولویت‌ها قرار داده و در برنامه رشد خود کاهش مالیات شرکت‌ها در ازای سرمایه‌گذاری و تسهیل رشد کسب‌وکارهای کوچک را پیشنهاد می‌کند."},
+          "sourceUrl": "https://www.liikenyt.fi/ajankohtaista/liike-nyt-kasvuohjelma-2025"
+        },
+        {
+          "topic": {"en":"Climate and welfare","fi":"Ilmasto ja hyvinvointi","fa":"اقلیم و رفاه"},
+          "text": {"en":"Its basic principles accept climate change as a major risk and call for environmentally sustainable decisions, while also supporting a Nordic welfare safety net and a regulated market economy.","fi":"Perusperiaatteissa ilmastonmuutos tunnustetaan suureksi riskiksi ja päätöksiltä edellytetään ympäristökestävyyttä; samalla puolue tukee pohjoismaista hyvinvointiturvaa ja säädeltyä markkinataloutta.","fa":"در اصول پایه خود تغییر اقلیم را یک خطر بزرگ می‌داند و بر تصمیم‌های پایدار محیط‌زیستی تأکید می‌کند، در عین حال از شبکه ایمنی دولت رفاه نوردیک و اقتصاد بازارِ تنظیم‌شده حمایت دارد."},
+          "sourceUrl": "https://www.liikenyt.fi/periaatteet"
+        }
+      ]
+    }
+  }
+}

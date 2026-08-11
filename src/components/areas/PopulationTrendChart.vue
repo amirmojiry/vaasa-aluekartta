@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 import type { PopulationObservation } from '@/domain/populationHistory'
-import { useI18n } from '@/i18n'
+import { localeForLanguage, useI18n } from '@/i18n'
 
 const props = defineProps<{
   observations: PopulationObservation[]
@@ -13,8 +13,9 @@ const width = 720
 const height = 250
 const padding = { top: 28, right: 38, bottom: 48, left: 58 }
 
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
+const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
+const yearFormatter = computed(
+  () => new Intl.NumberFormat(localeForLanguage(language.value), { useGrouping: false }),
 )
 
 const minPopulation = computed(() => Math.min(...props.observations.map((item) => item.population)))
@@ -45,6 +46,10 @@ const polylinePoints = computed(() =>
 function formatNumber(value: number): string {
   return numberFormatter.value.format(value)
 }
+
+function formatYear(value: number): string {
+  return yearFormatter.value.format(value)
+}
 </script>
 
 <template>
@@ -52,7 +57,7 @@ function formatNumber(value: number): string {
     <div class="population-trend__heading">
       <h3>{{ t('populationHistory') }}</h3>
       <span v-if="observations.length > 0">
-        {{ observations[0]?.year }}–{{ observations.at(-1)?.year }}
+        {{ formatYear(observations[0]!.year) }}–{{ formatYear(observations.at(-1)!.year) }}
       </span>
     </div>
 
@@ -90,7 +95,7 @@ function formatNumber(value: number): string {
             text-anchor="middle"
             class="population-trend__year"
           >
-            {{ point.year }}
+            {{ formatYear(point.year) }}
           </text>
         </g>
       </svg>
