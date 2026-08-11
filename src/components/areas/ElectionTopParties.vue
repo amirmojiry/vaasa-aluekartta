@@ -53,12 +53,16 @@ function eventLabel(): string {
 }
 
 onMounted(async () => {
-  const [resolved, db] = await Promise.all([
-    fetchAreaElectionStatistics(props.level, props.areaName),
-    fetchElectionStatisticsDatabase(),
-  ])
-  dataset.value = resolved
-  database.value = db
+  try {
+    const [resolved, db] = await Promise.all([
+      fetchAreaElectionStatistics(props.level, props.areaName),
+      fetchElectionStatisticsDatabase(),
+    ])
+    dataset.value = resolved
+    database.value = db
+  } catch {
+    dataset.value = null
+  }
 })
 </script>
 
