@@ -6,5 +6,6 @@ import './styles/main.css'
 import './styles/areas.css'
 import './styles/i18n.css'
 import './styles/visualizations.css'
+import './styles/election-interactions.css'
 
 createApp(App).mount('#app')
