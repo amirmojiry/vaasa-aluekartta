@@ -212,3 +212,30 @@
     grid-template-columns: 1fr;
   }
 }
+
+.poi-control__groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.6rem;
+}
+
+.poi-control__group {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  padding: 0.55rem;
+  border: 1px solid rgba(23, 100, 93, 0.13);
+  border-radius: 0.55rem;
+  background: rgba(255, 253, 248, 0.7);
+}
+
+.poi-control__group h3 {
+  margin: 0;
+  color: #52625e;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.poi-control__group .poi-control__categories {
+  align-content: flex-start;
+}

@@ -97,6 +97,45 @@ export const POI_CATEGORY_DEFINITIONS: PoiCategoryDefinition[] = [
   },
 ]
 
+export interface PoiCategoryGroupDefinition {
+  id: 'daily-life' | 'education' | 'health-safety' | 'leisure' | 'transport' | 'services'
+  labels: Record<AppLanguage, string>
+  categories: PoiCategory[]
+}
+
+export const POI_CATEGORY_GROUPS: PoiCategoryGroupDefinition[] = [
+  {
+    id: 'daily-life',
+    labels: { en: 'Daily life', fi: 'Arki', fa: 'زندگی روزمره' },
+    categories: ['supermarkets', 'restaurants', 'cafes', 'shopping'],
+  },
+  {
+    id: 'education',
+    labels: { en: 'Education', fi: 'Koulutus', fa: 'آموزش' },
+    categories: ['universities', 'schools', 'daycare', 'libraries'],
+  },
+  {
+    id: 'health-safety',
+    labels: { en: 'Health & safety', fi: 'Terveys ja turvallisuus', fa: 'سلامت و امنیت' },
+    categories: ['healthcare', 'police'],
+  },
+  {
+    id: 'leisure',
+    labels: { en: 'Leisure & outdoors', fi: 'Vapaa-aika', fa: 'تفریح و فضای باز' },
+    categories: ['attractions', 'parks-playgrounds', 'sports'],
+  },
+  {
+    id: 'transport',
+    labels: { en: 'Transport', fi: 'Liikenne', fa: 'حمل‌ونقل' },
+    categories: ['bus-stops', 'train-stations', 'airports'],
+  },
+  {
+    id: 'services',
+    labels: { en: 'Services', fi: 'Palvelut', fa: 'خدمات' },
+    categories: ['banking', 'post-services', 'fuel-charging'],
+  },
+]
+
 export function poiCategoryDefinition(category: PoiCategory): PoiCategoryDefinition {
   return POI_CATEGORY_DEFINITIONS.find((definition) => definition.id === category)!
 }
