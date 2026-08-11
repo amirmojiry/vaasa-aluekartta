@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -9,27 +9,83 @@ const OVERPASS_URLS = [
 const USER_AGENT =
   'vaasa-aluekartta-poi-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
 const REQUEST_TIMEOUT_MS = 45_000
-const VAASA_RELATION_ID = 1855926
-const VAASA_AREA_ID = 3_600_000_000 + VAASA_RELATION_ID
 const scriptDir = dirname(fileURLToPath(import.meta.url))
+const boundaryPath = resolve(scriptDir, '../public/data/vaasa-suuralueet.geojson')
 const outputPath = resolve(scriptDir, '../public/data/vaasa-pois.geojson')
-
-const query = `[out:json][timeout:40];
-area(${VAASA_AREA_ID})->.vaasa;
-(
-  nwr(area.vaasa)["tourism"~"^(attraction|museum|gallery|viewpoint|zoo|aquarium|theme_park)$"]["name"];
-  nwr(area.vaasa)["shop"="supermarket"]["name"];
-  nwr(area.vaasa)["amenity"="police"]["name"];
-  nwr(area.vaasa)["amenity"~"^(hospital|clinic|doctors|pharmacy)$"]["name"];
-  nwr(area.vaasa)["healthcare"~"^(hospital|clinic|doctor|pharmacy)$"]["name"];
-  nwr(area.vaasa)["amenity"="library"]["name"];
-);
-out center tags qt;`
 
 const sleep = (milliseconds) =>
   new Promise((resolvePromise) => setTimeout(resolvePromise, milliseconds))
 
-async function fetchOverpass() {
+function geometryRings(geometry) {
+  if (geometry?.type === 'Polygon') return geometry.coordinates ?? []
+  if (geometry?.type === 'MultiPolygon') {
+    return (geometry.coordinates ?? []).flatMap((polygon) => polygon)
+  }
+  return []
+}
+
+async function loadVaasaBoundaries() {
+  let raw
+  try {
+    raw = await readFile(boundaryPath, 'utf8')
+  } catch {
+    throw new Error(
+      'Vaasa boundary snapshot is missing. Generate boundaries before refreshing POIs.',
+    )
+  }
+
+  const collection = JSON.parse(raw)
+  if (collection?.type !== 'FeatureCollection' || !Array.isArray(collection.features)) {
+    throw new Error('Vaasa boundary snapshot is not a GeoJSON FeatureCollection')
+  }
+
+  const features = collection.features.filter((feature) => geometryRings(feature.geometry).length > 0)
+  if (features.length !== 12) {
+    throw new Error(`Expected 12 Vaasa major-area boundaries, found ${features.length}`)
+  }
+  return features
+}
+
+function boundaryBoundingBox(features) {
+  let west = Infinity
+  let south = Infinity
+  let east = -Infinity
+  let north = -Infinity
+
+  for (const feature of features) {
+    for (const ring of geometryRings(feature.geometry)) {
+      for (const coordinate of ring) {
+        const [longitude, latitude] = coordinate
+        if (!Number.isFinite(longitude) || !Number.isFinite(latitude)) continue
+        west = Math.min(west, longitude)
+        south = Math.min(south, latitude)
+        east = Math.max(east, longitude)
+        north = Math.max(north, latitude)
+      }
+    }
+  }
+
+  if (![west, south, east, north].every(Number.isFinite)) {
+    throw new Error('Could not calculate a bounding box from Vaasa boundaries')
+  }
+  return { west, south, east, north }
+}
+
+function overpassQuery({ west, south, east, north }) {
+  const bbox = `${south},${west},${north},${east}`
+  return `[out:json][timeout:40];
+(
+  nwr["tourism"~"^(attraction|museum|gallery|viewpoint|zoo|aquarium|theme_park)$"]["name"](${bbox});
+  nwr["shop"="supermarket"]["name"](${bbox});
+  nwr["amenity"="police"]["name"](${bbox});
+  nwr["amenity"~"^(hospital|clinic|doctors|pharmacy)$"]["name"](${bbox});
+  nwr["healthcare"~"^(hospital|clinic|doctor|pharmacy)$"]["name"](${bbox});
+  nwr["amenity"="library"]["name"](${bbox});
+);
+out center tags qt;`
+}
+
+async function fetchOverpass(query) {
   let lastError
   const attempts = OVERPASS_URLS.length * 2
 
@@ -94,6 +150,39 @@ function coordinatesFor(element) {
   return null
 }
 
+function pointInRing([longitude, latitude], ring) {
+  let inside = false
+  for (let index = 0, previous = ring.length - 1; index < ring.length; previous = index, index += 1) {
+    const [currentLongitude, currentLatitude] = ring[index]
+    const [previousLongitude, previousLatitude] = ring[previous]
+    const intersects =
+      currentLatitude > latitude !== previousLatitude > latitude &&
+      longitude <
+        ((previousLongitude - currentLongitude) * (latitude - currentLatitude)) /
+          (previousLatitude - currentLatitude) +
+          currentLongitude
+    if (intersects) inside = !inside
+  }
+  return inside
+}
+
+function pointInGeometry(coordinates, geometry) {
+  if (geometry?.type === 'Polygon') {
+    const [outer, ...holes] = geometry.coordinates ?? []
+    return Boolean(outer && pointInRing(coordinates, outer) && !holes.some((ring) => pointInRing(coordinates, ring)))
+  }
+  if (geometry?.type === 'MultiPolygon') {
+    return (geometry.coordinates ?? []).some(([outer, ...holes]) =>
+      Boolean(outer && pointInRing(coordinates, outer) && !holes.some((ring) => pointInRing(coordinates, ring))),
+    )
+  }
+  return false
+}
+
+function isInsideVaasa(coordinates, boundaries) {
+  return boundaries.some((feature) => pointInGeometry(coordinates, feature.geometry))
+}
+
 function addressFor(tags) {
   const street = tags['addr:street']
   const number = tags['addr:housenumber']
@@ -102,11 +191,11 @@ function addressFor(tags) {
   return [streetAddress, city].filter(Boolean).join(', ') || undefined
 }
 
-function featureFor(element) {
+function featureFor(element, boundaries) {
   const tags = element.tags ?? {}
   const category = categoryFor(tags)
   const coordinates = coordinatesFor(element)
-  if (!category || !coordinates || !tags.name) return null
+  if (!category || !coordinates || !tags.name || !isInsideVaasa(coordinates, boundaries)) return null
 
   const properties = {
     id: `${element.type}/${element.id}`,
@@ -136,10 +225,10 @@ function featureFor(element) {
   }
 }
 
-function buildFeatureCollection(elements) {
+function buildFeatureCollection(elements, boundaries) {
   const featuresById = new Map()
   for (const element of elements) {
-    const feature = featureFor(element)
+    const feature = featureFor(element, boundaries)
     if (feature) featuresById.set(feature.properties.id, feature)
   }
 
@@ -167,8 +256,10 @@ function buildFeatureCollection(elements) {
   }
 }
 
-const elements = await fetchOverpass()
-const collection = buildFeatureCollection(elements)
+const boundaries = await loadVaasaBoundaries()
+const bbox = boundaryBoundingBox(boundaries)
+const elements = await fetchOverpass(overpassQuery(bbox))
+const collection = buildFeatureCollection(elements, boundaries)
 await mkdir(dirname(outputPath), { recursive: true })
 await writeFile(outputPath, `${JSON.stringify(collection)}\n`, 'utf8')
 
