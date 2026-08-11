@@ -94,7 +94,9 @@ onBeforeUnmount(() => {
 
         <article class="map-card area-detail-map-card">
           <div class="map-card__header">
-            <div><h2>{{ title }}</h2></div>
+            <div>
+              <h2>{{ title }}</h2>
+            </div>
             <span class="map-card__status">{{ loadingMessage }}</span>
           </div>
           <div
