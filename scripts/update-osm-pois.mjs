@@ -39,7 +39,9 @@ async function loadVaasaBoundaries() {
     throw new Error('Vaasa boundary snapshot is not a GeoJSON FeatureCollection')
   }
 
-  const features = collection.features.filter((feature) => geometryRings(feature.geometry).length > 0)
+  const features = collection.features.filter(
+    (feature) => geometryRings(feature.geometry).length > 0,
+  )
   if (features.length !== 12) {
     throw new Error(`Expected 12 Vaasa major-area boundaries, found ${features.length}`)
   }
@@ -152,7 +154,11 @@ function coordinatesFor(element) {
 
 function pointInRing([longitude, latitude], ring) {
   let inside = false
-  for (let index = 0, previous = ring.length - 1; index < ring.length; previous = index, index += 1) {
+  for (
+    let index = 0, previous = ring.length - 1;
+    index < ring.length;
+    previous = index, index += 1
+  ) {
     const [currentLongitude, currentLatitude] = ring[index]
     const [previousLongitude, previousLatitude] = ring[previous]
     const intersects =
@@ -169,11 +175,19 @@ function pointInRing([longitude, latitude], ring) {
 function pointInGeometry(coordinates, geometry) {
   if (geometry?.type === 'Polygon') {
     const [outer, ...holes] = geometry.coordinates ?? []
-    return Boolean(outer && pointInRing(coordinates, outer) && !holes.some((ring) => pointInRing(coordinates, ring)))
+    return Boolean(
+      outer &&
+      pointInRing(coordinates, outer) &&
+      !holes.some((ring) => pointInRing(coordinates, ring)),
+    )
   }
   if (geometry?.type === 'MultiPolygon') {
     return (geometry.coordinates ?? []).some(([outer, ...holes]) =>
-      Boolean(outer && pointInRing(coordinates, outer) && !holes.some((ring) => pointInRing(coordinates, ring))),
+      Boolean(
+        outer &&
+        pointInRing(coordinates, outer) &&
+        !holes.some((ring) => pointInRing(coordinates, ring)),
+      ),
     )
   }
   return false
@@ -195,7 +209,8 @@ function featureFor(element, boundaries) {
   const tags = element.tags ?? {}
   const category = categoryFor(tags)
   const coordinates = coordinatesFor(element)
-  if (!category || !coordinates || !tags.name || !isInsideVaasa(coordinates, boundaries)) return null
+  if (!category || !coordinates || !tags.name || !isInsideVaasa(coordinates, boundaries))
+    return null
 
   const properties = {
     id: `${element.type}/${element.id}`,
