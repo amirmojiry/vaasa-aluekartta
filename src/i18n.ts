@@ -373,14 +373,14 @@ const PERSIAN_MAJOR_AREA_NAMES: Record<string, string> = {
   Vöyrinkaupunki: 'وُیرین‌کاوپونکی',
   Vaskiluoto: 'واسکی‌لوتو',
   Palosaari: 'پالوساری',
-  Gerby: 'گربی',
+  Gerby: 'گربو',
   Kotiranta: 'کوتی‌رانتا',
   Huutoniemi: 'هوتونیمی',
   Ristinummi: 'ریستینومی',
   Höstvesi: 'هوست‌وسی',
   Suvilahti: 'سووی‌لاهتی',
   Sundom: 'سوندوم',
-  Vähäkyrö: 'وهاکورو',
+  Vähäkyrö: 'وهه‌کورو',
 }
 
 function toPersianDigits(value: string): string {
@@ -388,7 +388,10 @@ function toPersianDigits(value: string): string {
   return value.replace(/\d/g, (digit) => digits[Number(digit)] ?? digit)
 }
 
-function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
+function persianMajorAreaOverride(
+  names: LocalizedAreaNames | undefined,
+  fallback: string,
+): string | null {
   const finnishName = names?.fi || fallback
   for (const [source, persian] of Object.entries(PERSIAN_MAJOR_AREA_NAMES)) {
     if (finnishName === source) return persian
@@ -396,7 +399,27 @@ function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback
       return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
     }
   }
-  return toPersianDigits(finnishName)
+  return null
+}
+
+function persianRequestedAreaOverride(
+  names: LocalizedAreaNames | undefined,
+  fallback: string,
+): string | null {
+  const finnishName = names?.fi || fallback
+  for (const source of ['Gerby', 'Vähäkyrö']) {
+    const persian = PERSIAN_MAJOR_AREA_NAMES[source]
+    if (!persian) continue
+    if (finnishName === source) return persian
+    if (finnishName.startsWith(`${source} `)) {
+      return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
+    }
+  }
+  return null
+}
+
+function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
+  return persianMajorAreaOverride(names, fallback) ?? toPersianDigits(names?.fi || fallback)
 }
 
 export function localizeAreaName(
@@ -404,7 +427,12 @@ export function localizeAreaName(
   fallback: string,
   targetLanguage: AppLanguage = language.value,
 ): string {
-  if (targetLanguage === 'fa') return names?.fa || persianAreaNameFallback(names, fallback)
+  if (targetLanguage === 'fa')
+    return (
+      persianRequestedAreaOverride(names, fallback) ??
+      names?.fa ??
+      persianAreaNameFallback(names, fallback)
+    )
   return localizeText(names, fallback, targetLanguage)
 }
 

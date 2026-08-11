@@ -71,3 +71,14 @@ POI data is © OpenStreetMap contributors and is distributed under the Open Data
 
 - OpenStreetMap copyright and licence: https://www.openstreetmap.org/copyright
 - Overpass API documentation and public instances: https://wiki.openstreetmap.org/wiki/Overpass_API
+
+## Address search
+
+Address search is the one map feature that intentionally uses a live external OpenStreetMap service. A request to the public Nominatim Search API is sent only after the visitor explicitly submits the search form; the application does not implement autocomplete or background geocoding.
+
+Searches are limited to Finland, biased toward the bounding box of the locally loaded Vaasa minor-area polygons, cached for the current page session, and rate-limited to at most one new Nominatim request per second. Up to five candidate coordinates are returned. The application then performs its own point-in-polygon check against the local minor-area boundaries and prefers a candidate that falls inside a mapped Vaasa minor area.
+
+On the main map, an address inside Vaasa links directly to its matching minor-area page. On area pages, an address inside the current area is marked on that map; an address in another mapped Vaasa minor area produces a link to that area; and a geocoded address outside all mapped Vaasa minor-area polygons is reported as outside the mapped Vaasa area. This classification is a convenience feature based on the application's local boundary snapshot and must not be treated as an authoritative legal address or boundary determination.
+
+- Nominatim usage policy: https://operations.osmfoundation.org/policies/nominatim/
+- Nominatim Search API: https://nominatim.org/release-docs/latest/api/Search/
