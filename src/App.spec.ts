@@ -13,6 +13,7 @@ describe('App', () => {
     const wrapper = mount(App)
 
     expect(wrapper.text()).toContain('Vaasa Aluekartta')
+    expect(wrapper.get('a[href*="lang=fi"]').text()).toContain('FI')
     expect(wrapper.get('a[href*="lang=fa"]').text()).toContain('فارسی')
     expect(wrapper.find('[aria-label="Map preview"]').exists()).toBe(true)
     expect(wrapper.find('h1').exists()).toBe(false)
