@@ -55,6 +55,10 @@ const percentFormatter = computed(
       maximumFractionDigits: 1,
     }),
 )
+const populationFilterLabel = computed(() => {
+  const year = selectedLevel.value === 'suuralue' ? 2024 : 2015
+  return `${t('populationView')} (${numberFormatter.value.format(year)})`
+})
 
 const mapStatus = computed(() => {
   if (isLoading.value) return t('loading')
@@ -401,16 +405,32 @@ onBeforeUnmount(() => {
     <div class="map-visualization-control" :aria-label="t('colorMapBy')">
       <span class="map-visualization-control__label">{{ t('colorMapBy') }}</span>
       <div class="map-visualization-control__buttons">
-        <button type="button" :class="{ 'is-active': visualizationMetric === 'none' }" @click="selectMetric('none')">{{ t('normalView') }}</button>
-        <button type="button" :class="{ 'is-active': visualizationMetric === 'population' }" @click="selectMetric('population')">{{ t('populationView') }}</button>
-        <button type="button" :class="{ 'is-active': visualizationMetric === 'employment' }" @click="selectMetric('employment')">{{ t('employmentView') }}</button>
-        <button type="button" :class="{ 'is-active': visualizationMetric === 'students' }" @click="selectMetric('students')">{{ t('studentsView') }}</button>
-        <button type="button" :class="{ 'is-active': isLanguageMetric }" @click="selectLanguageMetric">{{ t('languageView') }}</button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'none' }" @click="selectMetric('none')">
+          {{ t('normalView') }}
+        </button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'population' }" @click="selectMetric('population')">
+          {{ populationFilterLabel }}
+        </button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'employment' }" @click="selectMetric('employment')">
+          {{ t('employmentView') }}
+        </button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'students' }" @click="selectMetric('students')">
+          {{ t('studentsView') }}
+        </button>
+        <button type="button" :class="{ 'is-active': isLanguageMetric }" @click="selectLanguageMetric">
+          {{ t('languageView') }}
+        </button>
       </div>
       <div v-if="isLanguageMetric" class="map-language-subcontrol">
-        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-finnish' }" @click="selectMetric('language-finnish')">{{ t('finnish') }}</button>
-        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-swedish' }" @click="selectMetric('language-swedish')">{{ t('swedish') }}</button>
-        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-other' }" @click="selectMetric('language-other')">{{ t('otherLanguages') }}</button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-finnish' }" @click="selectMetric('language-finnish')">
+          {{ t('finnish') }}
+        </button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-swedish' }" @click="selectMetric('language-swedish')">
+          {{ t('swedish') }}
+        </button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-other' }" @click="selectMetric('language-other')">
+          {{ t('otherLanguages') }}
+        </button>
       </div>
     </div>
 
