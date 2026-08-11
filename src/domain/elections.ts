@@ -1,11 +1,7 @@
 export type ElectionType = 'municipal' | 'regional' | 'european' | 'parliamentary'
 export type ElectionCoverage = 'exact' | 'partial' | 'associated'
 
-export interface CompactPartyResult {
-  0: string
-  1: number
-  2: number
-}
+export type CompactPartyResult = [party: string, votes: number, percent: number]
 
 export interface CompactElectionEvent {
   id: string
