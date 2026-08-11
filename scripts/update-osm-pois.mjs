@@ -3,8 +3,8 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const OVERPASS_URLS = [
-  'https://overpass-api.de/api/interpreter',
   'https://overpass.private.coffee/api/interpreter',
+  'https://overpass-api.de/api/interpreter',
 ]
 const USER_AGENT =
   'vaasa-aluekartta-poi-snapshot/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)'
