@@ -1,0 +1,128 @@
+.election-legend__party {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #667570;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease,
+    opacity 150ms ease;
+}
+
+.election-legend__party:hover,
+.election-legend__party.is-selected {
+  border-color: rgba(23, 100, 93, 0.28);
+  background: #eef5f2;
+  color: var(--ink);
+}
+
+.election-legend__party i {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+}
+
+.election-line-chart__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.election-chart-hover-label {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.election-chart-party-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  margin: 0;
+  color: #65736f;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.election-chart-party-links strong {
+  color: var(--ink);
+}
+
+.election-chart-party-links a {
+  color: var(--green);
+  font-weight: 750;
+  text-underline-offset: 0.18rem;
+}
+
+.election-party-series {
+  transition: opacity 160ms ease;
+}
+
+.election-chart-series-line {
+  pointer-events: none;
+  transition: stroke-width 160ms ease;
+}
+
+.election-chart-series-hit,
+.election-chart-point {
+  cursor: pointer;
+}
+
+.election-chart-point-detail {
+  paint-order: stroke;
+  stroke: #fffdf8;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  fill: var(--ink);
+  font-size: 10px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.election-table-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.election-table-sort:hover {
+  color: var(--green);
+}
+
+.election-table-sort span {
+  min-width: 1em;
+  color: #7b8783;
+  text-align: center;
+}
+
+@media (max-width: 650px) {
+  .election-line-chart__heading {
+    align-items: flex-start;
+  }
+
+  .election-chart-hover-label {
+    max-width: 45%;
+    text-align: end;
+  }
+
+  .election-chart-point-detail {
+    font-size: 9px;
+  }
+}
