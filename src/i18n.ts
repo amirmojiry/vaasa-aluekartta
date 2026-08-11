@@ -402,6 +402,22 @@ function persianMajorAreaOverride(
   return null
 }
 
+function persianRequestedAreaOverride(
+  names: LocalizedAreaNames | undefined,
+  fallback: string,
+): string | null {
+  const finnishName = names?.fi || fallback
+  for (const source of ['Gerby', 'Vähäkyrö']) {
+    const persian = PERSIAN_MAJOR_AREA_NAMES[source]
+    if (!persian) continue
+    if (finnishName === source) return persian
+    if (finnishName.startsWith(`${source} `)) {
+      return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
+    }
+  }
+  return null
+}
+
 function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
   return persianMajorAreaOverride(names, fallback) ?? toPersianDigits(names?.fi || fallback)
 }
@@ -413,7 +429,7 @@ export function localizeAreaName(
 ): string {
   if (targetLanguage === 'fa')
     return (
-      persianMajorAreaOverride(names, fallback) ??
+      persianRequestedAreaOverride(names, fallback) ??
       names?.fa ??
       persianAreaNameFallback(names, fallback)
     )
