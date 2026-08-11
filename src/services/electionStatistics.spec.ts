@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
 import type { ResolvedElectionDataset } from '@/domain/elections'
-import { chartParties, featuredElection, topParties } from '@/services/electionStatistics'
+import {
+  chartParties,
+  featuredElection,
+  partyWikipediaLinks,
+  topParties,
+} from '@/services/electionStatistics'
 
 const dataset: ResolvedElectionDataset = {
   coverage: 'exact',
@@ -46,5 +51,14 @@ describe('election statistics helpers', () => {
 
   it('chooses chart series from the latest featured election', () => {
     expect(chartParties(dataset, 3)).toEqual(['B', 'A', 'D'])
+  })
+
+  it('returns verified Finnish and Persian Wikipedia links for major parties', () => {
+    expect(partyWikipediaLinks('RKP')).toEqual({
+      fa: 'https://fa.wikipedia.org/wiki/حزب_سوئدی‌های_فنلاند',
+      fi: 'https://fi.wikipedia.org/wiki/Suomen_ruotsalainen_kansanpuolue',
+    })
+    expect(partyWikipediaLinks('VAS').fa).toContain('ائتلاف_چپ')
+    expect(partyWikipediaLinks('UNKNOWN')).toEqual({})
   })
 })
