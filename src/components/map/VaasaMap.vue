@@ -14,11 +14,13 @@ import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import { POI_CATEGORY_GROUPS, poiCategoryDefinition } from '@/config/pois'
 import type { AreaBoundary, AreaLevel, PienalueBoundary } from '@/domain/areas'
 import type { BoundaryLevel } from '@/domain/boundaries'
+import type { AreaIncomeDatabase } from '@/domain/income'
 import { POI_CATEGORIES, type PoiCategory, type PoiFeature } from '@/domain/pois'
 import type { MajorAreaPopulationHistoryDatabase } from '@/domain/populationHistory'
 import type { AreaStatisticsDatabase, CompactAreaStatisticRecord } from '@/domain/statistics'
-import { localizeAreaName, useI18n } from '@/i18n'
+import { localeForLanguage, localizeAreaName, useI18n } from '@/i18n'
 import { poiText, type PoiMessageKey } from '@/poiI18n'
+import { fetchAreaIncomeDatabase } from '@/services/areaIncome'
 import { fetchStatisticsDatabase, statisticsKey } from '@/services/areaStatistics'
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
 import { fetchPoiFeatureCollection, localizedPoiName } from '@/services/poiData'
@@ -29,6 +31,7 @@ type VisualizationMetric =
   | 'population'
   | 'employment'
   | 'students'
+  | 'income'
   | 'language-finnish'
   | 'language-swedish'
   | 'language-other'
@@ -42,6 +45,7 @@ const isLoading = ref(true)
 const loadError = ref<string | null>(null)
 const statisticsDatabase = ref<AreaStatisticsDatabase | null>(null)
 const majorPopulationDatabase = ref<MajorAreaPopulationHistoryDatabase | null>(null)
+const incomeDatabase = ref<AreaIncomeDatabase | null>(null)
 const poiFeatures = ref<PoiFeature[]>([])
 const activePoiCategories = ref<PoiCategory[]>([])
 const poiLoading = ref(true)
@@ -62,25 +66,40 @@ const selectedLayerLabel = computed(() =>
   selectedLevel.value === 'suuralue' ? t('majorAreas') : t('minorAreas'),
 )
 const isLanguageMetric = computed(() => visualizationMetric.value.startsWith('language-'))
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI'),
-)
+const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
 const yearFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       useGrouping: false,
     }),
 )
 const percentFormatter = computed(
   () =>
-    new Intl.NumberFormat(language.value === 'fa' ? 'fa-IR' : 'en-FI', {
+    new Intl.NumberFormat(localeForLanguage(language.value), {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
+    }),
+)
+const currencyFormatter = computed(
+  () =>
+    new Intl.NumberFormat(localeForLanguage(language.value), {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
     }),
 )
 const populationFilterLabel = computed(() => {
   const year = selectedLevel.value === 'suuralue' ? 2024 : 2015
   return `${t('populationView')} (${yearFormatter.value.format(year)})`
+})
+const incomeFilterLabel = computed(() => {
+  const label =
+    language.value === 'fa'
+      ? 'سطح درآمد'
+      : language.value === 'fi'
+        ? 'Tulotasot'
+        : 'Income level'
+  return `${label} (${yearFormatter.value.format(2014)})`
 })
 const visiblePoiFeatures = computed(() =>
   poiFeatures.value.filter((feature) =>
@@ -163,7 +182,11 @@ function latestMajorPopulation(name: string): number | null {
   return observation?.[1] ?? null
 }
 
-function metricValue(level: AreaLevel, name: string, record: CompactAreaStatisticRecord): number {
+function metricValue(
+  level: AreaLevel,
+  name: string,
+  record: CompactAreaStatisticRecord,
+): number | null {
   switch (visualizationMetric.value) {
     case 'population':
       return level === 'suuralue' ? (latestMajorPopulation(name) ?? record.p) : record.p
@@ -171,6 +194,8 @@ function metricValue(level: AreaLevel, name: string, record: CompactAreaStatisti
       return record.e
     case 'students':
       return record.s
+    case 'income':
+      return incomeDatabase.value?.areas[`${level}:${name}`] ?? null
     case 'language-finnish':
       return record.l[0]
     case 'language-swedish':
@@ -178,7 +203,7 @@ function metricValue(level: AreaLevel, name: string, record: CompactAreaStatisti
     case 'language-other':
       return record.l[2]
     default:
-      return 0
+      return null
   }
 }
 
@@ -190,6 +215,8 @@ function metricColor(): string {
       return '#17645d'
     case 'students':
       return '#8a5f21'
+    case 'income':
+      return '#2f6b4f'
     case 'language-finnish':
       return '#2878a8'
     case 'language-swedish':
@@ -211,6 +238,8 @@ function metricLabel(level: AreaLevel): string {
       return t('employed')
     case 'students':
       return t('students')
+    case 'income':
+      return incomeFilterLabel.value
     case 'language-finnish':
       return t('finnish')
     case 'language-swedish':
@@ -223,7 +252,17 @@ function metricLabel(level: AreaLevel): string {
 }
 
 function metricRange(level: AreaLevel): { min: number; max: number } | null {
-  if (!statisticsDatabase.value || visualizationMetric.value === 'none') return null
+  if (visualizationMetric.value === 'none') return null
+
+  if (visualizationMetric.value === 'income') {
+    const prefix = `${level}:`
+    const values = Object.entries(incomeDatabase.value?.areas ?? {})
+      .filter(([key]) => key.startsWith(prefix))
+      .map(([, value]) => value)
+    return values.length ? { min: Math.min(...values), max: Math.max(...values) } : null
+  }
+
+  if (!statisticsDatabase.value) return null
 
   if (visualizationMetric.value === 'population' && level === 'suuralue') {
     const values = Object.values(majorPopulationDatabase.value?.areas ?? {})
@@ -236,6 +275,7 @@ function metricRange(level: AreaLevel): { min: number; max: number } | null {
   const values = Object.entries(statisticsDatabase.value.areas)
     .filter(([key]) => key.startsWith(prefix))
     .map(([key, record]) => metricValue(level, key.slice(prefix.length), record))
+    .filter((value): value is number => value !== null)
   if (values.length === 0) return null
   return { min: Math.min(...values), max: Math.max(...values) }
 }
@@ -258,7 +298,8 @@ function polygonStyle(
 
   const record = compactStatistics(level, name)
   const range = metricRange(level)
-  if (!record || !range) {
+  const value = record ? metricValue(level, name, record) : null
+  if (!record || !range || value === null) {
     return {
       color: '#7b8582',
       weight: level === 'suuralue' ? 3 : 2,
@@ -268,7 +309,6 @@ function polygonStyle(
     }
   }
 
-  const value = metricValue(level, name, record)
   const normalized = range.max === range.min ? 0.5 : (value - range.min) / (range.max - range.min)
   const color = metricColor()
   return {
@@ -285,16 +325,22 @@ function metricTooltip(level: AreaLevel, name: string): string {
   const record = compactStatistics(level, name)
   if (!record) return ''
   const value = metricValue(level, name, record)
+  if (value === null) return ''
   const formatted =
     visualizationMetric.value === 'population'
       ? numberFormatter.value.format(value)
-      : `${percentFormatter.value.format(value)}%`
+      : visualizationMetric.value === 'income'
+        ? currencyFormatter.value.format(value)
+        : `${percentFormatter.value.format(value)}%`
   return ` · ${metricLabel(level)}: ${formatted}`
 }
 
 async function ensureStatistics(): Promise<void> {
   if (visualizationMetric.value === 'none') return
   statisticsDatabase.value ??= await fetchStatisticsDatabase()
+  if (visualizationMetric.value === 'income' && !incomeDatabase.value) {
+    incomeDatabase.value = await fetchAreaIncomeDatabase()
+  }
   if (
     visualizationMetric.value === 'population' &&
     selectedLevel.value === 'suuralue' &&
@@ -610,6 +656,13 @@ onBeforeUnmount(() => {
           @click="selectMetric('students')"
         >
           {{ t('studentsView') }}
+        </button>
+        <button
+          type="button"
+          :class="{ 'is-active': visualizationMetric === 'income' }"
+          @click="selectMetric('income')"
+        >
+          {{ incomeFilterLabel }}
         </button>
         <button
           type="button"
