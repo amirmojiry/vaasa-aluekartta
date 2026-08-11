@@ -8,9 +8,18 @@ const database: MajorAreaPopulationHistoryDatabase = {
   latestAvailableYear: 2024,
   source: { title: 'test', url: 'https://example.com', accessed: '2026-08-11' },
   areas: {
-    Alpha: [[2017, 100], [2024, 125]],
-    Beta: [[2017, 200], [2024, 150]],
-    Gamma: [[2017, 50], [2024, 50]],
+    Alpha: [
+      [2017, 100],
+      [2024, 125],
+    ],
+    Beta: [
+      [2017, 200],
+      [2024, 150],
+    ],
+    Gamma: [
+      [2017, 50],
+      [2024, 50],
+    ],
   },
 }
 
