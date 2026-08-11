@@ -42,6 +42,8 @@ jobs:
                   Path('src/components/map/VaasaMap.vue'),
                   '    <section class="poi-control" :aria-label="poiLabel(\'places\')">\n      <div class="poi-control__header">\n        <div class="poi-control__title">\n          <strong>{{ poiLabel(\'places\') }}</strong>\n          <small>{{ poiLabel(\'placesHint\') }}</small>\n        </div>\n        <div class="poi-control__actions">',
                   '    <details class="poi-control" :aria-label="poiLabel(\'places\')">\n      <summary class="poi-control__summary">\n        <span class="poi-control__title">\n          <strong>{{ poiLabel(\'places\') }}</strong>\n          <small>{{ poiLabel(\'placesHint\') }}</small>\n        </span>\n      </summary>\n\n      <div class="poi-control__body">\n        <div class="poi-control__actions">',
+                  '        </div>\n      </div>\n\n      <div class="poi-control__groups">',
+                  '        </div>\n\n        <div class="poi-control__groups">',
                   '    </section>\n\n    <div\n      ref="mapElement"',
                   '      </div>\n    </details>\n\n    <div\n      ref="mapElement"',
               ),
@@ -49,6 +51,8 @@ jobs:
                   Path('src/components/areas/AreaDetail.vue'),
                   '          <section class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <div class="poi-control__header">\n              <div class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </div>\n              <div class="poi-control__actions">',
                   '          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <summary class="poi-control__summary">\n              <span class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </span>\n            </summary>\n\n            <div class="poi-control__body">\n              <div class="poi-control__actions">',
+                  '              </div>\n            </div>\n\n            <div class="poi-control__groups">',
+                  '              </div>\n\n              <div class="poi-control__groups">',
                   '          </section>\n\n          <div\n            ref="mapElement"',
                   '            </div>\n          </details>\n\n          <div\n            ref="mapElement"',
               ),
@@ -56,14 +60,17 @@ jobs:
                   Path('src/components/areas/PienalueDetail.vue'),
                   '          <section class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <div class="poi-control__header">\n              <div class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </div>\n              <div class="poi-control__actions">',
                   '          <details class="poi-control poi-control--area" :aria-label="poiLabel(\'places\')">\n            <summary class="poi-control__summary">\n              <span class="poi-control__title">\n                <strong>{{ poiLabel(\'places\') }}</strong>\n                <small>{{ poiLabel(\'allAreasHint\') }}</small>\n              </span>\n            </summary>\n\n            <div class="poi-control__body">\n              <div class="poi-control__actions">',
+                  '              </div>\n            </div>\n\n            <div class="poi-control__groups">',
+                  '              </div>\n\n              <div class="poi-control__groups">',
                   '          </section>\n\n          <div\n            ref="mapElement"',
                   '            </div>\n          </details>\n\n          <div\n            ref="mapElement"',
               ),
           ]
 
-          for path, old_open, new_open, old_close, new_close in components:
+          for path, old_open, new_open, old_middle, new_middle, old_close, new_close in components:
               text = path.read_text()
               text = replace_once(text, old_open, new_open, f'{path}: open block')
+              text = replace_once(text, old_middle, new_middle, f'{path}: body block')
               text = replace_once(text, old_close, new_close, f'{path}: close block')
               path.write_text(text)
 
