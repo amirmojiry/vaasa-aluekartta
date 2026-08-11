@@ -7,10 +7,12 @@ import { BOUNDARY_LAYERS } from '@/config/boundaries'
 import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import type { AreaBoundary, AreaLevel, PienalueBoundary } from '@/domain/areas'
 import type { BoundaryLevel } from '@/domain/boundaries'
+import type { MajorAreaPopulationHistoryDatabase } from '@/domain/populationHistory'
 import type { AreaStatisticsDatabase, CompactAreaStatisticRecord } from '@/domain/statistics'
 import { localizeAreaName, useI18n } from '@/i18n'
 import { fetchStatisticsDatabase, statisticsKey } from '@/services/areaStatistics'
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
+import { fetchMajorAreaPopulationHistoryDatabase } from '@/services/populationHistory'
 
 type VisualizationMetric =
   | 'none'
@@ -29,6 +31,7 @@ const mappedAreaCount = ref(0)
 const isLoading = ref(true)
 const loadError = ref<string | null>(null)
 const statisticsDatabase = ref<AreaStatisticsDatabase | null>(null)
+const majorPopulationDatabase = ref<MajorAreaPopulationHistoryDatabase | null>(null)
 let map: LeafletMap | null = null
 let areaGroup: FeatureGroup | null = null
 let cachedSuuralueBoundaries: Map<string, AreaBoundary> | null = null
@@ -83,10 +86,19 @@ function compactStatistics(level: AreaLevel, name: string): CompactAreaStatistic
   return statisticsDatabase.value?.areas[statisticsKey(level, name)] ?? null
 }
 
-function metricValue(record: CompactAreaStatisticRecord): number {
+function latestMajorPopulation(name: string): number | null {
+  const observation = majorPopulationDatabase.value?.areas[name]?.at(-1)
+  return observation?.[1] ?? null
+}
+
+function metricValue(
+  level: AreaLevel,
+  name: string,
+  record: CompactAreaStatisticRecord,
+): number {
   switch (visualizationMetric.value) {
     case 'population':
-      return record.p
+      return level === 'suuralue' ? (latestMajorPopulation(name) ?? record.p) : record.p
     case 'employment':
       return record.e
     case 'students':
@@ -121,10 +133,12 @@ function metricColor(): string {
   }
 }
 
-function metricLabel(): string {
+function metricLabel(level: AreaLevel): string {
+  if (visualizationMetric.value === 'population') {
+    const year = level === 'suuralue' ? 2024 : 2015
+    return `${t('population')} · ${numberFormatter.value.format(year)}`
+  }
   switch (visualizationMetric.value) {
-    case 'population':
-      return t('population')
     case 'employment':
       return t('employed')
     case 'students':
@@ -142,10 +156,18 @@ function metricLabel(): string {
 
 function metricRange(level: AreaLevel): { min: number; max: number } | null {
   if (!statisticsDatabase.value || visualizationMetric.value === 'none') return null
+
+  if (visualizationMetric.value === 'population' && level === 'suuralue') {
+    const values = Object.values(majorPopulationDatabase.value?.areas ?? {})
+      .map((observations) => observations.at(-1)?.[1])
+      .filter((value): value is number => value !== undefined)
+    return values.length ? { min: Math.min(...values), max: Math.max(...values) } : null
+  }
+
   const prefix = `${level}:`
   const values = Object.entries(statisticsDatabase.value.areas)
     .filter(([key]) => key.startsWith(prefix))
-    .map(([, record]) => metricValue(record))
+    .map(([key, record]) => metricValue(level, key.slice(prefix.length), record))
   if (values.length === 0) return null
   return { min: Math.min(...values), max: Math.max(...values) }
 }
@@ -178,7 +200,7 @@ function polygonStyle(
     }
   }
 
-  const value = metricValue(record)
+  const value = metricValue(level, name, record)
   const normalized = range.max === range.min ? 0.5 : (value - range.min) / (range.max - range.min)
   const color = metricColor()
   return {
@@ -194,17 +216,24 @@ function metricTooltip(level: AreaLevel, name: string): string {
   if (visualizationMetric.value === 'none') return ''
   const record = compactStatistics(level, name)
   if (!record) return ''
-  const value = metricValue(record)
+  const value = metricValue(level, name, record)
   const formatted =
     visualizationMetric.value === 'population'
       ? numberFormatter.value.format(value)
       : `${percentFormatter.value.format(value)}%`
-  return ` · ${metricLabel()}: ${formatted}`
+  return ` · ${metricLabel(level)}: ${formatted}`
 }
 
 async function ensureStatistics(): Promise<void> {
-  if (visualizationMetric.value === 'none' || statisticsDatabase.value) return
-  statisticsDatabase.value = await fetchStatisticsDatabase()
+  if (visualizationMetric.value === 'none') return
+  statisticsDatabase.value ??= await fetchStatisticsDatabase()
+  if (
+    visualizationMetric.value === 'population' &&
+    selectedLevel.value === 'suuralue' &&
+    !majorPopulationDatabase.value
+  ) {
+    majorPopulationDatabase.value = await fetchMajorAreaPopulationHistoryDatabase()
+  }
 }
 
 async function renderSuuralueBoundaries(token: number): Promise<void> {
@@ -298,16 +327,13 @@ async function renderPienalueBoundaries(token: number): Promise<void> {
 
 async function renderBoundaryLayer(): Promise<void> {
   if (!map) return
-
   renderToken += 1
   const token = renderToken
   clearBoundaryLayers()
-
   if (selectedLevel.value === 'suuralue') {
     await renderSuuralueBoundaries(token)
     return
   }
-
   await renderPienalueBoundaries(token)
 }
 
@@ -325,12 +351,10 @@ function selectLanguageMetric(): void {
 
 onMounted(() => {
   if (!mapElement.value) return
-
-  map = L.map(mapElement.value, {
-    zoomControl: true,
-    scrollWheelZoom: true,
-  }).setView(VAASA_CENTER, INITIAL_ZOOM)
-
+  map = L.map(mapElement.value, { zoomControl: true, scrollWheelZoom: true }).setView(
+    VAASA_CENTER,
+    INITIAL_ZOOM,
+  )
   L.tileLayer(TILE_LAYER.url, TILE_LAYER.options).addTo(map)
   areaGroup = L.featureGroup().addTo(map)
   void renderBoundaryLayer()
@@ -377,72 +401,19 @@ onBeforeUnmount(() => {
     <div class="map-visualization-control" :aria-label="t('colorMapBy')">
       <span class="map-visualization-control__label">{{ t('colorMapBy') }}</span>
       <div class="map-visualization-control__buttons">
-        <button
-          type="button"
-          :class="{ 'is-active': visualizationMetric === 'none' }"
-          @click="selectMetric('none')"
-        >
-          {{ t('normalView') }}
-        </button>
-        <button
-          type="button"
-          :class="{ 'is-active': visualizationMetric === 'population' }"
-          @click="selectMetric('population')"
-        >
-          {{ t('populationView') }}
-        </button>
-        <button
-          type="button"
-          :class="{ 'is-active': visualizationMetric === 'employment' }"
-          @click="selectMetric('employment')"
-        >
-          {{ t('employmentView') }}
-        </button>
-        <button
-          type="button"
-          :class="{ 'is-active': visualizationMetric === 'students' }"
-          @click="selectMetric('students')"
-        >
-          {{ t('studentsView') }}
-        </button>
-        <button
-          type="button"
-          :class="{ 'is-active': isLanguageMetric }"
-          @click="selectLanguageMetric"
-        >
-          {{ t('languageView') }}
-        </button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'none' }" @click="selectMetric('none')">{{ t('normalView') }}</button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'population' }" @click="selectMetric('population')">{{ t('populationView') }}</button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'employment' }" @click="selectMetric('employment')">{{ t('employmentView') }}</button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'students' }" @click="selectMetric('students')">{{ t('studentsView') }}</button>
+        <button type="button" :class="{ 'is-active': isLanguageMetric }" @click="selectLanguageMetric">{{ t('languageView') }}</button>
       </div>
       <div v-if="isLanguageMetric" class="map-language-subcontrol">
-        <button
-          type="button"
-          :class="{ 'is-active': visualizationMetric === 'language-finnish' }"
-          @click="selectMetric('language-finnish')"
-        >
-          {{ t('finnish') }}
-        </button>
-        <button
-          type="button"
-          :class="{ 'is-active': visualizationMetric === 'language-swedish' }"
-          @click="selectMetric('language-swedish')"
-        >
-          {{ t('swedish') }}
-        </button>
-        <button
-          type="button"
-          :class="{ 'is-active': visualizationMetric === 'language-other' }"
-          @click="selectMetric('language-other')"
-        >
-          {{ t('otherLanguages') }}
-        </button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-finnish' }" @click="selectMetric('language-finnish')">{{ t('finnish') }}</button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-swedish' }" @click="selectMetric('language-swedish')">{{ t('swedish') }}</button>
+        <button type="button" :class="{ 'is-active': visualizationMetric === 'language-other' }" @click="selectMetric('language-other')">{{ t('otherLanguages') }}</button>
       </div>
     </div>
 
-    <div
-      ref="mapElement"
-      class="map-canvas"
-      role="region"
-      :aria-label="`${t('statisticalAreas')} · ${selectedLayerLabel}`"
-    />
+    <div ref="mapElement" class="map-canvas" role="region" :aria-label="`${t('statisticalAreas')} · ${selectedLayerLabel}`" />
   </section>
 </template>
