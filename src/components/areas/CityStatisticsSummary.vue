@@ -4,10 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 import type { ElectionStatisticsDatabase, ResolvedElectionDataset } from '@/domain/elections'
 import { localeForLanguage, useI18n } from '@/i18n'
 import { fetchStatisticsDatabase } from '@/services/areaStatistics'
-import {
-  buildCityStatisticsSnapshot,
-  type CityStatisticsSnapshot,
-} from '@/services/cityStatistics'
+import { buildCityStatisticsSnapshot, type CityStatisticsSnapshot } from '@/services/cityStatistics'
 import {
   featuredElection,
   fetchCityElectionStatistics,
