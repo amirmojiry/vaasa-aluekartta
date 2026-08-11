@@ -51,9 +51,17 @@ Current categories are:
 - day care: named `amenity=kindergarten` and `amenity=childcare` objects;
 - train stations: named `railway=station` and `railway=halt` objects;
 - airports: named `aeroway=aerodrome` objects;
-- bus stops: named `highway=bus_stop`, `amenity=bus_station`, and `public_transport=platform` objects tagged `bus=yes`.
+- bus stops: named `highway=bus_stop`, `amenity=bus_station`, and `public_transport=platform` objects tagged `bus=yes`;
+- restaurants: named `amenity=restaurant` objects;
+- cafés: named `amenity=cafe` objects;
+- parks and playgrounds: named `leisure=park` and `leisure=playground` objects;
+- sports facilities: named sports centres, fitness centres, stadiums, swimming pools, and pitches;
+- shopping: named convenience shops, malls, department stores, and marketplaces;
+- banking: `amenity=bank` and `amenity=atm` objects, using brand or operator names when a name tag is absent;
+- post services: post offices and parcel lockers, using brand or operator names when available;
+- fuel and charging: fuel stations and EV charging stations, using brand or operator names when available.
 
-The same citywide snapshot is available on the main map and on every major-area and minor-area detail map. Area pages initially focus on the selected boundary but load POIs from all Vaasa areas; a map control can zoom out to the complete citywide POI extent.
+The same citywide snapshot is available on the main map and on every major-area and minor-area detail map. Area pages initially focus on the selected boundary but load POIs from all Vaasa areas. Their POI controls allow each category to be shown or hidden independently, alongside controls for focusing the selected area or the currently visible citywide POIs.
 
 The browser never queries Overpass directly. `npm run pois:check` validates the committed snapshot in CI, including stable IDs, coordinates, categories, OSM source identifiers, licence metadata, and category coverage.
 
