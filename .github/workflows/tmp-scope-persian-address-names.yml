@@ -1,0 +1,99 @@
+name: Temporary scope Persian area overrides
+
+on:
+  push:
+    branches:
+      - agent/address-search-v2
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.event.head_commit.message != 'Scope Persian spelling overrides'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: agent/address-search-v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --package-lock=false
+
+      - name: Scope Persian overrides
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/i18n.ts')
+          text = path.read_text()
+          marker = '''function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
+            return persianMajorAreaOverride(names, fallback) ?? toPersianDigits(names?.fi || fallback)
+          }
+          '''
+          helper = '''function persianRequestedAreaOverride(
+            names: LocalizedAreaNames | undefined,
+            fallback: string,
+          ): string | null {
+            const finnishName = names?.fi || fallback
+            for (const source of ['Gerby', 'Vähäkyrö']) {
+              const persian = PERSIAN_MAJOR_AREA_NAMES[source]
+              if (!persian) continue
+              if (finnishName === source) return persian
+              if (finnishName.startsWith(`${source} `)) {
+                return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
+              }
+            }
+            return null
+          }
+
+          '''
+          if marker not in text:
+              raise SystemExit('Persian fallback marker not found')
+          text = text.replace(marker, helper + marker, 1)
+          old = '''      persianMajorAreaOverride(names, fallback) ??
+                names?.fa ??'''
+          new = '''      persianRequestedAreaOverride(names, fallback) ??
+                names?.fa ??'''
+          if old not in text:
+              raise SystemExit('Persian localization expression not found')
+          text = text.replace(old, new, 1)
+          path.write_text(text)
+
+          path = Path('src/i18n.spec.ts')
+          text = path.read_text()
+          old = "expect(localizeAreaName(names, 'Keskusta', 'fa')).toBe('مرکز شهر')"
+          new = "expect(localizeAreaName(names, 'Keskusta', 'fa')).toBe('مرکز')"
+          if old not in text:
+              raise SystemExit('Persian source-label test marker not found')
+          path.write_text(text.replace(old, new, 1))
+          PY
+
+      - name: Format
+        run: npm run format
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit changes
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add src/i18n.ts src/i18n.spec.ts
+          git commit -m "Scope Persian spelling overrides"
+          git push origin HEAD:agent/address-search-v2
