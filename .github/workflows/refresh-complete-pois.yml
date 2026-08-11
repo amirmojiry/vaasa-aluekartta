@@ -1,0 +1,55 @@
+name: Refresh complete POI snapshot
+
+on:
+  push:
+    branches: [agent/complete-poi-snapshot]
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Prefer additional global Overpass instance for this refresh
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFile, writeFile } from 'node:fs/promises'
+          const path = 'scripts/update-osm-pois.mjs'
+          const source = await readFile(path, 'utf8')
+          const needle = "const OVERPASS_URLS = [\n  'https://overpass.private.coffee/api/interpreter',"
+          if (!source.includes(needle)) throw new Error('Could not locate Overpass endpoint list')
+          const updated = source.replace(
+            needle,
+            "const OVERPASS_URLS = [\n  'https://maps.mail.ru/osm/tools/overpass/api/interpreter',\n  'https://overpass.private.coffee/api/interpreter',",
+          )
+          await writeFile(path, updated)
+          NODE
+      - name: Generate complete Vaasa POI snapshot
+        run: npm run pois:update
+      - name: Validate snapshot
+        run: npm run pois:check
+      - name: Show category counts
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises'
+          const data = JSON.parse(await readFile('public/data/vaasa-pois.geojson', 'utf8'))
+          const counts = Object.groupBy(data.features, (feature) => feature.properties.category)
+          console.log(JSON.stringify({ total: data.features.length, counts: Object.fromEntries(Object.entries(counts).map(([key, value]) => [key, value.length])) }, null, 2))
+          NODE
+      - name: Commit refreshed snapshot
+        run: |
+          git checkout -- scripts/update-osm-pois.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/vaasa-pois.geojson
+          if git diff --cached --quiet; then
+            echo "POI snapshot is already up to date"
+            exit 0
+          fi
+          git commit -m "data: refresh complete Vaasa POI snapshot"
+          git push
