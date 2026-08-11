@@ -1,0 +1,43 @@
+name: POI integration preview
+
+on:
+  push:
+    branches: [agent/map-pois]
+
+permissions:
+  contents: read
+
+jobs:
+  poi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate POI snapshot
+        run: npm run pois:update
+      - name: Validate generated categories
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises'
+
+          const data = JSON.parse(await readFile('public/data/vaasa-pois.geojson', 'utf8'))
+          const required = ['attractions', 'supermarkets', 'police', 'healthcare', 'libraries']
+          const counts = Object.fromEntries(required.map((category) => [category, 0]))
+
+          if (data.type !== 'FeatureCollection' || !Array.isArray(data.features)) {
+            throw new Error('Generated POI file is not a FeatureCollection')
+          }
+
+          for (const feature of data.features) {
+            const category = feature?.properties?.category
+            if (category in counts) counts[category] += 1
+          }
+
+          for (const category of required) {
+            if (counts[category] < 1) throw new Error(`No generated POIs for ${category}`)
+          }
+
+          console.log(JSON.stringify({ total: data.features.length, counts }, null, 2))
+          NODE
