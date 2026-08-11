@@ -9,5 +9,6 @@ import './styles/visualizations.css'
 import './styles/election-interactions.css'
 import './styles/statistics-ranks.css'
 import './styles/city-statistics.css'
+import './styles/pois.css'
 
 createApp(App).mount('#app')

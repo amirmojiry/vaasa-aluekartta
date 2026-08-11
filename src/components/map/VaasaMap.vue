@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import L, { type FeatureGroup, type Map as LeafletMap, type PathOptions } from 'leaflet'
+import L, {
+  type CircleMarker,
+  type FeatureGroup,
+  type Map as LeafletMap,
+  type PathOptions,
+} from 'leaflet'
 
 import { AREAS } from '@/config/areas'
 import { BOUNDARY_LAYERS } from '@/config/boundaries'
 import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
+import { POI_CATEGORY_DEFINITIONS, poiCategoryDefinition } from '@/config/pois'
 import type { AreaBoundary, AreaLevel, PienalueBoundary } from '@/domain/areas'
 import type { BoundaryLevel } from '@/domain/boundaries'
+import { POI_CATEGORIES, type PoiCategory, type PoiFeature } from '@/domain/pois'
 import type { MajorAreaPopulationHistoryDatabase } from '@/domain/populationHistory'
 import type { AreaStatisticsDatabase, CompactAreaStatisticRecord } from '@/domain/statistics'
 import { localizeAreaName, useI18n } from '@/i18n'
+import { poiText, type PoiMessageKey } from '@/poiI18n'
 import { fetchStatisticsDatabase, statisticsKey } from '@/services/areaStatistics'
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
+import { fetchPoiFeatureCollection, localizedPoiName } from '@/services/poiData'
 import { fetchMajorAreaPopulationHistoryDatabase } from '@/services/populationHistory'
 
 type VisualizationMetric =
@@ -32,11 +41,18 @@ const isLoading = ref(true)
 const loadError = ref<string | null>(null)
 const statisticsDatabase = ref<AreaStatisticsDatabase | null>(null)
 const majorPopulationDatabase = ref<MajorAreaPopulationHistoryDatabase | null>(null)
+const poiFeatures = ref<PoiFeature[]>([])
+const activePoiCategories = ref<PoiCategory[]>([...POI_CATEGORIES])
+const poiLoading = ref(true)
+const poiFailed = ref(false)
+const poiSourceUrl = ref('https://www.openstreetmap.org/copyright')
 let map: LeafletMap | null = null
 let areaGroup: FeatureGroup | null = null
+let poiGroup: FeatureGroup | null = null
 let cachedSuuralueBoundaries: Map<string, AreaBoundary> | null = null
 let cachedPienalueBoundaries: PienalueBoundary[] | null = null
 let renderToken = 0
+const poiMarkers = new Map<string, CircleMarker>()
 
 const selectedLayer = computed(
   () => BOUNDARY_LAYERS.find((layer) => layer.id === selectedLevel.value) ?? BOUNDARY_LAYERS[0],
@@ -65,6 +81,16 @@ const populationFilterLabel = computed(() => {
   const year = selectedLevel.value === 'suuralue' ? 2024 : 2015
   return `${t('populationView')} (${yearFormatter.value.format(year)})`
 })
+const visiblePoiFeatures = computed(() =>
+  poiFeatures.value.filter((feature) =>
+    activePoiCategories.value.includes(feature.properties.category),
+  ),
+)
+const poiStatus = computed(() => {
+  if (poiLoading.value) return poiLabel('loading')
+  if (poiFailed.value) return poiLabel('unavailable')
+  return `${poiLabel('placesShown')}: ${numberFormatter.value.format(visiblePoiFeatures.value.length)}/${numberFormatter.value.format(poiFeatures.value.length)}`
+})
 
 const mapStatus = computed(() => {
   if (isLoading.value) return t('loading')
@@ -72,8 +98,43 @@ const mapStatus = computed(() => {
   return `${mappedAreaCount.value}/${selectedLayer.value?.areaCount ?? 0} ${t('mapped')}`
 })
 
+function poiLabel(key: PoiMessageKey): string {
+  return poiText(language.value, key)
+}
+
+function poiCategoryLabel(category: PoiCategory): string {
+  return poiCategoryDefinition(category).labels[language.value]
+}
+
+function poiCategoryCount(category: PoiCategory): number {
+  return poiFeatures.value.filter((feature) => feature.properties.category === category).length
+}
+
+function isPoiCategoryActive(category: PoiCategory): boolean {
+  return activePoiCategories.value.includes(category)
+}
+
+function togglePoiCategory(category: PoiCategory): void {
+  activePoiCategories.value = isPoiCategoryActive(category)
+    ? activePoiCategories.value.filter((value) => value !== category)
+    : [...activePoiCategories.value, category]
+}
+
+function showAllPois(): void {
+  activePoiCategories.value = [...POI_CATEGORIES]
+}
+
+function hideAllPois(): void {
+  activePoiCategories.value = []
+}
+
 function clearBoundaryLayers(): void {
   areaGroup?.clearLayers()
+}
+
+function clearPoiLayers(): void {
+  poiGroup?.clearLayers()
+  poiMarkers.clear()
 }
 
 function openArea(slug: string): void {
@@ -242,6 +303,108 @@ async function ensureStatistics(): Promise<void> {
   }
 }
 
+function safeHttpUrl(value: string | undefined): string | null {
+  if (!value) return null
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : null
+  } catch {
+    return null
+  }
+}
+
+function appendPopupText(container: HTMLElement, value: string | undefined): void {
+  if (!value) return
+  const row = document.createElement('span')
+  row.textContent = value
+  container.append(row)
+}
+
+function poiPopup(feature: PoiFeature): HTMLElement {
+  const container = document.createElement('div')
+  container.className = 'poi-popup'
+
+  const name = document.createElement('strong')
+  name.textContent = localizedPoiName(feature, language.value)
+  container.append(name)
+
+  appendPopupText(container, poiCategoryLabel(feature.properties.category))
+  appendPopupText(container, feature.properties.address)
+  appendPopupText(container, feature.properties.openingHours)
+  appendPopupText(container, feature.properties.operator)
+
+  const website = safeHttpUrl(feature.properties.website)
+  if (website) {
+    const link = document.createElement('a')
+    link.href = website
+    link.target = '_blank'
+    link.rel = 'noreferrer'
+    link.textContent = 'Website'
+    container.append(link)
+  }
+
+  const osmLink = document.createElement('a')
+  osmLink.href = `https://www.openstreetmap.org/${feature.properties.osmType}/${feature.properties.osmId}`
+  osmLink.target = '_blank'
+  osmLink.rel = 'noreferrer'
+  osmLink.textContent = 'OpenStreetMap'
+  container.append(osmLink)
+
+  return container
+}
+
+function bringPoiMarkersToFront(): void {
+  for (const marker of poiMarkers.values()) marker.bringToFront()
+}
+
+function renderPoiLayers(): void {
+  if (!map || !poiGroup) return
+  clearPoiLayers()
+
+  for (const feature of visiblePoiFeatures.value) {
+    const definition = poiCategoryDefinition(feature.properties.category)
+    const [longitude, latitude] = feature.geometry.coordinates
+    const marker = L.circleMarker([latitude, longitude], {
+      radius: 7,
+      color: '#fffdf8',
+      weight: 2,
+      opacity: 1,
+      fillColor: definition.color,
+      fillOpacity: 0.96,
+    }).addTo(poiGroup)
+    marker.bindTooltip(
+      `${poiCategoryLabel(feature.properties.category)} · ${localizedPoiName(feature, language.value)}`,
+      { sticky: true },
+    )
+    marker.bindPopup(poiPopup(feature))
+    poiMarkers.set(feature.properties.id, marker)
+  }
+
+  bringPoiMarkersToFront()
+}
+
+async function loadPoiData(): Promise<void> {
+  poiLoading.value = true
+  poiFailed.value = false
+  try {
+    const collection = await fetchPoiFeatureCollection()
+    poiFeatures.value = collection.features
+    poiSourceUrl.value = safeHttpUrl(collection.source?.url) ?? poiSourceUrl.value
+    renderPoiLayers()
+  } catch {
+    poiFailed.value = true
+  } finally {
+    poiLoading.value = false
+  }
+}
+
+function focusPoi(id: string): void {
+  const marker = poiMarkers.get(id)
+  if (!map || !marker) return
+  map.panTo(marker.getLatLng())
+  marker.openPopup()
+}
+
 async function renderSuuralueBoundaries(token: number): Promise<void> {
   if (!map || !areaGroup) return
 
@@ -338,9 +501,10 @@ async function renderBoundaryLayer(): Promise<void> {
   clearBoundaryLayers()
   if (selectedLevel.value === 'suuralue') {
     await renderSuuralueBoundaries(token)
-    return
+  } else {
+    await renderPienalueBoundaries(token)
   }
-  await renderPienalueBoundaries(token)
+  bringPoiMarkersToFront()
 }
 
 function selectLevel(level: BoundaryLevel): void {
@@ -363,18 +527,27 @@ onMounted(() => {
   )
   L.tileLayer(TILE_LAYER.url, TILE_LAYER.options).addTo(map)
   areaGroup = L.featureGroup().addTo(map)
+  poiGroup = L.featureGroup().addTo(map)
   void renderBoundaryLayer()
+  void loadPoiData()
 })
 
 watch([selectedLevel, visualizationMetric], () => {
   void renderBoundaryLayer()
 })
 
+watch(activePoiCategories, () => {
+  renderPoiLayers()
+})
+
 onBeforeUnmount(() => {
   renderToken += 1
   clearBoundaryLayers()
+  clearPoiLayers()
   areaGroup?.remove()
   areaGroup = null
+  poiGroup?.remove()
+  poiGroup = null
   map?.remove()
   map = null
 })
@@ -468,11 +641,72 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
+    <section class="poi-control" :aria-label="poiLabel('places')">
+      <div class="poi-control__header">
+        <div class="poi-control__title">
+          <strong>{{ poiLabel('places') }}</strong>
+          <small>{{ poiLabel('placesHint') }}</small>
+        </div>
+        <div class="poi-control__actions">
+          <button type="button" @click="showAllPois">{{ poiLabel('showAll') }}</button>
+          <button type="button" @click="hideAllPois">{{ poiLabel('hideAll') }}</button>
+        </div>
+      </div>
+
+      <div class="poi-control__categories">
+        <button
+          v-for="definition in POI_CATEGORY_DEFINITIONS"
+          :key="definition.id"
+          type="button"
+          :class="['poi-control__category', { 'is-active': isPoiCategoryActive(definition.id) }]"
+          :aria-pressed="isPoiCategoryActive(definition.id)"
+          @click="togglePoiCategory(definition.id)"
+        >
+          <i :style="{ backgroundColor: definition.color }" aria-hidden="true" />
+          {{ definition.labels[language] }}
+          <span>{{ numberFormatter.format(poiCategoryCount(definition.id)) }}</span>
+        </button>
+      </div>
+
+      <div class="poi-control__footer">
+        <span class="poi-control__status" role="status">{{ poiStatus }}</span>
+        <a class="poi-control__source" :href="poiSourceUrl" target="_blank" rel="noreferrer">
+          {{ poiLabel('source') }}
+        </a>
+      </div>
+    </section>
+
     <div
       ref="mapElement"
       class="map-canvas"
       role="region"
       :aria-label="`${t('statisticalAreas')} · ${selectedLayerLabel}`"
     />
+
+    <details v-if="!poiLoading && !poiFailed && visiblePoiFeatures.length" class="poi-list">
+      <summary>
+        {{ poiLabel('placeList') }} · {{ numberFormatter.format(visiblePoiFeatures.length) }}
+      </summary>
+      <ul>
+        <li v-for="feature in visiblePoiFeatures" :key="feature.properties.id">
+          <button
+            type="button"
+            :aria-label="`${poiLabel('openOnMap')}: ${localizedPoiName(feature, language)}`"
+            @click="focusPoi(feature.properties.id)"
+          >
+            <strong>{{ localizedPoiName(feature, language) }}</strong>
+            <span class="poi-list__category">
+              <i
+                :style="{
+                  backgroundColor: poiCategoryDefinition(feature.properties.category).color,
+                }"
+                aria-hidden="true"
+              />
+              {{ poiCategoryLabel(feature.properties.category) }}
+            </span>
+          </button>
+        </li>
+      </ul>
+    </details>
   </section>
 </template>
