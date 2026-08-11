@@ -8,7 +8,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import TechnicalInfo from '@/components/areas/TechnicalInfo.vue'
 import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
-import { POI_CATEGORY_DEFINITIONS } from '@/config/pois'
+import { POI_CATEGORY_GROUPS, poiCategoryDefinition } from '@/config/pois'
 import type { PienalueBoundary } from '@/domain/areas'
 import { POI_CATEGORIES, type PoiCategory, type PoiFeature } from '@/domain/pois'
 import { localizeAreaName, useI18n } from '@/i18n'
@@ -25,7 +25,7 @@ const loadError = ref('')
 const boundary = ref<PienalueBoundary | null>(null)
 const siblingAreas = ref<PienalueBoundary[]>([])
 const poiFeatures = ref<PoiFeature[]>([])
-const activePoiCategories = ref<PoiCategory[]>([...POI_CATEGORIES])
+const activePoiCategories = ref<PoiCategory[]>([])
 const poiLoading = ref(true)
 const poiFailed = ref(false)
 const poiSourceUrl = ref('https://www.openstreetmap.org/copyright')
@@ -215,22 +215,34 @@ onBeforeUnmount(() => {
               </div>
             </div>
 
-            <div class="poi-control__categories">
-              <button
-                v-for="definition in POI_CATEGORY_DEFINITIONS"
-                :key="definition.id"
-                type="button"
-                :class="[
-                  'poi-control__category',
-                  { 'is-active': isPoiCategoryActive(definition.id) },
-                ]"
-                :aria-pressed="isPoiCategoryActive(definition.id)"
-                @click="togglePoiCategory(definition.id)"
+            <div class="poi-control__groups">
+              <section
+                v-for="group in POI_CATEGORY_GROUPS"
+                :key="group.id"
+                class="poi-control__group"
               >
-                <i :style="{ backgroundColor: definition.color }" aria-hidden="true" />
-                {{ definition.labels[language] }}
-                <span>{{ numberFormatter.format(poiCategoryCount(definition.id)) }}</span>
-              </button>
+                <h3>{{ group.labels[language] }}</h3>
+                <div class="poi-control__categories">
+                  <button
+                    v-for="category in group.categories"
+                    :key="category"
+                    type="button"
+                    :class="[
+                      'poi-control__category',
+                      { 'is-active': isPoiCategoryActive(category) },
+                    ]"
+                    :aria-pressed="isPoiCategoryActive(category)"
+                    @click="togglePoiCategory(category)"
+                  >
+                    <i
+                      :style="{ backgroundColor: poiCategoryDefinition(category).color }"
+                      aria-hidden="true"
+                    />
+                    {{ poiCategoryDefinition(category).labels[language] }}
+                    <span>{{ numberFormatter.format(poiCategoryCount(category)) }}</span>
+                  </button>
+                </div>
+              </section>
             </div>
 
             <div class="poi-control__footer">

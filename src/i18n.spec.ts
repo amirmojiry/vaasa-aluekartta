@@ -21,8 +21,19 @@ describe('localizeAreaName', () => {
     expect(localizeAreaName(names, 'Keskusta', 'fa')).toBe('مرکز')
   })
 
-  it('falls back to the Finnish OSM name when a translation is missing', () => {
-    expect(localizeAreaName({ fi: 'Gerby' }, 'Gerby', 'fa')).toBe('Gerby')
+  it('uses the stable Persian major-area fallback when a source translation is missing', () => {
+    expect(localizeAreaName({ fi: 'Gerby', en: 'Gerby major district' }, 'Gerby', 'fa')).toBe(
+      'گربی',
+    )
+    expect(localizeAreaName({ fi: 'Keskusta 4', en: 'Keskusta 4' }, 'Keskusta 4', 'fa')).toBe(
+      'مرکز شهر ۴',
+    )
+  })
+
+  it('prefers the Finnish source name over an English fallback in Persian mode', () => {
+    expect(
+      localizeAreaName({ fi: 'Hietalahti 9', en: 'English area name' }, 'Hietalahti 9', 'fa'),
+    ).toBe('Hietalahti ۹')
   })
 })
 

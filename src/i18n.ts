@@ -368,11 +368,43 @@ export function localizeText(
   return text.en || text.fi || text.fa || fallback
 }
 
+const PERSIAN_MAJOR_AREA_NAMES: Record<string, string> = {
+  Keskusta: 'مرکز شهر',
+  Vöyrinkaupunki: 'وُیرین‌کاوپونکی',
+  Vaskiluoto: 'واسکی‌لوتو',
+  Palosaari: 'پالوساری',
+  Gerby: 'گربی',
+  Kotiranta: 'کوتی‌رانتا',
+  Huutoniemi: 'هوتونیمی',
+  Ristinummi: 'ریستینومی',
+  Höstvesi: 'هوست‌وسی',
+  Suvilahti: 'سووی‌لاهتی',
+  Sundom: 'سوندوم',
+  Vähäkyrö: 'وهاکورو',
+}
+
+function toPersianDigits(value: string): string {
+  const digits = '۰۱۲۳۴۵۶۷۸۹'
+  return value.replace(/\d/g, (digit) => digits[Number(digit)] ?? digit)
+}
+
+function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
+  const finnishName = names?.fi || fallback
+  for (const [source, persian] of Object.entries(PERSIAN_MAJOR_AREA_NAMES)) {
+    if (finnishName === source) return persian
+    if (finnishName.startsWith(`${source} `)) {
+      return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
+    }
+  }
+  return toPersianDigits(finnishName)
+}
+
 export function localizeAreaName(
   names: LocalizedAreaNames | undefined,
   fallback: string,
   targetLanguage: AppLanguage = language.value,
 ): string {
+  if (targetLanguage === 'fa') return names?.fa || persianAreaNameFallback(names, fallback)
   return localizeText(names, fallback, targetLanguage)
 }
 
