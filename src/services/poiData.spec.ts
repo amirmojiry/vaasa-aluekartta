@@ -1,7 +1,11 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { POI_CATEGORIES, type PoiFeature } from '@/domain/pois'
-import { localizedPoiName, parsePoiFeatureCollection } from '@/services/poiData'
+import {
+  fetchPoiFeatureCollection,
+  localizedPoiName,
+  parsePoiFeatureCollection,
+} from '@/services/poiData'
 
 const feature: PoiFeature = {
   type: 'Feature',
@@ -85,6 +89,27 @@ describe('parsePoiFeatureCollection', () => {
         ],
       }),
     ).toThrow('invalid features')
+  })
+})
+
+describe('fetchPoiFeatureCollection', () => {
+  it('revalidates the committed snapshot instead of force-caching it', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ type: 'FeatureCollection', features: [feature] }),
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    try {
+      const collection = await fetchPoiFeatureCollection()
+
+      expect(collection.features).toHaveLength(1)
+      expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('data/vaasa-pois.geojson'), {
+        cache: 'no-cache',
+      })
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 })
 

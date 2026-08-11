@@ -36,7 +36,7 @@ export function parsePoiFeatureCollection(value: unknown): PoiFeatureCollection 
 }
 
 export async function fetchPoiFeatureCollection(): Promise<PoiFeatureCollection> {
-  databasePromise ??= fetch(POI_DATA_URL, { cache: 'force-cache' }).then(async (response) => {
+  databasePromise ??= fetch(POI_DATA_URL, { cache: 'no-cache' }).then(async (response) => {
     if (!response.ok) throw new Error(`POI data returned HTTP ${response.status}`)
     return parsePoiFeatureCollection(await response.json())
   })
