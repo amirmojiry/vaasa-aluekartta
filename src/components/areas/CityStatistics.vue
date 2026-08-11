@@ -4,7 +4,10 @@ import { computed, onMounted, ref } from 'vue'
 import PopulationTrendChart from '@/components/areas/PopulationTrendChart.vue'
 import { localeForLanguage, useI18n } from '@/i18n'
 import { fetchStatisticsDatabase } from '@/services/areaStatistics'
-import { buildCityStatisticsSnapshot, type CityStatisticsSnapshot } from '@/services/cityStatistics'
+import {
+  buildCityStatisticsSnapshot,
+  type CityStatisticsSnapshot,
+} from '@/services/cityStatistics'
 import { fetchMajorAreaPopulationHistoryDatabase } from '@/services/populationHistory'
 
 const { language, t } = useI18n()
@@ -80,7 +83,9 @@ onMounted(async () => {
       <PopulationTrendChart :observations="statistics.populationHistory" />
       <p v-if="populationSource" class="population-trend__source">
         {{ t('populationHistorySource') }}:
-        <a :href="populationSource.url" target="_blank" rel="noreferrer">{{ populationSource.title }}</a>
+        <a :href="populationSource.url" target="_blank" rel="noreferrer">
+          {{ populationSource.title }}
+        </a>
       </p>
 
       <div class="statistics-grid">
