@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Apply semantic markup fixes
+      - name: Apply fixes
         shell: bash
         run: |
           node <<'NODE'
@@ -54,12 +54,10 @@ jobs:
             2,
             'income headings',
           )
-          if (!income.includes('.income-summary__analysis-link--heading')) {
-            income = income.replace(
-              `.income-summary__rank-link {\n  color: #65736f;\n  font-weight: 750;\n}`,
-              `.income-summary__analysis-link--heading {\n  font-weight: 800;\n}\n\n.income-summary__rank-link {\n  color: #65736f;\n  font-weight: 750;\n}`,
-            )
-          }
+          income = income.replace(
+            `.income-summary__rank-link {\n  color: #65736f;\n  font-weight: 750;\n}`,
+            `.income-summary__analysis-link--heading {\n  font-weight: 800;\n}\n\n.income-summary__rank-link {\n  color: #65736f;\n  font-weight: 750;\n}`,
+          )
           fs.writeFileSync(incomePath, income)
 
           const cityPath = 'src/components/areas/CityStatisticsSummary.vue'
@@ -123,12 +121,10 @@ jobs:
             1,
             'party link',
           )
-          if (!city.includes('.summary-analysis-link--heading')) {
-            city = city.replace(
-              `.summary-analysis-link {\n  color: inherit;\n  font-weight: inherit;\n  text-underline-offset: 0.16rem;\n}`,
-              `.summary-analysis-link {\n  color: inherit;\n  font-weight: inherit;\n  text-underline-offset: 0.16rem;\n}\n\n.summary-analysis-link--heading {\n  font-weight: 800;\n}`,
-            )
-          }
+          city = city.replace(
+            `.summary-analysis-link {\n  color: inherit;\n  font-weight: inherit;\n  text-underline-offset: 0.16rem;\n}`,
+            `.summary-analysis-link {\n  color: inherit;\n  font-weight: inherit;\n  text-underline-offset: 0.16rem;\n}\n\n.summary-analysis-link--heading {\n  font-weight: 800;\n}`,
+          )
           fs.writeFileSync(cityPath, city)
 
           const partyPath = 'src/components/analysis/PartyAnalysisPage.vue'
@@ -146,10 +142,26 @@ jobs:
             `return value.en || value.fi || value.fa || ''\n`,
           )
           fs.writeFileSync(partyPath, party)
+
+          const metricsPath = 'src/services/analysisMetrics.ts'
+          let metrics = fs.readFileSync(metricsPath, 'utf8')
+          metrics = replaceRegex(
+            metrics,
+            /      observations: Object\.entries\(database\.areas\)\n        \.map\(\(\[name, values\]\) => \{\n          const latest = values\.at\(-1\)\n          if \(!latest\) return null\n          return \{ level, name, year: latest\[0\], value: latest\[1\] \}\n        \}\)\n        \.filter\(\(value\): value is AnalysisObservation => value !== null\),/g,
+            `      observations: Object.entries(database.areas).flatMap(
+                ([name, values]): AnalysisObservation[] => {
+                  const latest = values.at(-1)
+                  return latest ? [{ level, name, year: latest[0], value: latest[1] }] : []
+                },
+              ),`,
+            1,
+            'major population observations',
+          )
+          fs.writeFileSync(metricsPath, metrics)
           NODE
 
       - name: Format changed files
-        run: npx prettier --write src/components/areas/AreaIncomeSummary.vue src/components/areas/CityStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue
+        run: npx prettier --write src/components/areas/AreaIncomeSummary.vue src/components/areas/CityStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue src/services/analysisMetrics.ts
 
       - name: Validate
         run: |
@@ -164,10 +176,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/components/areas/AreaIncomeSummary.vue src/components/areas/CityStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-          git commit -m "Fix analysis markup and validation"
+          git add src/components/areas/AreaIncomeSummary.vue src/components/areas/CityStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue src/services/analysisMetrics.ts
+          git commit -m "Fix analysis validation" || exit 0
           git push origin HEAD:agent/thematic-analysis-pages
