@@ -2,9 +2,19 @@
 import { computed, onMounted, ref } from 'vue'
 
 import type { AreaLevel } from '@/domain/areas'
+import type {
+  MajorAreaPopulationHistory,
+  MajorAreaPopulationHistoryDatabase,
+} from '@/domain/populationHistory'
 import type { AreaStatisticRecord, AreaStatisticsDatabase } from '@/domain/statistics'
 import { useI18n } from '@/i18n'
 import { fetchAreaStatistics, fetchStatisticsDatabase } from '@/services/areaStatistics'
+import {
+  fetchMajorAreaPopulationHistory,
+  fetchMajorAreaPopulationHistoryDatabase,
+  latestPopulationChange,
+  majorAreaPopulationRank,
+} from '@/services/populationHistory'
 
 const props = defineProps<{
   level: AreaLevel
@@ -14,6 +24,8 @@ const props = defineProps<{
 const { language, t } = useI18n()
 const statistics = ref<AreaStatisticRecord | null>(null)
 const database = ref<AreaStatisticsDatabase | null>(null)
+const populationHistory = ref<MajorAreaPopulationHistory | null>(null)
+const populationHistoryDatabase = ref<MajorAreaPopulationHistoryDatabase | null>(null)
 const failed = ref(false)
 const studentIcons = Array.from({ length: 10 }, (_, index) => index)
 
@@ -28,7 +40,17 @@ const percentFormatter = computed(
     }),
 )
 
-const populationRank = computed(() => {
+const latestMajorPopulation = computed(() =>
+  populationHistory.value ? latestPopulationChange(populationHistory.value) : null,
+)
+
+const majorPopulationRank = computed(() =>
+  populationHistoryDatabase.value
+    ? majorAreaPopulationRank(populationHistoryDatabase.value, props.areaName)
+    : null,
+)
+
+const legacyPopulationRank = computed(() => {
   if (!statistics.value || !database.value) return null
   const prefix = `${props.level}:`
   const populations = Object.entries(database.value.areas)
@@ -36,8 +58,26 @@ const populationRank = computed(() => {
     .map(([, value]) => value.p)
   const rank =
     populations.filter((population) => population > statistics.value!.population2015).length + 1
-  return { rank, total: populations.length }
+  return { rank, total: populations.length, population: statistics.value.population2015, year: 2015 }
 })
+
+const displayedPopulation = computed(() => {
+  if (props.level === 'suuralue' && latestMajorPopulation.value) {
+    return latestMajorPopulation.value.current.population
+  }
+  return statistics.value?.population2015 ?? null
+})
+
+const displayedPopulationYear = computed(() => {
+  if (props.level === 'suuralue' && latestMajorPopulation.value) {
+    return latestMajorPopulation.value.current.year
+  }
+  return 2015
+})
+
+const populationRank = computed(() =>
+  props.level === 'suuralue' ? majorPopulationRank.value : legacyPopulationRank.value,
+)
 
 const populationRankText = computed(() => {
   if (!populationRank.value) return ''
@@ -47,6 +87,22 @@ const populationRankText = computed(() => {
     return `(${t('populationRank')} ${numberFormatter.value.format(rank)} ${t('rankOf')} ${numberFormatter.value.format(total)} ${t('among')} ${group})`
   }
   return `(${t('populationRank')} ${numberFormatter.value.format(rank)} ${t('rankOf')} ${numberFormatter.value.format(total)} ${group})`
+})
+
+const populationChangeText = computed(() => {
+  const change = latestMajorPopulation.value
+  if (props.level !== 'suuralue' || !change?.previous || change.percent === null) return ''
+  const percent = `${percentFormatter.value.format(Math.abs(change.percent))}%`
+  const previousYear = numberFormatter.value.format(change.previous.year)
+  return language.value === 'fa'
+    ? `${percent} ${t('comparedWith')} ${previousYear}`
+    : `${percent} ${t('comparedWith')} ${previousYear}`
+})
+
+const populationChangeDirection = computed(() => {
+  const percent = latestMajorPopulation.value?.percent
+  if (percent === null || percent === undefined || percent === 0) return 'neutral'
+  return percent > 0 ? 'up' : 'down'
 })
 
 function formatNumber(value: number): string {
@@ -71,6 +127,15 @@ onMounted(async () => {
     ])
     statistics.value = record
     database.value = loadedDatabase
+
+    if (props.level === 'suuralue') {
+      const [history, historyDatabase] = await Promise.all([
+        fetchMajorAreaPopulationHistory(props.areaName),
+        fetchMajorAreaPopulationHistoryDatabase(),
+      ])
+      populationHistory.value = history
+      populationHistoryDatabase.value = historyDatabase
+    }
   } catch {
     failed.value = true
   }
@@ -132,10 +197,17 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="summary-population">
-      <span>{{ t('population') }} · 2015</span>
-      <strong>{{ formatNumber(statistics.population2015) }}</strong>
+    <div v-if="displayedPopulation !== null" class="summary-population">
+      <span>{{ t('population') }} · {{ displayedPopulationYear }}</span>
+      <strong>{{ formatNumber(displayedPopulation) }}</strong>
       <small>{{ populationRankText }}</small>
+      <span
+        v-if="populationChangeText"
+        :class="['population-change', `population-change--${populationChangeDirection}`]"
+      >
+        <span aria-hidden="true">{{ populationChangeDirection === 'up' ? '▲' : '▼' }}</span>
+        {{ populationChangeText }}
+      </span>
     </div>
 
     <div class="summary-metric">
