@@ -82,6 +82,8 @@ onMounted(async () => {
     ])
     dataset.value = resolved
     database.value = db
+  } catch {
+    dataset.value = null
   } finally {
     loading.value = false
   }
