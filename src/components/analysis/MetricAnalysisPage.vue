@@ -39,7 +39,6 @@ const labels = {
     table: 'Show detailed table',
     area: 'Area',
     value: 'Value',
-    year: 'Year',
     rank: 'Rank',
     noData: 'No source-backed observations are available for this area level.',
     source: 'Source',
@@ -59,7 +58,6 @@ const labels = {
     table: 'Näytä tarkka taulukko',
     area: 'Alue',
     value: 'Arvo',
-    year: 'Vuosi',
     rank: 'Sija',
     noData: 'Tälle aluetasolle ei ole lähteeseen perustuvia havaintoja.',
     source: 'Lähde',
@@ -79,7 +77,6 @@ const labels = {
     table: 'نمایش جدول جزئیات',
     area: 'منطقه',
     value: 'مقدار',
-    year: 'سال',
     rank: 'رتبه',
     noData: 'برای این سطح منطقه داده مستند قابل استفاده موجود نیست.',
     source: 'منبع',
@@ -283,7 +280,6 @@ watch([() => props.metric, level], () => void load())
                   <th>{{ text.rank }}</th>
                   <th>{{ text.area }}</th>
                   <th>{{ text.value }}</th>
-                  <th>{{ text.year }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -299,8 +295,7 @@ watch([() => props.metric, level], () => void load())
                     </a>
                     <span v-else>{{ item.name }}</span>
                   </td>
-                  <td>{{ formatValue(item.value) }}</td>
-                  <td>{{ numberFormatter.format(item.year) }}</td>
+                  <td>{{ formatValue(item.value) }} · {{ numberFormatter.format(item.year) }}</td>
                 </tr>
               </tbody>
             </table>
