@@ -1,11 +1,34 @@
 .poi-control {
-  display: grid;
-  gap: 0.7rem;
   margin: 0 0.5rem 1rem;
-  padding: 0.85rem;
   border: 1px solid var(--line);
   border-radius: 0.6rem;
   background: #f8f8f4;
+}
+
+.poi-control__summary {
+  padding: 0.85rem;
+  cursor: pointer;
+}
+
+.poi-control__summary::marker {
+  color: var(--green);
+}
+
+.poi-control__summary .poi-control__title {
+  display: inline-grid;
+  margin-inline-start: 0.35rem;
+  vertical-align: middle;
+}
+
+.poi-control__body {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0 0.85rem 0.85rem;
+}
+
+.poi-control[open] .poi-control__summary {
+  margin-bottom: 0.7rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .poi-control__header {

@@ -641,48 +641,51 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <section class="poi-control" :aria-label="poiLabel('places')">
-      <div class="poi-control__header">
-        <div class="poi-control__title">
+    <details class="poi-control" :aria-label="poiLabel('places')">
+      <summary class="poi-control__summary">
+        <span class="poi-control__title">
           <strong>{{ poiLabel('places') }}</strong>
           <small>{{ poiLabel('placesHint') }}</small>
-        </div>
+        </span>
+      </summary>
+
+      <div class="poi-control__body">
         <div class="poi-control__actions">
           <button type="button" @click="showAllPois">{{ poiLabel('showAll') }}</button>
           <button type="button" @click="hideAllPois">{{ poiLabel('hideAll') }}</button>
         </div>
-      </div>
 
-      <div class="poi-control__groups">
-        <section v-for="group in POI_CATEGORY_GROUPS" :key="group.id" class="poi-control__group">
-          <h3>{{ group.labels[language] }}</h3>
-          <div class="poi-control__categories">
-            <button
-              v-for="category in group.categories"
-              :key="category"
-              type="button"
-              :class="['poi-control__category', { 'is-active': isPoiCategoryActive(category) }]"
-              :aria-pressed="isPoiCategoryActive(category)"
-              @click="togglePoiCategory(category)"
-            >
-              <i
-                :style="{ backgroundColor: poiCategoryDefinition(category).color }"
-                aria-hidden="true"
-              />
-              {{ poiCategoryDefinition(category).labels[language] }}
-              <span>{{ numberFormatter.format(poiCategoryCount(category)) }}</span>
-            </button>
-          </div>
-        </section>
-      </div>
+        <div class="poi-control__groups">
+          <section v-for="group in POI_CATEGORY_GROUPS" :key="group.id" class="poi-control__group">
+            <h3>{{ group.labels[language] }}</h3>
+            <div class="poi-control__categories">
+              <button
+                v-for="category in group.categories"
+                :key="category"
+                type="button"
+                :class="['poi-control__category', { 'is-active': isPoiCategoryActive(category) }]"
+                :aria-pressed="isPoiCategoryActive(category)"
+                @click="togglePoiCategory(category)"
+              >
+                <i
+                  :style="{ backgroundColor: poiCategoryDefinition(category).color }"
+                  aria-hidden="true"
+                />
+                {{ poiCategoryDefinition(category).labels[language] }}
+                <span>{{ numberFormatter.format(poiCategoryCount(category)) }}</span>
+              </button>
+            </div>
+          </section>
+        </div>
 
-      <div class="poi-control__footer">
-        <span class="poi-control__status" role="status">{{ poiStatus }}</span>
-        <a class="poi-control__source" :href="poiSourceUrl" target="_blank" rel="noreferrer">
-          {{ poiLabel('source') }}
-        </a>
+        <div class="poi-control__footer">
+          <span class="poi-control__status" role="status">{{ poiStatus }}</span>
+          <a class="poi-control__source" :href="poiSourceUrl" target="_blank" rel="noreferrer">
+            {{ poiLabel('source') }}
+          </a>
+        </div>
       </div>
-    </section>
+    </details>
 
     <div
       ref="mapElement"
