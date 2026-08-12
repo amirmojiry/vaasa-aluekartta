@@ -21,29 +21,53 @@ function wikipediaUrl(language, title) {
   return `https://${language}.wikipedia.org/wiki/${encodeURIComponent(title.replaceAll(' ', '_'))}`
 }
 
+async function fetchWikidataBatch(batch) {
+  const search = new URLSearchParams({
+    action: 'wbgetentities',
+    ids: batch.join('|'),
+    props: 'labels|sitelinks',
+    languages: 'fi|fa',
+    sitefilter: 'fiwiki|fawiki',
+    format: 'json',
+  })
+  let lastError
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const response = await fetch(`${WIKIDATA_API}?${search.toString()}`, {
+        headers: { Accept: 'application/json', 'User-Agent': USER_AGENT },
+      })
+      if (response.ok) return await response.json()
+
+      lastError = new Error(`Wikidata API returned HTTP ${response.status}`)
+      if (response.status !== 429 && response.status < 500) break
+    } catch (error) {
+      lastError = error
+    }
+
+    await sleep(300 * attempt)
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('Could not load Wikidata metadata')
+}
+
 async function fetchEntities(ids) {
   const entities = new Map()
 
-  for (let offset = 0; offset < ids.length; offset += 50) {
-    const batch = ids.slice(offset, offset + 50)
-    const search = new URLSearchParams({
-      action: 'wbgetentities',
-      ids: batch.join('|'),
-      props: 'labels|sitelinks',
-      languages: 'fi|fa',
-      sitefilter: 'fiwiki|fawiki',
-      format: 'json',
-    })
-    const response = await fetch(`${WIKIDATA_API}?${search.toString()}`, {
-      headers: { Accept: 'application/json', 'User-Agent': USER_AGENT },
-    })
-    if (!response.ok) throw new Error(`Wikidata API returned HTTP ${response.status}`)
-
-    const payload = await response.json()
-    for (const [id, entity] of Object.entries(payload.entities ?? {})) {
-      if (!entity?.missing) entities.set(id, entity)
+  try {
+    for (let offset = 0; offset < ids.length; offset += 50) {
+      const batch = ids.slice(offset, offset + 50)
+      const payload = await fetchWikidataBatch(batch)
+      for (const [id, entity] of Object.entries(payload.entities ?? {})) {
+        if (!entity?.missing) entities.set(id, entity)
+      }
+      await sleep(100)
     }
-    await sleep(100)
+  } catch (error) {
+    console.warn(
+      `Wikipedia localization refresh skipped: ${error instanceof Error ? error.message : String(error)}`,
+    )
+    return null
   }
 
   return entities
@@ -89,6 +113,7 @@ async function main() {
     ),
   ]
   const entitiesById = await fetchEntities(wikidataIds)
+  if (!entitiesById) return
 
   const newlyAvailablePersian = []
   const renamedPersian = []
