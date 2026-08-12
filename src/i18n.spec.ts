@@ -36,6 +36,38 @@ describe('localizeAreaName', () => {
       localizeAreaName({ fi: 'Hietalahti 9', en: 'English area name' }, 'Hietalahti 9', 'fa'),
     ).toBe('Hietalahti ۹')
   })
+
+  it('uses requested Persian names instead of source titles with qualifiers', () => {
+    expect(
+      localizeAreaName(
+        { fi: 'Vöyrinkaupunki pohjoinen', fa: 'وُیرین‌کاوپونکی pohjoinen' },
+        'Vöyrinkaupunki pohjoinen',
+        'fa',
+      ),
+    ).toBe('ووئورین‌کاوپونکی پوهیوینن')
+    expect(
+      localizeAreaName(
+        { fi: 'Vöyrinkaupunki eteläinen', fa: 'وُیرین‌کاوپونکی eteläinen' },
+        'Vöyrinkaupunki eteläinen',
+        'fa',
+      ),
+    ).toBe('ووئورین‌کاوپونکی ئتلینن')
+    expect(localizeAreaName({ fi: 'Västervik', fa: 'وسترویک (فنلاند)' }, 'Västervik', 'fa')).toBe(
+      'وسترویک',
+    )
+    expect(localizeAreaName({ fi: 'Sundomin saaristo' }, 'Sundomin saaristo', 'fa')).toBe(
+      'سوندومین ساریستو',
+    )
+    expect(localizeAreaName({ fi: 'Suvilahti', fa: 'سووی‌لاهتی (واسا)' }, 'Suvilahti', 'fa')).toBe(
+      'سووی‌لاهتی',
+    )
+    expect(
+      localizeAreaName({ fi: 'Huutoniemi', fa: 'هوتونیمی (منطقه کوچک)' }, 'Huutoniemi', 'fa'),
+    ).toBe('هوتونیمی')
+    expect(
+      localizeAreaName({ fi: 'Ristinummi', fa: 'ریستینومی (منطقه کوچک)' }, 'Ristinummi', 'fa'),
+    ).toBe('ریستینومی')
+  })
 })
 
 describe('localeForLanguage', () => {

@@ -383,6 +383,15 @@ const PERSIAN_MAJOR_AREA_NAMES: Record<string, string> = {
   Vähäkyrö: 'وهه‌کورو',
 }
 
+const PERSIAN_EXACT_AREA_NAMES: Record<string, string> = {
+  ...PERSIAN_MAJOR_AREA_NAMES,
+  'Vöyrinkaupunki pohjoinen': 'ووئورین‌کاوپونکی پوهیوینن',
+  'Vöyrinkaupunki eteläinen': 'ووئورین‌کاوپونکی ئتلینن',
+  Västervik: 'وسترویک',
+  'Västervikin kylä': 'وسترویک',
+  'Sundomin saaristo': 'سوندومین ساریستو',
+}
+
 function toPersianDigits(value: string): string {
   const digits = '۰۱۲۳۴۵۶۷۸۹'
   return value.replace(/\d/g, (digit) => digits[Number(digit)] ?? digit)
@@ -407,15 +416,7 @@ function persianRequestedAreaOverride(
   fallback: string,
 ): string | null {
   const finnishName = names?.fi || fallback
-  for (const source of ['Gerby', 'Vähäkyrö']) {
-    const persian = PERSIAN_MAJOR_AREA_NAMES[source]
-    if (!persian) continue
-    if (finnishName === source) return persian
-    if (finnishName.startsWith(`${source} `)) {
-      return `${persian} ${toPersianDigits(finnishName.slice(source.length + 1))}`
-    }
-  }
-  return null
+  return PERSIAN_EXACT_AREA_NAMES[finnishName] ?? null
 }
 
 function persianAreaNameFallback(names: LocalizedAreaNames | undefined, fallback: string): string {
