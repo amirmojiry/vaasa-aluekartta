@@ -24,6 +24,7 @@ jobs:
           python3 scripts/tmp_fix_vitest_e2e.py
           python3 scripts/tmp_fix_playwright_base.py
           python3 scripts/tmp_fix_e2e_selector.py
+          python3 scripts/tmp_fix_quality_ignores.py
       - name: Install dependencies
         run: |
           npm pkg set version=1.0.0
@@ -43,11 +44,12 @@ jobs:
           npm run build
           npm run performance:check -- --write-report
           npm run test:e2e
+          npx prettier --write docs/performance-audit.md
           npm run format:check
       - name: Commit validated implementation
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md package.json package-lock.json playwright.config.ts e2e/core-journeys.spec.ts scripts/audit-performance.mjs docs/performance-audit.md src/components/map/VaasaMap.vue src/styles/main.css vite.config.ts .github/workflows/ci.yml .github/workflows/deploy-pages.yml
+          git add .gitignore .prettierignore README.md package.json package-lock.json playwright.config.ts e2e/core-journeys.spec.ts scripts/audit-performance.mjs docs/performance-audit.md src/components/map/VaasaMap.vue src/styles/main.css vite.config.ts .github/workflows/ci.yml .github/workflows/deploy-pages.yml
           git commit -m "Complete roadmap quality milestone"
           git push origin HEAD:agent/complete-roadmap-quality
