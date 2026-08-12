@@ -248,6 +248,26 @@ h2 {
   mix-blend-mode: multiply;
 }
 
+
+/* Quality milestone: consistent touch targets and resilient small-screen controls. */
+.boundary-level-control__button,
+.map-visualization-control button,
+.map-language-subcontrol button,
+.poi-control button,
+.address-search input,
+.address-search button,
+select,
+summary {
+  min-height: 2.75rem;
+}
+
+button,
+input,
+select,
+summary {
+  touch-action: manipulation;
+}
+
 @media (max-width: 850px) {
   .map-canvas {
     min-height: 30rem;
@@ -260,7 +280,18 @@ h2 {
   }
 
   .topbar {
+    gap: 0.75rem;
     min-height: 4.5rem;
+    padding-block: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .topbar__actions {
+    flex-wrap: wrap;
+  }
+
+  .map-card {
+    padding: 0.75rem;
   }
 
   .home-map-section {
@@ -285,5 +316,13 @@ h2 {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

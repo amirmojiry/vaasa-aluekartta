@@ -38,7 +38,9 @@ type VisualizationMetric =
 
 const { buildUrl, language, t } = useI18n()
 const mapElement = ref<HTMLElement | null>(null)
-const selectedLevel = ref<BoundaryLevel>('suuralue')
+const boundaryLevelFromUrl = (): BoundaryLevel =>
+  new URLSearchParams(window.location.search).get('level') === 'pienalue' ? 'pienalue' : 'suuralue'
+const selectedLevel = ref<BoundaryLevel>(boundaryLevelFromUrl())
 const visualizationMetric = ref<VisualizationMetric>('none')
 const mappedAreaCount = ref(0)
 const isLoading = ref(true)
@@ -551,7 +553,20 @@ async function renderBoundaryLayer(): Promise<void> {
 }
 
 function selectLevel(level: BoundaryLevel): void {
+  if (selectedLevel.value === level) return
   selectedLevel.value = level
+  const search = new URLSearchParams(window.location.search)
+  search.set('level', level)
+  window.history.pushState(
+    null,
+    '',
+    `${window.location.pathname}?${search.toString()}${window.location.hash}`,
+  )
+}
+
+function handlePopState(): void {
+  const nextLevel = boundaryLevelFromUrl()
+  if (selectedLevel.value !== nextLevel) selectedLevel.value = nextLevel
 }
 
 function selectMetric(metric: VisualizationMetric): void {
@@ -563,6 +578,7 @@ function selectLanguageMetric(): void {
 }
 
 onMounted(() => {
+  window.addEventListener('popstate', handlePopState)
   if (!mapElement.value) return
   map = L.map(mapElement.value, { zoomControl: true, scrollWheelZoom: true }).setView(
     VAASA_CENTER,
@@ -584,6 +600,7 @@ watch(activePoiCategories, () => {
 })
 
 onBeforeUnmount(() => {
+  window.removeEventListener('popstate', handlePopState)
   renderToken += 1
   clearBoundaryLayers()
   clearPoiLayers()
@@ -603,7 +620,7 @@ onBeforeUnmount(() => {
         <p class="eyebrow">{{ t('interactiveMap') }}</p>
         <h2 id="map-title">{{ t('statisticalAreas') }}</h2>
       </div>
-      <span class="map-card__status">{{ mapStatus }}</span>
+      <span class="map-card__status" role="status" aria-live="polite">{{ mapStatus }}</span>
     </div>
 
     <AddressSearch mode="home" />
@@ -628,6 +645,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'none' }"
+          :aria-pressed="visualizationMetric === 'none'"
           @click="selectMetric('none')"
         >
           {{ t('normalView') }}
@@ -635,6 +653,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'population' }"
+          :aria-pressed="visualizationMetric === 'population'"
           @click="selectMetric('population')"
         >
           {{ populationFilterLabel }}
@@ -642,6 +661,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'employment' }"
+          :aria-pressed="visualizationMetric === 'employment'"
           @click="selectMetric('employment')"
         >
           {{ t('employmentView') }}
@@ -649,6 +669,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'students' }"
+          :aria-pressed="visualizationMetric === 'students'"
           @click="selectMetric('students')"
         >
           {{ t('studentsView') }}
@@ -656,6 +677,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'income' }"
+          :aria-pressed="visualizationMetric === 'income'"
           @click="selectMetric('income')"
         >
           {{ incomeFilterLabel }}
@@ -663,6 +685,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': isLanguageMetric }"
+          :aria-pressed="isLanguageMetric"
           @click="selectLanguageMetric"
         >
           {{ t('languageView') }}
@@ -672,6 +695,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'language-finnish' }"
+          :aria-pressed="visualizationMetric === 'language-finnish'"
           @click="selectMetric('language-finnish')"
         >
           {{ t('finnish') }}
@@ -679,6 +703,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'language-swedish' }"
+          :aria-pressed="visualizationMetric === 'language-swedish'"
           @click="selectMetric('language-swedish')"
         >
           {{ t('swedish') }}
@@ -686,6 +711,7 @@ onBeforeUnmount(() => {
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'language-other' }"
+          :aria-pressed="visualizationMetric === 'language-other'"
           @click="selectMetric('language-other')"
         >
           {{ t('otherLanguages') }}
@@ -744,6 +770,7 @@ onBeforeUnmount(() => {
       class="map-canvas"
       role="region"
       :aria-label="`${t('statisticalAreas')} · ${selectedLayerLabel}`"
+      tabindex="0"
     />
 
     <details v-if="!poiLoading && !poiFailed && visiblePoiFeatures.length" class="poi-list">

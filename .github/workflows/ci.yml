@@ -30,3 +30,9 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
+      - name: Check performance budgets
+        run: npm run performance:check
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Browser tests
+        run: npm run test:e2e
