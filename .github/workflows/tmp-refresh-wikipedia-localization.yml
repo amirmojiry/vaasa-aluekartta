@@ -1,0 +1,47 @@
+name: Refresh Wikipedia localization
+
+on:
+  push:
+    branches:
+      - agent/wikipedia-localization-audit
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/wikipedia-localization-audit
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Refresh Wikipedia localization
+        run: npm run wiki:update
+      - name: Format
+        run: npm run format
+      - name: Validate
+        run: |
+          npm run lint
+          npm run typecheck
+          npm run test
+          npm run build
+          npm run performance:check
+          npm run format:check
+      - name: Commit refreshed localization
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json scripts/update-wikipedia-localization.mjs public/data/vaasa-suuralueet.geojson public/data/vaasa-pienalueet.geojson
+          if git diff --cached --quiet; then
+            echo "No localization changes to commit."
+          else
+            git commit -m "data: refresh Persian Wikipedia localization"
+            git push origin HEAD:agent/wikipedia-localization-audit
+          fi
