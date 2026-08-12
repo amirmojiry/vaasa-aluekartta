@@ -21,9 +21,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: |
-          npm install --no-audit --no-fund
-          npm install --no-save @vue/test-utils@2.4.11 --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Refresh data and Wikipedia localization
         run: npm run data:update
       - name: Format
@@ -40,7 +38,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json scripts/update-wikipedia-localization.mjs
+          git add package.json scripts/update-wikipedia-localization.mjs docs/wikipedia-localization.md
           if git diff --cached --quiet; then
             echo "No implementation changes to commit."
           else
