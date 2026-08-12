@@ -17,8 +17,8 @@ describe('localizeAreaName', () => {
     expect(localizeAreaName(names, 'Centre', 'fi')).toBe('Keskusta')
   })
 
-  it('uses the Persian label when the Persian version is requested', () => {
-    expect(localizeAreaName(names, 'Keskusta', 'fa')).toBe('مرکز')
+  it('uses the stable Persian area label when the Persian version is requested', () => {
+    expect(localizeAreaName(names, 'Keskusta', 'fa')).toBe('مرکز شهر')
   })
 
   it('uses the stable Persian major-area fallback when a source translation is missing', () => {
