@@ -4,8 +4,8 @@ import { computed, onMounted, ref, watch } from 'vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import ThematicMap from '@/components/analysis/ThematicMap.vue'
 import { AREAS } from '@/config/areas'
-import type { AreaLevel } from '@/domain/areas'
-import { localeForLanguage, useI18n } from '@/i18n'
+import type { AreaLevel, LocalizedAreaNames } from '@/domain/areas'
+import { localeForLanguage, localizeAreaName, useI18n } from '@/i18n'
 import {
   fetchAnalysisMetricDataset,
   rankAnalysisObservations,
@@ -20,6 +20,7 @@ const requestedLevel = new URLSearchParams(window.location.search).get('level')
 const level = ref<AreaLevel>(requestedLevel === 'pienalue' ? 'pienalue' : 'suuralue')
 const dataset = ref<AnalysisMetricDataset | null>(null)
 const minorAreaRelationIds = ref(new Map<string, number>())
+const minorAreaNames = ref(new Map<string, LocalizedAreaNames>())
 const loading = ref(true)
 const failed = ref(false)
 let loadToken = 0
@@ -29,7 +30,7 @@ const labels = {
     population: 'Population by area',
     employed: 'Employment by area',
     unemployed: 'Unemployment by area',
-    students: 'Students by area',
+    students: 'Students relative to labour-force size by area',
     'language-finnish': 'Finnish mother tongue by area',
     'language-swedish': 'Swedish mother tongue by area',
     'language-other': 'Other mother tongues by area',
@@ -49,7 +50,7 @@ const labels = {
     population: 'Väestö alueittain',
     employed: 'Työllisyys alueittain',
     unemployed: 'Työttömyys alueittain',
-    students: 'Opiskelijat alueittain',
+    students: 'Opiskelijat suhteessa työvoiman määrään alueittain',
     'language-finnish': 'Suomenkieliset alueittain',
     'language-swedish': 'Ruotsinkieliset alueittain',
     'language-other': 'Muut äidinkielet alueittain',
@@ -69,7 +70,7 @@ const labels = {
     population: 'جمعیت مناطق',
     employed: 'شاغلان در مناطق',
     unemployed: 'بیکاران در مناطق',
-    students: 'دانشجویان در مناطق',
+    students: 'دانشجویان نسبت به اندازه نیروی کار در مناطق',
     'language-finnish': 'فنلاندی‌زبان‌ها در مناطق',
     'language-swedish': 'سوئدی‌زبان‌ها در مناطق',
     'language-other': 'سایر زبان‌های مادری در مناطق',
@@ -128,6 +129,11 @@ function formatValue(value: number): string {
   return numberFormatter.value.format(value)
 }
 
+function displayAreaName(name: string): string {
+  const names = level.value === 'pienalue' ? minorAreaNames.value.get(name) : undefined
+  return localizeAreaName(names, name, language.value)
+}
+
 function areaHref(name: string): string | null {
   if (level.value === 'suuralue') {
     const area = AREAS.find((candidate) => candidate.name === name)
@@ -169,6 +175,9 @@ async function load(): Promise<void> {
     if (minorBoundaries) {
       minorAreaRelationIds.value = new Map(
         minorBoundaries.map((boundary) => [boundary.name, boundary.relationId]),
+      )
+      minorAreaNames.value = new Map(
+        minorBoundaries.map((boundary) => [boundary.name, boundary.names]),
       )
     }
     dataset.value = nextDataset
@@ -259,9 +268,9 @@ watch([() => props.metric, level], () => void load())
                     class="analysis-area-link"
                     :href="areaHref(item.name) ?? undefined"
                   >
-                    {{ item.name }}
+                    {{ displayAreaName(item.name) }}
                   </a>
-                  <span v-else>{{ item.name }}</span>
+                  <span v-else>{{ displayAreaName(item.name) }}</span>
                 </span>
                 <strong>{{ formatValue(item.value) }}</strong>
               </div>
@@ -298,9 +307,9 @@ watch([() => props.metric, level], () => void load())
                       class="analysis-area-link"
                       :href="areaHref(item.name) ?? undefined"
                     >
-                      {{ item.name }}
+                      {{ displayAreaName(item.name) }}
                     </a>
-                    <span v-else>{{ item.name }}</span>
+                    <span v-else>{{ displayAreaName(item.name) }}</span>
                   </td>
                   <td>{{ formatValue(item.value) }}</td>
                   <td>{{ yearFormatter.format(item.year) }}</td>
