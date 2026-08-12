@@ -21,7 +21,9 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: |
+          npm install --no-audit --no-fund
+          npm install --no-save @vue/test-utils@2.4.11 --no-audit --no-fund
       - name: Refresh data and Wikipedia localization
         run: npm run data:update
       - name: Format
