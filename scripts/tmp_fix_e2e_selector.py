@@ -1,6 +1,6 @@
 from pathlib import Path
 
-# Keep the locator unambiguous because the search region and input share the same accessible label.
+# Keep this locator unambiguous because the search region and input intentionally share a label.
 path = Path('e2e/core-journeys.spec.ts')
 text = path.read_text()
 old = "await page.getByLabel('Search address').fill('Test address')"
