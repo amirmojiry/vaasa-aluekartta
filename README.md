@@ -196,17 +196,17 @@ Required principles:
 
 Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.com/amirmojiry/vaasa-aluekartta/issues/2).
 
-### [ ] Milestone 3 — Area Information
+### [x] Milestone 3 — Area Information
 
-- [ ] Add the area content model and detail panel.
-- [ ] Add search and filtering.
-- [ ] Add source attribution and update metadata.
+- [x] Add the area content model and detail panel.
+- [x] Add search and filtering.
+- [x] Add source attribution and update metadata.
 
 ### [ ] Milestone 4 — Navigation and Sharing
 
 - [ ] Persist selected level and area in the URL.
-- [ ] Support browser back/forward navigation.
-- [ ] Add shareable area links.
+- [x] Support browser back/forward navigation.
+- [x] Add shareable area links.
 
 ### [ ] Milestone 5 — Quality
 
