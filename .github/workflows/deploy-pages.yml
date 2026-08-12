@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -30,6 +30,8 @@ jobs:
         run: npm run data:update
       - name: Build
         run: npm run build
+      - name: Check performance budgets
+        run: npm run performance:check
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
@@ -47,3 +49,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Check out release metadata
+        uses: actions/checkout@v4
+      - name: Set up Node.js for release metadata
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Publish stable release if needed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="v$(node -p "require('./package.json').version")"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists."
+            exit 0
+          fi
+          gh release create "$tag" --target "$GITHUB_SHA" --title "Vaasa Aluekartta $tag" --generate-notes
