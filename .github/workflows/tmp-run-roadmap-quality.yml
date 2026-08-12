@@ -21,7 +21,9 @@ jobs:
         with:
           node-version: 22
       - name: Apply patch
-        run: python3 scripts/tmp_apply_roadmap_quality.py
+        run: |
+          python3 scripts/tmp_apply_roadmap_quality.py
+          python3 scripts/tmp_fix_vitest_e2e.py
       - name: Install Playwright dependency
         run: |
           npm pkg set version=1.0.0
@@ -47,6 +49,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md package.json package-lock.json playwright.config.ts e2e/core-journeys.spec.ts scripts/audit-performance.mjs docs/performance-audit.md src/components/map/VaasaMap.vue src/styles/main.css .github/workflows/ci.yml .github/workflows/deploy-pages.yml
+          git add README.md package.json package-lock.json playwright.config.ts e2e/core-journeys.spec.ts scripts/audit-performance.mjs docs/performance-audit.md src/components/map/VaasaMap.vue src/styles/main.css vite.config.ts .github/workflows/ci.yml .github/workflows/deploy-pages.yml
           git commit -m "Complete roadmap quality milestone"
           git push origin HEAD:agent/complete-roadmap-quality
