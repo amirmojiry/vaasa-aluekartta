@@ -4,9 +4,9 @@ import { computed, onMounted, ref, watch } from 'vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import ThematicMap from '@/components/analysis/ThematicMap.vue'
 import { AREAS } from '@/config/areas'
-import type { AreaLevel, LocalizedText } from '@/domain/areas'
+import type { AreaLevel, LocalizedAreaNames, LocalizedText } from '@/domain/areas'
 import type { ElectionStatisticsDatabase, ElectionType } from '@/domain/elections'
-import { localeForLanguage, localizeText, useI18n } from '@/i18n'
+import { localeForLanguage, localizeAreaName, localizeText, useI18n } from '@/i18n'
 import { fetchPienalueBoundaries } from '@/services/boundaryData'
 import {
   fetchElectionStatisticsDatabase,
@@ -21,6 +21,7 @@ const requestedLevel = new URLSearchParams(window.location.search).get('level')
 const level = ref<AreaLevel>(requestedLevel === 'pienalue' ? 'pienalue' : 'suuralue')
 const database = ref<ElectionStatisticsDatabase | null>(null)
 const minorAreaRelationIds = ref(new Map<string, number>())
+const minorAreaNames = ref(new Map<string, LocalizedAreaNames>())
 const selectedEventId = ref('')
 const loading = ref(true)
 const failed = ref(false)
@@ -248,6 +249,11 @@ function formatPercent(value: number): string {
   return `${percentFormatter.value.format(value)}%`
 }
 
+function displayAreaName(name: string): string {
+  const names = level.value === 'pienalue' ? minorAreaNames.value.get(name) : undefined
+  return localizeAreaName(names, name, language.value)
+}
+
 function areaHref(name: string): string | null {
   if (level.value === 'suuralue') {
     const area = AREAS.find((candidate) => candidate.name === name)
@@ -279,6 +285,9 @@ onMounted(async () => {
     database.value = electionDatabase
     minorAreaRelationIds.value = new Map(
       minorBoundaries.map((boundary) => [boundary.name, boundary.relationId]),
+    )
+    minorAreaNames.value = new Map(
+      minorBoundaries.map((boundary) => [boundary.name, boundary.names]),
     )
     ensureSelectedEvent()
   } catch {
@@ -399,7 +408,7 @@ void loadProfile()
               <a v-if="areaHref(item.name)" :href="areaHref(item.name) ?? undefined">{{
                 item.name
               }}</a>
-              <span v-else>{{ item.name }}</span>
+              <span v-else>{{ displayAreaName(item.name) }}</span>
               <span> · {{ item.scope }}</span>
               <span v-if="item.note"> — {{ item.note }}</span>
               <a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ text.source }}</a>
@@ -427,9 +436,9 @@ void loadProfile()
                     class="party-area-link"
                     :href="areaHref(item.name) ?? undefined"
                   >
-                    {{ item.name }}
+                    {{ displayAreaName(item.name) }}
                   </a>
-                  <span v-else>{{ item.name }}</span>
+                  <span v-else>{{ displayAreaName(item.name) }}</span>
                 </span>
                 <strong>
                   {{ formatPercent(item.percent) }} · {{ numberFormatter.format(item.votes) }}
@@ -475,9 +484,9 @@ void loadProfile()
                       class="party-area-link"
                       :href="areaHref(item.name) ?? undefined"
                     >
-                      {{ item.name }}
+                      {{ displayAreaName(item.name) }}
                     </a>
-                    <span v-else>{{ item.name }}</span>
+                    <span v-else>{{ displayAreaName(item.name) }}</span>
                   </td>
                   <td>{{ formatPercent(item.percent) }}</td>
                   <td>{{ numberFormatter.format(item.votes) }}</td>
