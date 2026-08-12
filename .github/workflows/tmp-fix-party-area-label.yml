@@ -1,0 +1,67 @@
+name: Fix remaining party area label
+
+on:
+  push:
+    branches:
+      - agent/localize-analysis-area-names
+
+permissions:
+  contents: write
+
+jobs:
+  fix-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/localize-analysis-area-names
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Fix remaining localized area label
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs')
+          const path = 'src/components/analysis/PartyAnalysisPage.vue'
+          let source = fs.readFileSync(path, 'utf8')
+          const from = `              <a v-if="areaHref(item.name)" :href="areaHref(item.name) ?? undefined">{{\n                item.name\n              }}</a>`
+          const to = `              <a v-if="areaHref(item.name)" :href="areaHref(item.name) ?? undefined">{{\n                displayAreaName(item.name)\n              }}</a>`
+          if (!source.includes(to)) {
+            if (!source.includes(from)) throw new Error('Remaining party area label was not found')
+            source = source.replace(from, to)
+            fs.writeFileSync(path, source)
+          }
+          NODE
+
+      - name: Format
+        run: npx prettier --write src/components/analysis/PartyAnalysisPage.vue
+
+      - name: Validate
+        run: |
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Commit fix
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/analysis/PartyAnalysisPage.vue
+          git commit -m "Localize remaining party area label"
+          git push
