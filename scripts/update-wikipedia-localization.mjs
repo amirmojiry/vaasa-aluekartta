@@ -173,9 +173,13 @@ async function main() {
   )
 
   if (newlyAvailablePersian.length > 0) {
-    console.log('Persian Wikipedia pages newly available relative to the generated boundary snapshot:')
+    console.log(
+      'Persian Wikipedia pages newly available relative to the generated boundary snapshot:',
+    )
     for (const area of newlyAvailablePersian.sort(sortAreas)) {
-      console.log(`- ${area.level} ${area.ref} ${area.name} -> ${area.nameFa} (${area.wikipediaFa})`)
+      console.log(
+        `- ${area.level} ${area.ref} ${area.name} -> ${area.nameFa} (${area.wikipediaFa})`,
+      )
     }
   } else {
     console.log('No new Persian Wikipedia links were missing from the generated boundary snapshot.')
@@ -184,14 +188,18 @@ async function main() {
   if (renamedPersian.length > 0) {
     console.log('Persian display names filled or refreshed from Wikidata/Persian Wikipedia:')
     for (const area of renamedPersian.sort(sortAreas)) {
-      console.log(`- ${area.level} ${area.ref} ${area.name}: ${area.previousNameFa ?? '(missing)'} -> ${area.nameFa}`)
+      console.log(
+        `- ${area.level} ${area.ref} ${area.name}: ${area.previousNameFa ?? '(missing)'} -> ${area.nameFa}`,
+      )
     }
   }
 
   if (remainingFinnishOnly.length > 0) {
     console.log('Areas that still have Finnish Wikipedia but no Persian Wikipedia:')
     for (const area of remainingFinnishOnly) {
-      console.log(`- ${area.level} ${area.ref} ${area.name} [${area.wikidataId ?? 'no Wikidata ID'}]`)
+      console.log(
+        `- ${area.level} ${area.ref} ${area.name} [${area.wikidataId ?? 'no Wikidata ID'}]`,
+      )
     }
   } else {
     console.log('Every area with a Finnish Wikipedia page also has a Persian Wikipedia page.')
