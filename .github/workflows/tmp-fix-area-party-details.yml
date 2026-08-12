@@ -1,0 +1,141 @@
+name: Fix area and party details
+
+on:
+  push:
+    branches:
+      - agent/fix-area-party-details
+
+permissions:
+  contents: write
+
+jobs:
+  fix-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/fix-area-party-details
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Apply requested fixes
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs')
+
+          function replaceOnce(source, from, to, label) {
+            if (!source.includes(from)) throw new Error(`Missing ${label}`)
+            return source.replace(from, to)
+          }
+
+          {
+            const path = 'src/i18n.ts'
+            let source = fs.readFileSync(path, 'utf8')
+            const anchor = `const PERSIAN_MAJOR_AREA_NAMES: Record<string, string> = {\n  Keskusta: 'مرکز شهر',\n  Vöyrinkaupunki: 'وُیرین‌کاوپونکی',\n  Vaskiluoto: 'واسکی‌لوتو',\n  Palosaari: 'پالوساری',\n  Gerby: 'گربو',\n  Kotiranta: 'کوتی‌رانتا',\n  Huutoniemi: 'هوتونیمی',\n  Ristinummi: 'ریستینومی',\n  Höstvesi: 'هوست‌وسی',\n  Suvilahti: 'سووی‌لاهتی',\n  Sundom: 'سوندوم',\n  Vähäkyrö: 'وهه‌کورو',\n}\n`
+            source = replaceOnce(
+              source,
+              anchor,
+              `${anchor}\nconst PERSIAN_EXACT_AREA_NAMES: Record<string, string> = {\n  ...PERSIAN_MAJOR_AREA_NAMES,\n  'Vöyrinkaupunki pohjoinen': 'ووئورین‌کاوپونکی پوهیوینن',\n  'Vöyrinkaupunki eteläinen': 'ووئورین‌کاوپونکی ئتلینن',\n  Västervik: 'وسترویک',\n  'Västervikin kylä': 'وسترویک',\n  'Sundomin saaristo': 'سوندومین ساریستو',\n}\n`,
+              'Persian major-area mapping',
+            )
+            const oldOverride = `function persianRequestedAreaOverride(\n  names: LocalizedAreaNames | undefined,\n  fallback: string,\n): string | null {\n  const finnishName = names?.fi || fallback\n  for (const source of ['Gerby', 'Vähäkyrö']) {\n    const persian = PERSIAN_MAJOR_AREA_NAMES[source]\n    if (!persian) continue\n    if (finnishName === source) return persian\n    if (finnishName.startsWith(\`${'${source}'} \`)) {\n      return \`${'${persian}'} ${'${toPersianDigits(finnishName.slice(source.length + 1))}'}\`\n    }\n  }\n  return null\n}\n`
+            const newOverride = `function persianRequestedAreaOverride(\n  names: LocalizedAreaNames | undefined,\n  fallback: string,\n): string | null {\n  const finnishName = names?.fi || fallback\n  return PERSIAN_EXACT_AREA_NAMES[finnishName] ?? null\n}\n`
+            source = replaceOnce(source, oldOverride, newOverride, 'Persian requested-area override')
+            fs.writeFileSync(path, source)
+          }
+
+          {
+            const path = 'src/components/areas/AreaStatisticsSummary.vue'
+            let source = fs.readFileSync(path, 'utf8')
+            const oldMarkup = `    <div v-if="displayedPopulation !== null" class="summary-population">\n      <span>\n        <a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a>\n        · {{ displayedPopulationYear }}\n      </span>\n      <strong>{{ formatNumber(displayedPopulation) }}</strong>\n      <a class="summary-rank-link" :href="metricHref('population')">\n        <small>{{ populationRankText }}</small>\n      </a>\n`
+            const newMarkup = `    <div v-if="displayedPopulation !== null" class="summary-population">\n      <div class="summary-population__heading">\n        <strong>\n          <a class="summary-analysis-link" :href="metricHref('population')">{{\n            t('population')\n          }}</a>\n        </strong>\n        <span>{{ displayedPopulationYear }}</span>\n      </div>\n      <strong>{{ formatNumber(displayedPopulation) }}</strong>\n      <a class="summary-rank-link" :href="metricHref('population')">\n        <small>{{ populationRankText }}</small>\n      </a>\n`
+            source = replaceOnce(source, oldMarkup, newMarkup, 'population summary markup')
+            fs.writeFileSync(path, source)
+          }
+
+          {
+            const path = 'src/styles/visualizations.css'
+            let source = fs.readFileSync(path, 'utf8')
+            const oldCss = `.summary-population {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr);\n  gap: 0.15rem 0.8rem;\n  align-items: baseline;\n}\n\n.summary-population > span:first-child {\n  color: #65736f;\n  font-size: 0.8rem;\n  font-weight: 750;\n}\n\n.summary-population > strong {\n  color: var(--deep-green);\n  font-size: clamp(1.7rem, 4vw, 2.6rem);\n  line-height: 1;\n}\n\n.summary-population > small {\n  grid-column: 1 / -1;\n  color: #77837f;\n  font-size: 0.75rem;\n}\n`
+            const newCss = `.summary-population {\n  display: grid;\n  gap: 0.3rem;\n  align-items: baseline;\n}\n\n.summary-population__heading {\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n  gap: 1rem;\n}\n\n.summary-population__heading strong {\n  font-size: 0.92rem;\n}\n\n.summary-population__heading span {\n  color: #77837f;\n  font-size: 0.72rem;\n}\n\n.summary-population > strong {\n  justify-self: center;\n  color: var(--deep-green);\n  font-size: clamp(1.7rem, 4vw, 2.6rem);\n  line-height: 1;\n}\n\n.summary-population > .summary-rank-link {\n  justify-self: center;\n}\n`
+            source = replaceOnce(source, oldCss, newCss, 'population summary CSS')
+            fs.writeFileSync(path, source)
+          }
+
+          {
+            const path = 'src/components/analysis/PartyAnalysisPage.vue'
+            let source = fs.readFileSync(path, 'utf8')
+            source = replaceOnce(source, `import { localeForLanguage, useI18n } from '@/i18n'`, `import { localeForLanguage, localizeText, useI18n } from '@/i18n'`, 'party page i18n import')
+            source = replaceOnce(source, `} from '@/services/electionStatistics'\n`, `} from '@/services/electionStatistics'\nimport { fetchPartyProfile, type PartyProfile } from '@/services/partyProfiles'\n`, 'party profile import')
+            source = replaceOnce(source, `const failed = ref(false)\n`, `const failed = ref(false)\nconst profileLoading = ref(false)\nconst profile = ref<PartyProfile | null>(null)\n`, 'party profile refs')
+
+            source = source
+              .replace(`    comparisonNote:\n      'For a valid cross-area comparison, the map, ranking, and bars include only election datasets whose voting-district scope exactly matches the statistical area.',\n    excludedTitle:\n      'Available but excluded from the comparison because the election scope does not exactly match the statistical area:',`, `    comparisonNote:\n      'Ranking and bars use only election datasets whose voting-district scope exactly matches the statistical area. Approximate observations are still shown on the map and in the detailed table.',\n    excludedTitle:\n      'These observations are not exact because the voting-district boundary differs from the statistical area. They are shown on the map and in the table, but excluded from ranking and the comparison bars:',`)
+              .replace(`    comparisonNote:\n      'Alueiden vertailukelpoisuuden säilyttämiseksi kartta, sijoitus ja pylväät sisältävät vain vaaliaineistot, joiden äänestysalue vastaa täsmälleen tilastoaluetta.',\n    excludedTitle:\n      'Aineisto on saatavilla, mutta se jätetään vertailun ulkopuolelle, koska vaalialue ei vastaa täsmälleen tilastoaluetta:',`, `    comparisonNote:\n      'Sijoitus ja pylväät käyttävät vain vaaliaineistoja, joiden äänestysalue vastaa täsmälleen tilastoaluetta. Epätarkat havainnot näytetään silti kartalla ja tarkassa taulukossa.',\n    excludedTitle:\n      'Nämä havainnot eivät ole tarkkoja, koska äänestysalueen raja poikkeaa tilastoalueesta. Ne näytetään kartalla ja taulukossa, mutta jätetään sijoituksen ja vertailupylväiden ulkopuolelle:',`)
+              .replace(`    comparisonNote:\n      'برای مقایسه معتبر بین مناطق، نقشه، رتبه‌بندی و نمودار میله‌ای فقط داده‌های انتخاباتی را نشان می‌دهند که محدوده حوزه رأی‌گیری دقیقاً با منطقه آماری منطبق باشد.',\n    excludedTitle:\n      'داده برای موارد زیر موجود است، اما چون محدوده انتخاباتی دقیقاً با منطقه آماری منطبق نیست در مقایسه لحاظ نشده است:',`, `    comparisonNote:\n      'رتبه‌بندی و نمودار میله‌ای فقط از داده‌هایی استفاده می‌کنند که محدوده حوزه رأی‌گیری دقیقاً با منطقه آماری منطبق باشد. داده‌های تقریبی همچنان روی نقشه و در جدول جزئیات نمایش داده می‌شوند.',\n    excludedTitle:\n      'داده‌های این مناطق به دلیل تفاوت مرز حوزه رأی‌گیری با منطقه آماری دقیق نیستند. این ارقام روی نقشه و در جدول نمایش داده می‌شوند، اما در رتبه‌بندی و نمودار مقایسه‌ای لحاظ نمی‌شوند:',`)
+
+            const oldMap = `const maxPercent = computed(() => Math.max(1, ...results.value.map((item) => item.percent)))\nconst mapItems = computed(() =>\n  results.value.map((item) => ({ name: item.name, value: item.percent })),\n)\n`
+            const newMap = `const maxPercent = computed(() => Math.max(1, ...results.value.map((item) => item.percent)))\nconst mapItems = computed(() =>\n  [...results.value, ...excludedResults.value].map((item) => ({\n    name: item.name,\n    value: item.percent,\n  })),\n)\nconst tableResults = computed(() => [\n  ...results.value.map((item, index) => ({ ...item, rank: index + 1, approximate: false, note: '' })),\n  ...excludedResults.value.map((item) => ({ ...item, rank: null, approximate: true })),\n])\n`
+            source = replaceOnce(source, oldMap, newMap, 'party map results')
+
+            const watchAnchor = `watch([level, () => props.partyCode, eventOptions], ensureSelectedEvent)\n`
+            const loader = `async function loadProfile(): Promise<void> {\n  profileLoading.value = true\n  try {\n    profile.value = await fetchPartyProfile(props.partyCode)\n  } catch {\n    profile.value = null\n  } finally {\n    profileLoading.value = false\n  }\n}\n\n${watchAnchor}watch(\n  () => props.partyCode,\n  () => void loadProfile(),\n)\n\nvoid loadProfile()\n`
+            source = replaceOnce(source, watchAnchor, loader, 'party profile loader')
+
+            const contentAnchor = `    <section class="party-page__content">\n      <div class="party-controls">`
+            const profileMarkup = `    <section class="party-page__content">\n      <section class="party-profile-box party-page__profile" :aria-label="t('partyInfo')">\n        <div class="party-profile-box__header">\n          <strong>{{ t('partyInfo') }}</strong>\n          <span>{{ partyName }}</span>\n        </div>\n        <p class="party-profile-box__basis">{{ t('partyProfileBasis') }}</p>\n        <p v-if="profileLoading" class="party-profile-box__status">{{ t('loading') }}</p>\n        <ul v-else-if="profile">\n          <li v-for="item in profile.items" :key="\`${'${item.topic.fi}-${item.sourceUrl}'}\`">\n            <strong>{{ localizeText(item.topic, '', language) }}:</strong>\n            {{ localizeText(item.text, '', language) }}\n            <a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ t('source') }}</a>\n          </li>\n        </ul>\n        <p v-else class="party-profile-box__status">{{ t('partyProfileUnavailable') }}</p>\n      </section>\n\n      <div class="party-controls">`
+            source = replaceOnce(source, contentAnchor, profileMarkup, 'party profile markup')
+
+            source = replaceOnce(source, `<p v-if="results.length === 0" class="party-state">{{ text.noData }}</p>`, `<p v-if="mapItems.length === 0" class="party-state">{{ text.noData }}</p>`, 'party no-data condition')
+
+            const oldDetails = `        <details v-if="results.length" class="party-card party-details">\n          <summary>{{ text.table }}</summary>\n          <div class="party-table-wrap">\n            <table>\n              <thead>\n                <tr>\n                  <th>{{ text.rank }}</th>\n                  <th>{{ text.area }}</th>\n                  <th>{{ text.share }}</th>\n                  <th>{{ text.votes }}</th>\n                  <th>{{ text.coverage }}</th>\n                  <th>{{ text.source }}</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr v-for="(item, index) in results" :key="\`table-${'${item.name}'}\`">\n                  <td>{{ numberFormatter.format(index + 1) }}</td>\n                  <td>\n                    <a\n                      v-if="areaHref(item.name)"\n                      class="party-area-link"\n                      :href="areaHref(item.name) ?? undefined"\n                    >\n                      {{ item.name }}\n                    </a>\n                    <span v-else>{{ item.name }}</span>\n                  </td>\n                  <td>{{ formatPercent(item.percent) }}</td>\n                  <td>{{ numberFormatter.format(item.votes) }}</td>\n                  <td>{{ item.coverage }}</td>\n                  <td>\n                    <a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ text.source }}</a>\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </details>`
+            const newDetails = `        <details v-if="tableResults.length" class="party-card party-details">\n          <summary>{{ text.table }}</summary>\n          <div class="party-table-wrap">\n            <table>\n              <thead>\n                <tr>\n                  <th>{{ text.rank }}</th>\n                  <th>{{ text.area }}</th>\n                  <th>{{ text.share }}</th>\n                  <th>{{ text.votes }}</th>\n                  <th>{{ text.coverage }}</th>\n                  <th>{{ text.source }}</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr\n                  v-for="item in tableResults"\n                  :key="\`table-${'${item.name}'}\`"\n                  :class="{ 'party-table-row--approximate': item.approximate }"\n                >\n                  <td>{{ item.rank === null ? '—' : numberFormatter.format(item.rank) }}</td>\n                  <td>\n                    <a\n                      v-if="areaHref(item.name)"\n                      class="party-area-link"\n                      :href="areaHref(item.name) ?? undefined"\n                    >\n                      {{ item.name }}\n                    </a>\n                    <span v-else>{{ item.name }}</span>\n                  </td>\n                  <td>{{ formatPercent(item.percent) }}</td>\n                  <td>{{ numberFormatter.format(item.votes) }}</td>\n                  <td>\n                    <span>{{ item.coverage }}</span>\n                    <small v-if="item.approximate && item.note"> — {{ item.note }}</small>\n                  </td>\n                  <td>\n                    <a :href="item.sourceUrl" target="_blank" rel="noreferrer">{{ text.source }}</a>\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </details>`
+            source = replaceOnce(source, oldDetails, newDetails, 'party detail table')
+
+            const cssAnchor = `.party-page__content {\n  display: grid;\n  gap: 1.25rem;\n  width: min(1100px, calc(100% - 2rem));\n  margin: 0 auto;\n  padding: 1.5rem 0 3rem;\n}\n`
+            source = replaceOnce(source, cssAnchor, `${cssAnchor}.party-page__profile {\n  font-size: 0.82rem;\n}\n\n.party-table-row--approximate {\n  background: rgba(197, 139, 48, 0.08);\n}\n\n.party-table-row--approximate small {\n  color: #6e746f;\n}\n`, 'party page CSS')
+            fs.writeFileSync(path, source)
+          }
+
+          {
+            const path = 'src/i18n.spec.ts'
+            let source = fs.readFileSync(path, 'utf8')
+            const anchor = `  it('prefers the Finnish source name over an English fallback in Persian mode', () => {\n    expect(\n      localizeAreaName({ fi: 'Hietalahti 9', en: 'English area name' }, 'Hietalahti 9', 'fa'),\n    ).toBe('Hietalahti ۹')\n  })\n`
+            const addition = `${anchor}\n  it('uses requested Persian names instead of source titles with qualifiers', () => {\n    expect(localizeAreaName({ fi: 'Vöyrinkaupunki pohjoinen', fa: 'وُیرین‌کاوپونکی pohjoinen' }, 'Vöyrinkaupunki pohjoinen', 'fa')).toBe('ووئورین‌کاوپونکی پوهیوینن')\n    expect(localizeAreaName({ fi: 'Vöyrinkaupunki eteläinen', fa: 'وُیرین‌کاوپونکی eteläinen' }, 'Vöyrinkaupunki eteläinen', 'fa')).toBe('ووئورین‌کاوپونکی ئتلینن')\n    expect(localizeAreaName({ fi: 'Västervik', fa: 'وسترویک (فنلاند)' }, 'Västervik', 'fa')).toBe('وسترویک')\n    expect(localizeAreaName({ fi: 'Sundomin saaristo' }, 'Sundomin saaristo', 'fa')).toBe('سوندومین ساریستو')\n    expect(localizeAreaName({ fi: 'Suvilahti', fa: 'سووی‌لاهتی (واسا)' }, 'Suvilahti', 'fa')).toBe('سووی‌لاهتی')\n    expect(localizeAreaName({ fi: 'Huutoniemi', fa: 'هوتونیمی (منطقه کوچک)' }, 'Huutoniemi', 'fa')).toBe('هوتونیمی')\n    expect(localizeAreaName({ fi: 'Ristinummi', fa: 'ریستینومی (منطقه کوچک)' }, 'Ristinummi', 'fa')).toBe('ریستینومی')\n  })\n`
+            source = replaceOnce(source, anchor, addition, 'i18n test anchor')
+            fs.writeFileSync(path, source)
+          }
+          NODE
+
+      - name: Format changed files
+        run: npx prettier --write src/i18n.ts src/i18n.spec.ts src/components/areas/AreaStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue src/styles/visualizations.css
+
+      - name: Validate
+        run: |
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Commit fixes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/i18n.ts src/i18n.spec.ts src/components/areas/AreaStatisticsSummary.vue src/components/analysis/PartyAnalysisPage.vue src/styles/visualizations.css
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Refine area labels and party comparisons"
+          git push origin HEAD:agent/fix-area-party-details
