@@ -1,0 +1,53 @@
+name: Final roadmap quality validation
+
+on:
+  push:
+    branches:
+      - agent/complete-roadmap-quality
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/complete-roadmap-quality
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply implementation
+        run: |
+          python3 scripts/tmp_apply_roadmap_quality.py
+          python3 scripts/tmp_fix_vitest_e2e.py
+          python3 scripts/tmp_fix_playwright_base.py
+          python3 scripts/tmp_fix_e2e_selector.py
+      - name: Install dependencies
+        run: |
+          npm pkg set version=1.0.0
+          npm pkg set scripts.test:e2e="playwright test"
+          npm pkg set scripts.performance:check="node scripts/audit-performance.mjs"
+          npm install --save-dev @playwright/test --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Format and refresh data
+        run: |
+          npm run format
+          npm run data:update
+      - name: Validate all quality gates
+        run: |
+          npm run lint
+          npm run typecheck
+          npm run test
+          npm run build
+          npm run performance:check -- --write-report
+          npm run test:e2e
+          npm run format:check
+      - name: Commit validated implementation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md package.json package-lock.json playwright.config.ts e2e/core-journeys.spec.ts scripts/audit-performance.mjs docs/performance-audit.md src/components/map/VaasaMap.vue src/styles/main.css vite.config.ts .github/workflows/ci.yml .github/workflows/deploy-pages.yml
+          git commit -m "Complete roadmap quality milestone"
+          git push origin HEAD:agent/complete-roadmap-quality
