@@ -21,9 +21,9 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm ci --no-audit --no-fund
-      - name: Refresh Wikipedia localization
-        run: npm run wiki:update
+        run: npm install --no-audit --no-fund
+      - name: Refresh data and Wikipedia localization
+        run: npm run data:update
       - name: Format
         run: npm run format
       - name: Validate
@@ -34,14 +34,14 @@ jobs:
           npm run build
           npm run performance:check
           npm run format:check
-      - name: Commit refreshed localization
+      - name: Commit formatted implementation
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json scripts/update-wikipedia-localization.mjs public/data/vaasa-suuralueet.geojson public/data/vaasa-pienalueet.geojson
+          git add package.json scripts/update-wikipedia-localization.mjs
           if git diff --cached --quiet; then
-            echo "No localization changes to commit."
+            echo "No implementation changes to commit."
           else
-            git commit -m "data: refresh Persian Wikipedia localization"
+            git commit -m "feat: keep Persian Wikipedia localization current"
             git push origin HEAD:agent/wikipedia-localization-audit
           fi
