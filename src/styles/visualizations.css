@@ -160,27 +160,35 @@ textarea {
 
 .summary-population {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.15rem 0.8rem;
+  gap: 0.3rem;
   align-items: baseline;
 }
 
-.summary-population > span:first-child {
-  color: #65736f;
-  font-size: 0.8rem;
-  font-weight: 750;
+.summary-population__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.summary-population__heading strong {
+  font-size: 0.92rem;
+}
+
+.summary-population__heading span {
+  color: #77837f;
+  font-size: 0.72rem;
 }
 
 .summary-population > strong {
+  justify-self: center;
   color: var(--deep-green);
   font-size: clamp(1.7rem, 4vw, 2.6rem);
   line-height: 1;
 }
 
-.summary-population > small {
-  grid-column: 1 / -1;
-  color: #77837f;
-  font-size: 0.75rem;
+.summary-population > .summary-rank-link {
+  justify-self: center;
 }
 
 .population-change {

@@ -282,10 +282,14 @@ onMounted(async () => {
     </div>
 
     <div v-if="displayedPopulation !== null" class="summary-population">
-      <span>
-        <a class="summary-analysis-link" :href="metricHref('population')">{{ t('population') }}</a>
-        · {{ displayedPopulationYear }}
-      </span>
+      <div class="summary-population__heading">
+        <strong>
+          <a class="summary-analysis-link" :href="metricHref('population')">{{
+            t('population')
+          }}</a>
+        </strong>
+        <span>{{ displayedPopulationYear }}</span>
+      </div>
       <strong>{{ formatNumber(displayedPopulation) }}</strong>
       <a class="summary-rank-link" :href="metricHref('population')">
         <small>{{ populationRankText }}</small>
