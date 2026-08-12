@@ -91,8 +91,10 @@ async function main() {
   const entitiesById = await fetchEntities(wikidataIds)
 
   const newlyAvailablePersian = []
+  const renamedPersian = []
   let linkUpdates = 0
-  let nameUpdates = 0
+  let areaNameUpdates = 0
+  let parentNameUpdates = 0
 
   for (const feature of features) {
     const properties = feature.properties ?? {}
@@ -122,8 +124,10 @@ async function main() {
 
     const persianName = entity?.labels?.fa?.value ?? persianTitle
     if (persianName && properties.name_fa !== persianName) {
+      const previousNameFa = properties.name_fa ?? null
       properties.name_fa = persianName
-      nameUpdates += 1
+      areaNameUpdates += 1
+      renamedPersian.push({ ...areaSummary(feature), previousNameFa })
     }
 
     if (!hadPersianLink && properties.wikipedia_fa) {
@@ -143,7 +147,7 @@ async function main() {
     const parentNameFa = majorPersianNames.get(properties.parent_slug)
     if (parentNameFa && properties.parent_name_fa !== parentNameFa) {
       properties.parent_name_fa = parentNameFa
-      nameUpdates += 1
+      parentNameUpdates += 1
     }
   }
 
@@ -164,15 +168,24 @@ async function main() {
   }
 
   console.log(`Checked ${features.length} Vaasa area records against current Wikidata sitelinks.`)
-  console.log(`Updated ${linkUpdates} Wikipedia link fields and ${nameUpdates} Persian name fields.`)
+  console.log(
+    `Updated ${linkUpdates} Wikipedia link fields, ${areaNameUpdates} Persian area names, and ${parentNameUpdates} Persian parent-name fields.`,
+  )
 
   if (newlyAvailablePersian.length > 0) {
-    console.log('Persian Wikipedia pages newly available relative to the committed snapshot:')
+    console.log('Persian Wikipedia pages newly available relative to the generated boundary snapshot:')
     for (const area of newlyAvailablePersian.sort(sortAreas)) {
       console.log(`- ${area.level} ${area.ref} ${area.name} -> ${area.nameFa} (${area.wikipediaFa})`)
     }
   } else {
-    console.log('No newly available Persian Wikipedia pages were found relative to the committed snapshot.')
+    console.log('No new Persian Wikipedia links were missing from the generated boundary snapshot.')
+  }
+
+  if (renamedPersian.length > 0) {
+    console.log('Persian display names filled or refreshed from Wikidata/Persian Wikipedia:')
+    for (const area of renamedPersian.sort(sortAreas)) {
+      console.log(`- ${area.level} ${area.ref} ${area.name}: ${area.previousNameFa ?? '(missing)'} -> ${area.nameFa}`)
+    }
   }
 
   if (remainingFinnishOnly.length > 0) {
