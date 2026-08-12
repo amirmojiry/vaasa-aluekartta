@@ -406,7 +406,7 @@ void loadProfile()
           <ul>
             <li v-for="item in excludedResults" :key="`excluded-${item.name}`">
               <a v-if="areaHref(item.name)" :href="areaHref(item.name) ?? undefined">{{
-                item.name
+                displayAreaName(item.name)
               }}</a>
               <span v-else>{{ displayAreaName(item.name) }}</span>
               <span> · {{ item.scope }}</span>
