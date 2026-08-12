@@ -1,7 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 
 import vue from '@vitejs/plugin-vue'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/vaasa-aluekartta/' : '/',
@@ -15,5 +15,6 @@ export default defineConfig(({ command }) => ({
     environment: 'jsdom',
     css: true,
     globals: true,
+    exclude: [...configDefaults.exclude, 'e2e/**'],
   },
 }))

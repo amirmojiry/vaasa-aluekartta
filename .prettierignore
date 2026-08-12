@@ -8,3 +8,5 @@ public/data/major-area-population-history.json
 public/data/election-statistics.json
 public/data/party-profiles.json
 public/tools/osm-hierarchy-demo/index.html
+test-results/
+playwright-report/

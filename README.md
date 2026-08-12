@@ -191,10 +191,6 @@ Required principles:
 - [x] Generate reproducible OSM-derived GeoJSON for all 12 suuralueet and the 55 currently available pienalueet.
 - [x] Render the available OSM polygons as individually selectable areas with verified parent hierarchy.
 - [ ] Resolve the five missing Vähäkyrö pienalue geometries from a suitable source.
-- [ ] Acquire municipality-authorized georeferenced boundary geometry.
-- [ ] Validate the OSM-derived geometry against a municipality-authorized source before treating it as official municipal boundary data.
-
-Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.com/amirmojiry/vaasa-aluekartta/issues/2).
 
 ### [x] Milestone 3 — Area Information
 
@@ -202,15 +198,15 @@ Tracking issue: [Acquire authoritative Vaasa boundary geometry](https://github.c
 - [x] Add search and filtering.
 - [x] Add source attribution and update metadata.
 
-### [ ] Milestone 4 — Navigation and Sharing
+### [x] Milestone 4 — Navigation and Sharing
 
-- [ ] Persist selected level and area in the URL.
+- [x] Persist selected level and area in the URL.
 - [x] Support browser back/forward navigation.
 - [x] Add shareable area links.
 
-### [ ] Milestone 5 — Quality
+### [x] Milestone 5 — Quality
 
-- [ ] Improve mobile layout and accessibility.
-- [ ] Add browser tests for core journeys.
-- [ ] Audit performance and map-data size.
-- [ ] Publish the first stable GitHub Pages release.
+- [x] Improve mobile layout and accessibility.
+- [x] Add browser tests for core journeys.
+- [x] Audit performance and map-data size.
+- [x] Publish the first stable GitHub Pages release.
