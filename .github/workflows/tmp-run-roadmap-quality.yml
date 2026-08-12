@@ -25,6 +25,7 @@ jobs:
           python3 scripts/tmp_apply_roadmap_quality.py
           python3 scripts/tmp_fix_vitest_e2e.py
           python3 scripts/tmp_fix_playwright_base.py
+          python3 scripts/tmp_fix_e2e_selector.py
       - name: Install Playwright dependency
         run: |
           npm pkg set version=1.0.0
