@@ -550,8 +550,12 @@ void loadProfile()
   display: grid;
   gap: 1.25rem;
   width: min(1100px, calc(100% - 2rem));
+  min-width: 0;
   margin: 0 auto;
   padding: 1.5rem 0 3rem;
+}
+.party-page__content > * {
+  min-width: 0;
 }
 .party-page__profile {
   font-size: 0.82rem;
@@ -667,17 +671,27 @@ void loadProfile()
   height: 100%;
   border-radius: inherit;
 }
+.party-details {
+  min-width: 0;
+  overflow: hidden;
+}
 .party-details summary {
   color: var(--green);
   font-weight: 800;
   cursor: pointer;
 }
 .party-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   margin-top: 1rem;
   overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
 }
 table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   font-size: 0.8rem;
 }
