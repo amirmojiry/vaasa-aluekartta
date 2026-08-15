@@ -14,7 +14,8 @@ const history = JSON.parse(await readFile(HISTORY_PATH, 'utf8'))
 if (current.type !== 'FeatureCollection' || !Array.isArray(current.features)) {
   fail('current snapshot is not a GeoJSON FeatureCollection')
 }
-if (current.features.length < 5) fail(`unexpectedly low postal area count: ${current.features.length}`)
+if (current.features.length < 5)
+  fail(`unexpectedly low postal area count: ${current.features.length}`)
 
 const codes = new Set()
 for (const feature of current.features) {

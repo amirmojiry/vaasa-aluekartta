@@ -109,7 +109,11 @@ async function fetchPostalMetricDataset(metric: AnalysisMetric): Promise<Analysi
   }
 
   const unit: AnalysisUnit =
-    mappedMetric === 'population' ? 'people' : mappedMetric === 'income' ? 'eur_per_year' : 'percent'
+    mappedMetric === 'population'
+      ? 'people'
+      : mappedMetric === 'income'
+        ? 'eur_per_year'
+        : 'percent'
   return {
     metric,
     unit,

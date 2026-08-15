@@ -242,7 +242,9 @@ async function main() {
   for (const releaseYear of releases) {
     const statisticsYear = releaseYear - 2
     const { url, payload } = await fetchRelease(releaseYear, bounds)
-    const vaasaFeatures = payload.features.filter((feature) => intersectsVaasa(feature, majorSnapshot.features))
+    const vaasaFeatures = payload.features.filter((feature) =>
+      intersectsVaasa(feature, majorSnapshot.features),
+    )
     for (const feature of vaasaFeatures) {
       const code = postalCode(feature.properties ?? {})
       if (!code) continue

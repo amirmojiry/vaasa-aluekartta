@@ -5,7 +5,14 @@ import { postalMetricRank, postalMetricValue } from '@/services/postalData'
 
 const geometry = {
   type: 'Polygon' as const,
-  coordinates: [[[21.5, 63.0], [21.6, 63.0], [21.6, 63.1], [21.5, 63.0]]],
+  coordinates: [
+    [
+      [21.5, 63.0],
+      [21.6, 63.0],
+      [21.6, 63.1],
+      [21.5, 63.0],
+    ],
+  ],
 }
 
 function area(code: string, population: number, employedShare: number): PostalCodeArea {

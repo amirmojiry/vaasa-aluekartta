@@ -105,7 +105,8 @@ const populationFilterLabel = computed(() => {
 const incomeFilterLabel = computed(() => {
   const label =
     language.value === 'fa' ? 'سطح درآمد' : language.value === 'fi' ? 'Tulotasot' : 'Income level'
-  const year = selectedLevel.value === 'postal' ? (postalCollection.value?.statisticsYear ?? 2024) : 2014
+  const year =
+    selectedLevel.value === 'postal' ? (postalCollection.value?.statisticsYear ?? 2024) : 2014
   return `${label} (${yearFormatter.value.format(year)})`
 })
 const visiblePoiFeatures = computed(() =>
