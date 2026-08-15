@@ -6,7 +6,6 @@ const MAJOR_BOUNDARIES = resolve('public/data/vaasa-suuralueet.geojson')
 const CURRENT_OUTPUT = resolve('public/data/paavo-postal-areas.geojson')
 const HISTORY_OUTPUT = resolve('public/data/paavo-postal-history.json')
 const MIN_STATISTICS_YEAR = 2012
-const MAX_STATISTICS_YEAR = 2024
 
 function numberOrNull(value) {
   if (value === null || value === undefined || value === '' || value === '..' || value === '...') {
@@ -177,7 +176,7 @@ async function availableReleases() {
   for (const match of xml.matchAll(/(?:postialue:)?pno_tilasto_(\d{4})/g)) {
     const releaseYear = Number(match[1])
     const statisticsYear = releaseYear - 2
-    if (statisticsYear >= MIN_STATISTICS_YEAR && statisticsYear <= MAX_STATISTICS_YEAR) {
+    if (statisticsYear >= MIN_STATISTICS_YEAR) {
       releases.add(releaseYear)
     }
   }
@@ -212,6 +211,7 @@ function normalizedMetrics(properties) {
   const employed = propertyNumber(properties, ['pt_tyoll', 'tyoll'])
   const unemployed = propertyNumber(properties, ['pt_tyott', 'tyot'])
   const students = propertyNumber(properties, ['pt_opisk', 'opisk'])
+  // Paavo WFS: hr_tuy is residents aged 18+ total, hr_ktu is average income, and hr_mtu is median income.
   const averageIncome = propertyNumber(properties, ['hr_ktu', 'hr_tulot', 'tulot'])
   const share = (value) =>
     value === null || population === null || population <= 0 ? null : (value / population) * 100
