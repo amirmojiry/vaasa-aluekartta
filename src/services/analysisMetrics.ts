@@ -1,8 +1,10 @@
 import type { AreaLevel } from '@/domain/areas'
+import type { PostalMetric } from '@/domain/postal'
 import type { CompactAreaStatisticRecord } from '@/domain/statistics'
 import { fetchAreaIncomeDatabase } from '@/services/areaIncome'
 import { fetchStatisticsDatabase } from '@/services/areaStatistics'
 import { fetchMajorAreaPopulationHistoryDatabase } from '@/services/populationHistory'
+import { fetchPostalCodeCollection, postalMetricValue } from '@/services/postalData'
 
 export const ANALYSIS_METRICS = [
   'population',
@@ -16,10 +18,11 @@ export const ANALYSIS_METRICS = [
 ] as const
 
 export type AnalysisMetric = (typeof ANALYSIS_METRICS)[number]
+export type AnalysisLevel = AreaLevel | 'postal'
 export type AnalysisUnit = 'people' | 'percent' | 'eur_per_year'
 
 export interface AnalysisObservation {
-  level: AreaLevel
+  level: AnalysisLevel
   name: string
   value: number
   year: number
@@ -74,10 +77,63 @@ function observationsFromStatistics(
     }))
 }
 
+function postalMetric(metric: AnalysisMetric): PostalMetric | null {
+  switch (metric) {
+    case 'population':
+      return 'population'
+    case 'employed':
+      return 'employed'
+    case 'unemployed':
+      return 'unemployed'
+    case 'students':
+      return 'students'
+    case 'income':
+      return 'income'
+    default:
+      return null
+  }
+}
+
+async function fetchPostalMetricDataset(metric: AnalysisMetric): Promise<AnalysisMetricDataset> {
+  const collection = await fetchPostalCodeCollection()
+  const mappedMetric = postalMetric(metric)
+  if (!mappedMetric) {
+    return {
+      metric,
+      unit: 'percent',
+      observations: [],
+      sourceUrl: collection.sourceUrl,
+      sourceLabel: 'Statistics Finland · Paavo',
+      note: 'This Paavo snapshot does not expose mother-tongue shares.',
+    }
+  }
+
+  const unit: AnalysisUnit =
+    mappedMetric === 'population' ? 'people' : mappedMetric === 'income' ? 'eur_per_year' : 'percent'
+  return {
+    metric,
+    unit,
+    observations: collection.areas.flatMap((area): AnalysisObservation[] => {
+      const value = postalMetricValue(area, mappedMetric)
+      return value === null
+        ? []
+        : [{ level: 'postal', name: area.code, value, year: area.statisticsYear }]
+    }),
+    sourceUrl: collection.sourceUrl,
+    sourceLabel: `Statistics Finland · Paavo ${collection.releaseYear ?? ''}`.trim(),
+    note:
+      unit === 'percent'
+        ? 'Employment, unemployment and student values are shown as shares of the postal-area population.'
+        : undefined,
+  }
+}
+
 export async function fetchAnalysisMetricDataset(
   metric: AnalysisMetric,
-  level: AreaLevel,
+  level: AnalysisLevel,
 ): Promise<AnalysisMetricDataset> {
+  if (level === 'postal') return fetchPostalMetricDataset(metric)
+
   if (metric === 'income') {
     const database = await fetchAreaIncomeDatabase()
     const prefix = `${level}:`
