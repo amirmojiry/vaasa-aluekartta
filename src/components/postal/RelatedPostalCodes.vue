@@ -34,8 +34,8 @@ const note = computed(() => {
   return 'Links are based on polygon intersection; postal codes and municipal sub-areas are different geographic systems.'
 })
 
-const numberFormatter = computed(() =>
-  new Intl.NumberFormat(localeForLanguage(language.value), { useGrouping: false }),
+const numberFormatter = computed(
+  () => new Intl.NumberFormat(localeForLanguage(language.value), { useGrouping: false }),
 )
 
 function postalName(area: PostalCodeArea): string {
