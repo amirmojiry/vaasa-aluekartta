@@ -8,12 +8,6 @@ const HISTORY_OUTPUT = resolve('public/data/paavo-postal-history.json')
 const MIN_STATISTICS_YEAR = 2012
 const MAX_STATISTICS_YEAR = 2024
 
-typeGuardNever()
-
-function typeGuardNever() {
-  // Keep this script plain JavaScript while making accidental TypeScript syntax obvious in review.
-}
-
 function numberOrNull(value) {
   if (value === null || value === undefined || value === '' || value === '..' || value === '...') {
     return null
@@ -218,7 +212,7 @@ function normalizedMetrics(properties) {
   const employed = propertyNumber(properties, ['pt_tyoll', 'tyoll'])
   const unemployed = propertyNumber(properties, ['pt_tyott', 'tyot'])
   const students = propertyNumber(properties, ['pt_opisk', 'opisk'])
-  const averageIncome = propertyNumber(properties, ['hr_tuy', 'hr_tulot', 'tulot'])
+  const averageIncome = propertyNumber(properties, ['hr_ktu', 'hr_tulot', 'tulot'])
   const share = (value) =>
     value === null || population === null || population <= 0 ? null : (value / population) * 100
   return {
