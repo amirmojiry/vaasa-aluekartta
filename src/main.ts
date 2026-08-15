@@ -11,5 +11,6 @@ import './styles/statistics-ranks.css'
 import './styles/city-statistics.css'
 import './styles/pois.css'
 import './styles/address-search.css'
+import './styles/postal.css'
 
 createApp(App).mount('#app')
