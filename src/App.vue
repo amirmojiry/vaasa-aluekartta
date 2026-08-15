@@ -9,6 +9,9 @@ import PienalueDetail from '@/components/areas/PienalueDetail.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
+import AreaPostalLinks from '@/components/postal/AreaPostalLinks.vue'
+import PostalCodeDetail from '@/components/postal/PostalCodeDetail.vue'
+import PostalCodeMap from '@/components/postal/PostalCodeMap.vue'
 import { AREA_BY_SLUG } from '@/config/areas'
 import { useI18n } from '@/i18n'
 import { isAnalysisMetric } from '@/services/analysisMetrics'
@@ -17,6 +20,8 @@ const searchParams = new URLSearchParams(window.location.search)
 const partyCode = searchParams.get('party')?.trim().toUpperCase() || null
 const metricParam = searchParams.get('metric')
 const analysisMetric = isAnalysisMetric(metricParam) ? metricParam : null
+const postalParam = searchParams.get('postal')
+const postalCode = postalParam && /^\d{5}$/.test(postalParam) ? postalParam : null
 const areaSlug = searchParams.get('area')
 const selectedArea = areaSlug ? (AREA_BY_SLUG.get(areaSlug) ?? null) : null
 const pienalueParam = searchParams.get('pienalue')
@@ -29,8 +34,15 @@ const homeHref = buildUrl()
 <template>
   <PartyAnalysisPage v-if="partyCode" :party-code="partyCode" />
   <MetricAnalysisPage v-else-if="analysisMetric" :metric="analysisMetric" />
-  <PienalueDetail v-else-if="pienalueRelationId" :relation-id="pienalueRelationId" />
-  <AreaDetail v-else-if="selectedArea" :area="selectedArea" />
+  <PostalCodeDetail v-else-if="postalCode" :code="postalCode" />
+  <template v-else-if="pienalueRelationId">
+    <PienalueDetail :relation-id="pienalueRelationId" />
+    <AreaPostalLinks :pienalue-relation-id="pienalueRelationId" />
+  </template>
+  <template v-else-if="selectedArea">
+    <AreaDetail :area="selectedArea" />
+    <AreaPostalLinks :area-slug="selectedArea.slug" />
+  </template>
 
   <main v-else class="app-shell">
     <header class="hero hero--compact">
@@ -48,6 +60,7 @@ const homeHref = buildUrl()
 
     <section class="home-map-section" :aria-label="t('statisticalAreas')">
       <VaasaMap />
+      <PostalCodeMap />
       <CityStatisticsSummary />
       <CityStatistics />
       <ElectionHistory city />
