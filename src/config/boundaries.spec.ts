@@ -14,7 +14,9 @@ describe('boundary layer metadata', () => {
     for (const layer of BOUNDARY_LAYERS) {
       expect(layer.sourcePageUrl).toMatch(/^https:\/\//)
       expect(layer.author).not.toBe('')
-      expect(layer.licence).toBe('CC BY-SA 4.0')
+      expect(layer.licence).toMatch(/^CC BY(?:-SA)? 4\.0$/)
     }
+
+    expect(BOUNDARY_LAYERS.find((layer) => layer.id === 'postal')?.licence).toBe('CC BY 4.0')
   })
 })
