@@ -16,9 +16,9 @@ interface PostalFeatureProperties {
   kunta?: string | number
   vuosi?: string | number
   he_vakiy?: string | number
-  tp_tyoll?: string | number
-  tp_tyot?: string | number
-  tp_opisk?: string | number
+  pt_tyoll?: string | number
+  pt_tyott?: string | number
+  pt_opisk?: string | number
   hr_tuy?: string | number
   [key: string]: unknown
 }
@@ -37,9 +37,11 @@ interface PostalFeatureCollection {
 let postalPromise: Promise<PostalCodeCollection> | null = null
 
 function numberOrNull(value: unknown): number | null {
-  if (value === null || value === undefined || value === '..' || value === '') return null
+  if (value === null || value === undefined || value === '..' || value === '...' || value === '') {
+    return null
+  }
   const number = typeof value === 'number' ? value : Number(value)
-  return Number.isFinite(number) ? number : null
+  return Number.isFinite(number) && number >= 0 ? number : null
 }
 
 function postalCode(properties: PostalFeatureProperties): string | null {
@@ -79,9 +81,9 @@ function featureToArea(feature: PostalFeature): PostalCodeArea | null {
     releaseYear: numberOrNull(feature.properties.vuosi),
     statisticsYear: PAAVO_STATISTICS_YEAR,
     population: propertyNumber(feature.properties, ['he_vakiy', 'vaesto', 'population']),
-    employed: propertyNumber(feature.properties, ['tp_tyoll', 'pt_tyoll', 'tyoll']),
-    unemployed: propertyNumber(feature.properties, ['tp_tyot', 'pt_tyot', 'tyot']),
-    students: propertyNumber(feature.properties, ['tp_opisk', 'pt_opisk', 'opisk']),
+    employed: propertyNumber(feature.properties, ['pt_tyoll', 'tyoll']),
+    unemployed: propertyNumber(feature.properties, ['pt_tyott', 'tyot']),
+    students: propertyNumber(feature.properties, ['pt_opisk', 'opisk']),
     averageIncome: propertyNumber(feature.properties, ['hr_tuy', 'hr_tulot', 'tulot']),
     geometry: feature.geometry,
   }
