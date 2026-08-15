@@ -13,7 +13,7 @@ import { fetchPostalCodeArea } from '@/services/postalData'
 import { postalIntersectsBoundary, postalRingsForLeaflet } from '@/services/postalGeometry'
 
 const props = defineProps<{ code: string }>()
-const { buildUrl, language } = useI18n()
+const { buildUrl, language, t } = useI18n()
 const mapElement = ref<HTMLElement | null>(null)
 const postal = ref<PostalCodeArea | null>(null)
 const majorAreas = ref<AreaBoundary[]>([])
@@ -46,6 +46,16 @@ const relatedLabel = computed(() => {
   if (language.value === 'fa') return 'مناطق شهرداری دارای هم‌پوشانی'
   if (language.value === 'fi') return 'Leikkaavat kunnan osa-alueet'
   return 'Intersecting municipal areas'
+})
+const incomeLabel = computed(() => {
+  if (language.value === 'fa') return 'میانگین درآمد نقدی قابل تصرف'
+  if (language.value === 'fi') return 'Keskimääräiset käytettävissä olevat rahatulot'
+  return 'Average disposable monetary income'
+})
+const sourceLabel = computed(() => {
+  if (language.value === 'fa') return 'منبع'
+  if (language.value === 'fi') return 'Lähde'
+  return 'Source'
 })
 const caveat = computed(() => {
   if (language.value === 'fa')
@@ -140,23 +150,23 @@ onBeforeUnmount(() => {
 
         <section v-if="postal" class="area-stat-summary postal-stat-summary">
           <div class="summary-population">
-            <span>Population · {{ postal.statisticsYear }}</span>
+            <span>{{ t('population') }} · {{ postal.statisticsYear }}</span>
             <strong>{{ formatValue(postal.population) }}</strong>
           </div>
           <div class="summary-metric">
-            <strong>Employed</strong>
+            <strong>{{ t('employed') }}</strong>
             <span>{{ formatValue(postal.employed) }}</span>
           </div>
           <div class="summary-metric">
-            <strong>Unemployed</strong>
+            <strong>{{ t('unemployed') }}</strong>
             <span>{{ formatValue(postal.unemployed) }}</span>
           </div>
           <div class="summary-metric">
-            <strong>Students</strong>
+            <strong>{{ t('students') }}</strong>
             <span>{{ formatValue(postal.students) }}</span>
           </div>
           <div class="summary-metric">
-            <strong>Average disposable monetary income</strong>
+            <strong>{{ incomeLabel }}</strong>
             <span>{{
               postal.averageIncome === null ? '—' : currencyFormatter.format(postal.averageIncome)
             }}</span>
@@ -170,13 +180,13 @@ onBeforeUnmount(() => {
           <p class="eyebrow">{{ relatedLabel }}</p>
           <h2>{{ majorAreas.length }} / {{ minorAreas.length }}</h2>
           <div class="related-area-list">
-            <h3>Major areas</h3>
+            <h3>{{ t('majorAreas') }}</h3>
             <ul>
               <li v-for="area in majorAreas" :key="area.relationId">
                 <a :href="buildUrl({ area: area.slug })">{{ area.ref }} · {{ majorName(area) }}</a>
               </li>
             </ul>
-            <h3>Minor areas</h3>
+            <h3>{{ t('minorAreas') }}</h3>
             <ul>
               <li v-for="area in minorAreas" :key="area.relationId">
                 <a :href="buildUrl({ pienalue: area.relationId })">
@@ -187,7 +197,7 @@ onBeforeUnmount(() => {
           </div>
         </section>
         <section v-if="postal" class="info-panel">
-          <h2>Source</h2>
+          <h2>{{ sourceLabel }}</h2>
           <a
             href="https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area"
             target="_blank"
