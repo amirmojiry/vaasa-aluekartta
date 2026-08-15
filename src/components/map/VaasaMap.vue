@@ -17,6 +17,7 @@ import type { BoundaryLevel } from '@/domain/boundaries'
 import type { AreaIncomeDatabase } from '@/domain/income'
 import { POI_CATEGORIES, type PoiCategory, type PoiFeature } from '@/domain/pois'
 import type { MajorAreaPopulationHistoryDatabase } from '@/domain/populationHistory'
+import type { PostalCodeArea, PostalCodeCollection, PostalMetric } from '@/domain/postal'
 import type { AreaStatisticsDatabase, CompactAreaStatisticRecord } from '@/domain/statistics'
 import { localeForLanguage, localizeAreaName, useI18n } from '@/i18n'
 import { poiText, type PoiMessageKey } from '@/poiI18n'
@@ -25,11 +26,14 @@ import { fetchStatisticsDatabase, statisticsKey } from '@/services/areaStatistic
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
 import { fetchPoiFeatureCollection, localizedPoiName } from '@/services/poiData'
 import { fetchMajorAreaPopulationHistoryDatabase } from '@/services/populationHistory'
+import { fetchPostalCodeCollection, postalMetricValue } from '@/services/postalData'
+import { postalRingsForLeaflet } from '@/services/postalGeometry'
 
 type VisualizationMetric =
   | 'none'
   | 'population'
   | 'employment'
+  | 'unemployment'
   | 'students'
   | 'income'
   | 'language-finnish'
@@ -38,8 +42,11 @@ type VisualizationMetric =
 
 const { buildUrl, language, t } = useI18n()
 const mapElement = ref<HTMLElement | null>(null)
-const boundaryLevelFromUrl = (): BoundaryLevel =>
-  new URLSearchParams(window.location.search).get('level') === 'pienalue' ? 'pienalue' : 'suuralue'
+const boundaryLevelFromUrl = (): BoundaryLevel => {
+  const requested = new URLSearchParams(window.location.search).get('level')
+  if (requested === 'pienalue' || requested === 'postal') return requested
+  return 'suuralue'
+}
 const selectedLevel = ref<BoundaryLevel>(boundaryLevelFromUrl())
 const visualizationMetric = ref<VisualizationMetric>('none')
 const mappedAreaCount = ref(0)
@@ -48,6 +55,7 @@ const loadError = ref<string | null>(null)
 const statisticsDatabase = ref<AreaStatisticsDatabase | null>(null)
 const majorPopulationDatabase = ref<MajorAreaPopulationHistoryDatabase | null>(null)
 const incomeDatabase = ref<AreaIncomeDatabase | null>(null)
+const postalCollection = ref<PostalCodeCollection | null>(null)
 const poiFeatures = ref<PoiFeature[]>([])
 const activePoiCategories = ref<PoiCategory[]>([])
 const poiLoading = ref(true)
@@ -61,12 +69,7 @@ let cachedPienalueBoundaries: PienalueBoundary[] | null = null
 let renderToken = 0
 const poiMarkers = new Map<string, CircleMarker>()
 
-const selectedLayer = computed(
-  () => BOUNDARY_LAYERS.find((layer) => layer.id === selectedLevel.value) ?? BOUNDARY_LAYERS[0],
-)
-const selectedLayerLabel = computed(() =>
-  selectedLevel.value === 'suuralue' ? t('majorAreas') : t('minorAreas'),
-)
+const selectedLayerLabel = computed(() => layerLabel(selectedLevel.value))
 const isLanguageMetric = computed(() => visualizationMetric.value.startsWith('language-'))
 const numberFormatter = computed(() => new Intl.NumberFormat(localeForLanguage(language.value)))
 const yearFormatter = computed(
@@ -91,13 +94,19 @@ const currencyFormatter = computed(
     }),
 )
 const populationFilterLabel = computed(() => {
-  const year = selectedLevel.value === 'suuralue' ? 2024 : 2015
+  const year =
+    selectedLevel.value === 'postal'
+      ? (postalCollection.value?.statisticsYear ?? 2024)
+      : selectedLevel.value === 'suuralue'
+        ? 2024
+        : 2015
   return `${t('populationView')} (${yearFormatter.value.format(year)})`
 })
 const incomeFilterLabel = computed(() => {
   const label =
     language.value === 'fa' ? 'سطح درآمد' : language.value === 'fi' ? 'Tulotasot' : 'Income level'
-  return `${label} (${yearFormatter.value.format(2014)})`
+  const year = selectedLevel.value === 'postal' ? (postalCollection.value?.statisticsYear ?? 2024) : 2014
+  return `${label} (${yearFormatter.value.format(year)})`
 })
 const visiblePoiFeatures = computed(() =>
   poiFeatures.value.filter((feature) =>
@@ -109,12 +118,24 @@ const poiStatus = computed(() => {
   if (poiFailed.value) return poiLabel('unavailable')
   return `${poiLabel('placesShown')}: ${numberFormatter.value.format(visiblePoiFeatures.value.length)}/${numberFormatter.value.format(poiFeatures.value.length)}`
 })
-
 const mapStatus = computed(() => {
   if (isLoading.value) return t('loading')
   if (loadError.value) return loadError.value
-  return `${mappedAreaCount.value}/${selectedLayer.value?.areaCount ?? 0} ${t('mapped')}`
+  return `${mappedAreaCount.value}/${layerAreaCount(selectedLevel.value)} ${t('mapped')}`
 })
+
+function layerLabel(level: BoundaryLevel): string {
+  if (level === 'suuralue') return t('majorAreas')
+  if (level === 'pienalue') return t('minorAreas')
+  if (language.value === 'fa') return 'کدهای پستی'
+  if (language.value === 'fi') return 'Postinumeroalueet'
+  return 'Postal code areas'
+}
+
+function layerAreaCount(level: BoundaryLevel): number {
+  if (level === 'postal') return postalCollection.value?.areas.length ?? mappedAreaCount.value
+  return BOUNDARY_LAYERS.find((layer) => layer.id === level)?.areaCount ?? mappedAreaCount.value
+}
 
 function poiLabel(key: PoiMessageKey): string {
   return poiText(language.value, key)
@@ -163,6 +184,10 @@ function openPienalue(relationId: number): void {
   window.location.href = buildUrl({ pienalue: relationId })
 }
 
+function openPostal(code: string): void {
+  window.location.href = buildUrl({ postal: code })
+}
+
 function fitRenderedBounds(): void {
   if (!map || !areaGroup) return
   const bounds = areaGroup.getBounds()
@@ -180,7 +205,7 @@ function latestMajorPopulation(name: string): number | null {
   return observation?.[1] ?? null
 }
 
-function metricValue(
+function areaMetricValue(
   level: AreaLevel,
   name: string,
   record: CompactAreaStatisticRecord,
@@ -190,6 +215,8 @@ function metricValue(
       return level === 'suuralue' ? (latestMajorPopulation(name) ?? record.p) : record.p
     case 'employment':
       return record.e
+    case 'unemployment':
+      return record.u
     case 'students':
       return record.s
     case 'income':
@@ -205,12 +232,31 @@ function metricValue(
   }
 }
 
+function currentPostalMetric(): PostalMetric | null {
+  switch (visualizationMetric.value) {
+    case 'population':
+      return 'population'
+    case 'employment':
+      return 'employed'
+    case 'unemployment':
+      return 'unemployed'
+    case 'students':
+      return 'students'
+    case 'income':
+      return 'income'
+    default:
+      return null
+  }
+}
+
 function metricColor(): string {
   switch (visualizationMetric.value) {
     case 'population':
       return '#0b3d3a'
     case 'employment':
       return '#17645d'
+    case 'unemployment':
+      return '#c65b42'
     case 'students':
       return '#8a5f21'
     case 'income':
@@ -226,14 +272,21 @@ function metricColor(): string {
   }
 }
 
-function metricLabel(level: AreaLevel): string {
+function metricLabel(level: AreaLevel | 'postal'): string {
   if (visualizationMetric.value === 'population') {
-    const year = level === 'suuralue' ? 2024 : 2015
+    const year =
+      level === 'postal'
+        ? (postalCollection.value?.statisticsYear ?? 2024)
+        : level === 'suuralue'
+          ? 2024
+          : 2015
     return `${t('population')} · ${yearFormatter.value.format(year)}`
   }
   switch (visualizationMetric.value) {
     case 'employment':
       return t('employed')
+    case 'unemployment':
+      return t('unemployed')
     case 'students':
       return t('students')
     case 'income':
@@ -272,10 +325,19 @@ function metricRange(level: AreaLevel): { min: number; max: number } | null {
   const prefix = `${level}:`
   const values = Object.entries(statisticsDatabase.value.areas)
     .filter(([key]) => key.startsWith(prefix))
-    .map(([key, record]) => metricValue(level, key.slice(prefix.length), record))
+    .map(([key, record]) => areaMetricValue(level, key.slice(prefix.length), record))
     .filter((value): value is number => value !== null)
   if (values.length === 0) return null
   return { min: Math.min(...values), max: Math.max(...values) }
+}
+
+function postalMetricRange(): { min: number; max: number } | null {
+  const metric = currentPostalMetric()
+  if (!metric || !postalCollection.value) return null
+  const values = postalCollection.value.areas
+    .map((area) => postalMetricValue(area, metric))
+    .filter((value): value is number => value !== null)
+  return values.length ? { min: Math.min(...values), max: Math.max(...values) } : null
 }
 
 function polygonStyle(
@@ -296,7 +358,7 @@ function polygonStyle(
 
   const record = compactStatistics(level, name)
   const range = metricRange(level)
-  const value = record ? metricValue(level, name, record) : null
+  const value = record ? areaMetricValue(level, name, record) : null
   if (!record || !range || value === null) {
     return {
       color: '#7b8582',
@@ -318,23 +380,63 @@ function polygonStyle(
   }
 }
 
+function postalStyle(area: PostalCodeArea): PathOptions {
+  const metric = currentPostalMetric()
+  if (!metric || visualizationMetric.value === 'none') {
+    return {
+      color: '#6f4a8e',
+      weight: 2,
+      opacity: 0.95,
+      fillColor: '#6f4a8e',
+      fillOpacity: 0.12,
+    }
+  }
+  const value = postalMetricValue(area, metric)
+  const range = postalMetricRange()
+  if (value === null || !range) {
+    return {
+      color: '#7b8582',
+      weight: 1.5,
+      opacity: 0.7,
+      fillColor: '#aeb6b3',
+      fillOpacity: 0.08,
+    }
+  }
+  const normalized = range.max === range.min ? 0.5 : (value - range.min) / (range.max - range.min)
+  const color = metricColor()
+  return {
+    color,
+    weight: 2,
+    opacity: 0.95,
+    fillColor: color,
+    fillOpacity: 0.16 + normalized * 0.62,
+  }
+}
+
+function formattedMetricValue(value: number): string {
+  if (visualizationMetric.value === 'population') return numberFormatter.value.format(value)
+  if (visualizationMetric.value === 'income') return currencyFormatter.value.format(value)
+  return `${percentFormatter.value.format(value)}%`
+}
+
 function metricTooltip(level: AreaLevel, name: string): string {
   if (visualizationMetric.value === 'none') return ''
   const record = compactStatistics(level, name)
   if (!record) return ''
-  const value = metricValue(level, name, record)
+  const value = areaMetricValue(level, name, record)
   if (value === null) return ''
-  const formatted =
-    visualizationMetric.value === 'population'
-      ? numberFormatter.value.format(value)
-      : visualizationMetric.value === 'income'
-        ? currencyFormatter.value.format(value)
-        : `${percentFormatter.value.format(value)}%`
-  return ` · ${metricLabel(level)}: ${formatted}`
+  return ` · ${metricLabel(level)}: ${formattedMetricValue(value)}`
+}
+
+function postalTooltip(area: PostalCodeArea): string {
+  const metric = currentPostalMetric()
+  if (!metric) return ''
+  const value = postalMetricValue(area, metric)
+  return value === null ? '' : ` · ${metricLabel('postal')}: ${formattedMetricValue(value)}`
 }
 
 async function ensureStatistics(): Promise<void> {
-  if (visualizationMetric.value === 'none') return
+  if (selectedLevel.value === 'postal' || visualizationMetric.value === 'none') return
   statisticsDatabase.value ??= await fetchStatisticsDatabase()
   if (visualizationMetric.value === 'income' && !incomeDatabase.value) {
     incomeDatabase.value = await fetchAreaIncomeDatabase()
@@ -539,6 +641,46 @@ async function renderPienalueBoundaries(token: number): Promise<void> {
   }
 }
 
+async function renderPostalBoundaries(token: number): Promise<void> {
+  if (!map || !areaGroup) return
+  mappedAreaCount.value = 0
+  isLoading.value = true
+  loadError.value = null
+
+  try {
+    postalCollection.value ??= await fetchPostalCodeCollection()
+    if (token !== renderToken || selectedLevel.value !== 'postal') return
+
+    for (const area of postalCollection.value.areas) {
+      const style = postalStyle(area)
+      const polygon = L.polygon(postalRingsForLeaflet(area), {
+        ...style,
+        interactive: true,
+      }).addTo(areaGroup)
+      polygon.bindTooltip(
+        `${area.code} · ${area.nameFi}${postalTooltip(area)} · ${t('clickForDetails')}`,
+        { sticky: true },
+      )
+      polygon.on('click', () => openPostal(area.code))
+      polygon.on('mouseover', () =>
+        polygon.setStyle({
+          weight: 4,
+          fillOpacity: Math.min(0.92, Number(style.fillOpacity ?? 0.2) + 0.16),
+        }),
+      )
+      polygon.on('mouseout', () => polygon.setStyle(style))
+    }
+
+    mappedAreaCount.value = postalCollection.value.areas.length
+    isLoading.value = false
+    fitRenderedBounds()
+  } catch (error) {
+    if (token !== renderToken) return
+    isLoading.value = false
+    loadError.value = error instanceof Error ? error.message : t('loadingAreaFailed')
+  }
+}
+
 async function renderBoundaryLayer(): Promise<void> {
   if (!map) return
   renderToken += 1
@@ -546,8 +688,10 @@ async function renderBoundaryLayer(): Promise<void> {
   clearBoundaryLayers()
   if (selectedLevel.value === 'suuralue') {
     await renderSuuralueBoundaries(token)
-  } else {
+  } else if (selectedLevel.value === 'pienalue') {
     await renderPienalueBoundaries(token)
+  } else {
+    await renderPostalBoundaries(token)
   }
   bringPoiMarkersToFront()
 }
@@ -555,6 +699,7 @@ async function renderBoundaryLayer(): Promise<void> {
 function selectLevel(level: BoundaryLevel): void {
   if (selectedLevel.value === level) return
   selectedLevel.value = level
+  if (level === 'postal' && isLanguageMetric.value) visualizationMetric.value = 'none'
   const search = new URLSearchParams(window.location.search)
   search.set('level', level)
   window.history.pushState(
@@ -592,6 +737,10 @@ onMounted(() => {
 })
 
 watch([selectedLevel, visualizationMetric], () => {
+  void renderBoundaryLayer()
+})
+
+watch(language, () => {
   void renderBoundaryLayer()
 })
 
@@ -634,8 +783,8 @@ onBeforeUnmount(() => {
         :aria-pressed="selectedLevel === layer.id"
         @click="selectLevel(layer.id)"
       >
-        <strong>{{ layer.id === 'suuralue' ? t('majorAreas') : t('minorAreas') }}</strong>
-        <span>{{ layer.areaCount }} {{ t('areas') }}</span>
+        <strong>{{ layerLabel(layer.id) }}</strong>
+        <span>{{ layerAreaCount(layer.id) }} {{ t('areas') }}</span>
       </button>
     </div>
 
@@ -668,6 +817,14 @@ onBeforeUnmount(() => {
         </button>
         <button
           type="button"
+          :class="{ 'is-active': visualizationMetric === 'unemployment' }"
+          :aria-pressed="visualizationMetric === 'unemployment'"
+          @click="selectMetric('unemployment')"
+        >
+          {{ t('unemployed') }}
+        </button>
+        <button
+          type="button"
           :class="{ 'is-active': visualizationMetric === 'students' }"
           :aria-pressed="visualizationMetric === 'students'"
           @click="selectMetric('students')"
@@ -683,6 +840,7 @@ onBeforeUnmount(() => {
           {{ incomeFilterLabel }}
         </button>
         <button
+          v-if="selectedLevel !== 'postal'"
           type="button"
           :class="{ 'is-active': isLanguageMetric }"
           :aria-pressed="isLanguageMetric"
@@ -691,7 +849,7 @@ onBeforeUnmount(() => {
           {{ t('languageView') }}
         </button>
       </div>
-      <div v-if="isLanguageMetric" class="map-language-subcontrol">
+      <div v-if="selectedLevel !== 'postal' && isLanguageMetric" class="map-language-subcontrol">
         <button
           type="button"
           :class="{ 'is-active': visualizationMetric === 'language-finnish' }"
