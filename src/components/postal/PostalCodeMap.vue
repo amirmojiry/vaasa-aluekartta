@@ -40,11 +40,33 @@ const description = computed(() => {
 })
 
 const metricOptions = computed(() => [
-  { id: 'population' as const, label: language.value === 'fa' ? 'جمعیت' : language.value === 'fi' ? 'Väestö' : 'Population' },
-  { id: 'employed' as const, label: language.value === 'fa' ? 'شاغلان' : language.value === 'fi' ? 'Työlliset' : 'Employed' },
-  { id: 'unemployed' as const, label: language.value === 'fa' ? 'بیکاران' : language.value === 'fi' ? 'Työttömät' : 'Unemployed' },
-  { id: 'students' as const, label: language.value === 'fa' ? 'دانشجویان' : language.value === 'fi' ? 'Opiskelijat' : 'Students' },
-  { id: 'income' as const, label: language.value === 'fa' ? 'درآمد متوسط' : language.value === 'fi' ? 'Keskitulo' : 'Average income' },
+  {
+    id: 'population' as const,
+    label: language.value === 'fa' ? 'جمعیت' : language.value === 'fi' ? 'Väestö' : 'Population',
+  },
+  {
+    id: 'employed' as const,
+    label: language.value === 'fa' ? 'شاغلان' : language.value === 'fi' ? 'Työlliset' : 'Employed',
+  },
+  {
+    id: 'unemployed' as const,
+    label:
+      language.value === 'fa' ? 'بیکاران' : language.value === 'fi' ? 'Työttömät' : 'Unemployed',
+  },
+  {
+    id: 'students' as const,
+    label:
+      language.value === 'fa' ? 'دانشجویان' : language.value === 'fi' ? 'Opiskelijat' : 'Students',
+  },
+  {
+    id: 'income' as const,
+    label:
+      language.value === 'fa'
+        ? 'درآمد متوسط'
+        : language.value === 'fi'
+          ? 'Keskitulo'
+          : 'Average income',
+  },
 ])
 
 function areaName(area: PostalCodeArea): string {
@@ -58,7 +80,9 @@ function metricLabel(): string {
 function formatMetric(area: PostalCodeArea): string {
   const value = postalMetricValue(area, metric.value)
   if (value === null) return '—'
-  return metric.value === 'income' ? currencyFormatter.value.format(value) : numberFormatter.value.format(value)
+  return metric.value === 'income'
+    ? currencyFormatter.value.format(value)
+    : numberFormatter.value.format(value)
 }
 
 function range(): { min: number; max: number } | null {
@@ -86,9 +110,12 @@ function renderPostalAreas(): void {
       fillColor: value === null ? '#9da3a0' : '#6f4a8e',
       fillOpacity: value === null ? 0.08 : 0.14 + normalized * 0.58,
     }).addTo(postalGroup)
-    polygon.bindTooltip(`${area.code} · ${areaName(area)} · ${metricLabel()}: ${formatMetric(area)}`, {
-      sticky: true,
-    })
+    polygon.bindTooltip(
+      `${area.code} · ${areaName(area)} · ${metricLabel()}: ${formatMetric(area)}`,
+      {
+        sticky: true,
+      },
+    )
     polygon.on('click', () => {
       window.location.href = buildUrl({ postal: area.code })
     })
@@ -145,7 +172,11 @@ onBeforeUnmount(() => {
     <div ref="mapElement" class="map-canvas postal-map" role="region" :aria-label="title" />
     <footer class="postal-map-source">
       <span>Click a postal polygon for statistics and intersecting municipal areas.</span>
-      <a href="https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area" target="_blank" rel="noreferrer">
+      <a
+        href="https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area"
+        target="_blank"
+        rel="noreferrer"
+      >
         Source · Statistics Finland · CC BY 4.0
       </a>
     </footer>
