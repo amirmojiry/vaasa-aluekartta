@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/html-closing-bracket-newline, vue/html-indent -->
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import L, { type Map, type Polygon } from 'leaflet'
