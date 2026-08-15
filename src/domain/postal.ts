@@ -4,10 +4,15 @@ export type PostalPosition = [number, number]
 export type PostalPolygonCoordinates = PostalPosition[][]
 export type PostalMultiPolygonCoordinates = PostalPosition[][][]
 
-export interface PostalGeometry {
-  type: 'Polygon' | 'MultiPolygon'
-  coordinates: PostalPolygonCoordinates | PostalMultiPolygonCoordinates
-}
+export type PostalGeometry =
+  | {
+      type: 'Polygon'
+      coordinates: PostalPolygonCoordinates
+    }
+  | {
+      type: 'MultiPolygon'
+      coordinates: PostalMultiPolygonCoordinates
+    }
 
 export interface PostalCodeArea {
   code: string
