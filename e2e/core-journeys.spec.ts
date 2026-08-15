@@ -173,12 +173,15 @@ test('finds an address and offers major, minor, and postal destinations', async 
   await page.getByRole('searchbox', { name: 'Search address' }).fill('Test address')
   await page.getByRole('button', { name: 'Search' }).click()
 
-  const majorLink = page.getByRole('link', { name: /Major area.*City centre/i })
-  const minorLink = page.getByRole('link', { name: /Minor area.*City centre 1/i })
-  const postalLink = page.getByRole('link', { name: /Postal code area.*65100/i })
-  await expect(majorLink).toBeVisible()
-  await expect(minorLink).toBeVisible()
-  await expect(postalLink).toBeVisible()
+  const targets = page.locator('.address-search__targets a')
+  await expect(targets).toHaveCount(3)
+
+  const majorLink = targets.filter({ hasText: 'Major area' })
+  const minorLink = targets.filter({ hasText: 'Minor area' })
+  const postalLink = targets.filter({ hasText: 'Postal code area' })
+  await expect(majorLink).toHaveAttribute('href', /area=keskusta/)
+  await expect(minorLink).toHaveAttribute('href', /pienalue=11930883/)
+  await expect(postalLink).toHaveAttribute('href', /postal=65100/)
 
   await minorLink.click()
   await expect(page).toHaveURL(/pienalue=11930883/)
