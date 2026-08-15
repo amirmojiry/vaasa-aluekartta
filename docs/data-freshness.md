@@ -6,17 +6,17 @@ The important distinction is geographic compatibility. The application is built 
 
 ## Current application data
 
-| Metric | Current reference year | Current source |
-| --- | ---: | --- |
-| Major-area population history | 2024 | Publicly available compiled source recorded in `major-area-population-history.json` |
-| Historical area population | 2015 | Sanna Komsi (2016), based on Statistics Finland data |
-| Employed share | 2013 | Sanna Komsi (2016) / derived from the historical labour-force observations |
-| Unemployed share | 2013 | Sanna Komsi (2016) |
-| Student share | 2013 | Sanna Komsi (2016) |
-| Mother-tongue shares | 2015 | Sanna Komsi (2016) |
-| Average annual taxable income | 2014 | Sanna Komsi (2016), underlying Statistics Finland source |
-| Election results | election-specific, through 2025 | Public election/Wikipedia-backed records with coverage metadata |
-| OpenStreetMap POIs | snapshot | OpenStreetMap via Overpass |
+| Metric                        |          Current reference year | Current source                                                                      |
+| ----------------------------- | ------------------------------: | ----------------------------------------------------------------------------------- |
+| Major-area population history |                            2024 | Publicly available compiled source recorded in `major-area-population-history.json` |
+| Historical area population    |                            2015 | Sanna Komsi (2016), based on Statistics Finland data                                |
+| Employed share                |                            2013 | Sanna Komsi (2016) / derived from the historical labour-force observations          |
+| Unemployed share              |                            2013 | Sanna Komsi (2016)                                                                  |
+| Student share                 |                            2013 | Sanna Komsi (2016)                                                                  |
+| Mother-tongue shares          |                            2015 | Sanna Komsi (2016)                                                                  |
+| Average annual taxable income |                            2014 | Sanna Komsi (2016), underlying Statistics Finland source                            |
+| Election results              | election-specific, through 2025 | Public election/Wikipedia-backed records with coverage metadata                     |
+| OpenStreetMap POIs            |                        snapshot | OpenStreetMap via Overpass                                                          |
 
 ## Statistics Finland: exact municipal sub-areas are paid
 
