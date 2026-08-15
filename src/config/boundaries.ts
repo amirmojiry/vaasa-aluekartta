@@ -32,4 +32,16 @@ export const BOUNDARY_LAYERS: BoundaryLayerDefinition[] = [
     author: 'Tvinnari',
     updatedAt: '2026-04-30',
   },
+  {
+    id: 'postal',
+    label: 'Paavo postal code areas',
+    description: 'Statistics Finland Paavo postal-code areas intersecting Vaasa.',
+    areaCount: 0,
+    imageUrl: '',
+    sourcePageUrl:
+      'https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area',
+    licence: 'CC BY 4.0',
+    author: 'Statistics Finland',
+    updatedAt: '2026-01-26',
+  },
 ]
