@@ -71,6 +71,47 @@ const minorBoundary = {
   ],
 }
 
+const postalBoundary = {
+  type: 'FeatureCollection',
+  metadata: {
+    source_url: 'https://geo.stat.fi/',
+    release_year: 2026,
+    statistics_year: 2024,
+  },
+  features: [
+    {
+      type: 'Feature',
+      id: '65100',
+      properties: {
+        code: '65100',
+        name_fi: 'Vaasa Keskusta',
+        name_sv: 'Vasa centrum',
+        statistics_year: 2024,
+        population: 1000,
+        employed: 500,
+        unemployed: 50,
+        students: 100,
+        average_income: 32000,
+        employed_share: 50,
+        unemployed_share: 5,
+        student_share: 10,
+      },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [
+          [
+            [21.6, 63.08],
+            [21.64, 63.08],
+            [21.64, 63.11],
+            [21.6, 63.11],
+            [21.6, 63.08],
+          ],
+        ],
+      },
+    },
+  ],
+}
+
 async function mockMapData(page: Page): Promise<void> {
   await page.route('**/data/vaasa-suuralueet.geojson', (route) =>
     route.fulfill({
@@ -84,6 +125,13 @@ async function mockMapData(page: Page): Promise<void> {
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify(minorBoundary),
+    }),
+  )
+  await page.route('**/data/paavo-postal-areas.geojson', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(postalBoundary),
     }),
   )
   await page.route(/https:\/\/[abc]\.tile\.openstreetmap\.org\/.*/, (route) => route.abort())
@@ -112,7 +160,7 @@ test('loads from the GitHub Pages base path and preserves boundary level in brow
   )
 })
 
-test('finds an address without map interaction and opens its minor-area page', async ({ page }) => {
+test('finds an address and offers major, minor, and postal destinations', async ({ page }) => {
   await page.route('https://nominatim.openstreetmap.org/search**', (route) =>
     route.fulfill({
       status: 200,
@@ -125,6 +173,14 @@ test('finds an address without map interaction and opens its minor-area page', a
   await page.getByRole('searchbox', { name: 'Search address' }).fill('Test address')
   await page.getByRole('button', { name: 'Search' }).click()
 
+  const majorLink = page.getByRole('link', { name: /Major area.*City centre/i })
+  const minorLink = page.getByRole('link', { name: /Minor area.*City centre 1/i })
+  const postalLink = page.getByRole('link', { name: /Postal code area.*65100/i })
+  await expect(majorLink).toBeVisible()
+  await expect(minorLink).toBeVisible()
+  await expect(postalLink).toBeVisible()
+
+  await minorLink.click()
   await expect(page).toHaveURL(/pienalue=11930883/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('City centre 1')
 })
