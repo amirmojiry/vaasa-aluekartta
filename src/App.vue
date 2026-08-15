@@ -11,7 +11,6 @@ import SiteFooter from '@/components/SiteFooter.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
 import AreaPostalLinks from '@/components/postal/AreaPostalLinks.vue'
 import PostalCodeDetail from '@/components/postal/PostalCodeDetail.vue'
-import PostalCodeMap from '@/components/postal/PostalCodeMap.vue'
 import { AREA_BY_SLUG } from '@/config/areas'
 import { useI18n } from '@/i18n'
 import { isAnalysisMetric } from '@/services/analysisMetrics'
@@ -25,8 +24,7 @@ const postalCode = postalParam && /^\d{5}$/.test(postalParam) ? postalParam : nu
 const areaSlug = searchParams.get('area')
 const selectedArea = areaSlug ? (AREA_BY_SLUG.get(areaSlug) ?? null) : null
 const pienalueParam = searchParams.get('pienalue')
-const pienalueRelationId =
-  pienalueParam && /^\d+$/.test(pienalueParam) ? Number(pienalueParam) : null
+const pienalueRelationId = pienalueParam && /^\d+$/.test(pienalueParam) ? Number(pienalueParam) : null
 const { buildUrl, t } = useI18n()
 const homeHref = buildUrl()
 </script>
@@ -60,7 +58,6 @@ const homeHref = buildUrl()
 
     <section class="home-map-section" :aria-label="t('statisticalAreas')">
       <VaasaMap />
-      <PostalCodeMap />
       <CityStatisticsSummary />
       <CityStatistics />
       <ElectionHistory city />
