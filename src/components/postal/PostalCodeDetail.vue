@@ -33,7 +33,8 @@ const currencyFormatter = computed(
 )
 const title = computed(() => {
   if (!postal.value) return props.code
-  const name = language.value === 'fi' ? postal.value.nameFi : postal.value.nameSv || postal.value.nameFi
+  const name =
+    language.value === 'fi' ? postal.value.nameFi : postal.value.nameSv || postal.value.nameFi
   return `${postal.value.code} · ${name}`
 })
 const pageLabel = computed(() => {
@@ -129,7 +130,12 @@ onBeforeUnmount(() => {
             </div>
             <span v-if="error" class="map-card__status">{{ error }}</span>
           </div>
-          <div ref="mapElement" class="map-canvas area-detail-map" role="region" :aria-label="title" />
+          <div
+            ref="mapElement"
+            class="map-canvas area-detail-map"
+            role="region"
+            :aria-label="title"
+          />
         </article>
 
         <section v-if="postal" class="area-stat-summary postal-stat-summary">
@@ -151,7 +157,9 @@ onBeforeUnmount(() => {
           </div>
           <div class="summary-metric">
             <strong>Average disposable monetary income</strong>
-            <span>{{ postal.averageIncome === null ? '—' : currencyFormatter.format(postal.averageIncome) }}</span>
+            <span>{{
+              postal.averageIncome === null ? '—' : currencyFormatter.format(postal.averageIncome)
+            }}</span>
           </div>
           <p class="postal-caveat">{{ caveat }}</p>
         </section>
@@ -180,7 +188,11 @@ onBeforeUnmount(() => {
         </section>
         <section v-if="postal" class="info-panel">
           <h2>Source</h2>
-          <a href="https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area" target="_blank" rel="noreferrer">
+          <a
+            href="https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area"
+            target="_blank"
+            rel="noreferrer"
+          >
             Statistics Finland · Paavo
           </a>
           <p>CC BY 4.0</p>
