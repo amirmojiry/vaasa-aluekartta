@@ -9,6 +9,7 @@ import PienalueDetail from '@/components/areas/PienalueDetail.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
+import AreaPostalLinks from '@/components/postal/AreaPostalLinks.vue'
 import PostalCodeDetail from '@/components/postal/PostalCodeDetail.vue'
 import PostalCodeMap from '@/components/postal/PostalCodeMap.vue'
 import { AREA_BY_SLUG } from '@/config/areas'
@@ -34,8 +35,14 @@ const homeHref = buildUrl()
   <PartyAnalysisPage v-if="partyCode" :party-code="partyCode" />
   <MetricAnalysisPage v-else-if="analysisMetric" :metric="analysisMetric" />
   <PostalCodeDetail v-else-if="postalCode" :code="postalCode" />
-  <PienalueDetail v-else-if="pienalueRelationId" :relation-id="pienalueRelationId" />
-  <AreaDetail v-else-if="selectedArea" :area="selectedArea" />
+  <template v-else-if="pienalueRelationId">
+    <PienalueDetail :relation-id="pienalueRelationId" />
+    <AreaPostalLinks :pienalue-relation-id="pienalueRelationId" />
+  </template>
+  <template v-else-if="selectedArea">
+    <AreaDetail :area="selectedArea" />
+    <AreaPostalLinks :area-slug="selectedArea.slug" />
+  </template>
 
   <main v-else class="app-shell">
     <header class="hero hero--compact">
