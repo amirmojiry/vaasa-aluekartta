@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import type { PostalCodeArea, PostalCodeCollection } from '@/domain/postal'
+import type { PostalCodeArea, PostalCodeCollection, PostalGeometry } from '@/domain/postal'
 import { postalMetricRank, postalMetricValue } from '@/services/postalData'
 
-const geometry = {
-  type: 'Polygon' as const,
+const geometry: PostalGeometry = {
+  type: 'Polygon',
   coordinates: [
     [
       [21.5, 63.0],
