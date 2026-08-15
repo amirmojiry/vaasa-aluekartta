@@ -60,11 +60,7 @@ function pointInLatLonRing(lat: number, lon: number, ring: BoundaryRing): boolea
   return inside
 }
 
-function orientation(
-  a: [number, number],
-  b: [number, number],
-  c: [number, number],
-): number {
+function orientation(a: [number, number], b: [number, number], c: [number, number]): number {
   return (b[1] - a[1]) * (c[0] - b[0]) - (b[0] - a[0]) * (c[1] - b[1])
 }
 
@@ -87,7 +83,7 @@ function segmentsIntersect(
   const o2 = orientation(a1, a2, b2)
   const o3 = orientation(b1, b2, a1)
   const o4 = orientation(b1, b2, a2)
-  if ((o1 > 0) !== (o2 > 0) && (o3 > 0) !== (o4 > 0)) return true
+  if (o1 > 0 !== o2 > 0 && o3 > 0 !== o4 > 0) return true
   if (Math.abs(o1) < Number.EPSILON && onSegment(a1, b1, a2)) return true
   if (Math.abs(o2) < Number.EPSILON && onSegment(a1, b2, a2)) return true
   if (Math.abs(o3) < Number.EPSILON && onSegment(b1, a1, b2)) return true
