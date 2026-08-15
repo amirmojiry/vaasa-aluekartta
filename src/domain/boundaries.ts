@@ -1,4 +1,4 @@
-export type BoundaryLevel = 'suuralue' | 'pienalue'
+export type BoundaryLevel = 'suuralue' | 'pienalue' | 'postal'
 
 export interface BoundaryLayerDefinition {
   id: BoundaryLevel
