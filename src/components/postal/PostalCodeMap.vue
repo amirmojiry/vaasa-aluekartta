@@ -38,6 +38,11 @@ const description = computed(() => {
     return 'Tilastokeskuksen viralliset postinumeroalueet ja Paavo-tilastot. Taso on erillinen kunnan suur- ja pienalueista.'
   return 'Official Statistics Finland postal-code polygons and Paavo statistics. This geography is separate from municipal major and minor areas.'
 })
+const selectorLabel = computed(() => {
+  if (language.value === 'fa') return 'انتخاب کد پستی'
+  if (language.value === 'fi') return 'Valitse postinumeroalue'
+  return 'Choose a postal code area'
+})
 
 const metricOptions = computed(() => [
   {
@@ -170,8 +175,16 @@ onBeforeUnmount(() => {
     <div v-if="loading" class="map-card__status">Loading Paavo…</div>
     <div v-else-if="error" class="map-card__status">{{ error }}</div>
     <div ref="mapElement" class="map-canvas postal-map" role="region" :aria-label="title" />
+    <nav v-if="postalAreas.length" class="postal-accessible-selector" :aria-label="selectorLabel">
+      <span class="postal-accessible-selector__label">{{ selectorLabel }}</span>
+      <ul class="postal-accessible-selector__list">
+        <li v-for="area in postalAreas" :key="area.code">
+          <a :href="buildUrl({ postal: area.code })">{{ area.code }} · {{ areaName(area) }}</a>
+        </li>
+      </ul>
+    </nav>
     <footer class="postal-map-source">
-      <span>Click a postal polygon for statistics and intersecting municipal areas.</span>
+      <span>Click a postal polygon or use the postal-code links for statistics and intersecting municipal areas.</span>
       <a
         href="https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area"
         target="_blank"
