@@ -175,11 +175,7 @@ onBeforeUnmount(() => {
     <div v-if="loading" class="map-card__status">Loading Paavo…</div>
     <div v-else-if="error" class="map-card__status">{{ error }}</div>
     <div ref="mapElement" class="map-canvas postal-map" role="region" :aria-label="title" />
-    <nav
-      v-if="postalAreas.length"
-      class="postal-accessible-selector"
-      :aria-label="selectorLabel"
-    >
+    <nav v-if="postalAreas.length" class="postal-accessible-selector" :aria-label="selectorLabel">
       <span class="postal-accessible-selector__label">{{ selectorLabel }}</span>
       <ul class="postal-accessible-selector__list">
         <li v-for="area in postalAreas" :key="area.code">
@@ -189,8 +185,8 @@ onBeforeUnmount(() => {
     </nav>
     <footer class="postal-map-source">
       <span>
-        Click a postal polygon or use the postal-code links for statistics and intersecting municipal
-        areas.
+        Click a postal polygon or use the postal-code links for statistics and intersecting
+        municipal areas.
       </span>
       <a
         href="https://stat.fi/en/services/statistical-data-services/geographic-data/geographic-data-by-postal-code-area"
