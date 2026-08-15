@@ -1,19 +1,22 @@
+import { AREAS } from '@/config/areas'
+import type { AreaBoundary } from '@/domain/areas'
 import type {
   PostalCodeArea,
   PostalCodeCollection,
   PostalGeometry,
   PostalMetric,
 } from '@/domain/postal'
+import { fetchAreaRecords } from '@/services/boundaryData'
+import { postalIntersectsBoundary } from '@/services/postalGeometry'
 
 const POSTAL_WFS_URL = 'https://geo.stat.fi/geoserver/postialue/ows'
-const VAASA_MUNICIPALITY_CODE = '905'
+const PAAVO_RELEASE_YEAR = 2026
 const PAAVO_STATISTICS_YEAR = 2024
 
 interface PostalFeatureProperties {
   postinumeroalue?: string
   nimi?: string
   namn?: string
-  kunta?: string | number
   vuosi?: string | number
   he_vakiy?: string | number
   pt_tyoll?: string | number
@@ -32,6 +35,13 @@ interface PostalFeature {
 interface PostalFeatureCollection {
   type: 'FeatureCollection'
   features: PostalFeature[]
+}
+
+interface GeographicBounds {
+  minLat: number
+  maxLat: number
+  minLon: number
+  maxLon: number
 }
 
 let postalPromise: Promise<PostalCodeCollection> | null = null
@@ -68,17 +78,13 @@ function propertyNumber(properties: PostalFeatureProperties, keys: string[]): nu
 function featureToArea(feature: PostalFeature): PostalCodeArea | null {
   const code = postalCode(feature.properties)
   if (!code || !feature.geometry) return null
-  const municipalityCode =
-    feature.properties.kunta === null || feature.properties.kunta === undefined
-      ? null
-      : String(feature.properties.kunta).padStart(3, '0')
 
   return {
     code,
     nameFi: String(feature.properties.nimi ?? code),
     nameSv: String(feature.properties.namn ?? feature.properties.nimi ?? code),
-    municipalityCode,
-    releaseYear: numberOrNull(feature.properties.vuosi),
+    municipalityCode: null,
+    releaseYear: numberOrNull(feature.properties.vuosi) ?? PAAVO_RELEASE_YEAR,
     statisticsYear: PAAVO_STATISTICS_YEAR,
     population: propertyNumber(feature.properties, ['he_vakiy', 'vaesto', 'population']),
     employed: propertyNumber(feature.properties, ['pt_tyoll', 'tyoll']),
@@ -89,21 +95,47 @@ function featureToArea(feature: PostalFeature): PostalCodeArea | null {
   }
 }
 
-function vaasaRequestUrl(): string {
+function boundsForAreas(areas: AreaBoundary[]): GeographicBounds {
+  let minLat = Number.POSITIVE_INFINITY
+  let maxLat = Number.NEGATIVE_INFINITY
+  let minLon = Number.POSITIVE_INFINITY
+  let maxLon = Number.NEGATIVE_INFINITY
+
+  for (const area of areas) {
+    for (const ring of area.rings) {
+      for (const [lat, lon] of ring) {
+        minLat = Math.min(minLat, lat)
+        maxLat = Math.max(maxLat, lat)
+        minLon = Math.min(minLon, lon)
+        maxLon = Math.max(maxLon, lon)
+      }
+    }
+  }
+
+  if (![minLat, maxLat, minLon, maxLon].every(Number.isFinite)) {
+    throw new Error('Could not derive a Vaasa bounding box for the Paavo request')
+  }
+
+  return { minLat, maxLat, minLon, maxLon }
+}
+
+export function postalWfsUrlForBounds(bounds: GeographicBounds): string {
   const params = new URLSearchParams({
     service: 'WFS',
     version: '2.0.0',
     request: 'GetFeature',
-    typeNames: 'postialue:pno_tilasto',
+    typeNames: `postialue:pno_tilasto_${PAAVO_RELEASE_YEAR}`,
     outputFormat: 'application/json',
     srsName: 'EPSG:4326',
-    cql_filter: `kunta='${VAASA_MUNICIPALITY_CODE}'`,
+    bbox: `${bounds.minLon},${bounds.minLat},${bounds.maxLon},${bounds.maxLat},EPSG:4326`,
   })
   return `${POSTAL_WFS_URL}?${params.toString()}`
 }
 
 async function loadPostalCollection(): Promise<PostalCodeCollection> {
-  const sourceUrl = vaasaRequestUrl()
+  const majorAreaMap = await fetchAreaRecords(AREAS)
+  const majorAreas = [...majorAreaMap.values()]
+  const sourceUrl = postalWfsUrlForBounds(boundsForAreas(majorAreas))
   const response = await fetch(sourceUrl, { headers: { Accept: 'application/json' } })
   if (!response.ok) throw new Error(`Paavo postal data returned HTTP ${response.status}`)
   const payload = (await response.json()) as PostalFeatureCollection
@@ -114,7 +146,7 @@ async function loadPostalCollection(): Promise<PostalCodeCollection> {
   const areas = payload.features
     .map(featureToArea)
     .filter((area): area is PostalCodeArea => area !== null)
-    .filter((area) => !area.municipalityCode || area.municipalityCode === VAASA_MUNICIPALITY_CODE)
+    .filter((area) => majorAreas.some((boundary) => postalIntersectsBoundary(area, boundary)))
     .sort((left, right) => left.code.localeCompare(right.code))
 
   return { areas, sourceUrl, statisticsYear: PAAVO_STATISTICS_YEAR }
