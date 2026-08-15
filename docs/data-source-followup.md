@@ -143,15 +143,15 @@ Simple polygon-area weighting assumes residents are uniformly distributed across
 
 The risk differs by metric:
 
-| Metric type | Crosswalk suitability |
-| --- | --- |
-| Boundary/navigation relationship | Good; geometric overlap is appropriate |
-| Near-exact postal/municipal matches | Potentially usable if confidence is very high and clearly labelled |
-| Population counts | Area-weighted estimates are possible but should remain labelled estimates |
-| Employed/unemployed/student counts | Same problem as population; residents are not uniformly distributed |
-| Percentages/rates | Must not be transferred by simple polygon overlap |
-| Average income | Must not be transferred by simple area weighting |
-| Language shares | Must not be treated as exact unless source geography is effectively identical |
+| Metric type                         | Crosswalk suitability                                                         |
+| ----------------------------------- | ----------------------------------------------------------------------------- |
+| Boundary/navigation relationship    | Good; geometric overlap is appropriate                                        |
+| Near-exact postal/municipal matches | Potentially usable if confidence is very high and clearly labelled            |
+| Population counts                   | Area-weighted estimates are possible but should remain labelled estimates     |
+| Employed/unemployed/student counts  | Same problem as population; residents are not uniformly distributed           |
+| Percentages/rates                   | Must not be transferred by simple polygon overlap                             |
+| Average income                      | Must not be transferred by simple area weighting                              |
+| Language shares                     | Must not be treated as exact unless source geography is effectively identical |
 
 If an estimate is ever generated from split postal codes, population-weighted or address/building-based allocation is preferable to pure land-area weighting. Even then, the result should be a separate estimated dataset rather than silently replacing exact municipal-subarea observations.
 
