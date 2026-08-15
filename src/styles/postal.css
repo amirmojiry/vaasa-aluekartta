@@ -1,0 +1,97 @@
+.postal-map-card {
+  margin-top: 1.5rem;
+}
+
+.postal-map-card__header {
+  align-items: end;
+  gap: 1rem;
+}
+
+.postal-map-card__header p {
+  max-width: 62rem;
+  margin: 0.35rem 0 0;
+}
+
+.postal-metric-control {
+  display: grid;
+  min-width: 12rem;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.postal-metric-control select {
+  min-height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  padding: 0.45rem 0.7rem;
+  background: var(--surface);
+  color: inherit;
+}
+
+.postal-map {
+  min-height: 32rem;
+}
+
+.postal-map-source {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem 1rem;
+  font-size: 0.78rem;
+}
+
+.postal-map-source a,
+.postal-related-list a {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.postal-stat-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.8rem;
+}
+
+.postal-stat-summary .summary-metric,
+.postal-stat-summary .summary-population {
+  min-height: 7rem;
+}
+
+.postal-caveat {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.postal-area-link-shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto 2rem;
+}
+
+.postal-related-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.45rem 1rem;
+  margin: 0.8rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.postal-related-note {
+  display: block;
+  max-width: 60rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .postal-map-card__header,
+  .postal-map-source {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .postal-map {
+    min-height: 25rem;
+  }
+}
