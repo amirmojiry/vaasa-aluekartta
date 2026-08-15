@@ -33,6 +33,43 @@
   min-height: 32rem;
 }
 
+.postal-accessible-selector {
+  border-top: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+}
+
+.postal-accessible-selector__label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.postal-accessible-selector__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.postal-accessible-selector__list a {
+  display: inline-block;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.42rem 0.7rem;
+  color: var(--green);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.postal-accessible-selector__list a:hover,
+.postal-accessible-selector__list a:focus-visible {
+  text-decoration: underline;
+}
+
 .postal-map-source {
   display: flex;
   justify-content: space-between;
