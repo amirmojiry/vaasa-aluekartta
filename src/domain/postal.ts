@@ -18,7 +18,6 @@ export interface PostalCodeArea {
   code: string
   nameFi: string
   nameSv: string
-  municipalityCode: string | null
   releaseYear: number | null
   statisticsYear: number
   population: number | null
@@ -26,6 +25,9 @@ export interface PostalCodeArea {
   unemployed: number | null
   students: number | null
   averageIncome: number | null
+  employedShare: number | null
+  unemployedShare: number | null
+  studentShare: number | null
   geometry: PostalGeometry
 }
 
@@ -33,4 +35,28 @@ export interface PostalCodeCollection {
   areas: PostalCodeArea[]
   sourceUrl: string
   statisticsYear: number
+  releaseYear: number | null
+}
+
+export interface PostalHistoryObservation {
+  year: number
+  population: number | null
+  employed: number | null
+  unemployed: number | null
+  students: number | null
+  averageIncome: number | null
+  employedShare: number | null
+  unemployedShare: number | null
+  studentShare: number | null
+}
+
+export interface PostalHistoryDatabase {
+  generatedAt: string
+  source: string
+  sourceUrl: string
+  licence: string
+  latestReleaseYear: number
+  latestStatisticsYear: number
+  years: number[]
+  areas: Record<string, PostalHistoryObservation[]>
 }
