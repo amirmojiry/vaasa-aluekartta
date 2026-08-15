@@ -4,9 +4,11 @@ import L, { type FeatureGroup, type Map as LeafletMap } from 'leaflet'
 
 import { AREAS } from '@/config/areas'
 import { INITIAL_ZOOM, TILE_LAYER, VAASA_CENTER } from '@/config/map'
-import type { AreaLevel } from '@/domain/areas'
+import type { AnalysisLevel } from '@/services/analysisMetrics'
 import { localizeAreaName, useI18n } from '@/i18n'
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
+import { fetchPostalCodeCollection } from '@/services/postalData'
+import { postalRingsForLeaflet } from '@/services/postalGeometry'
 
 export interface ThematicMapItem {
   name: string
@@ -14,7 +16,7 @@ export interface ThematicMapItem {
 }
 
 const props = defineProps<{
-  level: AreaLevel
+  level: AnalysisLevel
   items: ThematicMapItem[]
   color: string
   formatValue: (value: number) => string
@@ -71,7 +73,7 @@ async function render(): Promise<void> {
         window.location.href = buildUrl({ area: area.slug })
       })
     }
-  } else {
+  } else if (props.level === 'pienalue') {
     const boundaries = await fetchPienalueBoundaries(AREAS)
     if (token !== renderToken || !areaGroup) return
 
@@ -91,6 +93,30 @@ async function render(): Promise<void> {
       )
       polygon.on('click', () => {
         window.location.href = buildUrl({ pienalue: boundary.relationId })
+      })
+    }
+  } else {
+    const collection = await fetchPostalCodeCollection()
+    if (token !== renderToken || !areaGroup) return
+
+    for (const postal of collection.areas) {
+      const item = itemByName.value.get(postal.code)
+      const name = language.value === 'fi' ? postal.nameFi : postal.nameSv || postal.nameFi
+      const polygon = L.polygon(postalRingsForLeaflet(postal), {
+        color: item ? props.color : '#89938f',
+        weight: item ? 2 : 1,
+        opacity: item ? 0.95 : 0.5,
+        fillColor: item ? props.color : '#b7bfbc',
+        fillOpacity: item ? fillOpacity(item.value) : 0.045,
+      }).addTo(areaGroup)
+      polygon.bindTooltip(
+        item
+          ? `${postal.code} · ${name} · ${props.formatValue(item.value)}`
+          : `${postal.code} · ${name}`,
+        { sticky: true },
+      )
+      polygon.on('click', () => {
+        window.location.href = buildUrl({ postal: postal.code })
       })
     }
   }
