@@ -177,16 +177,16 @@ The repository intentionally contains datasets from different reference years. T
 
 Current analysis datasets include:
 
-| Dataset | Typical reference year | Notes |
-| --- | ---: | --- |
-| Major-area population history | latest available observation, currently 2024 | Used for the current major-area population comparison |
-| Historical area population | 2015 | Used where the historical area-statistics dataset is the available source |
-| Employed share | 2013 | Historical area statistics |
-| Unemployed share | 2013 | Historical area statistics |
-| Student share | 2013 | Historical area statistics |
-| Mother tongue shares | 2015 | Finnish, Swedish, and other languages |
-| Average annual taxable income | 2014 | Residents aged 15+ in the underlying source |
-| Election results | election-specific | Municipality, regional, parliamentary, or European election event depending on source coverage |
+| Dataset                        |                       Typical reference year | Notes                                                                                          |
+| ------------------------------ | -------------------------------------------: | ---------------------------------------------------------------------------------------------- |
+| Major-area population history  | latest available observation, currently 2024 | Used for the current major-area population comparison                                          |
+| Historical area population     |                                         2015 | Used where the historical area-statistics dataset is the available source                      |
+| Employed share                 |                                         2013 | Historical area statistics                                                                     |
+| Unemployed share               |                                         2013 | Historical area statistics                                                                     |
+| Student share                  |                                         2013 | Historical area statistics                                                                     |
+| Mother tongue shares           |                                         2015 | Finnish, Swedish, and other languages                                                          |
+| Average annual taxable income  |                                         2014 | Residents aged 15+ in the underlying source                                                    |
+| Election results               |                            election-specific | Municipality, regional, parliamentary, or European election event depending on source coverage |
 
 The main structured data assets include:
 
