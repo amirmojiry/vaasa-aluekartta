@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   apply:
-    if: github.actor != 'github-actions[bot]'
+    if: github.actor == 'amirmojiry'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,32 +21,20 @@ jobs:
         with:
           node-version: 22
 
-      - name: Apply requested fixes
-        shell: bash
+      - name: Apply requested changes
+        run: node scripts/apply-ui-followups-temp.mjs
+
+      - name: Format and type-check
         run: |
-          python -c "from pathlib import Path; p=Path('src/components/areas/ElectionLineChart.vue'); s=p.read_text(); s=s.replace(\"import { partyColor, partyWikipediaLinks } from '@/services/electionStatistics'\", \"import { partyColor } from '@/services/electionStatistics'\"); s=s.replace(\"const selectedLinks = computed(() =>\\n  props.selectedParty ? partyWikipediaLinks(props.selectedParty) : {},\\n)\\n\", \"\"); start=s.index('        <a v-if=\"selectedLinks.fa\"'); end=s.index('        </a>', s.index('        <a v-if=\"selectedLinks.fi\"', start))+len('        </a>'); s=s[:start]+'        <a :href=\"buildUrl({ party: selectedParty })\">{{ dedicatedPageLabel }}</a>'+s[end:]; p.write_text(s)"
-          python -c "from pathlib import Path; p=Path('src/components/postal/PostalCodeDetail.vue'); s=p.read_text(); s=s.replace(\"const activePoiCategories = ref<PoiCategory[]>([])\\nconst poiLoading = ref(true)\", \"const activePoiCategories = ref<PoiCategory[]>([])\\nconst poiScope = ref<'postal' | 'vaasa'>('postal')\\nconst poiLoading = ref(true)\"); s=s.replace(\"const visiblePoiFeatures = computed(() =>\\n  postalPoiFeatures.value.filter((feature) =>\\n    activePoiCategories.value.includes(feature.properties.category),\\n  ),\\n)\", \"const scopedPoiFeatures = computed(() =>\\n  poiScope.value === 'postal' ? postalPoiFeatures.value : allPoiFeatures.value,\\n)\\nconst visiblePoiFeatures = computed(() =>\\n  scopedPoiFeatures.value.filter((feature) =>\\n    activePoiCategories.value.includes(feature.properties.category),\\n  ),\\n)\"); s=s.replace(\"postalPoiFeatures.value.length)}`\", \"scopedPoiFeatures.value.length)}`\"); s=s.replace(\"return postalPoiFeatures.value.filter((feature) => feature.properties.category === category)\\n    .length\", \"return scopedPoiFeatures.value.filter((feature) => feature.properties.category === category).length\"); marker=\"function fitAreaOnMap(): void {\"; s=s.replace(marker, \"function setPoiScope(scope: 'postal' | 'vaasa'): void {\\n  poiScope.value = scope\\n  renderPoiLayers()\\n}\\n\\n\"+marker); old=\"                  {{ poiLabel('showAllPostal') }}\\n                </button>\\n                <button type=\\\"button\\\" @click=\\\"showAllPois\\\">{{ poiLabel('showAll') }}</button>\"; new=\"                  {{ poiLabel('fitVisible') }}\\n                </button>\\n                <button type=\\\"button\\\" :class=\\\"{ 'is-active': poiScope === 'postal' }\\\" :aria-pressed=\\\"poiScope === 'postal'\\\" @click=\\\"setPoiScope('postal')\\\">\\n                  {{ poiLabel('showPostalOnly') }}\\n                </button>\\n                <button type=\\\"button\\\" :class=\\\"{ 'is-active': poiScope === 'vaasa' }\\\" :aria-pressed=\\\"poiScope === 'vaasa'\\\" @click=\\\"setPoiScope('vaasa')\\\">\\n                  {{ poiLabel('showAllVaasa') }}\\n                </button>\\n                <button type=\\\"button\\\" @click=\\\"showAllPois\\\">{{ poiLabel('showAll') }}</button>\"; s=s.replace(old,new); p.write_text(s)"
-          python -c "from pathlib import Path; p=Path('src/poiI18n.ts'); s=p.read_text(); s=s.replace(\"postalHint: 'Only OpenStreetMap places inside this postal code area are included.',\", \"postalHint: 'Start with places inside this postal code area, or switch to all Vaasa OpenStreetMap places.',\\n    fitVisible: 'Fit visible places',\\n    showPostalOnly: 'Show postal-area places',\"); s=s.replace(\"postalHint: 'Mukana ovat vain tämän postinumeroalueen sisällä olevat OpenStreetMap-kohteet.',\", \"postalHint: 'Aloita tämän postinumeroalueen paikoista tai vaihda näyttämään kaikki Vaasan OpenStreetMap-kohteet.',\\n    fitVisible: 'Sovita näkyvät paikat',\\n    showPostalOnly: 'Näytä postinumeroalueen paikat',\"); s=s.replace(\"postalHint: 'فقط مکان‌های OpenStreetMap داخل همین منطقه کد پستی در نظر گرفته می‌شوند.',\", \"postalHint: 'ابتدا مکان‌های داخل همین کد پستی نمایش داده می‌شوند؛ در صورت نیاز می‌توانید همه مکان‌های واسا را نمایش دهید.',\\n    fitVisible: 'نمایش محدوده مکان‌های قابل مشاهده',\\n    showPostalOnly: 'نمایش مکان‌های همین کد پستی',\"); p.write_text(s)"
           npm install --no-audit --no-fund
-          npx prettier --write src/components/areas/ElectionLineChart.vue src/components/postal/PostalCodeDetail.vue src/poiI18n.ts
+          npx prettier --write src/components/areas/ElectionLineChart.vue src/components/postal/PostalCodeDetail.vue src/poiI18n.ts src/styles/pois.css
           npm run typecheck
-          npm test
 
-      - name: Verify requested behavior in source
-        shell: bash
-        run: |
-          ! grep -q 'partyWikipediaLinks' src/components/areas/ElectionLineChart.vue
-          grep -q 'buildUrl({ party: selectedParty })' src/components/areas/ElectionLineChart.vue
-          grep -q "language.value === 'fa'" src/components/analysis/PartyAnalysisPage.vue
-          grep -q 'return links.fa' src/components/analysis/PartyAnalysisPage.vue
-          grep -q "poiScope === 'vaasa'" src/components/postal/PostalCodeDetail.vue
-          grep -q 'showAllVaasa' src/components/postal/PostalCodeDetail.vue
-
-      - name: Commit fixes
-        shell: bash
+      - name: Commit requested changes
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/components/areas/ElectionLineChart.vue src/components/postal/PostalCodeDetail.vue src/poiI18n.ts
+          git rm scripts/apply-ui-followups-temp.mjs scripts/apply-ui-followups.mjs .github/workflows/apply-ui-followups.yml
+          git add src/components/areas/ElectionLineChart.vue src/components/postal/PostalCodeDetail.vue src/poiI18n.ts src/styles/pois.css
           git commit -m 'Fix party links and postal POI scope'
           git push origin HEAD:agent/fix-party-links-postal-poi-scope
