@@ -130,9 +130,9 @@ test('postal detail reuses the responsive area summary visuals', async ({ page }
 
   const chartWrap = page.locator('.postal-history__chart-wrap')
   await expect(chartWrap).toBeVisible()
-  expect(
-    await chartWrap.evaluate((element) => element.scrollWidth > element.clientWidth),
-  ).toBe(true)
+  expect(await chartWrap.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(
+    true,
+  )
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
   ).toBe(true)
