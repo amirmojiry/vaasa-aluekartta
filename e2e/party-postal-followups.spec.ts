@@ -106,25 +106,47 @@ const poiCollection = {
 
 async function mockPostalData(page: Page): Promise<void> {
   await page.route('**/data/vaasa-suuralueet.geojson', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(emptyBoundaries) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(emptyBoundaries),
+    }),
   )
   await page.route('**/data/vaasa-pienalueet.geojson', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(emptyBoundaries) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(emptyBoundaries),
+    }),
   )
   await page.route('**/data/paavo-postal-areas.geojson', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(postalBoundary) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(postalBoundary),
+    }),
   )
   await page.route('**/data/paavo-postal-history.json', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(postalHistory) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(postalHistory),
+    }),
   )
   await page.route('**/data/vaasa-pois.geojson', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(poiCollection) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(poiCollection),
+    }),
   )
   await page.route(/https:\/\/[abc]\.tile\.openstreetmap\.org\/.*/, (route) => route.abort())
   await page.route(/https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/, (route) => route.abort())
 }
 
-test('party Wikipedia stays on the dedicated page and follows the active language', async ({ page }) => {
+test('party Wikipedia stays on the dedicated page and follows the active language', async ({
+  page,
+}) => {
   await page.goto('/vaasa-aluekartta/?area=keskusta&lang=en')
 
   const partyButton = page.locator('.election-legend__party').filter({ hasText: 'KOK' }).first()
