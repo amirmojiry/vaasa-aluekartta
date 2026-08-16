@@ -82,8 +82,7 @@ const postalHistory = {
   },
 }
 
-test('postal detail reuses the responsive area summary visuals', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 })
+async function mockPostalData(page: import('@playwright/test').Page) {
   await page.route('**/data/vaasa-suuralueet.geojson', (route) =>
     route.fulfill({
       status: 200,
@@ -114,6 +113,11 @@ test('postal detail reuses the responsive area summary visuals', async ({ page }
   )
   await page.route(/https:\/\/[abc]\.tile\.openstreetmap\.org\/.*/, (route) => route.abort())
   await page.route(/https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/, (route) => route.abort())
+}
+
+test('postal detail reuses the responsive area summary visuals', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await mockPostalData(page)
 
   await page.goto('/vaasa-aluekartta/?postal=65280&lang=en')
 
@@ -124,7 +128,19 @@ test('postal detail reuses the responsive area summary visuals', async ({ page }
   await expect(page.getByRole('link', { name: 'Population' })).toBeVisible()
   await expect(page.getByText('Average annual income of inhabitants')).toBeVisible()
 
+  const chartWrap = page.locator('.postal-history__chart-wrap')
+  await expect(chartWrap).toBeVisible()
+  expect(
+    await chartWrap.evaluate((element) => element.scrollWidth > element.clientWidth),
+  ).toBe(true)
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
   ).toBe(true)
+})
+
+test('postal summary accessible name follows the selected language', async ({ page }) => {
+  await mockPostalData(page)
+  await page.goto('/vaasa-aluekartta/?postal=65280&lang=fa')
+
+  await expect(page.getByRole('region', { name: 'نمای کلی آمار کد پستی' })).toBeVisible()
 })
