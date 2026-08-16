@@ -9,7 +9,11 @@ import PostalStatisticsSummary from '@/components/postal/PostalStatisticsSummary
 import { AREAS } from '@/config/areas'
 import { TILE_LAYER, VAASA_CENTER } from '@/config/map'
 import type { AreaBoundary, PienalueBoundary } from '@/domain/areas'
-import type { PostalCodeArea, PostalCodeCollection, PostalHistoryObservation } from '@/domain/postal'
+import type {
+  PostalCodeArea,
+  PostalCodeCollection,
+  PostalHistoryObservation,
+} from '@/domain/postal'
 import { localizeAreaName, useI18n } from '@/i18n'
 import { fetchAreaRecords, fetchPienalueBoundaries } from '@/services/boundaryData'
 import {
@@ -130,7 +134,11 @@ onBeforeUnmount(() => {
 
     <section class="area-detail-layout">
       <div class="area-detail-main">
-        <PostalStatisticsSummary v-if="postal && collection" :postal="postal" :collection="collection" />
+        <PostalStatisticsSummary
+          v-if="postal && collection"
+          :postal="postal"
+          :collection="collection"
+        />
 
         <article class="map-card area-detail-map-card">
           <div class="map-card__header">

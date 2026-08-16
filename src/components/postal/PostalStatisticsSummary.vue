@@ -145,7 +145,9 @@ function studentIconFill(index: number): string {
         </span>
         <span class="summary-legend__item">
           <i class="legend-dot legend-dot--unemployed" />
-          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{ labels.unemployed }}</a>
+          <a class="summary-analysis-link" :href="metricHref('unemployed')">{{
+            labels.unemployed
+          }}</a>
           <strong>{{ formatPercent(postal.unemployedShare) }}</strong>
           <a class="summary-rank-link" :href="metricHref('unemployed')">
             <small>{{ rankText('unemployed') }}</small>
@@ -195,7 +197,9 @@ function studentIconFill(index: number): string {
     <div class="summary-population">
       <div class="summary-population__heading">
         <strong>
-          <a class="summary-analysis-link" :href="metricHref('population')">{{ labels.population }}</a>
+          <a class="summary-analysis-link" :href="metricHref('population')">{{
+            labels.population
+          }}</a>
         </strong>
         <span>{{ postal.statisticsYear }}</span>
       </div>
@@ -207,13 +211,18 @@ function studentIconFill(index: number): string {
 
     <div class="summary-metric income-summary postal-income-summary">
       <div class="summary-metric__heading">
-        <a class="summary-analysis-link postal-income-summary__heading" :href="metricHref('income')">
+        <a
+          class="summary-analysis-link postal-income-summary__heading"
+          :href="metricHref('income')"
+        >
           {{ labels.income }}
         </a>
         <span>{{ postal.statisticsYear }}</span>
       </div>
       <div class="postal-income-summary__value">
-        <strong>{{ postal.averageIncome === null ? '—' : currencyFormatter.format(postal.averageIncome) }}</strong>
+        <strong>{{
+          postal.averageIncome === null ? '—' : currencyFormatter.format(postal.averageIncome)
+        }}</strong>
         <span>{{ labels.perYear }}</span>
       </div>
       <div class="postal-income-summary__context">
