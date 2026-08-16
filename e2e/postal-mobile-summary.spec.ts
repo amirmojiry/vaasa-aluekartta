@@ -85,16 +85,32 @@ const postalHistory = {
 test('postal detail reuses the responsive area summary visuals', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.route('**/data/vaasa-suuralueet.geojson', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(emptyBoundaries) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(emptyBoundaries),
+    }),
   )
   await page.route('**/data/vaasa-pienalueet.geojson', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(emptyBoundaries) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(emptyBoundaries),
+    }),
   )
   await page.route('**/data/paavo-postal-areas.geojson', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(postalBoundary) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(postalBoundary),
+    }),
   )
   await page.route('**/data/paavo-postal-history.json', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(postalHistory) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(postalHistory),
+    }),
   )
   await page.route(/https:\/\/[abc]\.tile\.openstreetmap\.org\/.*/, (route) => route.abort())
   await page.route(/https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/, (route) => route.abort())
