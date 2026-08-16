@@ -56,6 +56,7 @@ const statisticsDatabase = ref<AreaStatisticsDatabase | null>(null)
 const majorPopulationDatabase = ref<MajorAreaPopulationHistoryDatabase | null>(null)
 const incomeDatabase = ref<AreaIncomeDatabase | null>(null)
 const postalCollection = ref<PostalCodeCollection | null>(null)
+const selectedPostalCode = ref('')
 const poiFeatures = ref<PoiFeature[]>([])
 const activePoiCategories = ref<PoiCategory[]>([])
 const poiLoading = ref(true)
@@ -187,6 +188,26 @@ function openPienalue(relationId: number): void {
 
 function openPostal(code: string): void {
   window.location.href = buildUrl({ postal: code })
+}
+
+function postalSelectorLabel(): string {
+  if (language.value === 'fa') return 'انتخاب کد پستی'
+  if (language.value === 'fi') return 'Valitse postinumeroalue'
+  return 'Select postal code area'
+}
+
+function postalOpenLabel(): string {
+  if (language.value === 'fa') return 'مشاهده'
+  if (language.value === 'fi') return 'Avaa'
+  return 'Open'
+}
+
+function postalSelectorName(area: PostalCodeArea): string {
+  return `${area.code} · ${area.nameFi}`
+}
+
+function openSelectedPostal(): void {
+  if (selectedPostalCode.value) openPostal(selectedPostalCode.value)
 }
 
 function fitRenderedBounds(): void {
@@ -788,6 +809,25 @@ onBeforeUnmount(() => {
         <span>{{ layerAreaCount(layer.id) }} {{ t('areas') }}</span>
       </button>
     </div>
+
+    <form
+      v-if="selectedLevel === 'postal' && postalCollection?.areas.length"
+      class="address-search postal-map-selector"
+      @submit.prevent="openSelectedPostal"
+    >
+      <label class="address-search__label" for="postal-map-selector">
+        {{ postalSelectorLabel() }}
+      </label>
+      <div class="address-search__controls">
+        <select id="postal-map-selector" v-model="selectedPostalCode">
+          <option value="" disabled>{{ postalSelectorLabel() }}</option>
+          <option v-for="area in postalCollection.areas" :key="area.code" :value="area.code">
+            {{ postalSelectorName(area) }}
+          </option>
+        </select>
+        <button type="submit" :disabled="!selectedPostalCode">{{ postalOpenLabel() }}</button>
+      </div>
+    </form>
 
     <div class="map-visualization-control" :aria-label="t('colorMapBy')">
       <span class="map-visualization-control__label">{{ t('colorMapBy') }}</span>

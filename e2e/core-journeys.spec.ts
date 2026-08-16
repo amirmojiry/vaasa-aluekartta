@@ -158,6 +158,17 @@ test('loads from the GitHub Pages base path and preserves boundary level in brow
     'aria-pressed',
     'true',
   )
+
+  const postalButton = page.getByRole('button', { name: /Postal code areas/ })
+  await postalButton.click()
+  await expect(postalButton).toHaveAttribute('aria-pressed', 'true')
+  await expect(page).toHaveURL(/level=postal/)
+
+  const postalSelector = page.getByLabel('Select postal code area')
+  await expect(postalSelector).toBeVisible()
+  await postalSelector.selectOption('65100')
+  await page.locator('.postal-map-selector').getByRole('button', { name: 'Open' }).click()
+  await expect(page).toHaveURL(/postal=65100/)
 })
 
 test('finds an address and offers major, minor, and postal destinations', async ({ page }) => {
