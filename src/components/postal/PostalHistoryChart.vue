@@ -156,6 +156,7 @@ function formatValue(value: number): string {
 
 <style scoped>
 .postal-history {
+  min-width: 0;
   padding: 1rem;
   border: 1px solid var(--line);
   border-radius: 0.8rem;
@@ -164,6 +165,7 @@ function formatValue(value: number): string {
 }
 .postal-history__heading {
   display: flex;
+  min-width: 0;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
@@ -178,6 +180,8 @@ function formatValue(value: number): string {
 }
 .postal-history__metrics {
   display: flex;
+  min-width: 0;
+  max-width: 100%;
   gap: 0.4rem;
   flex-wrap: wrap;
 }
@@ -194,12 +198,17 @@ function formatValue(value: number): string {
   color: #0c514b;
 }
 .postal-history__chart-wrap {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   margin-top: 1rem;
-  overflow-x: auto;
+  overflow: hidden;
 }
 .postal-history__chart {
+  display: block;
   width: 100%;
-  min-width: 680px;
+  max-width: 100%;
+  height: auto;
 }
 .postal-history__axis {
   stroke: #9da6a2;
