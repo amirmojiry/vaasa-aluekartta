@@ -99,7 +99,8 @@
   border-radius: 50%;
 }
 
-.poi-control__category.is-active {
+.poi-control__category.is-active,
+.poi-control__actions button.is-active {
   border-color: var(--green);
   background: #e8f1ed;
   box-shadow: inset 0 0 0 1px rgba(23, 100, 93, 0.12);

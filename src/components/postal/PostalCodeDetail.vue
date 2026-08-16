@@ -43,6 +43,7 @@ const minorAreas = ref<PienalueBoundary[]>([])
 const error = ref('')
 const allPoiFeatures = ref<PoiFeature[]>([])
 const activePoiCategories = ref<PoiCategory[]>([])
+const poiScope = ref<'postal' | 'vaasa'>('postal')
 const poiLoading = ref(true)
 const poiFailed = ref(false)
 const poiSourceUrl = ref('https://www.openstreetmap.org/copyright')
@@ -57,8 +58,11 @@ const postalPoiFeatures = computed(() => {
     return pointInPostalArea(lat, lon, postal.value!)
   })
 })
+const scopedPoiFeatures = computed(() =>
+  poiScope.value === 'postal' ? postalPoiFeatures.value : allPoiFeatures.value,
+)
 const visiblePoiFeatures = computed(() =>
-  postalPoiFeatures.value.filter((feature) =>
+  scopedPoiFeatures.value.filter((feature) =>
     activePoiCategories.value.includes(feature.properties.category),
   ),
 )
@@ -68,7 +72,7 @@ const numberFormatter = computed(
 const poiStatus = computed(() => {
   if (poiLoading.value) return poiLabel('loading')
   if (poiFailed.value) return poiLabel('unavailable')
-  return `${poiLabel('placesShown')}: ${numberFormatter.value.format(visiblePoiFeatures.value.length)}/${numberFormatter.value.format(postalPoiFeatures.value.length)}`
+  return `${poiLabel('placesShown')}: ${numberFormatter.value.format(visiblePoiFeatures.value.length)}/${numberFormatter.value.format(scopedPoiFeatures.value.length)}`
 })
 
 const title = computed(() => {
@@ -118,7 +122,7 @@ function poiCategoryLabel(category: PoiCategory): string {
 }
 
 function poiCategoryCount(category: PoiCategory): number {
-  return postalPoiFeatures.value.filter((feature) => feature.properties.category === category)
+  return scopedPoiFeatures.value.filter((feature) => feature.properties.category === category)
     .length
 }
 
@@ -164,6 +168,11 @@ function showAllPois(): void {
 
 function hideAllPois(): void {
   activePoiCategories.value = []
+  renderPoiLayers()
+}
+
+function setPoiScope(scope: 'postal' | 'vaasa'): void {
+  poiScope.value = scope
   renderPoiLayers()
 }
 
@@ -292,7 +301,23 @@ onBeforeUnmount(() => {
                   :disabled="poiLoading || poiFailed || visiblePoiFeatures.length === 0"
                   @click="fitAllPoisOnMap"
                 >
-                  {{ poiLabel('showAllPostal') }}
+                  {{ poiLabel('fitVisible') }}
+                </button>
+                <button
+                  type="button"
+                  :class="{ 'is-active': poiScope === 'postal' }"
+                  :aria-pressed="poiScope === 'postal'"
+                  @click="setPoiScope('postal')"
+                >
+                  {{ poiLabel('showPostalOnly') }}
+                </button>
+                <button
+                  type="button"
+                  :class="{ 'is-active': poiScope === 'vaasa' }"
+                  :aria-pressed="poiScope === 'vaasa'"
+                  @click="setPoiScope('vaasa')"
+                >
+                  {{ poiLabel('showAllVaasa') }}
                 </button>
                 <button type="button" @click="showAllPois">{{ poiLabel('showAll') }}</button>
                 <button type="button" @click="hideAllPois">{{ poiLabel('hideAll') }}</button>
