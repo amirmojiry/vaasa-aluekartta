@@ -26,44 +26,54 @@ const PARTY_COLORS: Record<string, string> = {
 }
 
 export interface PartyWikipediaLinks {
+  en?: string
   fa?: string
   fi?: string
 }
 
 const PARTY_WIKIPEDIA: Record<string, PartyWikipediaLinks> = {
   RKP: {
+    en: 'https://en.wikipedia.org/wiki/Swedish_People%27s_Party_of_Finland',
     fa: 'https://fa.wikipedia.org/wiki/حزب_سوئدی‌های_فنلاند',
     fi: 'https://fi.wikipedia.org/wiki/Suomen_ruotsalainen_kansanpuolue',
   },
   SDP: {
+    en: 'https://en.wikipedia.org/wiki/Social_Democratic_Party_of_Finland',
     fa: 'https://fa.wikipedia.org/wiki/حزب_سوسیال_دموکرات_فنلاند',
     fi: 'https://fi.wikipedia.org/wiki/Suomen_Sosialidemokraattinen_Puolue',
   },
   KOK: {
+    en: 'https://en.wikipedia.org/wiki/National_Coalition_Party',
     fa: 'https://fa.wikipedia.org/wiki/حزب_ائتلاف_ملی',
     fi: 'https://fi.wikipedia.org/wiki/Kansallinen_Kokoomus',
   },
   PS: {
+    en: 'https://en.wikipedia.org/wiki/Finns_Party',
     fa: 'https://fa.wikipedia.org/wiki/فنلاندی‌های_واقعی',
     fi: 'https://fi.wikipedia.org/wiki/Perussuomalaiset',
   },
   VIHR: {
+    en: 'https://en.wikipedia.org/wiki/Green_League',
     fa: 'https://fa.wikipedia.org/wiki/لیگ_سبز_(فنلاند)',
     fi: 'https://fi.wikipedia.org/wiki/Vihreä_liitto',
   },
   VAS: {
+    en: 'https://en.wikipedia.org/wiki/Left_Alliance_(Finland)',
     fa: 'https://fa.wikipedia.org/wiki/ائتلاف_چپ_(فنلاند)',
     fi: 'https://fi.wikipedia.org/wiki/Vasemmistoliitto',
   },
   KESK: {
+    en: 'https://en.wikipedia.org/wiki/Centre_Party_(Finland)',
     fa: 'https://fa.wikipedia.org/wiki/حزب_مرکز_(فنلاند)',
     fi: 'https://fi.wikipedia.org/wiki/Suomen_Keskusta',
   },
   KD: {
+    en: 'https://en.wikipedia.org/wiki/Christian_Democrats_(Finland)',
     fa: 'https://fa.wikipedia.org/wiki/حزب_دموکرات‌های_مسیحی_فنلاند',
     fi: 'https://fi.wikipedia.org/wiki/Suomen_Kristillisdemokraatit',
   },
   LIIK: {
+    en: 'https://en.wikipedia.org/wiki/Movement_Now',
     fi: 'https://fi.wikipedia.org/wiki/Liike_Nyt',
   },
 }
