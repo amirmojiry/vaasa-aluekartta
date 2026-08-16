@@ -130,9 +130,9 @@ const partyName = computed(() => {
 const wikipedia = computed(() => partyWikipediaLinks(props.partyCode))
 const wikipediaHref = computed(() => {
   const links = wikipedia.value
-  if (language.value === 'fa') return links.fa || links.en || links.fi || ''
-  if (language.value === 'fi') return links.fi || links.en || links.fa || ''
-  return links.en || links.fi || links.fa || ''
+  if (language.value === 'fa') return links.fa ?? ''
+  if (language.value === 'fi') return links.fi ?? ''
+  return links.en ?? ''
 })
 const percentFormatter = computed(
   () =>
