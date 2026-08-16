@@ -33,6 +33,7 @@ const currencyFormatter = computed(
 const labels = computed(() => {
   if (language.value === 'fa') {
     return {
+      summaryAria: 'نمای کلی آمار کد پستی',
       employment: 'وضعیت اشتغال',
       employed: 'شاغلان',
       unemployed: 'بیکاران',
@@ -50,6 +51,7 @@ const labels = computed(() => {
   }
   if (language.value === 'fi') {
     return {
+      summaryAria: 'Postinumeroalueen tilastojen yhteenveto',
       employment: 'Työllisyystilanne',
       employed: 'Työlliset',
       unemployed: 'Työttömät',
@@ -66,6 +68,7 @@ const labels = computed(() => {
     }
   }
   return {
+    summaryAria: 'Postal statistics overview',
     employment: 'Employment status',
     employed: 'Employed',
     unemployed: 'Unemployed',
@@ -115,7 +118,7 @@ function studentIconFill(index: number): string {
 </script>
 
 <template>
-  <section class="area-stat-summary postal-stat-summary" aria-label="Postal statistics overview">
+  <section class="area-stat-summary postal-stat-summary" :aria-label="labels.summaryAria">
     <div class="summary-metric">
       <div class="summary-metric__heading">
         <strong>{{ labels.employment }}</strong>
