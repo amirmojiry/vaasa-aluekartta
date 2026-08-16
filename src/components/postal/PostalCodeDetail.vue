@@ -27,7 +27,7 @@ import {
 import { fetchPoiFeatureCollection } from '@/services/poiData'
 import { addPoiFeatureGroup } from '@/services/poiMap'
 import {
-  postalContainsPoint,
+  pointInPostalArea,
   postalIntersectsBoundary,
   postalRingsForLeaflet,
 } from '@/services/postalGeometry'
@@ -54,7 +54,7 @@ const postalPoiFeatures = computed(() => {
   if (!postal.value) return []
   return allPoiFeatures.value.filter((feature) => {
     const [lon, lat] = feature.geometry.coordinates
-    return postalContainsPoint(postal.value!, lat, lon)
+    return pointInPostalArea(lat, lon, postal.value!)
   })
 })
 const visiblePoiFeatures = computed(() =>
@@ -255,7 +255,7 @@ onBeforeUnmount(() => {
             <summary class="poi-control__summary">
               <span class="poi-control__title">
                 <strong>{{ poiLabel('places') }}</strong>
-                <small>{{ poiLabel('allAreasHint') }}</small>
+                <small>{{ poiLabel('postalHint') }}</small>
               </span>
             </summary>
 
@@ -267,7 +267,7 @@ onBeforeUnmount(() => {
                   :disabled="poiLoading || poiFailed || visiblePoiFeatures.length === 0"
                   @click="fitAllPoisOnMap"
                 >
-                  {{ poiLabel('showAllVaasa') }}
+                  {{ poiLabel('showAllPostal') }}
                 </button>
                 <button type="button" @click="showAllPois">{{ poiLabel('showAll') }}</button>
                 <button type="button" @click="hideAllPois">{{ poiLabel('hideAll') }}</button>
