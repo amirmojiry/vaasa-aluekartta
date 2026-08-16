@@ -123,11 +123,20 @@ interface EventRecord {
     id?: string
     label: Partial<Record<'fi' | 'sv' | 'en', string>>
   }
-  occurrences: Array<{
-    startsAt: string
-    endsAt?: string
-    allDay?: boolean
-  }>
+  occurrences: Array<
+    | {
+        kind: 'timed'
+        startsAt: string
+        endsAt?: string
+        timeZone: 'Europe/Helsinki'
+      }
+    | {
+        kind: 'all-day'
+        localDate: string
+        endLocalDate?: string
+        timeZone: 'Europe/Helsinki'
+      }
+  >
   venue?: string
   address?: {
     street?: string
@@ -143,6 +152,25 @@ interface EventRecord {
 ```
 
 Use a stable upstream identifier when available. If RSS does not provide one directly, derive the repository ID from a stable canonical source URL, not from the display title.
+
+### Event time-zone contract
+
+Vaasa event filtering must use **Europe/Helsinki** semantics regardless of the browser, CI runner, or developer machine time zone.
+
+For timed occurrences:
+
+- `startsAt` and `endsAt` must be RFC 3339 / ISO 8601 date-times with an explicit UTC offset, for example `2026-08-16T18:00:00+03:00`;
+- `timeZone` remains `Europe/Helsinki` so the source wall-clock zone is explicit and future formatting/filtering does not depend on the viewer's local zone;
+- if the RSS source supplies an offset-less local wall-clock value, the importer must interpret it in `Europe/Helsinki` for that calendar date and serialize the corresponding offset, including DST;
+- offset-less persisted timestamps are invalid.
+
+For all-day occurrences:
+
+- store a Vaasa-local `YYYY-MM-DD` in `localDate`;
+- keep an optional `endLocalDate` as a Vaasa-local date according to the source's range semantics;
+- do not convert an all-day date through UTC, because doing so can shift the visible day for users outside Finland.
+
+Filters such as **today**, **this weekend**, expiration of occurrences, and chronological ordering must be calculated against `Europe/Helsinki`, not the generator's or browser's implicit local time zone.
 
 ### Repeating events
 
@@ -208,6 +236,15 @@ interface LocationResolution {
   geocodedAt?: string
   confidence?: number
   sourceAddress?: string
+  provenance?: {
+    provider: string
+    dataset?: string
+    sourceUrl?: string
+    licence?: string
+    licenceUrl?: string
+    retrievedAt?: string
+    transformation?: string
+  }
 }
 ```
 
@@ -247,8 +284,24 @@ Official documentation:
 - API description: https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu
 - OpenAPI document: https://avoin-paikkatieto.maanmittauslaitos.fi/geocoding/openapi.json
 - API-key instructions: https://www.maanmittauslaitos.fi/en/rajapinnat/api-avaimen-ohje
+- Open-interface terms: https://www.maanmittauslaitos.fi/en/terms-of-use-for-the-open-interface
+- NLS open-data Attribution CC 4.0 licence: https://www.maanmittauslaitos.fi/avoindata-lisenssi-cc40
 
 The service supports forward and reverse geocoding, uses sources including geographic names and addresses, and returns extended GeoJSON. The open interface uses API-key authentication.
+
+The current NLS geocoding-service documentation states that NLS open datasets exposed by the service are covered by the **NLS open-data Attribution CC 4.0 licence**. It also notes that building-address data originating from the Finnish Environment Institute's Ryhti system is usable under **CC BY 4.0**. The NLS open-interface terms additionally require the consuming service to indicate the source of the material.
+
+Therefore NLS-derived coordinates are not just implementation metadata. Before the first NLS-derived coordinate/cache entry is committed or deployed, the generated record contract must preserve enough provenance to render and audit the required attribution:
+
+- geocoding provider (`National Land Survey of Finland`);
+- underlying dataset/source reported by the response when available, including Ryhti/Syke origin where applicable;
+- source/API URL or documentation URL;
+- licence name (`CC BY 4.0` / NLS Attribution CC 4.0 as applicable) and licence URL;
+- retrieval date;
+- original source address/query;
+- coordinate transformation, for example `EPSG:3067 -> EPSG:4326`, when a transformation was performed.
+
+The UI/source panel must expose an appropriate attribution for records whose displayed coordinates derive from NLS data. Do not describe the coordinates as locally authored merely because they were cached in this repository.
 
 For this repository, keep the API key only in a GitHub Actions secret, for example:
 
@@ -295,7 +348,7 @@ Conceptually:
 
 The exact values above are illustrative only; do not copy them as authoritative coordinates without validation.
 
-Cache keys should be normalized but preserve the raw source string in the result for auditability.
+Cache keys should be normalized but preserve the raw source string in the result for auditability. For every remotely geocoded cache entry, also persist the `LocationResolution.provenance` fields above. A manual/reviewed venue may use local provenance, while an NLS-derived result must retain the NLS/source dataset, licence, retrieval date, and any coordinate transformation.
 
 Benefits:
 
@@ -402,7 +455,11 @@ Among the requirements documented by Job Market Finland:
 - do not forward the API data to third parties without separate permission;
 - comply with the current API terms and technical instructions.
 
-These requirements strongly support a regularly rebuilt **active snapshot** rather than a permanent historical archive of every job ad.
+These requirements mean that a normal committed snapshot is **not sufficient for Job Market Finland**. Replacing `public/data/jobs.json` in a later commit would still leave withdrawn postings retrievable from the public repository's Git history. The Job Market Finland dataset must therefore never be committed to permanent public Git history unless KEHA explicitly approves that retention model.
+
+Before J6 can ship, the project must document a source-approved publication and deletion mechanism where a withdrawn posting actually becomes non-retrievable. A transient build file is acceptable only if the surrounding CI/Pages artifact retention also satisfies the source terms; a retained GitHub Actions artifact must not be assumed compliant merely because it is not in Git. If GitHub Pages cannot provide the required deletion semantics, keep the Vue frontend static but publish the current Job Market Finland feed through an overwrite/delete-capable storage or small backend with no public version history.
+
+This retention/deletion design is a **release blocker** for Job Market Finland, not an optimization to solve after launch.
 
 ### 9.3 Job Market Finland technical model
 
@@ -452,7 +509,11 @@ interface JobRecord {
 
 Kuntarekry and Job Market Finland do not need to fill every field. Missing values remain missing.
 
-If the same vacancy is received from more than one source, preserve provenance and implement explicit duplicate detection. Do not merge records solely because titles look similar.
+`JobRecord.id` must be globally unique across providers. Use a provider namespace, for example `kuntarekry:<source-id>` or `job-market-finland:<source-id>`. Preserve the raw upstream identifier separately in `source.sourceId`. If a provider has no stable source ID, derive a stable identifier from that provider's canonical URL and still prefix it with the provider namespace.
+
+Every internal lookup, search result, selected-job state, and shareable `?job=<id>` URL must use the normalized namespaced `JobRecord.id`, not an unqualified upstream ID. Validation must reject duplicate normalized IDs globally and reject IDs whose namespace conflicts with `source.provider`.
+
+If the same vacancy is received from more than one source, preserve provenance and implement explicit duplicate detection. Cross-provider deduplication is separate from record identity: do not merge records solely because titles look similar and never make two provider records share the same primary ID.
 
 ## 11. Jobs refresh strategy
 
@@ -467,10 +528,11 @@ A run should:
 5. geocode newly encountered exact addresses;
 6. mark municipality-only/postal-only locations with the correct precision instead of fabricating a point;
 7. validate source attribution and expiry state;
-8. write `public/data/jobs.json`;
-9. remove source records no longer permitted/current according to the upstream terms.
+8. for a source whose terms permit public Git retention, write the approved static snapshot;
+9. for Job Market Finland, write only to the approved transient/deletable publication target and never commit the retrieved postings to Git history;
+10. remove source records no longer permitted/current according to the upstream terms and verify they are no longer retrievable through the publication path or retained CI artifacts.
 
-For Job Market Finland, compliance with the current deletion/update requirements is a release blocker, not an optional cleanup task.
+For Job Market Finland, compliance with the current deletion/update requirements is a release blocker, not an optional cleanup task. `public/data/jobs.json` may be a valid repository asset for Kuntarekry only after its own reuse/retention terms are verified; it is not the storage design for Job Market Finland.
 
 ## 12. Proposed repository files
 
@@ -511,6 +573,8 @@ src/components/
 ```
 
 Do not duplicate the same geocoding and coordinate-validation logic in separate event and job scripts.
+
+The `public/data/jobs.json` path in this proposed tree applies only to providers whose terms allow the repository's public history/retention model. **Do not commit Job Market Finland postings there.** Its adapter should emit into an untracked deployment staging location or an approved overwrite/delete-capable external store after J5 has established compliant retention semantics.
 
 ## 13. GitHub Actions design
 
@@ -558,6 +622,8 @@ on:
 ```
 
 Daily is a sufficient initial cadence unless source requirements or user needs justify more frequent refreshes.
+
+For Kuntarekry, the workflow may commit a validated current snapshot only if J1 confirms that public repository retention is permitted. For Job Market Finland, the scheduled job must **not** commit retrieved postings. It must publish only through the deletion-compliant mechanism approved in J5, and the workflow design must account for old Actions/Pages artifacts, caches, and other retained outputs so withdrawn records do not remain retrievable contrary to the source terms.
 
 ### 13.3 Credentials
 
@@ -716,7 +782,9 @@ At minimum check:
 - duplicate event IDs;
 - source URL presence;
 - at least one non-empty title language;
-- valid ISO date/time values;
+- timed occurrences use RFC 3339 / ISO 8601 date-times with explicit offsets and `timeZone: 'Europe/Helsinki'`;
+- all-day occurrences use Vaasa-local `YYYY-MM-DD` values and `timeZone: 'Europe/Helsinki'` without UTC conversion;
+- no offset-less persisted timed values;
 - occurrence ordering (`endsAt >= startsAt` when both exist);
 - no NaN/invalid coordinates;
 - latitude/longitude in plausible Vaasa/near-Vaasa bounds for point-resolved local events;
@@ -729,7 +797,8 @@ At minimum check:
 
 At minimum check:
 
-- duplicate job IDs within a provider;
+- duplicate normalized job IDs globally;
+- normalized job ID namespace matches `source.provider`, while raw upstream IDs stay in `source.sourceId`;
 - title and source URL;
 - valid publication/deadline timestamps;
 - no active snapshot item whose known deadline has already expired beyond the documented grace period;
@@ -825,12 +894,13 @@ Steps:
 
 1. Add shared location types.
 2. Try exact matches against existing local OSM POIs/known venue aliases.
-3. Obtain NLS API key for development/automation.
-4. Implement forward geocoding behind an isolated service function.
-5. Add `location-cache.json`.
-6. Validate point results against Vaasa geographic bounds.
-7. Explicitly classify online/multi-location/unresolved events.
-8. Produce a geocoding report:
+3. Confirm and document the NLS open-interface terms, CC BY 4.0 attribution requirements, and Ryhti/Syke source handling in the generated-data contract.
+4. Obtain NLS API key for development/automation.
+5. Implement forward geocoding behind an isolated service function.
+6. Add `location-cache.json` with source, licence, retrieval-date, raw-query, and coordinate-transformation provenance for remotely resolved entries.
+7. Validate point results against Vaasa geographic bounds.
+8. Explicitly classify online/multi-location/unresolved events.
+9. Produce a geocoding report:
    - exact/known venue count;
    - geocoder-resolved count;
    - ambiguous count;
@@ -939,22 +1009,25 @@ Steps:
 3. receive test credentials;
 4. download the current v2 technical guide/YAML;
 5. verify authentication and network/IP requirements;
-6. document deletion/update obligations in code comments/tests;
-7. test municipality=Vaasa retrieval in the test environment;
-8. verify real field coverage and address quality;
-9. obtain production credentials when accepted.
+6. obtain written/authoritative clarification of the deletion/retention obligation and design a publication path that does not leave withdrawn postings in Git history, retained CI artifacts, caches, or other publicly retrievable versions;
+7. document deletion/update obligations in code comments/tests;
+8. test municipality=Vaasa retrieval in the test environment;
+9. verify real field coverage and address quality;
+10. obtain production credentials when accepted.
 
-**Exit criteria:** documented approved production access, not merely a successful unauthenticated experiment.
+**Exit criteria:** documented approved production access **and** a deletion-compliant publication/retention design, not merely a successful unauthenticated experiment.
 
 ### J6 — Add Job Market Finland adapter
 
 1. implement a separate source adapter behind the same normalized `JobRecord` model;
-2. filter by structured municipality/source fields;
-3. use modified/publication filters where the current API contract supports them;
-4. reconcile removed/expired postings according to terms;
-5. preserve required source statement;
-6. deduplicate only with explicit source identifiers/strong evidence;
-7. update tests with official-schema fixtures.
+2. generate globally namespaced IDs such as `job-market-finland:<source-id>` while preserving the raw source ID;
+3. filter by structured municipality/source fields;
+4. use modified/publication filters where the current API contract supports them;
+5. reconcile removed/expired postings according to terms and verify withdrawal removes public retrievability;
+6. preserve required source statement;
+7. emit only to the J5-approved transient/deletable target; never commit Job Market Finland postings to public Git history;
+8. deduplicate only with explicit source identifiers/strong evidence;
+9. update tests with official-schema fixtures.
 
 ### J7 — Broader map/search release
 
@@ -1140,7 +1213,8 @@ The first production Jobs release is complete only when:
 
 - one explicitly approved/reliable source is integrated;
 - every listing has clear original-source attribution;
-- expired/withdrawn records are removed according to source rules;
+- expired/withdrawn records are removed according to source rules and are not left publicly retrievable through disallowed Git/CI/build history;
+- any provider whose terms prohibit permanent public history uses an explicitly approved deletable publication path rather than a committed snapshot;
 - deadline/source/application links are validated;
 - exact vs municipality-only location is visibly distinguished;
 - list/search provides a complete non-map access path;
@@ -1162,6 +1236,8 @@ The first production Jobs release is complete only when:
 - National Land Survey Geocoding Service: https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu
 - Geocoding OpenAPI: https://avoin-paikkatieto.maanmittauslaitos.fi/geocoding/openapi.json
 - NLS API-key instructions: https://www.maanmittauslaitos.fi/en/rajapinnat/api-avaimen-ohje
+- NLS open-interface terms: https://www.maanmittauslaitos.fi/en/terms-of-use-for-the-open-interface
+- NLS open-data Attribution CC 4.0 licence: https://www.maanmittauslaitos.fi/avoindata-lisenssi-cc40
 
 ### Kuntarekry / City of Vaasa
 
