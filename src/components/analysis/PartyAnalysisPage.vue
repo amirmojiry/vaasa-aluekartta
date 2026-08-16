@@ -50,6 +50,7 @@ const labels = {
       'These observations are not exact because the voting-district boundary differs from the statistical area. They are shown on the map and in the table, but excluded from ranking and the comparison bars:',
     back: 'Back to Vaasa map',
     dedicated: 'Dedicated page',
+    wikipedia: 'Wikipedia',
   },
   fi: {
     title: 'Puolueen kannatus alueittain',
@@ -72,6 +73,7 @@ const labels = {
       'Nämä havainnot eivät ole tarkkoja, koska äänestysalueen raja poikkeaa tilastoalueesta. Ne näytetään kartalla ja taulukossa, mutta jätetään sijoituksen ja vertailupylväiden ulkopuolelle:',
     back: 'Takaisin Vaasan kartalle',
     dedicated: 'Oma sivu',
+    wikipedia: 'Wikipedia',
   },
   fa: {
     title: 'آرای حزب در مناطق',
@@ -92,6 +94,7 @@ const labels = {
       'داده‌های این مناطق به دلیل تفاوت مرز حوزه رأی‌گیری با منطقه آماری دقیق نیستند. این ارقام روی نقشه و در جدول نمایش داده می‌شوند، اما در رتبه‌بندی و نمودار مقایسه‌ای لحاظ نمی‌شوند:',
     back: 'بازگشت به نقشه واسا',
     dedicated: 'صفحه اختصاصی',
+    wikipedia: 'ویکی‌پدیا',
   },
 } as const
 
@@ -125,6 +128,12 @@ const partyName = computed(() => {
   return meta.en || meta.fi || meta.fa
 })
 const wikipedia = computed(() => partyWikipediaLinks(props.partyCode))
+const wikipediaHref = computed(() => {
+  const links = wikipedia.value
+  if (language.value === 'fa') return links.fa ?? ''
+  if (language.value === 'fi') return links.fi ?? ''
+  return links.en ?? ''
+})
 const percentFormatter = computed(
   () =>
     new Intl.NumberFormat(localeForLanguage(language.value), {
@@ -332,14 +341,6 @@ void loadProfile()
         <p>{{ props.partyCode }}</p>
         <h1>{{ partyName }}</h1>
         <p>{{ text.title }}. {{ text.intro }}</p>
-        <div class="party-page__links">
-          <a v-if="wikipedia.fa" :href="wikipedia.fa" target="_blank" rel="noreferrer">
-            {{ t('persianWikipedia') }}
-          </a>
-          <a v-if="wikipedia.fi" :href="wikipedia.fi" target="_blank" rel="noreferrer">
-            {{ t('finnishWikipedia') }}
-          </a>
-        </div>
       </div>
     </header>
 
@@ -350,6 +351,9 @@ void loadProfile()
           <span>{{ partyName }}</span>
         </div>
         <p class="party-profile-box__basis">{{ t('partyProfileBasis') }}</p>
+        <div v-if="wikipediaHref" class="party-page__links">
+          <a :href="wikipediaHref" target="_blank" rel="noreferrer">{{ text.wikipedia }}</a>
+        </div>
         <p v-if="profileLoading" class="party-profile-box__status">{{ t('loading') }}</p>
         <ul v-else-if="profile">
           <li v-for="item in profile.items" :key="`${item.topic.fi}-${item.sourceUrl}`">

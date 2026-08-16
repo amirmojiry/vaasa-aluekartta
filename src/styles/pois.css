@@ -174,7 +174,8 @@
   list-style: none;
 }
 
-.poi-list button {
+.poi-list button,
+.poi-list__item {
   display: grid;
   gap: 0.25rem;
   width: 100%;
@@ -186,6 +187,9 @@
   color: var(--ink);
   font: inherit;
   text-align: start;
+}
+
+.poi-list button {
   cursor: pointer;
 }
 
@@ -200,6 +204,25 @@
   align-items: center;
   color: #71807c;
   font-size: 0.68rem;
+}
+
+.poi-list__detail {
+  color: #65736f;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.poi-list__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.15rem;
+}
+
+.poi-list__links a {
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 750;
 }
 
 .poi-popup {

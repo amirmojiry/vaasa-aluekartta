@@ -53,8 +53,9 @@ describe('election statistics helpers', () => {
     expect(chartParties(dataset, 3)).toEqual(['B', 'A', 'D'])
   })
 
-  it('returns verified Finnish and Persian Wikipedia links for major parties', () => {
+  it('returns localized Wikipedia links for major parties', () => {
     expect(partyWikipediaLinks('RKP')).toEqual({
+      en: 'https://en.wikipedia.org/wiki/Swedish_People%27s_Party_of_Finland',
       fa: 'https://fa.wikipedia.org/wiki/حزب_سوئدی‌های_فنلاند',
       fi: 'https://fi.wikipedia.org/wiki/Suomen_ruotsalainen_kansanpuolue',
     })
