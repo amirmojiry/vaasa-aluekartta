@@ -144,6 +144,7 @@ async function mockPostalData(page: Page): Promise<void> {
   await page.route(/https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/, (route) => route.abort())
 }
 
+// These checks keep Wikipedia out of chart context and keep postal POI scope explicit.
 test('party Wikipedia stays on the dedicated page and follows the active language', async ({
   page,
 }) => {
