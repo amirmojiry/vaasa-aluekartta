@@ -1,0 +1,31 @@
+name: Format party postal test
+
+on:
+  push:
+    branches:
+      - agent/fix-party-links-postal-poi-scope
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    if: github.actor == 'amirmojiry'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/fix-party-links-postal-poi-scope
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npx prettier --write e2e/party-postal-followups.spec.ts
+      - name: Commit formatting
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/format-party-postal-test.yml
+          git add e2e/party-postal-followups.spec.ts
+          git commit -m 'Format party and postal regression tests'
+          git push origin HEAD:agent/fix-party-links-postal-poi-scope
