@@ -120,7 +120,7 @@ function formatValue(value: number): string {
         </button>
       </div>
     </div>
-    <div v-if="points.length > 1" class="postal-history__chart-wrap">
+    <div v-if="points.length > 1" class="postal-history__chart-wrap" tabindex="0">
       <svg
         class="postal-history__chart"
         :viewBox="`0 0 ${width} ${height}`"
@@ -202,12 +202,15 @@ function formatValue(value: number): string {
   min-width: 0;
   max-width: 100%;
   margin-top: 1rem;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
 }
 .postal-history__chart {
   display: block;
   width: 100%;
-  max-width: 100%;
+  min-width: 680px;
   height: auto;
 }
 .postal-history__axis {
