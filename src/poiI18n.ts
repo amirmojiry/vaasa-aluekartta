@@ -13,8 +13,11 @@ const messages = {
     unavailable: 'Place data is unavailable right now.',
     source: 'POI data: OpenStreetMap contributors',
     allAreasHint: 'All Vaasa POIs are loaded on this area map, not only places inside this area.',
-    postalHint: 'Only OpenStreetMap places inside this postal code area are included.',
+    postalHint:
+      'Start with places inside this postal code area, or switch to all Vaasa OpenStreetMap places.',
     focusArea: 'Focus this area',
+    fitVisible: 'Fit visible places',
+    showPostalOnly: 'Show postal-area places',
     showAllVaasa: 'Show all Vaasa places',
     showAllPostal: 'Fit postal-area places',
   },
@@ -31,8 +34,11 @@ const messages = {
     source: 'POI-aineisto: OpenStreetMapin tekijät',
     allAreasHint:
       'Tällä aluekartalla ladataan kaikki Vaasan POI-kohteet, ei vain tämän alueen kohteita.',
-    postalHint: 'Mukana ovat vain tämän postinumeroalueen sisällä olevat OpenStreetMap-kohteet.',
+    postalHint:
+      'Aloita tämän postinumeroalueen paikoista tai vaihda näyttämään kaikki Vaasan OpenStreetMap-kohteet.',
     focusArea: 'Kohdista alueeseen',
+    fitVisible: 'Sovita näkyvät paikat',
+    showPostalOnly: 'Näytä postinumeroalueen paikat',
     showAllVaasa: 'Näytä kaikki Vaasan paikat',
     showAllPostal: 'Sovita postinumeroalueen paikat',
   },
@@ -49,8 +55,11 @@ const messages = {
     source: 'داده POI: مشارکت‌کنندگان OpenStreetMap',
     allAreasHint:
       'همه POIهای واسا روی نقشه این منطقه بارگذاری می‌شوند، نه فقط مکان‌های داخل همین منطقه.',
-    postalHint: 'فقط مکان‌های OpenStreetMap داخل همین منطقه کد پستی در نظر گرفته می‌شوند.',
+    postalHint:
+      'ابتدا مکان‌های داخل همین کد پستی نمایش داده می‌شوند؛ در صورت نیاز می‌توانید همه مکان‌های واسا را نمایش دهید.',
     focusArea: 'تمرکز روی این منطقه',
+    fitVisible: 'نمایش محدوده مکان‌های قابل مشاهده',
+    showPostalOnly: 'نمایش مکان‌های همین کد پستی',
     showAllVaasa: 'نمایش همه مکان‌های واسا',
     showAllPostal: 'نمایش محدوده همه مکان‌های کد پستی',
   },

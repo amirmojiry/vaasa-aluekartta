@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 
 import type { ElectionEvent, PartyResult } from '@/domain/elections'
 import { localeForLanguage, localizeText, useI18n } from '@/i18n'
-import { partyColor, partyWikipediaLinks } from '@/services/electionStatistics'
+import { partyColor } from '@/services/electionStatistics'
 import { fetchPartyProfile, type PartyProfile } from '@/services/partyProfiles'
 
 const props = defineProps<{
@@ -46,9 +46,6 @@ const dedicatedPageLabel = computed(() => {
   return 'Dedicated page'
 })
 
-const selectedLinks = computed(() =>
-  props.selectedParty ? partyWikipediaLinks(props.selectedParty) : {},
-)
 const hoveredPartyLabel = computed(() =>
   hoveredParty.value ? (props.partyLabels[hoveredParty.value] ?? hoveredParty.value) : '',
 )
@@ -194,15 +191,7 @@ watch(
         >
           !
         </button>
-        <a v-if="selectedLinks.fa" :href="selectedLinks.fa" target="_blank" rel="noreferrer">
-          {{ t('persianWikipedia') }}
-        </a>
-        <span v-if="selectedLinks.fa" aria-hidden="true">|</span>
         <a :href="buildUrl({ party: selectedParty })">{{ dedicatedPageLabel }}</a>
-        <span v-if="selectedLinks.fi" aria-hidden="true">|</span>
-        <a v-if="selectedLinks.fi" :href="selectedLinks.fi" target="_blank" rel="noreferrer">
-          {{ t('finnishWikipedia') }}
-        </a>
       </p>
 
       <section v-if="profileOpen" class="party-profile-box" :aria-label="t('partyInfo')">
