@@ -10,6 +10,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import VaasaMap from '@/components/map/VaasaMap.vue'
 import AreaPostalLinks from '@/components/postal/AreaPostalLinks.vue'
+import PostalAreaSelector from '@/components/postal/PostalAreaSelector.vue'
 import PostalCodeDetail from '@/components/postal/PostalCodeDetail.vue'
 import { AREA_BY_SLUG } from '@/config/areas'
 import { useI18n } from '@/i18n'
@@ -59,6 +60,7 @@ const homeHref = buildUrl()
 
     <section class="home-map-section" :aria-label="t('statisticalAreas')">
       <VaasaMap />
+      <PostalAreaSelector />
       <CityStatisticsSummary />
       <CityStatistics />
       <ElectionHistory city />
