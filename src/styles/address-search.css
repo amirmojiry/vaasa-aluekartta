@@ -24,7 +24,8 @@
   gap: 0.5rem;
 }
 
-.address-search__controls input {
+.address-search__controls input,
+.address-search__controls select {
   min-width: 0;
   flex: 1;
   border: 1px solid rgba(23, 100, 93, 0.28);
@@ -52,11 +53,41 @@
 }
 
 .address-search__result {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.65rem;
-  align-items: baseline;
+  display: grid;
+  gap: 0.55rem;
   font-size: 0.84rem;
+}
+
+.address-search__targets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.5rem;
+}
+
+.address-search__targets a {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid rgba(23, 100, 93, 0.2);
+  border-radius: 0.55rem;
+  background: #fff;
+  text-decoration: none;
+}
+
+.address-search__targets a strong {
+  color: #334a46;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.address-search__targets a span {
+  color: #17645d;
+  font-weight: 800;
+}
+
+.address-search__targets a small {
+  color: #65736f;
 }
 
 .address-search__result a,

@@ -105,6 +105,14 @@ function ringEdgesIntersect(areaRing: BoundaryRing, postalRing: LonLatRing): boo
   return false
 }
 
+function pointInPostalRing(lat: number, lon: number, ring: LonLatRing): boolean {
+  return pointInLatLonRing(
+    lat,
+    lon,
+    ring.map(([ringLon, ringLat]) => [ringLat, ringLon]),
+  )
+}
+
 function ringsIntersect(areaRing: BoundaryRing, postalRing: LonLatRing): boolean {
   if (!boundsOverlap(ringBounds(areaRing), postalRingBounds(postalRing))) return false
   const firstArea = areaRing[0]
@@ -112,14 +120,6 @@ function ringsIntersect(areaRing: BoundaryRing, postalRing: LonLatRing): boolean
   const firstPostal = postalRing[0]
   if (firstPostal && pointInLatLonRing(firstPostal[1], firstPostal[0], areaRing)) return true
   return ringEdgesIntersect(areaRing, postalRing)
-}
-
-function pointInPostalRing(lat: number, lon: number, ring: LonLatRing): boolean {
-  return pointInLatLonRing(
-    lat,
-    lon,
-    ring.map(([ringLon, ringLat]) => [ringLat, ringLon]),
-  )
 }
 
 export function postalIntersectsBoundary(
@@ -130,6 +130,18 @@ export function postalIntersectsBoundary(
   return boundary.rings.some((areaRing) =>
     postalRings.some((postalRing) => ringsIntersect(areaRing, postalRing)),
   )
+}
+
+export function pointInPostalArea(lat: number, lon: number, postal: PostalCodeArea): boolean {
+  return postalOuterRings(postal.geometry).some((ring) => pointInPostalRing(lat, lon, ring))
+}
+
+export function findPostalCodeForPoint(
+  lat: number,
+  lon: number,
+  areas: PostalCodeArea[],
+): PostalCodeArea | null {
+  return areas.find((area) => pointInPostalArea(lat, lon, area)) ?? null
 }
 
 export function postalRingsForLeaflet(postal: PostalCodeArea): BoundaryRing[] {

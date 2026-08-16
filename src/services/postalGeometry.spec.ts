@@ -2,13 +2,16 @@ import { describe, expect, it } from 'vitest'
 
 import type { PienalueBoundary } from '@/domain/areas'
 import type { PostalCodeArea } from '@/domain/postal'
-import { postalIntersectsBoundary, postalRingsForLeaflet } from '@/services/postalGeometry'
+import {
+  findPostalCodeForPoint,
+  postalIntersectsBoundary,
+  postalRingsForLeaflet,
+} from '@/services/postalGeometry'
 
 const postal: PostalCodeArea = {
   code: '65100',
   nameFi: 'Vaasa keskusta',
   nameSv: 'Vasa centrum',
-  municipalityCode: '905',
   releaseYear: 2026,
   statisticsYear: 2024,
   population: 100,
@@ -16,6 +19,9 @@ const postal: PostalCodeArea = {
   unemployed: 5,
   students: 10,
   averageIncome: 30000,
+  employedShare: 50,
+  unemployedShare: 5,
+  studentShare: 10,
   geometry: {
     type: 'Polygon',
     coordinates: [
@@ -63,5 +69,10 @@ describe('postal geometry', () => {
 
   it('converts GeoJSON longitude-latitude coordinates for Leaflet', () => {
     expect(postalRingsForLeaflet(postal)[0]?.[0]).toEqual([63.08, 21.6])
+  })
+
+  it('finds the postal area containing an address point', () => {
+    expect(findPostalCodeForPoint(63.1, 21.62, [postal])?.code).toBe('65100')
+    expect(findPostalCodeForPoint(62.9, 21.2, [postal])).toBeNull()
   })
 })

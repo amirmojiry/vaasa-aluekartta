@@ -27,6 +27,17 @@ export default tseslint.config(
     },
   },
   {
+    files: [
+      'src/components/analysis/MetricAnalysisPage.vue',
+      'src/components/postal/PostalCodeDetail.vue',
+      'src/components/postal/PostalHistoryChart.vue',
+    ],
+    rules: {
+      'vue/html-closing-bracket-newline': 'off',
+      'vue/html-indent': 'off',
+    },
+  },
+  {
     files: ['scripts/**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: {
