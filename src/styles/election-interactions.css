@@ -70,6 +70,10 @@
   text-underline-offset: 0.18rem;
 }
 
+.party-profile-box .party-page__links a {
+  color: var(--green) !important;
+}
+
 .party-info-button {
   display: inline-grid;
   place-items: center;
