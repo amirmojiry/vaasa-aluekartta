@@ -1,0 +1,32 @@
+name: Temporary format PR 49
+
+on:
+  push:
+    branches:
+      - agent/small-ui-followups
+    paths:
+      - .github/workflows/temp-format-pr49.yml
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/small-ui-followups
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npx prettier --write src/components/postal/PostalCodeDetail.vue
+      - name: Commit formatter output
+        run: |
+          if git diff --quiet -- src/components/postal/PostalCodeDetail.vue; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/postal/PostalCodeDetail.vue
+          git commit -m "Format postal POI followup"
+          git push origin HEAD:agent/small-ui-followups
