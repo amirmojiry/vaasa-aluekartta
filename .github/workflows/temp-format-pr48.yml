@@ -1,0 +1,34 @@
+name: Temporary format PR 48
+
+on:
+  push:
+    branches:
+      - agent/align-postal-mobile-summary
+    paths:
+      - .github/workflows/temp-format-pr48.yml
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/align-postal-mobile-summary
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npx prettier --write e2e/postal-mobile-summary.spec.ts
+      - name: Commit formatter output
+        run: |
+          if git diff --quiet -- e2e/postal-mobile-summary.spec.ts; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add e2e/postal-mobile-summary.spec.ts
+          git commit -m "Format postal review regression tests"
+          git push origin HEAD:agent/align-postal-mobile-summary
