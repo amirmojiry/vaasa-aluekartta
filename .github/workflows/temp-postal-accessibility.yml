@@ -1,0 +1,78 @@
+name: Temporary postal accessibility fix
+
+on:
+  push:
+    branches:
+      - agent/paavo-local-snapshot
+    paths:
+      - .github/workflows/temp-postal-accessibility.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/paavo-local-snapshot
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Apply review fixes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          map_path = Path('src/components/map/VaasaMap.vue')
+          text = map_path.read_text()
+          anchor = "const postalCollection = ref<PostalCodeCollection | null>(null)\n"
+          replacement = anchor + "const selectedPostalCode = ref('')\n"
+          if anchor not in text:
+              raise SystemExit('postalCollection anchor not found')
+          text = text.replace(anchor, replacement, 1)
+
+          anchor = "function openPostal(code: string): void {\n  window.location.href = buildUrl({ postal: code })\n}\n"
+          replacement = anchor + "\nfunction postalSelectorLabel(): string {\n  if (language.value === 'fa') return 'انتخاب کد پستی'\n  if (language.value === 'fi') return 'Valitse postinumeroalue'\n  return 'Select postal code area'\n}\n\nfunction postalOpenLabel(): string {\n  if (language.value === 'fa') return 'مشاهده'\n  if (language.value === 'fi') return 'Avaa'\n  return 'Open'\n}\n\nfunction postalSelectorName(area: PostalCodeArea): string {\n  return `${area.code} · ${area.nameFi}`\n}\n\nfunction openSelectedPostal(): void {\n  if (selectedPostalCode.value) openPostal(selectedPostalCode.value)\n}\n"
+          if anchor not in text:
+              raise SystemExit('openPostal anchor not found')
+          text = text.replace(anchor, replacement, 1)
+
+          anchor = "    </div>\n\n    <div class=\"map-visualization-control\" :aria-label=\"t('colorMapBy')\">"
+          replacement = """    </div>\n\n    <form\n      v-if=\"selectedLevel === 'postal' && postalCollection?.areas.length\"\n      class=\"address-search postal-map-selector\"\n      @submit.prevent=\"openSelectedPostal\"\n    >\n      <label class=\"address-search__label\" for=\"postal-map-selector\">\n        {{ postalSelectorLabel() }}\n      </label>\n      <div class=\"address-search__controls\">\n        <select id=\"postal-map-selector\" v-model=\"selectedPostalCode\">\n          <option value=\"\" disabled>{{ postalSelectorLabel() }}</option>\n          <option v-for=\"area in postalCollection.areas\" :key=\"area.code\" :value=\"area.code\">\n            {{ postalSelectorName(area) }}\n          </option>\n        </select>\n        <button type=\"submit\" :disabled=\"!selectedPostalCode\">{{ postalOpenLabel() }}</button>\n      </div>\n    </form>\n\n    <div class=\"map-visualization-control\" :aria-label=\"t('colorMapBy')\">"""
+          if anchor not in text:
+              raise SystemExit('map visualization anchor not found')
+          text = text.replace(anchor, replacement, 1)
+          map_path.write_text(text)
+
+          css_path = Path('src/styles/address-search.css')
+          text = css_path.read_text()
+          anchor = ".address-search__controls input {"
+          replacement = ".address-search__controls input,\n.address-search__controls select {"
+          if anchor not in text:
+              raise SystemExit('address search input style anchor not found')
+          css_path.write_text(text.replace(anchor, replacement, 1))
+
+          e2e_path = Path('e2e/core-journeys.spec.ts')
+          text = e2e_path.read_text()
+          anchor = """  await page.goBack()\n  await expect(page.getByRole('button', { name: /Major areas/ })).toHaveAttribute(\n    'aria-pressed',\n    'true',\n  )\n})\n"""
+          replacement = """  await page.goBack()\n  await expect(page.getByRole('button', { name: /Major areas/ })).toHaveAttribute(\n    'aria-pressed',\n    'true',\n  )\n\n  const postalButton = page.getByRole('button', { name: /Postal code areas/ })\n  await postalButton.click()\n  await expect(postalButton).toHaveAttribute('aria-pressed', 'true')\n  await expect(page).toHaveURL(/level=postal/)\n\n  const postalSelector = page.getByLabel('Select postal code area')\n  await expect(postalSelector).toBeVisible()\n  await postalSelector.selectOption('65100')\n  await page.locator('.postal-map-selector').getByRole('button', { name: 'Open' }).click()\n  await expect(page).toHaveURL(/postal=65100/)\n})\n"""
+          if anchor not in text:
+              raise SystemExit('e2e history anchor not found')
+          e2e_path.write_text(text.replace(anchor, replacement, 1))
+          PY
+
+          npm install --no-audit --no-fund
+          npx prettier --write src/components/map/VaasaMap.vue src/styles/address-search.css e2e/core-journeys.spec.ts
+
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm .github/workflows/temp-postal-accessibility.yml
+          git add src/components/map/VaasaMap.vue src/styles/address-search.css e2e/core-journeys.spec.ts
+          git commit -m "Fix postal selector accessibility"
+          git push origin HEAD:agent/paavo-local-snapshot
