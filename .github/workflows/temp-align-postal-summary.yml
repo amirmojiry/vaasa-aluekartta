@@ -1,0 +1,78 @@
+name: Temporary align postal summary
+
+on:
+  push:
+    branches:
+      - agent/align-postal-mobile-summary
+    paths:
+      - .github/workflows/temp-align-postal-summary.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/align-postal-mobile-summary
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Align postal detail summary
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('src/components/postal/PostalCodeDetail.vue')
+          text = path.read_text()
+          text = text.replace("import LanguageSwitcher from '@/components/LanguageSwitcher.vue'\n", "import LanguageSwitcher from '@/components/LanguageSwitcher.vue'\nimport PostalStatisticsSummary from '@/components/postal/PostalStatisticsSummary.vue'\n")
+          text = text.replace("  PostalHistoryObservation,\n  PostalMetric,\n", "  PostalHistoryObservation,\n")
+          text = re.sub(r"const numberFormatter = computed\(.*?\n\)\nconst percentFormatter = computed\(.*?\n\)\nconst currencyFormatter = computed\(.*?\n\)\n", "", text, flags=re.S)
+          text = re.sub(r"\nfunction formatNumber\(.*?\nfunction majorName", "\nfunction majorName", text, flags=re.S)
+          start = text.index('        <section v-if="postal" class="area-stat-summary postal-stat-summary">')
+          end = text.index('\n\n        <article class="map-card area-detail-map-card">', start)
+          replacement = '        <PostalStatisticsSummary\n          v-if="postal && collection"\n          :postal="postal"\n          :collection="collection"\n        />'
+          text = text[:start] + replacement + text[end:]
+          path.write_text(text)
+
+          css_path = Path('src/styles/postal.css')
+          css = css_path.read_text()
+          css = re.sub(r"\n\.postal-stat-summary \{.*?\n\}\n\n\.postal-stat-summary \.summary-metric,\n\.postal-stat-summary \.summary-population \{.*?\n\}\n", "\n", css, flags=re.S)
+          css_path.write_text(css)
+
+          e2e = Path('e2e/core-journeys.spec.ts')
+          tests = e2e.read_text()
+          marker = "test('restores a shared major-area URL', async ({ page }) => {"
+          test_block = r'''test('postal detail reuses the mobile statistics visual language', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/vaasa-aluekartta/?postal=65100&lang=en')
+
+  await expect(page.getByText('Employment status')).toBeVisible()
+  await expect(page.locator('.summary-bar--employment')).toBeVisible()
+  await expect(page.locator('.student-pictogram .student-icon')).toHaveCount(10)
+  await expect(
+    page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
+  ).resolves.toBe(true)
+})
+
+'''
+          if test_block not in tests:
+              tests = tests.replace(marker, test_block + marker)
+          e2e.write_text(tests)
+          PY
+          npm install --no-audit --no-fund
+          npx prettier --write src/components/postal/PostalStatisticsSummary.vue src/components/postal/PostalCodeDetail.vue src/styles/postal.css e2e/core-journeys.spec.ts
+          npm run lint -- --fix
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/postal/PostalStatisticsSummary.vue src/components/postal/PostalCodeDetail.vue src/styles/postal.css e2e/core-journeys.spec.ts
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Align postal mobile statistics summary"
+          git push origin HEAD:agent/align-postal-mobile-summary
