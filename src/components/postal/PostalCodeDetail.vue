@@ -24,7 +24,7 @@ import {
   fetchPostalCodeCollection,
   fetchPostalCodeHistory,
 } from '@/services/postalData'
-import { fetchPoiFeatureCollection } from '@/services/poiData'
+import { fetchPoiFeatureCollection, localizedPoiName } from '@/services/poiData'
 import { addPoiFeatureGroup } from '@/services/poiMap'
 import {
   pointInPostalArea,
@@ -86,6 +86,7 @@ const labels = computed(() => {
       major: 'مناطق بزرگ',
       minor: 'مناطق کوچک',
       source: 'منبع',
+      website: 'وب‌سایت',
     }
   if (language.value === 'fi')
     return {
@@ -95,6 +96,7 @@ const labels = computed(() => {
       major: 'Suuralueet',
       minor: 'Pienalueet',
       source: 'Lähde',
+      website: 'Verkkosivu',
     }
   return {
     back: 'Back to map',
@@ -103,11 +105,16 @@ const labels = computed(() => {
     major: 'Major areas',
     minor: 'Minor areas',
     source: 'Source',
+    website: 'Website',
   }
 })
 
 function poiLabel(key: PoiMessageKey): string {
   return poiText(language.value, key)
+}
+
+function poiCategoryLabel(category: PoiCategory): string {
+  return poiCategoryDefinition(category).labels[language.value]
 }
 
 function poiCategoryCount(category: PoiCategory): number {
@@ -117,6 +124,24 @@ function poiCategoryCount(category: PoiCategory): number {
 
 function isPoiCategoryActive(category: PoiCategory): boolean {
   return activePoiCategories.value.includes(category)
+}
+
+function safeHttpUrl(value: string | undefined): string {
+  if (!value) return ''
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : ''
+  } catch {
+    return ''
+  }
+}
+
+function poiWebsite(feature: PoiFeature): string {
+  return safeHttpUrl(feature.properties.website)
+}
+
+function osmFeatureUrl(feature: PoiFeature): string {
+  return `https://www.openstreetmap.org/${feature.properties.osmType}/${feature.properties.osmId}`
 }
 
 function renderPoiLayers(): void {
@@ -323,6 +348,44 @@ onBeforeUnmount(() => {
             role="region"
             :aria-label="title"
           />
+
+          <details v-if="!poiLoading && !poiFailed && visiblePoiFeatures.length" class="poi-list">
+            <summary>
+              {{ poiLabel('placeList') }} · {{ numberFormatter.format(visiblePoiFeatures.length) }}
+            </summary>
+            <ul>
+              <li v-for="feature in visiblePoiFeatures" :key="feature.properties.id">
+                <article class="poi-list__item">
+                  <strong>{{ localizedPoiName(feature, language) }}</strong>
+                  <span class="poi-list__category">
+                    <i
+                      :style="{
+                        backgroundColor: poiCategoryDefinition(feature.properties.category).color,
+                      }"
+                      aria-hidden="true"
+                    />
+                    {{ poiCategoryLabel(feature.properties.category) }}
+                  </span>
+                  <span v-if="feature.properties.address" class="poi-list__detail">
+                    {{ feature.properties.address }}
+                  </span>
+                  <span class="poi-list__links">
+                    <a
+                      v-if="poiWebsite(feature)"
+                      :href="poiWebsite(feature)"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {{ labels.website }}
+                    </a>
+                    <a :href="osmFeatureUrl(feature)" target="_blank" rel="noreferrer">
+                      OpenStreetMap
+                    </a>
+                  </span>
+                </article>
+              </li>
+            </ul>
+          </details>
         </article>
         <PostalHistoryChart v-if="history.length > 1" :observations="history" />
       </div>
