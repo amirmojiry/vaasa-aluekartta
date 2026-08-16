@@ -121,7 +121,7 @@ test('postal detail reuses the responsive area summary visuals', async ({ page }
   await expect(page.getByText('Employment status')).toBeVisible()
   await expect(page.locator('.summary-bar--employment')).toBeVisible()
   await expect(page.locator('.student-pictogram .student-icon')).toHaveCount(10)
-  await expect(page.getByText('Population', { exact: true })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Population' })).toBeVisible()
   await expect(page.getByText('Average annual income of inhabitants')).toBeVisible()
 
   expect(
