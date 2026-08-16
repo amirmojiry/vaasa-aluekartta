@@ -84,21 +84,17 @@
   font-weight: 700;
 }
 
-.postal-stat-summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  gap: 0.8rem;
-}
-
-.postal-stat-summary .summary-metric,
-.postal-stat-summary .summary-population {
-  min-height: 7rem;
+.postal-stat-summary .summary-legend__item {
+  flex-wrap: wrap;
 }
 
 .postal-caveat {
-  grid-column: 1 / -1;
   margin: 0;
-  font-size: 0.84rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: #65736f;
+  font-size: 0.78rem;
+  line-height: 1.6;
 }
 
 .postal-area-link-shell {
@@ -130,5 +126,28 @@
 
   .postal-map {
     min-height: 25rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .postal-stat-summary {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .postal-stat-summary .summary-legend {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .postal-stat-summary .summary-legend__item {
+    display: flex;
+    width: 100%;
+  }
+
+  .postal-stat-summary .postal-metric-count {
+    flex-basis: 100%;
+    padding-inline-start: 0.9rem;
   }
 }
