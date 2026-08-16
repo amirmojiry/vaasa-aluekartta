@@ -51,7 +51,6 @@ const homeHref = buildUrl()
           <span>{{ t('appName') }}</span>
         </a>
         <div class="topbar__actions">
-          <a class="topbar__link" href="https://github.com/amirmojiry/vaasa-aluekartta">GitHub</a>
           <LanguageSwitcher />
         </div>
       </nav>
