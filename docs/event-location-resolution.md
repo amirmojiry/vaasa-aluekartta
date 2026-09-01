@@ -10,14 +10,16 @@ This document records the location-resolution contract for Phase E2 of `docs/eve
 
 The event pipeline resolves locations conservatively in this order:
 
-1. exact normalized source address against the committed OSM POI snapshot;
-2. exact normalized venue name against OSM `name`, `name:fi`, `name:sv`, and `name:en` values;
-3. a deliberately small reviewed venue-alias table;
-4. an existing NLS geocoding cache entry;
-5. NLS Geocoding Service v2 when `NLS_API_KEY` is configured;
-6. otherwise an explicit `online`, `multi-location`, or `unresolved` result.
+1. classify an explicitly online source record as `online` when its venue is an online placeholder;
+2. exact normalized full source address against the committed OSM POI snapshot;
+3. exact normalized street + house-number match after ignoring postal/locality/country suffix differences;
+4. exact normalized venue name against OSM `name`, `name:fi`, `name:sv`, and `name:en` values;
+5. a deliberately small reviewed venue-alias table;
+6. an existing NLS geocoding cache entry;
+7. NLS Geocoding Service v2 when `NLS_API_KEY` is configured;
+8. otherwise an explicit `online`, `multi-location`, or `unresolved` result.
 
-No fuzzy POI match is promoted to a precise marker. If one exact name resolves to multiple distinct POI features, the event remains ambiguous rather than choosing one arbitrarily.
+No fuzzy POI match is promoted to a precise marker. If a local name or canonical street/house address maps to multiple distinct POI features, the resolver does not choose one arbitrarily. A unique reviewed venue match may still disambiguate an ambiguous address; otherwise the event remains unresolved.
 
 ## Existing local OSM source
 
@@ -36,6 +38,23 @@ Vaasan Sähkö Arena -> Vaasan Sähkö Areena
 ```
 
 Aliases are not a replacement for a place database. Add an alias only when a recurring source spelling is known to refer to a specific existing POI.
+
+### Exact street/house normalization
+
+Full-string address matching remains the strongest local address match. A second exact key compares only the source-backed street name and house number, so harmless suffix differences do not require a remote lookup. For example:
+
+```text
+Kirjastonkatu 13, 65100 Vaasa, Suomi
+Kirjastonkatu 13, Vaasa
+```
+
+both produce the reviewed key:
+
+```text
+kirjastonkatu 13
+```
+
+This is not fuzzy geocoding: street names and house numbers are never inferred or corrected. If more than one OSM POI shares the same canonical key, that address is ambiguous unless a unique exact venue match disambiguates it.
 
 ## Vaasa geographic guard
 
@@ -101,7 +120,7 @@ as an environment variable / GitHub Actions secret.
 
 If the key is absent, the resolver makes **no remote request** and marks otherwise geocodable records with `reason = remote-key-missing`.
 
-A GitHub Actions proof run on 2026-09-02 referenced `secrets.NLS_API_KEY` without reading or printing any secret value. The environment variable was empty, confirming that this repository does not currently have that secret configured. The fail-closed resolver therefore made no NLS requests and produced no remote-cache changes.
+An earlier GitHub Actions proof run on 2026-09-02 referenced `secrets.NLS_API_KEY` without reading or printing any secret value. The environment variable was empty at that time, so the fail-closed resolver made no NLS requests and produced no remote-cache changes. The final E2 proof workflow repeats this check safely before the PR is finalized.
 
 ## Licence and source provenance
 
@@ -110,7 +129,7 @@ NLS Geocoding Service data must retain source-specific provenance.
 - NLS open datasets such as `geographic-names` and `interpolated-road-addresses`: CC BY 4.0 / NLS attribution.
 - `addresses`: building-address data supplied from the Finnish Environment Institute (Syke) Ryhti system through the NLS Geocoding Service; CC BY 4.0 / Syke-Ryhti attribution.
 
-The cache records the raw query, retrieval timestamp, source dataset, coordinates, label when available, provider, licence, source URL, and coordinate-transformation note.
+The cache records the raw query, retrieval timestamp, accepted precision, source dataset, coordinates, label when available, provider, licence, source URL, and coordinate-transformation note.
 
 Unknown geocoder source identifiers are rejected rather than cached with guessed attribution.
 
@@ -124,7 +143,9 @@ public/data/location-cache.json
 
 Cache keys are normalized queries. API credentials and full raw API responses are never stored.
 
-A cached point is reused only after normal snapshot validation confirms that it remains inside the verified Vaasa bounding box and still has provider/licence provenance.
+A cached point is reused only after normal snapshot validation confirms that it remains inside the verified Vaasa bounding box and still has provider/licence/retrieval provenance. New cache entries also retain the accepted location precision instead of making later runs infer it from query text.
+
+Identical remote queries are memoized within a resolver run, including unresolved results, so repeated event addresses do not generate duplicate NLS requests during the same update.
 
 ## Classification policy
 
@@ -132,38 +153,19 @@ Point geometry is only emitted for high-confidence `exact-address`, `known-venue
 
 Non-point states include:
 
-- `online` — explicitly online and no usable physical query;
+- `online` — the source explicitly marks the record online and does not provide a source-backed physical venue that should be promoted;
 - `multi-location` — source text clearly names several areas/locations;
 - `unresolved` — no safe point was established.
 
+The feed contains records whose venue is `Online event` while another field still contains a physical-looking fallback/default address. Such records are classified as `online` instead of creating a misleading marker. Hybrid events can still resolve to a physical point when the source names a real physical venue.
+
 Ambiguity is represented as `precision = unresolved` with an explicit ambiguity reason. Municipality-only and placeholder values such as `Vaasa`, `Vasa`, `Finland`, `Suomi`, `Enter Address`, and online-event placeholders are not sent to a geocoder as if they were precise physical addresses.
 
-## Current proof metrics
+## Previous local-only baseline
 
-The local-only proof run against the committed 249-event E1 snapshot produced:
+Before the hardened address/online rules in this branch were added, the local-only proof against the committed 249-event E1 snapshot produced 37 high-confidence venue points (14.86%), 6 explicit online records, 1 multi-location record, and no NLS-resolved points because the API key was unavailable.
 
-| Classification                              | Count |
-| ------------------------------------------- | ----: |
-| total events                                |   249 |
-| high-confidence mapped                      |    37 |
-| exact-address local matches                 |     0 |
-| known-venue local matches                   |    37 |
-| NLS-resolved                                |     0 |
-| online                                      |     6 |
-| multi-location                              |     1 |
-| ambiguous                                   |     0 |
-| unresolved                                  |   205 |
-| unresolved specifically waiting for NLS key |   201 |
-
-Current high-confidence point coverage before remote geocoding is:
-
-```text
-37 / 249 = 14.86%
-```
-
-The source feed also contains some low-quality or out-of-scope location text, including placeholders and addresses that explicitly refer to other Finnish localities. These are not rewritten into Vaasa. Remote results will be accepted only when they pass the Vaasa guard and the result is unambiguous and from a documented source dataset.
-
-These figures are an E2 diagnostic baseline, not the final mapping-coverage result. The final rate must be measured again after a real NLS pass.
+That earlier measurement is retained only as a diagnostic baseline. The generated `public/data/event-location-report.json` is authoritative for the current branch and must be regenerated after resolver changes. The final mapping rate must be measured again after a real NLS pass.
 
 ## Generated proof-of-concept artifacts
 
@@ -182,7 +184,13 @@ npm run events:locations
 npm run events:locations:check
 ```
 
-The report measures exact-address, known-venue, NLS-resolved, online, multi-location, ambiguous, unresolved, and overall high-confidence mapping counts.
+The report measures exact-address, known-venue, NLS-resolved, online, multi-location, ambiguous, unresolved, and overall high-confidence mapping counts. Its top-level classifications must partition all source events, and cache entries must retain consistent retrieval and source/licence provenance.
+
+## Proof-run workflow
+
+A temporary branch-only workflow is used while E2 is being completed. It is deliberately gated to commits containing `[run-e2]` so ordinary edits do not repeatedly invoke geocoding. The workflow reads `NLS_API_KEY` only from GitHub Actions secrets, runs the resolver and focused tests, then runs repository-wide format, lint, typecheck, test, and production-build checks. Generated data/cache changes are committed by the workflow when needed.
+
+The temporary proof workflow must be removed before the E2 pull request is finalized.
 
 ## E2 exit gate
 
