@@ -15,13 +15,15 @@ jobs:
         run: |
           node --input-type=module <<'NODE'
           const query = '[out:json];rel["boundary"="administrative"]["name"="Vaasa"];out bb tags;'
-          const response = await fetch('https://overpass-api.de/api/interpreter', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ data: query }),
+          const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
+          const response = await fetch(url, {
+            headers: {
+              Accept: 'application/json',
+              'User-Agent': 'vaasa-aluekartta-e2-boundary-probe/1.0 (+https://github.com/amirmojiry/vaasa-aluekartta)',
+            },
             signal: AbortSignal.timeout(30000),
           })
-          if (!response.ok) throw new Error(`Overpass HTTP ${response.status}`)
+          if (!response.ok) throw new Error(`Overpass HTTP ${response.status}: ${await response.text()}`)
           const data = await response.json()
           console.log(JSON.stringify(data.elements.map(({ id, bounds, tags }) => ({
             id,
