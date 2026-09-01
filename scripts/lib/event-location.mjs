@@ -11,8 +11,32 @@ export const VAASA_MUNICIPALITY_BOUNDS = Object.freeze({
   maxLongitude: 22.2423226,
 })
 
-const GENERIC_LOCATION_VALUES = new Set(['finland', 'suomi', 'vaasa', 'vasa'])
+const ONLINE_LOCATION_VALUES = new Set([
+  'online',
+  'online event',
+  'online evenemang',
+  'online tapahtuma',
+  'verkkotapahtuma',
+  'digital event',
+])
+
+const GENERIC_LOCATION_VALUES = new Set([
+  'finland',
+  'suomi',
+  'vaasa',
+  'vasa',
+  'enter address',
+  'address',
+  'osoite',
+  'adress',
+  'location',
+  'venue',
+  'verkossa',
+  'pa natet',
+  ...ONLINE_LOCATION_VALUES,
+])
 const ADDRESS_PATTERN = /\b\d{1,5}[a-z]?\b/i
+const HOUSE_NUMBER_PATTERN = /\b\d{1,4}[a-z]?(?:\s*-\s*\d{1,4}[a-z]?)?\b/i
 const POSTAL_CODE_PATTERN = /\b\d{5}\b/
 
 const VENUE_ALIASES = new Map([
@@ -32,6 +56,33 @@ export function normalizeLocationText(value) {
     .replace(/\s+/g, ' ')
 }
 
+export function canonicalStreetAddressKey(value) {
+  if (typeof value !== 'string') return undefined
+
+  const segments = value
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean)
+
+  for (const segment of segments) {
+    if (
+      POSTAL_CODE_PATTERN.test(segment) &&
+      !HOUSE_NUMBER_PATTERN.test(segment.replace(POSTAL_CODE_PATTERN, ''))
+    ) {
+      continue
+    }
+
+    const match = segment.match(HOUSE_NUMBER_PATTERN)
+    if (!match || match.index === undefined) continue
+
+    const throughHouseNumber = segment.slice(0, match.index + match[0].length)
+    const normalized = normalizeLocationText(throughHouseNumber)
+    if (normalized && /\p{L}/u.test(normalized)) return normalized
+  }
+
+  return undefined
+}
+
 export function pointWithinVaasaBounds(longitude, latitude) {
   return (
     Number.isFinite(longitude) &&
@@ -41,6 +92,10 @@ export function pointWithinVaasaBounds(longitude, latitude) {
     latitude >= VAASA_MUNICIPALITY_BOUNDS.minLatitude &&
     latitude <= VAASA_MUNICIPALITY_BOUNDS.maxLatitude
   )
+}
+
+export function isOnlineLocationText(value) {
+  return ONLINE_LOCATION_VALUES.has(normalizeLocationText(value))
 }
 
 export function isGenericLocationText(value) {
@@ -83,6 +138,7 @@ export function buildPoiLocationIndex(poiCollection) {
 
   const names = new Map()
   const addresses = new Map()
+  const streetAddresses = new Map()
 
   for (const feature of poiCollection.features) {
     if (feature?.geometry?.type !== 'Point') continue
@@ -92,23 +148,34 @@ export function buildPoiLocationIndex(poiCollection) {
     const properties = feature.properties ?? {}
     const nameValues = [properties.name, ...Object.values(properties.names ?? {})]
     for (const name of nameValues) addCandidate(names, normalizeLocationText(name), feature)
+
     addCandidate(addresses, normalizeLocationText(properties.address), feature)
+    addCandidate(streetAddresses, canonicalStreetAddressKey(properties.address), feature)
   }
 
-  return { names, addresses }
+  return { names, addresses, streetAddresses }
 }
 
 function osmProvenance(matchKind, feature) {
+  let transformation
+  if (matchKind === 'address-exact') {
+    transformation =
+      'Exact normalized full-address match against the committed OSM POI snapshot; source point geometry retained in WGS84.'
+  } else if (matchKind === 'address-street-house') {
+    transformation =
+      'Exact normalized street-and-house-number match after removing postal/locality/country suffixes from both source strings; source point geometry retained in WGS84.'
+  } else {
+    transformation =
+      'Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84.'
+  }
+
   return {
     provider: 'OpenStreetMap contributors',
     dataset: 'public/data/vaasa-pois.geojson',
     sourceUrl: `https://www.openstreetmap.org/${feature.properties.osmType}/${feature.properties.osmId}`,
     licence: 'ODbL 1.0',
     licenceUrl: 'https://www.openstreetmap.org/copyright',
-    transformation:
-      matchKind === 'address'
-        ? 'Exact normalized address match against the committed OSM POI snapshot; source point geometry retained in WGS84.'
-        : 'Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84.',
+    transformation,
   }
 }
 
@@ -141,7 +208,7 @@ function resolveCandidateSet(candidates, query, matchKind) {
   return {
     query,
     resolution: {
-      precision: matchKind === 'address' ? 'exact-address' : 'known-venue',
+      precision: matchKind.startsWith('address') ? 'exact-address' : 'known-venue',
       longitude,
       latitude,
       label: feature.properties.name,
@@ -151,38 +218,69 @@ function resolveCandidateSet(candidates, query, matchKind) {
   }
 }
 
+function resolvedPoint(result) {
+  return result && result.resolution.precision !== 'unresolved'
+}
+
 function aliasKey(value) {
   const normalized = normalizeLocationText(value)
   return VENUE_ALIASES.get(normalized) ?? normalized
 }
 
 export function chooseEventGeocodingQuery(event) {
-  if (event.addressText && !isGenericLocationText(event.addressText))
+  if (event.addressText && !isGenericLocationText(event.addressText)) {
     return event.addressText.trim()
+  }
   if (event.venue && !isGenericLocationText(event.venue)) return event.venue.trim()
   return undefined
 }
 
 export function resolveEventLocally(event, poiIndex) {
-  if (event.addressText && !isGenericLocationText(event.addressText)) {
-    const addressQuery = event.addressText.trim()
-    const addressMatch = resolveCandidateSet(
-      poiIndex.addresses.get(normalizeLocationText(addressQuery)),
-      addressQuery,
-      'address',
-    )
-    if (addressMatch) return addressMatch
+  if (event.online === true && isOnlineLocationText(event.venue)) {
+    return { resolution: { precision: 'online' } }
   }
 
-  if (event.venue && !isGenericLocationText(event.venue)) {
+  let ambiguousAddress
+  if (event.addressText && !isGenericLocationText(event.addressText)) {
+    const addressQuery = event.addressText.trim()
+    const exactAddressMatch = resolveCandidateSet(
+      poiIndex.addresses.get(normalizeLocationText(addressQuery)),
+      addressQuery,
+      'address-exact',
+    )
+    if (resolvedPoint(exactAddressMatch)) return exactAddressMatch
+    ambiguousAddress = exactAddressMatch
+
+    const streetAddressKey = canonicalStreetAddressKey(addressQuery)
+    if (streetAddressKey) {
+      const streetAddressMatch = resolveCandidateSet(
+        poiIndex.streetAddresses.get(streetAddressKey),
+        addressQuery,
+        'address-street-house',
+      )
+      if (resolvedPoint(streetAddressMatch)) return streetAddressMatch
+      ambiguousAddress ??= streetAddressMatch
+    }
+  }
+
+  let ambiguousVenue
+  if (
+    event.venue &&
+    !isGenericLocationText(event.venue) &&
+    !isOnlineLocationText(event.venue)
+  ) {
     const venueQuery = event.venue.trim()
     const venueMatch = resolveCandidateSet(
       poiIndex.names.get(aliasKey(venueQuery)),
       venueQuery,
       'name',
     )
-    if (venueMatch) return venueMatch
+    if (resolvedPoint(venueMatch)) return venueMatch
+    ambiguousVenue = venueMatch
   }
+
+  if (ambiguousVenue) return ambiguousVenue
+  if (ambiguousAddress) return ambiguousAddress
 
   const query = chooseEventGeocodingQuery(event)
   if (event.online === true && !query) {
