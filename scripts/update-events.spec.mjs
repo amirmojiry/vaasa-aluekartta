@@ -51,12 +51,16 @@ function smallRss() {
 }
 
 afterEach(async () => {
-  await Promise.all(temporaryDirectories.splice(0).map((directory) => rm(directory, { recursive: true })))
+  await Promise.all(
+    temporaryDirectories.splice(0).map((directory) => rm(directory, { recursive: true })),
+  )
 })
 
 describe('event snapshot update safety', () => {
   it('rejects a suspicious source drop unless an operator explicitly reviewed it', () => {
-    const existing = JSON.stringify({ events: Array.from({ length: 249 }, (_, index) => ({ id: index })) })
+    const existing = JSON.stringify({
+      events: Array.from({ length: 249 }, (_, index) => ({ id: index })),
+    })
 
     expect(() => assertReasonableEventCount(2, existing)).toThrow(/dropped suspiciously from 249 to 2/)
     expect(() =>
@@ -67,7 +71,11 @@ describe('event snapshot update safety', () => {
   it('preserves the last snapshot when a valid but suspiciously small feed arrives', async () => {
     const directory = await temporaryDirectory()
     const outputFilePath = join(directory, 'events.json')
-    const existing = `${JSON.stringify({ events: Array.from({ length: 249 }, () => ({})) }, null, 2)}\n`
+    const existing = `${JSON.stringify(
+      { events: Array.from({ length: 249 }, () => ({})) },
+      null,
+      2,
+    )}\n`
     await writeFile(outputFilePath, existing, 'utf8')
 
     await expect(
