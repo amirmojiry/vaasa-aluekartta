@@ -264,11 +264,7 @@ export function resolveEventLocally(event, poiIndex) {
   }
 
   let ambiguousVenue
-  if (
-    event.venue &&
-    !isGenericLocationText(event.venue) &&
-    !isOnlineLocationText(event.venue)
-  ) {
+  if (event.venue && !isGenericLocationText(event.venue) && !isOnlineLocationText(event.venue)) {
     const venueQuery = event.venue.trim()
     const venueMatch = resolveCandidateSet(
       poiIndex.names.get(aliasKey(venueQuery)),
