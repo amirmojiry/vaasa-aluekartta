@@ -23,6 +23,12 @@ describe('NLS geocoder adapter', () => {
     expect(url.searchParams.has('crs')).toBe(false)
   })
 
+  it('keeps explicit postal-place context and enables postal-code matching', () => {
+    const url = buildNlsSearchUrl('Dalgatan 4, 10300 KARIS')
+    expect(url.searchParams.get('text')).toBe('Dalgatan 4, 10300 KARIS')
+    expect(url.searchParams.get('options')).toContain('use_postal_code')
+  })
+
   it('does not call the network when no API key is available', async () => {
     const fetchImpl = vi.fn()
     const result = await geocodeWithNls('Ritz Vaasa', { fetchImpl })
@@ -54,6 +60,7 @@ describe('NLS geocoder adapter', () => {
     expect(result.resolution.provenance.dataset).toBe('addresses')
     expect(result.resolution.provenance.provider).toContain('Syke')
     expect(result.cacheEntry.rawQuery).toBe('Kirjastonkatu 13')
+    expect(result.cacheEntry.precision).toBe('exact-address')
   })
 
   it('fails closed for multiple candidates, outside points, and unknown source datasets', () => {
