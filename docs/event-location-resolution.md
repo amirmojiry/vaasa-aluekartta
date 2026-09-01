@@ -165,18 +165,18 @@ Ambiguity is represented as `precision = unresolved` with an explicit ambiguity 
 
 The authoritative local-only proof was regenerated from the current resolver against the committed 249-event E1 snapshot after all resolver hardening in this PR:
 
-| Classification | Count |
-| --- | ---: |
-| total events | 249 |
-| exact-address local matches | 4 |
-| known-venue local matches | 37 |
-| NLS-resolved | 0 |
-| online | 7 |
-| multi-location | 1 |
-| ambiguous | 0 |
-| unresolved | 200 |
-| unresolved specifically waiting for NLS key | 196 |
-| high-confidence mapped | 41 |
+| Classification                              | Count |
+| ------------------------------------------- | ----: |
+| total events                                |   249 |
+| exact-address local matches                 |     4 |
+| known-venue local matches                   |    37 |
+| NLS-resolved                                |     0 |
+| online                                      |     7 |
+| multi-location                              |     1 |
+| ambiguous                                   |     0 |
+| unresolved                                  |   200 |
+| unresolved specifically waiting for NLS key |   196 |
+| high-confidence mapped                      |    41 |
 
 Current high-confidence point coverage before remote geocoding is:
 

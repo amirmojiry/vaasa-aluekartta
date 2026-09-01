@@ -129,11 +129,7 @@ if (report.ambiguous > report.unresolved || report.remoteKeyMissing > report.unr
   throw new Error('Event location report unresolved sub-count is inconsistent')
 }
 const classifiedTotal =
-  report.exactAddress +
-  report.knownVenue +
-  report.online +
-  report.multiLocation +
-  report.unresolved
+  report.exactAddress + report.knownVenue + report.online + report.multiLocation + report.unresolved
 if (classifiedTotal !== report.totalEvents) {
   throw new Error('Event location report classifications do not partition all events')
 }
