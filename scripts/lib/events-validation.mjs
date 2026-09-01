@@ -1,7 +1,7 @@
 import { EVENT_PROVIDER, EVENT_SOURCE_LOCALE, EVENT_TIME_ZONE } from './events-rss.mjs'
 
-const RFC3339_WITH_OFFSET = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/
-const LOCAL_DATE = /^\d{4}-\d{2}-\d{2}$/
+const RFC3339_WITH_OFFSET = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})([+-])(\d{2}):(\d{2})$/
+const LOCAL_DATE = /^(\d{4})-(\d{2})-(\d{2})$/
 const OPTIONAL_STRING_FIELDS = [
   'venue',
   'addressText',
@@ -21,14 +21,76 @@ function assertOptionalNonEmptyString(record, field, label) {
   }
 }
 
+function isValidCalendarComponents(year, month, day, hour = 0, minute = 0, second = 0) {
+  if (
+    !Number.isInteger(year) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(day) ||
+    !Number.isInteger(hour) ||
+    !Number.isInteger(minute) ||
+    !Number.isInteger(second) ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    hour < 0 ||
+    hour > 23 ||
+    minute < 0 ||
+    minute > 59 ||
+    second < 0 ||
+    second > 59
+  ) {
+    return false
+  }
+
+  const candidate = new Date(Date.UTC(year, month - 1, day, hour, minute, second))
+  return (
+    candidate.getUTCFullYear() === year &&
+    candidate.getUTCMonth() === month - 1 &&
+    candidate.getUTCDate() === day &&
+    candidate.getUTCHours() === hour &&
+    candidate.getUTCMinutes() === minute &&
+    candidate.getUTCSeconds() === second
+  )
+}
+
 function assertHelsinkiDateTime(value, label) {
-  if (!isNonEmptyString(value) || !RFC3339_WITH_OFFSET.test(value)) {
+  if (!isNonEmptyString(value)) {
     throw new Error(`${label} must be an RFC 3339 date-time with an explicit offset`)
   }
-  if (!value.endsWith('+02:00') && !value.endsWith('+03:00')) {
+
+  const match = value.match(RFC3339_WITH_OFFSET)
+  if (!match) {
+    throw new Error(`${label} must be an RFC 3339 date-time with an explicit offset`)
+  }
+
+  const [, year, month, day, hour, minute, second, sign, offsetHour, offsetMinute] = match
+  if (
+    !isValidCalendarComponents(
+      Number(year),
+      Number(month),
+      Number(day),
+      Number(hour),
+      Number(minute),
+      Number(second),
+    )
+  ) {
+    throw new Error(`${label} is not a valid calendar date-time`)
+  }
+
+  if (sign !== '+' || !['02', '03'].includes(offsetHour) || offsetMinute !== '00') {
     throw new Error(`${label} must use a valid Europe/Helsinki offset`)
   }
   if (!Number.isFinite(Date.parse(value))) throw new Error(`${label} is not a valid date-time`)
+}
+
+function assertLocalDate(value, label) {
+  if (!isNonEmptyString(value)) throw new Error(`${label} must be YYYY-MM-DD`)
+  const match = value.match(LOCAL_DATE)
+  if (!match) throw new Error(`${label} must be YYYY-MM-DD`)
+  const [, year, month, day] = match
+  if (!isValidCalendarComponents(Number(year), Number(month), Number(day))) {
+    throw new Error(`${label} is not a valid calendar date`)
+  }
 }
 
 function validateOccurrence(occurrence, eventId, index) {
@@ -50,13 +112,9 @@ function validateOccurrence(occurrence, eventId, index) {
   }
 
   if (occurrence.kind === 'all-day') {
-    if (!isNonEmptyString(occurrence.localDate) || !LOCAL_DATE.test(occurrence.localDate)) {
-      throw new Error(`${label}.localDate must be YYYY-MM-DD`)
-    }
+    assertLocalDate(occurrence.localDate, `${label}.localDate`)
     if ('endLocalDate' in occurrence) {
-      if (!isNonEmptyString(occurrence.endLocalDate) || !LOCAL_DATE.test(occurrence.endLocalDate)) {
-        throw new Error(`${label}.endLocalDate must be YYYY-MM-DD`)
-      }
+      assertLocalDate(occurrence.endLocalDate, `${label}.endLocalDate`)
       if (occurrence.endLocalDate < occurrence.localDate) {
         throw new Error(`${label}.endLocalDate precedes localDate`)
       }
