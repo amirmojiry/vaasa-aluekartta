@@ -80,9 +80,10 @@ The adapter uses:
 - `lang=fi`;
 - `size=5`;
 - `options=nowildcard,use_any_codelist_lang_match`;
+- `use_postal_code` for address queries that already include a five-digit postal code;
 - no `crs` parameter, so v2 uses its default CRS84/WGS84 longitude-latitude response order.
 
-The municipality name `Vaasa` is added to queries that do not already contain Vaasa/Vasa.
+The municipality name `Vaasa` is added only when a query contains neither Vaasa/Vasa nor an explicit five-digit postal code. Explicit postal-place queries are left intact so an out-of-area source value is not silently rewritten into Vaasa; any returned point must still pass the Vaasa geographic guard.
 
 ### Authentication
 
@@ -99,6 +100,8 @@ NLS_API_KEY
 as an environment variable / GitHub Actions secret.
 
 If the key is absent, the resolver makes **no remote request** and marks otherwise geocodable records with `reason = remote-key-missing`.
+
+A GitHub Actions proof run on 2026-09-02 referenced `secrets.NLS_API_KEY` without reading or printing any secret value. The environment variable was empty, confirming that this repository does not currently have that secret configured. The fail-closed resolver therefore made no NLS requests and produced no remote-cache changes.
 
 ## Licence and source provenance
 
@@ -133,7 +136,34 @@ Non-point states include:
 - `multi-location` — source text clearly names several areas/locations;
 - `unresolved` — no safe point was established.
 
-Ambiguity is represented as `precision = unresolved` with an explicit ambiguity reason. Municipality-only values such as `Vaasa`, `Vasa`, `Finland`, and `Suomi` are not converted into a fake central marker.
+Ambiguity is represented as `precision = unresolved` with an explicit ambiguity reason. Municipality-only and placeholder values such as `Vaasa`, `Vasa`, `Finland`, `Suomi`, `Enter Address`, and online-event placeholders are not sent to a geocoder as if they were precise physical addresses.
+
+## Current proof metrics
+
+The local-only proof run against the committed 249-event E1 snapshot produced:
+
+| Classification | Count |
+| --- | ---: |
+| total events | 249 |
+| high-confidence mapped | 37 |
+| exact-address local matches | 0 |
+| known-venue local matches | 37 |
+| NLS-resolved | 0 |
+| online | 6 |
+| multi-location | 1 |
+| ambiguous | 0 |
+| unresolved | 205 |
+| unresolved specifically waiting for NLS key | 201 |
+
+Current high-confidence point coverage before remote geocoding is:
+
+```text
+37 / 249 = 14.86%
+```
+
+The source feed also contains some low-quality or out-of-scope location text, including placeholders and addresses that explicitly refer to other Finnish localities. These are not rewritten into Vaasa. Remote results will be accepted only when they pass the Vaasa guard and the result is unambiguous and from a documented source dataset.
+
+These figures are an E2 diagnostic baseline, not the final mapping-coverage result. The final rate must be measured again after a real NLS pass.
 
 ## Generated proof-of-concept artifacts
 
@@ -158,11 +188,11 @@ The report measures exact-address, known-venue, NLS-resolved, online, multi-loca
 
 E2 is complete only after:
 
-- local matching and classifications are validated;
-- NLS terms/provenance are documented;
-- an API key is configured outside source control;
-- real remote responses are exercised and cached with source-specific provenance;
-- all accepted points pass Vaasa bounds validation;
-- the measured final high-confidence mapping rate is reviewed before marker UX begins.
+- [x] local matching and classifications are validated;
+- [x] NLS terms/provenance are documented;
+- [ ] an API key is configured outside source control;
+- [ ] real remote responses are exercised and cached with source-specific provenance;
+- [x] the validator rejects accepted points outside the verified Vaasa geographic guard;
+- [ ] the measured final high-confidence mapping rate is reviewed before marker UX begins.
 
 Until a real NLS API key is configured and the remote pass is measured, E2 remains **open** and E3/E4 must not assume remote geocoding has been proven.
