@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import {
   buildPoiLocationIndex,
   chooseEventGeocodingQuery,
+  isAddressLike,
   isHighConfidenceResolution,
   normalizeLocationText,
   resolveEventLocally,
@@ -28,7 +29,7 @@ function resolutionFromCache(query, cacheEntry) {
   return {
     query,
     resolution: {
-      precision: /\d/.test(query) ? 'exact-address' : 'known-venue',
+      precision: cacheEntry.precision ?? (isAddressLike(query) ? 'exact-address' : 'known-venue'),
       longitude: cacheEntry.longitude,
       latitude: cacheEntry.latitude,
       ...(cacheEntry.label ? { label: cacheEntry.label } : {}),
@@ -110,6 +111,7 @@ export async function resolveEventLocations({
 
   const poiIndex = buildPoiLocationIndex(poiCollection)
   const locations = []
+  const inRunRemoteMemo = new Map()
   let cacheChanged = false
 
   for (const event of eventsSnapshot.events) {
@@ -129,18 +131,28 @@ export async function resolveEventLocations({
     }
 
     const key = cacheKey(query)
+    const memoized = inRunRemoteMemo.get(key)
+    if (memoized) {
+      locations.push({ eventId: event.id, ...memoized })
+      continue
+    }
+
     const cached = cache.entries[key]
     if (cached) {
-      locations.push({ eventId: event.id, ...resolutionFromCache(query, cached) })
+      const cachedResult = resolutionFromCache(query, cached)
+      inRunRemoteMemo.set(key, cachedResult)
+      locations.push({ eventId: event.id, ...cachedResult })
       continue
     }
 
     const remote = await geocodeWithNls(query, { apiKey, fetchImpl, now })
+    const remoteResult = { query, resolution: remote.resolution }
+    inRunRemoteMemo.set(key, remoteResult)
     if (remote.cacheEntry) {
       cache.entries[key] = remote.cacheEntry
       cacheChanged = true
     }
-    locations.push({ eventId: event.id, query, resolution: remote.resolution })
+    locations.push({ eventId: event.id, ...remoteResult })
   }
 
   locations.sort((left, right) => left.eventId.localeCompare(right.eventId))
