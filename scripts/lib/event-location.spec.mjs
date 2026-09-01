@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   buildPoiLocationIndex,
+  canonicalStreetAddressKey,
   looksMultiLocation,
   pointWithinVaasaBounds,
   resolveEventLocally,
@@ -32,6 +33,8 @@ const pois = {
     poi('way/2', 'Vaasan Sähkö Areena', [21.6419923, 63.0799013], 'Rinnakkaistie 1'),
     poi('way/3', 'Duplicate Hall', [21.61, 63.09]),
     poi('way/4', 'Duplicate Hall', [21.62, 63.1]),
+    poi('way/5', 'Shared Address A', [21.63, 63.09], 'Shared Street 1, Vaasa'),
+    poi('way/6', 'Shared Address B', [21.64, 63.09], 'Shared Street 1, Vaasa'),
   ],
 }
 
@@ -47,6 +50,20 @@ describe('event local location resolution', () => {
     expect(result.resolution.precision).toBe('exact-address')
     expect(result.resolution.longitude).toBe(21.6107973)
     expect(result.resolution.provenance.licence).toBe('ODbL 1.0')
+  })
+
+  it('matches the same street and house number despite postal/locality suffix differences', () => {
+    const result = resolveEventLocally(
+      { addressText: 'Kirjastonkatu 13, 65100 Vaasa, Suomi' },
+      index,
+    )
+
+    expect(canonicalStreetAddressKey('Kirjastonkatu 13, 65100 Vaasa, Suomi')).toBe(
+      'kirjastonkatu 13',
+    )
+    expect(result.resolution.precision).toBe('exact-address')
+    expect(result.resolution.longitude).toBe(21.6107973)
+    expect(result.resolution.provenance.transformation).toContain('street-and-house-number')
   })
 
   it('matches localized POI names and the reviewed arena spelling alias', () => {
@@ -67,8 +84,24 @@ describe('event local location resolution', () => {
     })
   })
 
+  it('uses a unique venue to disambiguate a shared address', () => {
+    const result = resolveEventLocally(
+      { venue: 'Shared Address B', addressText: 'Shared Street 1, 65100 Vaasa, Finland' },
+      index,
+    )
+
+    expect(result.resolution.precision).toBe('known-venue')
+    expect(result.resolution.label).toBe('Shared Address B')
+  })
+
   it('classifies online and multi-location records without inventing a marker', () => {
     expect(resolveEventLocally({ online: true }, index).resolution.precision).toBe('online')
+    expect(
+      resolveEventLocally(
+        { online: true, venue: 'Online event', addressText: 'Marenvägen 294, 65410 Vasa' },
+        index,
+      ).resolution.precision,
+    ).toBe('online')
     expect(
       resolveEventLocally({ venue: 'Keskusta, Palosaari, Gerby, Suvilahti' }, index).resolution
         .precision,
