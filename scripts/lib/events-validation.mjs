@@ -68,8 +68,10 @@ function validateOccurrence(occurrence, eventId, index) {
 }
 
 function validateFeedSource(source, eventCount) {
-  if (!source || typeof source !== 'object') throw new Error('Events snapshot has no source metadata')
-  if (source.provider !== EVENT_PROVIDER) throw new Error(`Unexpected event provider: ${source.provider}`)
+  if (!source || typeof source !== 'object')
+    throw new Error('Events snapshot has no source metadata')
+  if (source.provider !== EVENT_PROVIDER)
+    throw new Error(`Unexpected event provider: ${source.provider}`)
   if (source.municipality !== 'Vaasa' || source.municipalityId !== '2') {
     throw new Error('Events snapshot must remain scoped to Vaasa municipality id 2')
   }
@@ -80,7 +82,9 @@ function validateFeedSource(source, eventCount) {
     throw new Error('Events snapshot requestedLimit must be a positive integer')
   }
   if (source.itemCount !== eventCount) {
-    throw new Error(`Events source itemCount ${source.itemCount} does not match ${eventCount} events`)
+    throw new Error(
+      `Events source itemCount ${source.itemCount} does not match ${eventCount} events`,
+    )
   }
   if (source.itemCount >= source.requestedLimit) {
     throw new Error('Events snapshot is saturated at its requested feed limit')
@@ -167,11 +171,13 @@ function validateEvent(event, index, ids, sourceIds) {
   }
 
   if (event.municipality !== 'Vaasa') throw new Error(`Event ${event.id} is outside Vaasa`)
-  if (!Array.isArray(event.categories)) throw new Error(`Event ${event.id} categories must be an array`)
+  if (!Array.isArray(event.categories))
+    throw new Error(`Event ${event.id} categories must be an array`)
   const categories = new Set()
   for (const category of event.categories) {
     if (!isNonEmptyString(category)) throw new Error(`Event ${event.id} has an empty category`)
-    if (categories.has(category)) throw new Error(`Event ${event.id} has duplicate category: ${category}`)
+    if (categories.has(category))
+      throw new Error(`Event ${event.id} has duplicate category: ${category}`)
     categories.add(category)
   }
 

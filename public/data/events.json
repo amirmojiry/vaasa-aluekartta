@@ -22,9 +22,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -102,9 +100,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -200,9 +196,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -298,9 +292,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -396,9 +388,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -488,10 +478,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports",
-        "Tours and cruises"
-      ],
+      "categories": ["Recreation & Sports", "Tours and cruises"],
       "occurrences": [
         {
           "kind": "timed",
@@ -869,10 +856,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports",
-        "Tours and cruises"
-      ],
+      "categories": ["Recreation & Sports", "Tours and cruises"],
       "occurrences": [
         {
           "kind": "timed",
@@ -1202,9 +1186,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore"
-      ],
+      "categories": ["Museums & Folklore"],
       "occurrences": [
         {
           "kind": "timed",
@@ -1480,9 +1462,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -1584,9 +1564,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore"
-      ],
+      "categories": ["Museums & Folklore"],
       "occurrences": [
         {
           "kind": "timed",
@@ -2186,10 +2164,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore",
-        "Tours and cruises"
-      ],
+      "categories": ["Museums & Folklore", "Tours and cruises"],
       "occurrences": [
         {
           "kind": "timed",
@@ -2652,9 +2627,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -2911,9 +2884,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -2967,9 +2938,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3053,9 +3022,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3115,9 +3082,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3171,9 +3136,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3227,9 +3190,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3268,9 +3229,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Movies"
-      ],
+      "categories": ["Movies"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3305,9 +3264,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3355,9 +3312,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3417,9 +3372,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3467,9 +3420,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3517,9 +3468,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3585,9 +3534,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3629,9 +3576,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3686,9 +3631,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3736,9 +3679,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3768,9 +3709,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -3890,9 +3829,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4365,9 +4302,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore"
-      ],
+      "categories": ["Museums & Folklore"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4397,9 +4332,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4429,9 +4362,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4460,9 +4391,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4534,9 +4463,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4566,9 +4493,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4631,9 +4556,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4675,9 +4598,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore"
-      ],
+      "categories": ["Museums & Folklore"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4706,9 +4627,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4738,9 +4657,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4812,9 +4729,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4922,9 +4837,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -4972,9 +4885,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5004,9 +4915,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5036,9 +4945,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5066,9 +4973,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5098,9 +5003,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5183,9 +5086,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5221,9 +5122,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5253,9 +5152,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5285,9 +5182,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5317,9 +5212,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5349,11 +5242,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore",
-        "Music",
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Museums & Folklore", "Music", "Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5389,9 +5278,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5421,9 +5308,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5453,9 +5338,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5485,9 +5368,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5515,9 +5396,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5547,10 +5426,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music",
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Music", "Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5580,9 +5456,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5612,9 +5486,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5662,9 +5534,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5694,9 +5564,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore"
-      ],
+      "categories": ["Museums & Folklore"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5730,9 +5598,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5798,9 +5664,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5872,9 +5736,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5904,9 +5766,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -5972,9 +5832,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6004,9 +5862,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6078,9 +5934,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6110,9 +5964,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6142,9 +5994,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6174,9 +6024,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6449,9 +6297,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6484,9 +6330,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6534,9 +6378,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6564,9 +6406,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6594,9 +6434,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6624,9 +6462,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6654,9 +6490,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6686,9 +6520,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6718,9 +6550,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6768,9 +6598,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6798,9 +6626,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6830,9 +6656,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6898,9 +6722,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -6930,9 +6752,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7112,9 +6932,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7144,9 +6962,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7200,9 +7016,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Tours and cruises"
-      ],
+      "categories": ["Tours and cruises"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7232,9 +7046,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7263,9 +7075,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7295,9 +7105,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7345,9 +7153,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7375,9 +7181,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Tours and cruises"
-      ],
+      "categories": ["Tours and cruises"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7407,9 +7211,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7445,9 +7247,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7580,9 +7380,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7612,9 +7410,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7647,9 +7443,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7677,9 +7471,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7741,9 +7533,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7773,9 +7563,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7829,9 +7617,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7866,9 +7652,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7899,9 +7683,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7949,9 +7731,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -7981,9 +7761,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8025,9 +7803,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8075,9 +7851,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8138,9 +7912,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8171,9 +7943,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8203,9 +7973,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8235,9 +8003,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8267,9 +8033,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8297,9 +8061,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8347,9 +8109,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8379,9 +8139,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8441,9 +8199,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8479,9 +8235,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8514,9 +8268,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8552,9 +8304,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8607,10 +8357,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports",
-        "Theatre"
-      ],
+      "categories": ["Recreation & Sports", "Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8640,9 +8387,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8672,9 +8417,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8704,9 +8447,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8736,9 +8477,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8767,9 +8506,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8797,9 +8534,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8827,9 +8562,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8907,9 +8640,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8937,9 +8668,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -8969,9 +8698,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9001,9 +8728,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9067,9 +8792,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9100,9 +8823,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9132,9 +8853,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Tours and cruises"
-      ],
+      "categories": ["Tours and cruises"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9164,11 +8883,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore",
-        "Music",
-        "Theatre"
-      ],
+      "categories": ["Museums & Folklore", "Music", "Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9353,9 +9068,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9383,9 +9096,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9473,9 +9184,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9503,10 +9212,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports",
-        "Tours and cruises"
-      ],
+      "categories": ["Recreation & Sports", "Tours and cruises"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9540,9 +9246,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9572,9 +9276,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9604,9 +9306,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9639,9 +9339,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9703,9 +9401,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9736,9 +9432,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9767,9 +9461,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9799,9 +9491,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9829,9 +9519,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -9861,9 +9549,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10046,10 +9732,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Movies",
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Movies", "Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10079,9 +9762,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10109,9 +9790,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10139,9 +9818,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10174,9 +9851,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10229,9 +9904,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10261,9 +9934,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10293,9 +9964,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10331,9 +10000,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10363,9 +10030,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10395,9 +10060,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10435,9 +10098,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10470,9 +10131,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10500,9 +10159,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10530,9 +10187,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10580,10 +10235,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music",
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Music", "Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10613,9 +10265,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Conferences, Courses, Fairs & Seminars"
-      ],
+      "categories": ["Conferences, Courses, Fairs & Seminars"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10645,9 +10295,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10690,9 +10338,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10722,9 +10368,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10752,9 +10396,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10784,9 +10426,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10816,9 +10456,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10846,9 +10484,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature"
-      ],
+      "categories": ["Literature"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10878,9 +10514,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10909,9 +10543,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10941,9 +10573,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -10971,9 +10601,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11003,9 +10631,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11033,9 +10659,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11063,9 +10687,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11095,9 +10717,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11127,9 +10747,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore"
-      ],
+      "categories": ["Museums & Folklore"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11159,11 +10777,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports",
-        "Music",
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Recreation & Sports", "Music", "Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11193,9 +10807,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11291,9 +10903,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11323,9 +10933,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11353,9 +10961,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11383,9 +10989,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11413,9 +11017,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11445,9 +11047,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11650,9 +11250,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11680,9 +11278,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11710,9 +11306,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11742,9 +11336,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11774,11 +11366,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports",
-        "Music",
-        "Seminarier, föreläsningar och möten"
-      ],
+      "categories": ["Recreation & Sports", "Music", "Seminarier, föreläsningar och möten"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11808,9 +11396,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11838,9 +11424,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11918,9 +11502,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11948,9 +11530,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -11983,9 +11563,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12015,9 +11593,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12055,9 +11631,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12087,9 +11661,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12119,9 +11691,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12149,9 +11719,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12179,9 +11747,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12209,9 +11775,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12239,9 +11803,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12269,9 +11831,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12301,9 +11861,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12336,9 +11894,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12366,9 +11922,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12396,9 +11950,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12428,9 +11980,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Museums & Folklore"
-      ],
+      "categories": ["Museums & Folklore"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12460,9 +12010,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12492,9 +12040,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12527,9 +12073,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12559,9 +12103,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Auctions & Market Days"
-      ],
+      "categories": ["Auctions & Market Days"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12597,9 +12139,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12637,9 +12177,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12669,9 +12207,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12701,9 +12237,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12733,9 +12267,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12765,9 +12297,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12797,9 +12327,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12832,9 +12360,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12864,9 +12390,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12929,11 +12453,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Literature",
-        "Music",
-        "Theatre"
-      ],
+      "categories": ["Literature", "Music", "Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12963,9 +12483,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -12995,9 +12513,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Movies"
-      ],
+      "categories": ["Movies"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13051,9 +12567,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13083,9 +12597,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13113,9 +12625,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13145,9 +12655,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Theatre"
-      ],
+      "categories": ["Theatre"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13305,9 +12813,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13337,9 +12843,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13369,9 +12873,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13401,9 +12903,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13431,9 +12931,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13463,9 +12961,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13495,9 +12991,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Recreation & Sports"
-      ],
+      "categories": ["Recreation & Sports"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13527,9 +13021,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",
@@ -13557,9 +13049,7 @@
         "sourceLocale": "en_US"
       },
       "municipality": "Vaasa",
-      "categories": [
-        "Music"
-      ],
+      "categories": ["Music"],
       "occurrences": [
         {
           "kind": "timed",

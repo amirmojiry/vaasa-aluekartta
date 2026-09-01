@@ -89,18 +89,23 @@ describe('Events in Ostrobothnia RSS parser', () => {
   })
 
   it('rejects records outside Vaasa and inconsistent source identity', () => {
-    expect(() => parseEventsRss(rss(minimalItem().replace('<municipality>Vaasa</municipality>', '<municipality>Mustasaari</municipality>')))).toThrow(
-      /outside Vaasa/,
-    )
     expect(() =>
-      parseEventsRss(rss(minimalItem().replace('/show/123', '/show/999'))),
-    ).toThrow(/identity mismatch/)
+      parseEventsRss(
+        rss(
+          minimalItem().replace(
+            '<municipality>Vaasa</municipality>',
+            '<municipality>Mustasaari</municipality>',
+          ),
+        ),
+      ),
+    ).toThrow(/outside Vaasa/)
+    expect(() => parseEventsRss(rss(minimalItem().replace('/show/123', '/show/999')))).toThrow(
+      /identity mismatch/,
+    )
   })
 
   it('normalizes RSS date-times without losing the source offset', () => {
-    expect(parseRssDateTime('Sun, 25 Oct 2026 10:00:00 +0200')).toBe(
-      '2026-10-25T10:00:00+02:00',
-    )
+    expect(parseRssDateTime('Sun, 25 Oct 2026 10:00:00 +0200')).toBe('2026-10-25T10:00:00+02:00')
   })
 
   it('fails closed when the requested feed limit is saturated', () => {

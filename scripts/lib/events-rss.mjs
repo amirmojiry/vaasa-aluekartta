@@ -55,9 +55,11 @@ function uniqueNonEmpty(values) {
 export function parseRssDateTime(value) {
   if (!value) return undefined
 
-  const match = value.trim().match(
-    /^(?:[A-Z][a-z]{2},\s+)?(\d{1,2})\s+([A-Z][a-z]{2})\s+(\d{4})\s+(\d{2}):(\d{2}):(\d{2})\s+([+-])(\d{2})(\d{2})$/,
-  )
+  const match = value
+    .trim()
+    .match(
+      /^(?:[A-Z][a-z]{2},\s+)?(\d{1,2})\s+([A-Z][a-z]{2})\s+(\d{4})\s+(\d{2}):(\d{2}):(\d{2})\s+([+-])(\d{2})(\d{2})$/,
+    )
   if (!match) throw new Error(`Unsupported RSS date-time: ${value}`)
 
   const [, day, monthName, year, hour, minute, second, sign, offsetHour, offsetMinute] = match

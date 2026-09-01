@@ -50,12 +50,16 @@ export async function updateEventsSnapshot({ fetchImpl = fetch } = {}) {
   const existing = await readExistingOutput()
 
   if (existing === serialized) {
-    console.log(`Events snapshot unchanged: ${summary.events} events, ${summary.occurrences} occurrences`)
+    console.log(
+      `Events snapshot unchanged: ${summary.events} events, ${summary.occurrences} occurrences`,
+    )
     return snapshot
   }
 
   await writeFile(outputPath, serialized, 'utf8')
-  console.log(`Updated events snapshot: ${summary.events} events, ${summary.occurrences} occurrences`)
+  console.log(
+    `Updated events snapshot: ${summary.events} events, ${summary.occurrences} occurrences`,
+  )
   return snapshot
 }
 
