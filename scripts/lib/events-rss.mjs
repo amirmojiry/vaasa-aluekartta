@@ -52,6 +52,38 @@ function uniqueNonEmpty(values) {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))]
 }
 
+function isValidCalendarComponents(year, month, day, hour, minute, second) {
+  if (
+    !Number.isInteger(year) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(day) ||
+    !Number.isInteger(hour) ||
+    !Number.isInteger(minute) ||
+    !Number.isInteger(second) ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    hour < 0 ||
+    hour > 23 ||
+    minute < 0 ||
+    minute > 59 ||
+    second < 0 ||
+    second > 59
+  ) {
+    return false
+  }
+
+  const candidate = new Date(Date.UTC(year, month - 1, day, hour, minute, second))
+  return (
+    candidate.getUTCFullYear() === year &&
+    candidate.getUTCMonth() === month - 1 &&
+    candidate.getUTCDate() === day &&
+    candidate.getUTCHours() === hour &&
+    candidate.getUTCMinutes() === minute &&
+    candidate.getUTCSeconds() === second
+  )
+}
+
 export function parseRssDateTime(value) {
   if (!value) return undefined
 
@@ -65,6 +97,30 @@ export function parseRssDateTime(value) {
   const [, day, monthName, year, hour, minute, second, sign, offsetHour, offsetMinute] = match
   const month = MONTHS.get(monthName)
   if (!month) throw new Error(`Unsupported RSS month: ${monthName}`)
+
+  const numericYear = Number(year)
+  const numericMonth = Number(month)
+  const numericDay = Number(day)
+  const numericHour = Number(hour)
+  const numericMinute = Number(minute)
+  const numericSecond = Number(second)
+  const numericOffsetHour = Number(offsetHour)
+  const numericOffsetMinute = Number(offsetMinute)
+
+  if (
+    !isValidCalendarComponents(
+      numericYear,
+      numericMonth,
+      numericDay,
+      numericHour,
+      numericMinute,
+      numericSecond,
+    ) ||
+    numericOffsetHour > 23 ||
+    numericOffsetMinute > 59
+  ) {
+    throw new Error(`Invalid RSS date-time: ${value}`)
+  }
 
   const normalized = `${year}-${month}-${day.padStart(2, '0')}T${hour}:${minute}:${second}${sign}${offsetHour}:${offsetMinute}`
   if (!Number.isFinite(Date.parse(normalized))) {
