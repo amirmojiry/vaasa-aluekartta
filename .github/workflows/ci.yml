@@ -20,6 +20,35 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Probe events feed coverage
+        run: |
+          node --input-type=module <<'NODE'
+          const base = 'https://events.osterbotten.fi/EventService/search?Locale=en_US&Municipalities=2&SortField=Date&SortDir=ASC&Format=rss'
+          const probes = [
+            ['limit100', `${base}&Limit=100`],
+            ['limit101', `${base}&Limit=101`],
+            ['limit250', `${base}&Limit=250`],
+            ['limit500', `${base}&Limit=500`],
+            ['limit1000', `${base}&Limit=1000`],
+            ['page2', `${base}&Limit=100&CurrentPage=2`],
+          ]
+          for (const [name, url] of probes) {
+            const response = await fetch(url, { redirect: 'follow' })
+            const text = await response.text()
+            const items = [...text.matchAll(/<item>/g)].length
+            const guids = [...text.matchAll(/<guid[^>]*>([^<]+)<\/guid>/g)].map((m) => m[1])
+            console.log(JSON.stringify({
+              name,
+              status: response.status,
+              contentType: response.headers.get('content-type'),
+              contentLength: text.length,
+              items,
+              firstGuid: guids[0] ?? null,
+              lastGuid: guids.at(-1) ?? null,
+              uniqueGuids: new Set(guids).size,
+            }))
+          }
+          NODE
       - name: Check formatting
         run: npm run format:check
       - name: Lint
