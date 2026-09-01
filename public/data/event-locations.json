@@ -25,18 +25,38 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_34552",
       "query": "Hovioikeudenpuistikko 15, 65100 Vaasa, Suomi",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Hovioikeudenpuistikko 15, 65100 Vaasa, Suomi"
+        "precision": "exact-address",
+        "longitude": 21.6147723,
+        "latitude": 63.0964883,
+        "label": "Vaasan keskusapteekki",
+        "sourceAddress": "Hovioikeudenpuistikko 15, 65100 Vaasa, Suomi",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/node/196155698",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized street-and-house-number match after removing postal/locality/country suffixes from both source strings; source point geometry retained in WGS84."
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_42831",
       "query": "Rauhankatu 20, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Rauhankatu 20, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.6192242,
+        "latitude": 63.0937082,
+        "label": "More than Coffee",
+        "sourceAddress": "Rauhankatu 20, 65100 Vaasa",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/node/4490148545",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized street-and-house-number match after removing postal/locality/country suffixes from both source strings; source point geometry retained in WGS84."
+        }
       }
     },
     {
@@ -77,20 +97,14 @@
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_51589",
-      "query": "Enter Address",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Enter Address"
+        "precision": "online"
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_51590",
-      "query": "Enter Address",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Enter Address"
+        "precision": "online"
       }
     },
     {
@@ -431,18 +445,28 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_59914",
       "query": "Rinnakkaistie 1, 65350 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Rinnakkaistie 1, 65350 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Rinnakkaistie 1, 65350 Vaasa",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized street-and-house-number match after removing postal/locality/country suffixes from both source strings; source point geometry retained in WGS84."
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59998",
-      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
         "reason": "remote-key-missing",
-        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa"
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
     {
@@ -484,11 +508,11 @@
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60086",
-      "query": "Pitkäkatu 53, 65100 VAASA",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
         "reason": "remote-key-missing",
-        "sourceAddress": "Pitkäkatu 53, 65100 VAASA"
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
     {
@@ -662,11 +686,8 @@
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60345",
-      "query": "Online event",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Online event"
+        "precision": "online"
       }
     },
     {
@@ -757,11 +778,8 @@
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60496",
-      "query": "Online event",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Online event"
+        "precision": "online"
       }
     },
     {
@@ -973,20 +991,17 @@
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60574",
-      "query": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31.",
+      "query": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31",
       "resolution": {
         "precision": "unresolved",
         "reason": "remote-key-missing",
-        "sourceAddress": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31."
+        "sourceAddress": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31"
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60577",
-      "query": "Online event",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Online event"
+        "precision": "online"
       }
     },
     {
@@ -1144,11 +1159,8 @@
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60679",
-      "query": "Online event",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Online event"
+        "precision": "online"
       }
     },
     {
@@ -1681,9 +1693,19 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60967",
       "query": "Rinnakkaistie 1, 65350 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Rinnakkaistie 1, 65350 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Rinnakkaistie 1, 65350 Vaasa",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized street-and-house-number match after removing postal/locality/country suffixes from both source strings; source point geometry retained in WGS84."
+        }
       }
     },
     {
@@ -2606,11 +2628,8 @@
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_962",
-      "query": "Marenvägen 294, 65410 SUNDOM Vasa, Finland",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Marenvägen 294, 65410 SUNDOM Vasa, Finland"
+        "precision": "online"
       }
     }
   ]
