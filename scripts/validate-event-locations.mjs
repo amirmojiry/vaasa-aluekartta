@@ -27,8 +27,9 @@ function assertFinitePoint(resolution, eventId) {
 }
 
 function validateLocationRecord(record, eventIds) {
-  if (!eventIds.has(record?.eventId))
+  if (!eventIds.has(record?.eventId)) {
     throw new Error(`Unknown event location id: ${record?.eventId}`)
+  }
   if (!record.resolution || typeof record.resolution !== 'object') {
     throw new Error(`Event ${record.eventId} has no location resolution`)
   }
@@ -51,7 +52,7 @@ function validateLocationRecord(record, eventIds) {
 
   const pointPrecision = ['exact-address', 'known-venue', 'postal-area']
   if (pointPrecision.includes(resolution.precision)) assertFinitePoint(resolution, record.eventId)
-  if (['online', 'multi-location', 'unresolved'].includes(resolution.precision)) {
+  if (['online', 'multi-location', 'unresolved', 'municipality'].includes(resolution.precision)) {
     if ('longitude' in resolution || 'latitude' in resolution) {
       throw new Error(
         `Event ${record.eventId} must not expose point geometry for ${resolution.precision}`,
@@ -69,13 +70,20 @@ function validateCache(cache) {
   }
 
   for (const [key, entry] of Object.entries(cache.entries)) {
-    if (!key || !entry?.rawQuery || !entry?.retrievedAt)
+    if (!key || !entry?.rawQuery || !entry?.retrievedAt) {
       throw new Error(`Invalid cache entry: ${key}`)
+    }
+    if (entry.precision && !['exact-address', 'known-venue'].includes(entry.precision)) {
+      throw new Error(`Location cache entry ${key} has invalid precision: ${entry.precision}`)
+    }
     if (!pointWithinVaasaBounds(entry.longitude, entry.latitude)) {
       throw new Error(`Location cache entry ${key} is outside Vaasa bounds`)
     }
     if (!entry.sourceDataset || !entry.provenance?.provider || !entry.provenance?.licence) {
       throw new Error(`Location cache entry ${key} lacks source/licence provenance`)
+    }
+    if (!entry.provenance?.retrievedAt || entry.provenance.retrievedAt !== entry.retrievedAt) {
+      throw new Error(`Location cache entry ${key} has inconsistent retrieval provenance`)
     }
   }
 }
@@ -101,8 +109,9 @@ if (locations.locations.length !== events.events.length) {
 const eventIds = new Set(events.events.map((event) => event.id))
 const seen = new Set()
 for (const record of locations.locations) {
-  if (seen.has(record.eventId))
+  if (seen.has(record.eventId)) {
     throw new Error(`Duplicate event location record: ${record.eventId}`)
+  }
   seen.add(record.eventId)
   validateLocationRecord(record, eventIds)
 }
@@ -115,6 +124,18 @@ if (report.highConfidenceMapped !== report.exactAddress + report.knownVenue) {
 }
 if (report.geocoderResolved > report.highConfidenceMapped) {
   throw new Error('Event location report geocoder count exceeds mapped count')
+}
+if (report.ambiguous > report.unresolved || report.remoteKeyMissing > report.unresolved) {
+  throw new Error('Event location report unresolved sub-count is inconsistent')
+}
+const classifiedTotal =
+  report.exactAddress +
+  report.knownVenue +
+  report.online +
+  report.multiLocation +
+  report.unresolved
+if (classifiedTotal !== report.totalEvents) {
+  throw new Error('Event location report classifications do not partition all events')
 }
 const expectedRate = Number((report.highConfidenceMapped / report.totalEvents).toFixed(4))
 if (report.highConfidenceRate !== expectedRate) {
