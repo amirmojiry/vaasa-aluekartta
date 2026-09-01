@@ -1,3 +1,5 @@
+import type { LocationResolution } from './location'
+
 export type EventProvider = 'events-in-ostrobothnia'
 export type EventSourceLocale = 'en_US'
 export type EventLanguage = 'fi' | 'sv' | 'en'
@@ -41,6 +43,7 @@ export interface EventRecord {
   publishedAt?: string
   closestOccurrenceAt?: string
   sourceDatePeriod?: string
+  location?: LocationResolution
 }
 
 export interface EventsSnapshot {
