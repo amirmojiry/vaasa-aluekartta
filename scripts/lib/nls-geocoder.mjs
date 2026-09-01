@@ -7,22 +7,29 @@ const NLS_LICENCE_URL = 'https://www.maanmittauslaitos.fi/en/open-data-licence-v
 const NLS_DOC_URL =
   'https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu'
 const SYKE_RYHTI_URL = 'https://ryhti.syke.fi/'
+const POSTAL_CODE_PATTERN = /\b\d{5}\b/
 
 export function nlsSourcesForQuery(query) {
   return isAddressLike(query) ? ['addresses', 'interpolated-road-addresses'] : ['geographic-names']
 }
 
-function queryWithVaasa(query) {
-  return /\b(?:vaasa|vasa)\b/i.test(query) ? query.trim() : `${query.trim()} Vaasa`
+function queryWithMunicipalityContext(query) {
+  const trimmed = query.trim()
+  if (/\b(?:vaasa|vasa)\b/i.test(trimmed) || POSTAL_CODE_PATTERN.test(trimmed)) return trimmed
+  return `${trimmed} Vaasa`
 }
 
 export function buildNlsSearchUrl(query) {
   const url = new URL(NLS_GEOCODING_ENDPOINT)
-  url.searchParams.set('text', queryWithVaasa(query))
+  url.searchParams.set('text', queryWithMunicipalityContext(query))
   url.searchParams.set('sources', nlsSourcesForQuery(query).join(','))
   url.searchParams.set('lang', 'fi')
   url.searchParams.set('size', '5')
-  url.searchParams.set('options', 'nowildcard,use_any_codelist_lang_match')
+  const options = ['nowildcard', 'use_any_codelist_lang_match']
+  if (POSTAL_CODE_PATTERN.test(query) && nlsSourcesForQuery(query).includes('addresses')) {
+    options.push('use_postal_code')
+  }
+  url.searchParams.set('options', options.join(','))
   return url
 }
 
@@ -117,10 +124,11 @@ export function selectNlsResult(featureCollection, query, retrievedAt) {
   }
 
   const [candidate] = candidates
+  const precision = isAddressLike(query) ? 'exact-address' : 'known-venue'
   return {
     query,
     resolution: {
-      precision: isAddressLike(query) ? 'exact-address' : 'known-venue',
+      precision,
       longitude: candidate.longitude,
       latitude: candidate.latitude,
       ...(candidate.label ? { label: candidate.label } : {}),
@@ -135,6 +143,7 @@ export function selectNlsResult(featureCollection, query, retrievedAt) {
     cacheEntry: {
       rawQuery: query,
       retrievedAt,
+      precision,
       longitude: candidate.longitude,
       latitude: candidate.latitude,
       ...(candidate.label ? { label: candidate.label } : {}),
