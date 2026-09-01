@@ -27,26 +27,28 @@ jobs:
           const probes = [
             ['limit100', `${base}&Limit=100`],
             ['limit101', `${base}&Limit=101`],
-            ['limit250', `${base}&Limit=250`],
-            ['limit500', `${base}&Limit=500`],
-            ['limit1000', `${base}&Limit=1000`],
+            ['limit200', `${base}&Limit=200`],
             ['page2', `${base}&Limit=100&CurrentPage=2`],
           ]
           for (const [name, url] of probes) {
-            const response = await fetch(url, { redirect: 'follow' })
-            const text = await response.text()
-            const items = [...text.matchAll(/<item>/g)].length
-            const guids = [...text.matchAll(/<guid[^>]*>([^<]+)<\/guid>/g)].map((m) => m[1])
-            console.log(JSON.stringify({
-              name,
-              status: response.status,
-              contentType: response.headers.get('content-type'),
-              contentLength: text.length,
-              items,
-              firstGuid: guids[0] ?? null,
-              lastGuid: guids.at(-1) ?? null,
-              uniqueGuids: new Set(guids).size,
-            }))
+            try {
+              const response = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15000) })
+              const text = await response.text()
+              const items = [...text.matchAll(/<item>/g)].length
+              const guids = [...text.matchAll(/<guid[^>]*>([^<]+)<\/guid>/g)].map((m) => m[1])
+              console.log(JSON.stringify({
+                name,
+                status: response.status,
+                contentType: response.headers.get('content-type'),
+                contentLength: text.length,
+                items,
+                firstGuid: guids[0] ?? null,
+                lastGuid: guids.at(-1) ?? null,
+                uniqueGuids: new Set(guids).size,
+              }))
+            } catch (error) {
+              console.log(JSON.stringify({ name, error: error?.name ?? String(error) }))
+            }
           }
           NODE
       - name: Check formatting
