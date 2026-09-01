@@ -120,7 +120,7 @@ as an environment variable / GitHub Actions secret.
 
 If the key is absent, the resolver makes **no remote request** and marks otherwise geocodable records with `reason = remote-key-missing`.
 
-An earlier GitHub Actions proof run on 2026-09-02 referenced `secrets.NLS_API_KEY` without reading or printing any secret value. The environment variable was empty at that time, so the fail-closed resolver made no NLS requests and produced no remote-cache changes. The final E2 proof workflow repeats this check safely before the PR is finalized.
+A GitHub Actions proof run on 2026-09-02 referenced `secrets.NLS_API_KEY` without reading or printing any secret value. The environment variable was empty, confirming that this repository does not currently have that secret configured. The fail-closed resolver therefore made no NLS requests and produced no remote-cache changes.
 
 ## Licence and source provenance
 
@@ -161,11 +161,30 @@ The feed contains records whose venue is `Online event` while another field stil
 
 Ambiguity is represented as `precision = unresolved` with an explicit ambiguity reason. Municipality-only and placeholder values such as `Vaasa`, `Vasa`, `Finland`, `Suomi`, `Enter Address`, and online-event placeholders are not sent to a geocoder as if they were precise physical addresses.
 
-## Previous local-only baseline
+## Current local-only proof
 
-Before the hardened address/online rules in this branch were added, the local-only proof against the committed 249-event E1 snapshot produced 37 high-confidence venue points (14.86%), 6 explicit online records, 1 multi-location record, and no NLS-resolved points because the API key was unavailable.
+The authoritative local-only proof was regenerated from the current resolver against the committed 249-event E1 snapshot after all resolver hardening in this PR:
 
-That earlier measurement is retained only as a diagnostic baseline. The generated `public/data/event-location-report.json` is authoritative for the current branch and must be regenerated after resolver changes. The final mapping rate must be measured again after a real NLS pass.
+| Classification | Count |
+| --- | ---: |
+| total events | 249 |
+| exact-address local matches | 4 |
+| known-venue local matches | 37 |
+| NLS-resolved | 0 |
+| online | 7 |
+| multi-location | 1 |
+| ambiguous | 0 |
+| unresolved | 200 |
+| unresolved specifically waiting for NLS key | 196 |
+| high-confidence mapped | 41 |
+
+Current high-confidence point coverage before remote geocoding is:
+
+```text
+41 / 249 = 16.47%
+```
+
+These figures are an E2 diagnostic baseline, not the final mapping-coverage result. The final rate must be measured again after a real NLS pass.
 
 ## Generated proof-of-concept artifacts
 
@@ -186,11 +205,7 @@ npm run events:locations:check
 
 The report measures exact-address, known-venue, NLS-resolved, online, multi-location, ambiguous, unresolved, and overall high-confidence mapping counts. Its top-level classifications must partition all source events, and cache entries must retain consistent retrieval and source/licence provenance.
 
-## Proof-run workflow
-
-A temporary branch-only workflow is used while E2 is being completed. It is deliberately gated to commits containing `[run-e2]` so ordinary edits do not repeatedly invoke geocoding. The workflow reads `NLS_API_KEY` only from GitHub Actions secrets, runs the resolver and focused tests, then runs repository-wide format, lint, typecheck, test, and production-build checks. Generated data/cache changes are committed by the workflow when needed.
-
-The temporary proof workflow must be removed before the E2 pull request is finalized.
+Temporary branch-only proof/format/regeneration workflows were used to establish the source contract, run the no-secret proof, and synchronize generated artifacts. They were removed before the PR was left for review; only the repository's normal CI and deploy workflows remain on the branch.
 
 ## E2 exit gate
 
