@@ -27,7 +27,8 @@ function assertFinitePoint(resolution, eventId) {
 }
 
 function validateLocationRecord(record, eventIds) {
-  if (!eventIds.has(record?.eventId)) throw new Error(`Unknown event location id: ${record?.eventId}`)
+  if (!eventIds.has(record?.eventId))
+    throw new Error(`Unknown event location id: ${record?.eventId}`)
   if (!record.resolution || typeof record.resolution !== 'object') {
     throw new Error(`Event ${record.eventId} has no location resolution`)
   }
@@ -43,14 +44,18 @@ function validateLocationRecord(record, eventIds) {
     'unresolved',
   ])
   if (!allowed.has(resolution.precision)) {
-    throw new Error(`Event ${record.eventId} has unknown location precision: ${resolution.precision}`)
+    throw new Error(
+      `Event ${record.eventId} has unknown location precision: ${resolution.precision}`,
+    )
   }
 
   const pointPrecision = ['exact-address', 'known-venue', 'postal-area']
   if (pointPrecision.includes(resolution.precision)) assertFinitePoint(resolution, record.eventId)
   if (['online', 'multi-location', 'unresolved'].includes(resolution.precision)) {
     if ('longitude' in resolution || 'latitude' in resolution) {
-      throw new Error(`Event ${record.eventId} must not expose point geometry for ${resolution.precision}`)
+      throw new Error(
+        `Event ${record.eventId} must not expose point geometry for ${resolution.precision}`,
+      )
     }
   }
   if (resolution.geocoder === 'nls-geocoding-v2' && !resolution.geocodedAt) {
@@ -64,7 +69,8 @@ function validateCache(cache) {
   }
 
   for (const [key, entry] of Object.entries(cache.entries)) {
-    if (!key || !entry?.rawQuery || !entry?.retrievedAt) throw new Error(`Invalid cache entry: ${key}`)
+    if (!key || !entry?.rawQuery || !entry?.retrievedAt)
+      throw new Error(`Invalid cache entry: ${key}`)
     if (!pointWithinVaasaBounds(entry.longitude, entry.latitude)) {
       throw new Error(`Location cache entry ${key} is outside Vaasa bounds`)
     }
@@ -95,7 +101,8 @@ if (locations.locations.length !== events.events.length) {
 const eventIds = new Set(events.events.map((event) => event.id))
 const seen = new Set()
 for (const record of locations.locations) {
-  if (seen.has(record.eventId)) throw new Error(`Duplicate event location record: ${record.eventId}`)
+  if (seen.has(record.eventId))
+    throw new Error(`Duplicate event location record: ${record.eventId}`)
   seen.add(record.eventId)
   validateLocationRecord(record, eventIds)
 }

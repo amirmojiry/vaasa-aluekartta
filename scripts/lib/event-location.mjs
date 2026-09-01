@@ -57,10 +57,12 @@ export function looksMultiLocation(value) {
   if (typeof value !== 'string') return false
   if (value.includes(';')) return true
   if (isAddressLike(value)) return false
-  return value
-    .split(',')
-    .map((part) => part.trim())
-    .filter(Boolean).length >= 4
+  return (
+    value
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean).length >= 4
+  )
 }
 
 function candidateId(feature) {
@@ -155,7 +157,8 @@ function aliasKey(value) {
 }
 
 export function chooseEventGeocodingQuery(event) {
-  if (event.addressText && !isGenericLocationText(event.addressText)) return event.addressText.trim()
+  if (event.addressText && !isGenericLocationText(event.addressText))
+    return event.addressText.trim()
   if (event.venue && !isGenericLocationText(event.venue)) return event.venue.trim()
   return undefined
 }
@@ -199,6 +202,8 @@ export function resolveEventLocally(event, poiIndex) {
 }
 
 export function isHighConfidenceResolution(resolution) {
-  return ['exact-address', 'known-venue'].includes(resolution?.precision) ||
+  return (
+    ['exact-address', 'known-venue'].includes(resolution?.precision) ||
     resolution?.geocoder === 'nls-geocoding-v2'
+  )
 }

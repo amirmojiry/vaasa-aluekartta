@@ -47,7 +47,9 @@ describe('NLS geocoder adapter', () => {
     })
 
     const [, options] = fetchImpl.mock.calls[0]
-    expect(options.headers.Authorization).toBe(`Basic ${Buffer.from('secret-key:').toString('base64')}`)
+    expect(options.headers.Authorization).toBe(
+      `Basic ${Buffer.from('secret-key:').toString('base64')}`,
+    )
     expect(result.resolution.geocoder).toBe('nls-geocoding-v2')
     expect(result.resolution.provenance.dataset).toBe('addresses')
     expect(result.resolution.provenance.provider).toContain('Syke')
@@ -56,8 +58,11 @@ describe('NLS geocoder adapter', () => {
 
   it('fails closed for multiple candidates, outside points, and unknown source datasets', () => {
     expect(
-      selectNlsResult(response([feature('geographic-names'), feature('geographic-names')]), 'Ritz', 'now')
-        .resolution.reason,
+      selectNlsResult(
+        response([feature('geographic-names'), feature('geographic-names')]),
+        'Ritz',
+        'now',
+      ).resolution.reason,
     ).toBe('ambiguous-geocoder-match')
     expect(
       selectNlsResult(response([feature('geographic-names', [24.94, 60.17])]), 'Ritz', 'now')

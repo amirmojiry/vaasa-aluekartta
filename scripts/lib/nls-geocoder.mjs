@@ -9,9 +9,7 @@ const NLS_DOC_URL =
 const SYKE_RYHTI_URL = 'https://ryhti.syke.fi/'
 
 export function nlsSourcesForQuery(query) {
-  return isAddressLike(query)
-    ? ['addresses', 'interpolated-road-addresses']
-    : ['geographic-names']
+  return isAddressLike(query) ? ['addresses', 'interpolated-road-addresses'] : ['geographic-names']
 }
 
 function queryWithVaasa(query) {
@@ -73,7 +71,10 @@ function normalizedFeature(feature) {
 }
 
 export function selectNlsResult(featureCollection, query, retrievedAt) {
-  if (featureCollection?.type !== 'FeatureCollection' || !Array.isArray(featureCollection.features)) {
+  if (
+    featureCollection?.type !== 'FeatureCollection' ||
+    !Array.isArray(featureCollection.features)
+  ) {
     throw new Error('NLS geocoder response must be a GeoJSON FeatureCollection')
   }
 

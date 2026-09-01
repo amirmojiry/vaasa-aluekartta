@@ -25,13 +25,10 @@ function poi(id, name, coordinates, address, names) {
 const pois = {
   type: 'FeatureCollection',
   features: [
-    poi(
-      'way/1',
-      'Vaasan pääkirjasto',
-      [21.6107973, 63.0994592],
-      'Kirjastonkatu 13, Vaasa',
-      { en: 'Vaasa Main Library', sv: 'Vasa huvudbibliotek' },
-    ),
+    poi('way/1', 'Vaasan pääkirjasto', [21.6107973, 63.0994592], 'Kirjastonkatu 13, Vaasa', {
+      en: 'Vaasa Main Library',
+      sv: 'Vasa huvudbibliotek',
+    }),
     poi('way/2', 'Vaasan Sähkö Areena', [21.6419923, 63.0799013], 'Rinnakkaistie 1'),
     poi('way/3', 'Duplicate Hall', [21.61, 63.09]),
     poi('way/4', 'Duplicate Hall', [21.62, 63.1]),

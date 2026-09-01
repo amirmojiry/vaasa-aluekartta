@@ -1,0 +1,2617 @@
+{
+  "schemaVersion": 1,
+  "sourceEventCount": 249,
+  "bounds": {
+    "provider": "OpenStreetMap",
+    "relationId": 1855926,
+    "wikidata": "Q125080",
+    "adminLevel": "8",
+    "minLatitude": 62.9594378,
+    "minLongitude": 21.0276273,
+    "maxLatitude": 63.178854,
+    "maxLongitude": 22.2423226
+  },
+  "locations": [
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_30402",
+      "query": "Långviksgatan 20",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Långviksgatan 20"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_34552",
+      "query": "Hovioikeudenpuistikko 15, 65100 Vaasa, Suomi",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Hovioikeudenpuistikko 15, 65100 Vaasa, Suomi"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_42831",
+      "query": "Rauhankatu 20, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Rauhankatu 20, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_46843",
+      "query": "Ahventie 12, 65200 Vaasa, Suomi",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ahventie 12, 65200 Vaasa, Suomi"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_46845",
+      "query": "Ahventie 12, 65200 Vaasa, Suomi",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ahventie 12, 65200 Vaasa, Suomi"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_47577",
+      "query": "Kyrkoesplanaden 31, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kyrkoesplanaden 31, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_50191",
+      "query": "Ajurinkatu 14, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ajurinkatu 14, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_51589",
+      "query": "Enter Address",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Enter Address"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_51590",
+      "query": "Enter Address",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Enter Address"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_53494",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58560",
+      "query": "Sandögatan 7, 65100 VASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Sandögatan 7, 65100 VASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58570",
+      "query": "Porinmäenkuja 1, 66500 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58626",
+      "query": "Ruutikellarintie 4, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ruutikellarintie 4, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58681",
+      "query": "Bock's Corner Brewery, Gerbyntie 16, 65230 Vaasa, Finland",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Bock's Corner Brewery, Gerbyntie 16, 65230 Vaasa, Finland"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58682",
+      "query": "Gerbyntie 16, 65230 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Gerbyntie 16, 65230 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58683",
+      "query": "Gerbyntie 16, 65230 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Gerbyntie 16, 65230 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58694",
+      "query": "Suomen Vapaudenpatsas, Alatori, 65100 Vaasa, Suomi",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Suomen Vapaudenpatsas, Alatori, 65100 Vaasa, Suomi"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58738",
+      "query": "Sandögatan 7, 65100 VASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Sandögatan 7, 65100 VASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58746",
+      "query": "Vapaudentie 27, 65200",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vapaudentie 27, 65200"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58840",
+      "query": "Närpiöntie, Närpesvägen 16, 64200 Närpiö, Närpes",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Närpiöntie, Närpesvägen 16, 64200 Närpiö, Närpes"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58969",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58970",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58984",
+      "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 31, 65100 Vaasa, Suomi"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58985",
+      "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 31, 65100 Vaasa, Suomi"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58996",
+      "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 31, 65100 Vaasa, Suomi"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59074",
+      "query": "Vasa ritz",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vasa ritz"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59102",
+      "query": "Kyrkoeplanaden 22",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kyrkoeplanaden 22"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59105",
+      "query": "Stora långgatan 14",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Stora långgatan 14"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59313",
+      "query": "Dalgatan 4, 10300 KARIS",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Dalgatan 4, 10300 KARIS"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59388",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59408",
+      "query": "Storalånggatan 14, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Storalånggatan 14, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59505",
+      "query": "Kyrkoesplanaden 22, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59521",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59564",
+      "query": "Pohjanmaan museo",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6018841,
+        "latitude": 63.0995837,
+        "label": "Pohjanmaan museo",
+        "sourceAddress": "Pohjanmaan museo",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/717765186",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59570",
+      "query": "Köpmansgatan  10, 68600 Jakobstad",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Köpmansgatan  10, 68600 Jakobstad"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59623",
+      "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59662",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59663",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59742",
+      "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59743",
+      "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59745",
+      "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59746",
+      "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59747",
+      "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59815",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59880",
+      "query": "Skillnadsgatan 11, 10600 Ekenäs",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Skillnadsgatan 11, 10600 Ekenäs"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59914",
+      "query": "Rinnakkaistie 1, 65350 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Rinnakkaistie 1, 65350 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59998",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59999",
+      "query": "Kaarlen kenttä, Ruutikellarintie 1",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kaarlen kenttä, Ruutikellarintie 1"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60065",
+      "query": "Ernst Salonger",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6076222,
+        "latitude": 63.096933,
+        "label": "Ernst Salonger",
+        "sourceAddress": "Ernst Salonger",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/node/7417319517",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60084",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60086",
+      "query": "Pitkäkatu 53, 65100 VAASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 VAASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60087",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60088",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60089",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60090",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60091",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60093",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60094",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60104",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60115",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "no-usable-query"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60147",
+      "query": "Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60179",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60223",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60237",
+      "query": "Strandgatan 6, 65100 VASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Strandgatan 6, 65100 VASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60253",
+      "query": "Biskopsgatan 28, 06100 Borgå",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Biskopsgatan 28, 06100 Borgå"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60265",
+      "query": "Vuorikatu 4, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vuorikatu 4, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60274",
+      "query": "Kullervon hautausmaa, 7173 2, 65370 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kullervon hautausmaa, 7173 2, 65370 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60278",
+      "query": "Vuorikodin juhlasali",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vuorikodin juhlasali"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60323",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60324",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60345",
+      "query": "Online event",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Online event"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60346",
+      "query": "Mamas Kitchen, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Mamas Kitchen, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60364",
+      "query": "Kyrkoesplanaden 22, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60382",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "no-usable-query"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60388",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60397",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "no-usable-query"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60398",
+      "query": "Bock's Corner, Gerbyntie, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Bock's Corner, Gerbyntie, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60442",
+      "query": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60452",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60483",
+      "query": "Sundom uf",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Sundom uf"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60485",
+      "query": "Strandgatan 6, 65100 VASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Strandgatan 6, 65100 VASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60496",
+      "query": "Online event",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Online event"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60504",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60505",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60507",
+      "query": "Adelcrantzinkuja,Adelcrantzgränd 1, 65380 Mustasaari, Korsholm",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Adelcrantzinkuja,Adelcrantzgränd 1, 65380 Mustasaari, Korsholm"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60508",
+      "query": "Raastuvankatu, Rådhusgatan 31, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Raastuvankatu, Rådhusgatan 31, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60509",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60510",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60511",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60512",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60513",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60514",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60515",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60516",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60517",
+      "query": "Senaatinkatu 1, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60529",
+      "query": "Vaasa City Library, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasa City Library, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60535",
+      "query": "Scandic Waskia, Lemmenpolku 3, 65170 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Scandic Waskia, Lemmenpolku 3, 65170 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60536",
+      "query": "Vaasa Startup Factory, Yliopistonranta 10, 2. floor 65101 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasa Startup Factory, Yliopistonranta 10, 2. floor 65101 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60545",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60547",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60552",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60559",
+      "query": "Kohtaamispaikka Huudi ja pääkirjasto",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kohtaamispaikka Huudi ja pääkirjasto"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60563",
+      "query": "Kirkkopuistikko 31, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 31, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60569",
+      "query": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60570",
+      "query": "H-talo, 3 kerros, Hietalahdenkatu 2-4, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "H-talo, 3 kerros, Hietalahdenkatu 2-4, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60574",
+      "query": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60577",
+      "query": "Online event",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Online event"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60581",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60584",
+      "query": "Vaasan kauppatori, 65100 VAASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kauppatori, 65100 VAASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60592",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60593",
+      "query": "Vasa stadsbibliotek, Biblioteksgatan 13, Vasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vasa stadsbibliotek, Biblioteksgatan 13, Vasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60595",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60597",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60601",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60607",
+      "query": "Handelsesplanaden 8 C 57 A (ovanför Olivers Inn)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Handelsesplanaden 8 C 57 A (ovanför Olivers Inn)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60608",
+      "query": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60609",
+      "query": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60611",
+      "query": "Several libraries",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Several libraries"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60614",
+      "query": "Arbetets Vänner Vaasa: Ajurinkatu 14, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Arbetets Vänner Vaasa: Ajurinkatu 14, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60621",
+      "query": "Draama Hall, Vaasa Main Library, Kirjastonkatu 13 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Draama Hall, Vaasa Main Library, Kirjastonkatu 13 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60645",
+      "query": "Wolffintie 29, 65200 Vaasa (Vamk, Florence -auditorio)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Wolffintie 29, 65200 Vaasa (Vamk, Florence -auditorio)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60653",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60676",
+      "query": "Moottorikatu, 65170 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Moottorikatu, 65170 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60677",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60679",
+      "query": "Online event",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Online event"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60680",
+      "query": "Vaasa Main Library (Kirjastonkatu 13, Vaasa), Café Kultsa (Raastuvankatu 30 2.krs, 65100 Vaasa)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasa Main Library (Kirjastonkatu 13, Vaasa), Café Kultsa (Raastuvankatu 30 2.krs, 65100 Vaasa)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60682",
+      "query": "Kirkkopuistikko 22A 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 22A 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60686",
+      "query": "Pääkirjaston Matilda (1. krs.)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pääkirjaston Matilda (1. krs.)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60687",
+      "query": "Pääkirjaston Draama-sali",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pääkirjaston Draama-sali"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60688",
+      "query": "Pääkirjaston Venny (2. krs)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pääkirjaston Venny (2. krs)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60689",
+      "query": "Pääkirjaston Draama-sali",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pääkirjaston Draama-sali"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60690",
+      "query": "Pääkirjaston Draama-sali",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pääkirjaston Draama-sali"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60695",
+      "query": "Sundomintie 73A,Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Sundomintie 73A,Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60706",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60709",
+      "query": "Vaasan Kaupunginteatteri Pitkäkatu 53, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan Kaupunginteatteri Pitkäkatu 53, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60748",
+      "query": "Lemonsoft stadion Rantamaantie 6",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Lemonsoft stadion Rantamaantie 6"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60749",
+      "query": "Lemonsoft stadion Rantamaantie 6",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Lemonsoft stadion Rantamaantie 6"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60750",
+      "query": "Lemonsoft stadion Rantamaantie 6",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Lemonsoft stadion Rantamaantie 6"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60759",
+      "query": "Pohjanmaan yhdistystentalo Korsholmanpuistikko 44, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pohjanmaan yhdistystentalo Korsholmanpuistikko 44, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60760",
+      "query": "Kyrkoesplanaden 16, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kyrkoesplanaden 16, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60769",
+      "query": "Vaasan kaupungintalo",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupungintalo"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60774",
+      "query": ", 65100 VAASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": ", 65100 VAASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60776",
+      "query": "Pitkäkatu, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pitkäkatu, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60779",
+      "query": "Vaasan kaupunginteatteri",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginteatteri"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60783",
+      "query": "Teirinkatu 2, 65350 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Teirinkatu 2, 65350 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60784",
+      "query": "Teirinkatu 2, 65350 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Teirinkatu 2, 65350 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60785",
+      "query": "Porinmäenkuja 1, 66500 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60786",
+      "query": "Teirinkatu 2, 65350 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Teirinkatu 2, 65350 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60793",
+      "query": "Itäinen Kasarmintori, Östra Kaserntorget 7–9, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Itäinen Kasarmintori, Östra Kaserntorget 7–9, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60812",
+      "query": "Malmöntalo, MLL Pohjanmaan piiri's office",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Malmöntalo, MLL Pohjanmaan piiri's office"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60819",
+      "query": "The event is in many places, please check the Konstrundan map.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "The event is in many places, please check the Konstrundan map."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60827",
+      "query": "Korsholmanpuistikko 44, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Korsholmanpuistikko 44, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60834",
+      "query": "Alma-opiston Juhlasali, Raastuvankatu 31",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Alma-opiston Juhlasali, Raastuvankatu 31"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60868",
+      "query": "Pikitehtaankatu 19-23, 65200 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pikitehtaankatu 19-23, 65200 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60871",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60872",
+      "query": "Sandögatan 7, 65100 VASA",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Sandögatan 7, 65100 VASA"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60878",
+      "query": "Aurora Botnia",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Aurora Botnia"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60879",
+      "query": "Aurora Botnia",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Aurora Botnia"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60894",
+      "query": "Raastuvankatu 30, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Raastuvankatu 30, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60896",
+      "query": "Vaasa City Hall",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasa City Hall"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60899",
+      "query": "Sky Bar & Terrace",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6152096,
+        "latitude": 63.0952274,
+        "label": "Sky Bar & Terrace",
+        "sourceAddress": "Sky Bar & Terrace",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/node/13318239601",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60900",
+      "query": "Sky Bar & Terrace",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6152096,
+        "latitude": 63.0952274,
+        "label": "Sky Bar & Terrace",
+        "sourceAddress": "Sky Bar & Terrace",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/node/13318239601",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60905",
+      "query": "Vähäkyrö-talo, Vähänkyröntie 11, VÄHÄKYRÖ",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vähäkyrö-talo, Vähänkyröntie 11, VÄHÄKYRÖ"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60908",
+      "query": "Metsäkallion kuntorata. Pohjolankadun parkkipaikka.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Metsäkallion kuntorata. Pohjolankadun parkkipaikka."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60912",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60922",
+      "query": "Useita lähtöpaikkoja",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Useita lähtöpaikkoja"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60924",
+      "query": "Mielle ry, Läntinen Kasarmintori 2, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Mielle ry, Läntinen Kasarmintori 2, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60925",
+      "query": "Senaatinkatu, Senatsgatan 1, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Senaatinkatu, Senatsgatan 1, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60926",
+      "query": "Hovioikeudenpuistikko,Hovrättsesplanaden 18, 65100 Vaasa, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Hovioikeudenpuistikko,Hovrättsesplanaden 18, 65100 Vaasa, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60932",
+      "query": "Ritz, Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ritz, Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60936",
+      "query": "Isolahden tekonurmikenttä (Pallokatu 17)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Isolahden tekonurmikenttä (Pallokatu 17)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60937",
+      "query": "Korsholmanpuistikko 44, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Korsholmanpuistikko 44, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60943",
+      "query": "Ruutikellarintie 2, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60944",
+      "query": "Ruutikellarintie 2, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60947",
+      "query": "Wolffskavägen 35 B",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Wolffskavägen 35 B"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60948",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60949",
+      "query": "Hietasaari",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.5956481,
+        "latitude": 63.0946088,
+        "label": "Hietasaari",
+        "sourceAddress": "Hietasaari",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/4580560",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60958",
+      "query": "Pohjanmaan Yhdistykset ry, Korsholmanpuistikko 44",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Pohjanmaan Yhdistykset ry, Korsholmanpuistikko 44"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60965",
+      "query": "Vuorikodin kabinetti, Vuorikatu 4, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vuorikodin kabinetti, Vuorikatu 4, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60967",
+      "query": "Rinnakkaistie 1, 65350 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Rinnakkaistie 1, 65350 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60976",
+      "query": "Variskan kirjasto, Vanhan Vaasankatu 20, Vaasa.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Variskan kirjasto, Vanhan Vaasankatu 20, Vaasa."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60977",
+      "query": "Merikaarrontie 5, 66500 Vähäkyrö",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Merikaarrontie 5, 66500 Vähäkyrö"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_60988",
+      "query": "Vaasan kaupunginkirjasto, Pääkirjasto, Draamasali",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupunginkirjasto, Pääkirjasto, Draamasali"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61000",
+      "query": "Inner harbor, Hietasaarenkatu 1 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Inner harbor, Hietasaarenkatu 1 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61001",
+      "query": "Keskusta, Palosaari, Hietalahti, Gerby, Suvilahti, Huutoniemi",
+      "resolution": {
+        "precision": "multi-location"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61004",
+      "query": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61009",
+      "query": "Kapellbacksvägen 159, Vasa. Vi samlas vid porten till begravningsplatsen.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kapellbacksvägen 159, Vasa. Vi samlas vid porten till begravningsplatsen."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61011",
+      "query": "Vaasan yliopiston päärakennus, Tervahovi, Wolff-auditorio, sisäänkäynti Marmoriportista, Wolffintie 32.",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan yliopiston päärakennus, Tervahovi, Wolff-auditorio, sisäänkäynti Marmoriportista, Wolffintie 32."
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61012",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61013",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61014",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61015",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61016",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61018",
+      "query": "Auditorio Präntöö (Vaasan virastotalo, Wolffintie 35, 1. krs)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Auditorio Präntöö (Vaasan virastotalo, Wolffintie 35, 1. krs)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61019",
+      "query": "Kirjastonkatu 14, Vaasa, sisäänkäynti Kirjastonkujalta",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirjastonkatu 14, Vaasa, sisäänkäynti Kirjastonkujalta"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61020",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "no-usable-query"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61021",
+      "query": "Porinmäenkuja 1, 66500 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61022",
+      "query": "Vaasan kaupungintalo",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan kaupungintalo"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61025",
+      "query": "Vaasan Sähkö Areena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Areena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61026",
+      "query": "Multipurpose space Matilda, 1st floor of the main library",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Multipurpose space Matilda, 1st floor of the main library"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61027",
+      "query": "Beckbruksgatan 19-23, 65200 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Beckbruksgatan 19-23, 65200 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61028",
+      "query": "Vaasan Sähkö Areena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Areena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61029",
+      "query": "Vaasan Sähkö Areena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Areena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61030",
+      "query": "Kansalaisopisto Alma",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kansalaisopisto Alma"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61031",
+      "query": "Vaasan Sähkö Areena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Areena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61032",
+      "query": "Vaasan Sähkö Areena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Areena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61033",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61034",
+      "query": "Savilahden yhtenäiskoulu (Savilahdentie 1–5, Vähäkyrö)",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Savilahden yhtenäiskoulu (Savilahdentie 1–5, Vähäkyrö)"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61035",
+      "query": "Vaasan Sähkö Areena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Areena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61036",
+      "query": "Vaasan Sähkö Areena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Areena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61037",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61038",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61040",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61041",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61042",
+      "query": "Toivo Kuula Hall",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Toivo Kuula Hall"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61043",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61044",
+      "query": "Toivo Kuula Hall",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Toivo Kuula Hall"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61045",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61046",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61047",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61048",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61049",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61050",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61051",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61052",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61053",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61054",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61055",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61056",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61057",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61058",
+      "query": "Vaasan Sähkö Arena",
+      "resolution": {
+        "precision": "known-venue",
+        "longitude": 21.6419923,
+        "latitude": 63.0799013,
+        "label": "Vaasan Sähkö Areena",
+        "sourceAddress": "Vaasan Sähkö Arena",
+        "provenance": {
+          "provider": "OpenStreetMap contributors",
+          "dataset": "public/data/vaasa-pois.geojson",
+          "sourceUrl": "https://www.openstreetmap.org/way/89884607",
+          "licence": "ODbL 1.0",
+          "licenceUrl": "https://www.openstreetmap.org/copyright",
+          "transformation": "Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84."
+        }
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61061",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61062",
+      "query": "Kirkkopuistikko 34, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61063",
+      "query": "Kyrkoesplanaden 22, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61064",
+      "query": "Original Sokos Hotel Royal Vaasa, Hovioikeudenpuistikko 18, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Original Sokos Hotel Royal Vaasa, Hovioikeudenpuistikko 18, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61065",
+      "query": "Ateljé Design by Katrina, Rantakatu 13V, 65100 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Ateljé Design by Katrina, Rantakatu 13V, 65100 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61066",
+      "query": "Kansalaisopisto Alma, Raastuvankatu 31, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Kansalaisopisto Alma, Raastuvankatu 31, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61067",
+      "query": "Government agency building, Wolffintie 35 B, 65200 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Government agency building, Wolffintie 35 B, 65200 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61068",
+      "query": "Alkulan tila, Gripinpolku 1, Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Alkulan tila, Gripinpolku 1, Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61070",
+      "query": "Lentokentäntie 159, 65380 Vaasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Lentokentäntie 159, 65380 Vaasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61071",
+      "query": "Vähäkyrö-talo, Vähänkyröntie 11, 66500 Vähäkyrö",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vähäkyrö-talo, Vähänkyröntie 11, 66500 Vähäkyrö"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61072",
+      "query": "Vaasa Startup Factory",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasa Startup Factory"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61073",
+      "query": "Vaasa Region Development Company VASEK",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasa Region Development Company VASEK"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61075",
+      "query": "Handelsesplanaden 12, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61076",
+      "query": "Handelsesplanaden 12, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61077",
+      "query": "Handelsesplanaden 12, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61078",
+      "query": "Handelsesplanaden 12, 65100 Vasa",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_61084",
+      "query": "Vaasan tori",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Vaasan tori"
+      }
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_962",
+      "query": "Marenvägen 294, 65410 SUNDOM Vasa, Finland",
+      "resolution": {
+        "precision": "unresolved",
+        "reason": "remote-key-missing",
+        "sourceAddress": "Marenvägen 294, 65410 SUNDOM Vasa, Finland"
+      }
+    }
+  ]
+}
