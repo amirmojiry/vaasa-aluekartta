@@ -1,6 +1,6 @@
 # Events source contract discovery
 
-Status: **E0 complete. Source, identity, field mapping, time semantics, fixture, and enrichment policy are now established.**
+Status: **E0 complete. Source, coverage, identity, field mapping, time semantics, fixture, and enrichment policy are established.**
 
 Research review completed: **2026-09-01**
 
@@ -64,9 +64,35 @@ Format=rss
 
 Parameter order is not semantically significant, but the endpoint and values form the current source contract.
 
+## Feed coverage and truncation contract
+
+The calendar-generated URL uses `Limit=100`, but that value is a server-side result cap rather than a guarantee that the current Vaasa result set contains at most 100 events.
+
+A GitHub Actions network probe against the official endpoint on 2026-09-01 produced these results:
+
+- `Limit=100` returned 100 unique items.
+- `Limit=101` returned 101 unique items.
+- `Limit=200` returned 200 unique items.
+- `Limit=250` returned 249 unique items.
+- `Limit=500` returned the same 249 unique items.
+- `Limit=1000` returned the same 249 unique items.
+- Adding `CurrentPage=2` with `Limit=100` returned the same first and last GUIDs as the normal 100-item response, so `CurrentPage` is not an RSS pagination mechanism.
+
+The probe also confirmed an HTTP response content type of `application/rss+xml`.
+
+Therefore the source contract is:
+
+1. `Limit` controls the maximum RSS result count.
+2. `CurrentPage` must not be used to paginate RSS results.
+3. E1 must request a deliberately high limit and verify that the returned item count is below that limit.
+4. If the returned count equals the requested limit, the update must fail with a clear coverage/truncation error rather than silently committing a possibly incomplete snapshot.
+5. The requested limit should be isolated as a named ingestion constant so it can be raised without changing parser semantics.
+
+For the E0 probe, `Limit=1000` was sufficient because the complete current result stabilized at 249 items. This is evidence about the current feed, not a permanent guarantee that Vaasa will remain below 1000 events.
+
 ## Captured feed and fixture
 
-A full Vaasa feed captured on 2026-09-01 contained **100 RSS items**. A deliberately small source fixture containing two unmodified source items is committed at:
+The browser-saved Vaasa feed initially captured 100 RSS items because it used the calendar-generated `Limit=100` URL. A deliberately small source-faithful fixture containing two source items is committed at:
 
 ```text
 test/fixtures/events/vaasa-events-source-sample.rss
@@ -100,7 +126,7 @@ The XML declaration is:
 <?xml version="1.0"?>
 ```
 
-It does not explicitly declare an encoding. The captured file contains valid UTF-8 text and no conflicting encoding declaration, so it is parsed as UTF-8 under XML defaults. HTTP response headers were not preserved by the browser save operation, so no separate HTTP `Content-Type`/charset claim is made beyond the feed's own Atom self-link metadata and the captured bytes.
+It does not explicitly declare an encoding. The captured file contains valid UTF-8 text and no conflicting encoding declaration, so it is parsed as UTF-8 under XML defaults. HTTP response headers were not preserved by the browser save operation, but the later network probe independently confirmed `Content-Type: application/rss+xml`.
 
 ## Stable identity contract
 
@@ -140,39 +166,38 @@ The canonical detail URL remains independently stored in `source.url`. If a futu
 
 Validation should require:
 
-- GUID uniqueness within a snapshot when GUID is present;
+- normalized ID uniqueness;
+- source GUID uniqueness when GUID is present;
 - canonical source URL presence;
 - numeric ID consistency when both `EventCalendar_<id>` and `/show/<id>` are present.
 
 ## RSS item field mapping
 
-The captured 100-item feed established these fields.
+The captured 100-item feed established the following source fields and optionality.
 
-| RSS field | Presence in capture | E1 interpretation |
-| --- | ---: | --- |
-| `guid` | 100/100 | stable upstream ID |
-| `link` | 100/100 | canonical detail URL |
-| `title` | 100/100 | localized/source title for this feed locale; trim surrounding whitespace only |
-| `municipality` | 100/100, all `Vaasa` | source scope assertion |
-| `pubDate` | 100/100 | source publication/update-like timestamp; do not treat as occurrence time |
-| `event:closestDate` | 100/100 | source convenience field for the next/closest occurrence |
-| `description` | 100/100 | source-provided HTML/CDATA; do not blindly persist full HTML in first release |
-| `category` | 100/100 | one or more categories; 6 items had multiple categories, maximum observed 3 |
-| `event:targetgroup` | 82/100 | optional target audience |
-| `event:dateperiod` | 100/100 | human-readable source date range; secondary to structured occurrences |
-| `event:address` | 100/100 | source address field, but often generic (`Finland`) |
-| `event:location` | 99/100 non-empty | venue/location text; often more useful than `event:address` |
-| `event:onlineevent` | 100/100 element, 3 values = `1` | online flag; empty does not prove offline when source content is inconsistent |
-| `event:organizer` | 100/100 | often contact/person field |
-| `event:association` | 98/100 non-empty | frequently organization/provider shown as organizer on detail UI |
-| `event:dates` | 100/100 | occurrence starts |
-| `event:dates-ext` | 100/100 | preferred structured occurrence start/end pairs |
-| `media:content` | optional/multiple | source image reference; do not mirror in first release |
-| `media:thumbnail` | optional/multiple | source thumbnail reference; do not mirror in first release |
+- `guid`: present in 100/100; stable upstream ID.
+- `link`: present in 100/100; canonical detail URL.
+- `title`: present in 100/100; source title for the requested feed locale. Trim surrounding whitespace only.
+- `municipality`: present in 100/100 and always `Vaasa`; treat as a source-scope assertion.
+- `pubDate`: present in 100/100; source publication/update-like timestamp, not an occurrence time.
+- `event:closestDate`: present in 100/100; source convenience field for the closest occurrence.
+- `description`: present in 100/100; HTML inside CDATA. Do not blindly persist the full HTML in the first release.
+- `category`: present in 100/100; may occur multiple times. Six captured items had multiple categories and the maximum observed was three.
+- `event:targetgroup`: present in 82/100; optional target audience.
+- `event:dateperiod`: present in 100/100; human-readable source range, secondary to structured occurrences.
+- `event:address`: present in 100/100; often generic, including the value `Finland`.
+- `event:location`: non-empty in 99/100; venue/location text and frequently more useful than `event:address`.
+- `event:onlineevent`: element present in 100/100; three captured values were `1`.
+- `event:organizer`: present in 100/100; commonly a contact/person field.
+- `event:association`: non-empty in 98/100; commonly the organization/provider.
+- `event:dates`: present in 100/100; occurrence starts.
+- `event:dates-ext`: present in 100/100; preferred structured occurrence start/end pairs.
+- `media:content`: optional and may repeat; do not mirror source images in the first release.
+- `media:thumbnail`: optional and may repeat; do not mirror source thumbnails in the first release.
 
 ### Categories are plural
 
-The original conceptual model showed one category, but the feed can contain multiple `<category>` elements. E1 should therefore normalize categories as an array, or otherwise preserve all source categories without silently dropping additional values.
+The feed can contain multiple `<category>` elements. E1 must normalize categories as an array and preserve all source categories without silently dropping additional values.
 
 ### Address and location are not interchangeable
 
@@ -221,12 +246,12 @@ The captured feed contains 858 `event:dates-ext/event:date` occurrences across 1
 
 Observed start offsets:
 
-- `+0300`: 607 occurrences
-- `+0200`: 251 occurrences
+- `+0300`: 607 occurrences.
+- `+0200`: 251 occurrences.
 
-This directly demonstrates correct Finnish daylight-saving transitions in source values. For example, recurring autumn events switch from `+0300` to `+0200` after the DST transition.
+This directly demonstrates Finnish daylight-saving transitions in source values. Recurring autumn events switch from `+0300` to `+0200` after the DST transition.
 
-Therefore E1 should parse source occurrence timestamps as offset-bearing instants and serialize normalized values as RFC 3339 while retaining the domain timezone:
+E1 should parse source occurrence timestamps as offset-bearing instants and serialize normalized values as RFC 3339 while retaining the domain timezone:
 
 ```text
 Europe/Helsinki
@@ -234,11 +259,11 @@ Europe/Helsinki
 
 `event:dates-ext` is the preferred occurrence source because it provides explicit start/end pairs where an end is available.
 
-Important: **122 captured occurrences had no end value.** An occurrence end is therefore optional and must never be invented.
+Important: **122 captured occurrences had no end value.** An occurrence end is optional and must never be invented.
 
 `event:dates` can be used as a compatibility/checking source for starts, but E1 should prefer `event:dates-ext` when present.
 
-The captured feed did not provide a separate all-day boolean. E1 must not infer all-day events merely from a date period string. If an item cannot be confidently represented as a timed occurrence, fail/flag it according to parser policy rather than inventing midnight times.
+The captured feed did not provide a separate all-day boolean. E1 must not infer all-day events merely from a date-period string. If an item cannot be confidently represented as a timed occurrence, fail or flag it according to parser policy rather than inventing midnight times.
 
 ## Online and multi-location semantics
 
@@ -274,15 +299,15 @@ The English feed is requested using:
 Locale=en_US
 ```
 
-but individual item content is not guaranteed to be English. Captured English-feed items include Finnish and Swedish titles/categories/text where an English variant is apparently absent.
+but individual item content is not guaranteed to be English. Captured English-feed items include Finnish and Swedish titles, categories, and text where an English variant is apparently absent.
 
 Therefore:
 
-- `Locale=en_US` means "request the English presentation/feed", not "every item is English";
-- do not label a value as a verified English translation solely because it came from this feed;
-- preserve source text and use existing UI fallback conventions;
-- E1 should not machine-translate missing language variants;
-- if full FI/SV/EN structured multilingual coverage is later required, investigate additional locale feeds explicitly rather than assuming one feed carries all language variants.
+- `Locale=en_US` means "request the English presentation/feed", not "every item is English".
+- Do not label a value as a verified English translation solely because it came from this feed.
+- Preserve source text and use existing UI fallback conventions.
+- E1 must not machine-translate missing language variants.
+- If full FI/SV/EN structured multilingual coverage is later required, investigate additional locale feeds explicitly rather than assuming one feed carries all language variants.
 
 For E1, it is acceptable to normalize the captured source value as the feed-locale candidate while retaining provenance and allowing fallback behavior.
 
@@ -313,7 +338,7 @@ The comparison supports these conclusions:
 4. Venue/location information needed for E1 is already available in RSS.
 5. The detail presentation can expose additional display metadata such as price, homepage/contact links, or a differently labelled organizer, but these are not required for the E1 normalized snapshot.
 6. Source-language fallback behavior is visible in both feed and detail presentation; the importer must not assume the requested locale guarantees translated content.
-7. Source inconsistencies should be preserved/flagged rather than silently corrected by scraping the detail page.
+7. Source inconsistencies should be preserved or flagged rather than silently corrected by scraping the detail page.
 
 ## Detail-page enrichment decision
 
@@ -338,7 +363,7 @@ Do not add an HTML scraper in E1 for price, homepage, contact details, images, o
 
 If a future product requirement needs a field absent from RSS, add detail-page enrichment only after documenting that field and its source stability.
 
-## E1 parser requirements derived from E0
+## E1 parser and coverage requirements derived from E0
 
 E1 should at minimum test:
 
@@ -353,7 +378,8 @@ E1 should at minimum test:
 9. explicit online event;
 10. source-language fallback/non-English text in the English feed;
 11. description CDATA/HTML handling without mirroring images;
-12. validation that every normalized snapshot record remains scoped to municipality `Vaasa`.
+12. validation that every normalized snapshot record remains scoped to municipality `Vaasa`;
+13. feed coverage safety: request a high limit and reject a response whose item count equals that limit.
 
 ## E0 checklist
 
@@ -364,17 +390,18 @@ E1 should at minimum test:
 - [x] Capture the exact Vaasa-filtered calendar URL.
 - [x] Capture the exact Vaasa-filtered RSS URL from the calendar's own RSS control.
 - [x] Save a small raw/source-faithful Vaasa RSS fixture under a test-fixture directory.
-- [x] Record RSS version, feed-declared MIME metadata, XML declaration, and encoding behavior; note that HTTP headers were not preserved by the saved file.
+- [x] Record RSS version, feed-declared MIME metadata, XML declaration, and encoding behavior.
 - [x] Record RSS item field mapping and optionality.
 - [x] Establish stable GUID and canonical detail URL identity semantics.
 - [x] Compare 10 feed items against their detail-page representations.
 - [x] Document multilingual limitations.
 - [x] Document detail-page enrichment decision.
+- [x] Prove feed coverage behavior and document the saturation guard required by E1.
 
 ## E0 exit gate
 
 **E0 exit criteria are satisfied.**
 
-A stable official Vaasa feed has been identified from the calendar's own control, the field/identity/time contract has been inspected from a real captured feed, a committed source fixture exists for E1 tests, and the importer does not need a guessed endpoint or routine HTML scraping.
+A stable official Vaasa feed has been identified from the calendar's own control, the field/identity/time contract has been inspected from a real captured feed, feed truncation behavior has been measured, a committed source fixture exists for E1 tests, and the importer does not need a guessed endpoint or routine HTML scraping.
 
 The next phase is **E1 — Parser and normalized snapshot, no geocoding**.
