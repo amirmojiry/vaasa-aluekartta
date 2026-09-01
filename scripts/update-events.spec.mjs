@@ -62,7 +62,9 @@ describe('event snapshot update safety', () => {
       events: Array.from({ length: 249 }, (_, index) => ({ id: index })),
     })
 
-    expect(() => assertReasonableEventCount(2, existing)).toThrow(/dropped suspiciously from 249 to 2/)
+    expect(() => assertReasonableEventCount(2, existing)).toThrow(
+      /dropped suspiciously from 249 to 2/,
+    )
     expect(() =>
       assertReasonableEventCount(2, existing, { allowSuspiciousDrop: true }),
     ).not.toThrow()
