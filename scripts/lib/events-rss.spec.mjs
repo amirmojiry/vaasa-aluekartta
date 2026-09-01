@@ -108,6 +108,22 @@ describe('Events in Ostrobothnia RSS parser', () => {
     expect(parseRssDateTime('Sun, 25 Oct 2026 10:00:00 +0200')).toBe('2026-10-25T10:00:00+02:00')
   })
 
+  it('rejects impossible calendar components instead of relying on Date.parse rollover', () => {
+    expect(() => parseRssDateTime('Tue, 31 Feb 2026 10:00:00 +0200')).toThrow(
+      /Invalid RSS date-time/,
+    )
+    expect(() => parseRssDateTime('Tue, 01 Sep 2026 24:00:00 +0300')).toThrow(
+      /Invalid RSS date-time/,
+    )
+  })
+
+  it('rejects impossible normalized occurrence dates during snapshot validation', () => {
+    const snapshot = buildEventsSnapshot(fixture, { feedUrl, requestedLimit: 1000 })
+    snapshot.events[0].occurrences[0].startsAt = '2026-02-31T10:00:00+02:00'
+
+    expect(() => validateEventsSnapshot(snapshot)).toThrow(/valid calendar date-time/)
+  })
+
   it('fails closed when the requested feed limit is saturated', () => {
     expect(() => assertFeedCoverage(1000, 1000)).toThrow(/may be truncated/)
     expect(() => assertFeedCoverage(249, 1000)).not.toThrow()
