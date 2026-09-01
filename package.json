@@ -14,6 +14,8 @@
     "wiki:update": "node scripts/update-osm-boundaries.mjs && node scripts/update-wikipedia-localization.mjs",
     "pois:update": "node scripts/update-osm-boundaries.mjs && node scripts/update-osm-pois.mjs",
     "paavo:update": "node scripts/update-osm-boundaries.mjs && node scripts/update-paavo-postal-data.mjs && npm run paavo:check",
+    "events:update": "node scripts/update-events.mjs && npm run events:check",
+    "events:check": "node scripts/validate-events.mjs",
     "pois:check": "node scripts/validate-pois.mjs",
     "paavo:check": "node scripts/validate-paavo-postal-data.mjs",
     "stats:check": "node scripts/validate-area-statistics.mjs",
@@ -22,7 +24,7 @@
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "npm run stats:check && npm run income:check && npm run pois:check && npm run paavo:check && vitest run",
+    "test": "npm run stats:check && npm run income:check && npm run pois:check && npm run paavo:check && npm run events:check && vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "performance:check": "node scripts/audit-performance.mjs"
