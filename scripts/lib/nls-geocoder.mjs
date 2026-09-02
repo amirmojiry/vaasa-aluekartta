@@ -8,7 +8,7 @@ import {
 
 export const NLS_GEOCODING_ENDPOINT =
   'https://avoin-paikkatieto.maanmittauslaitos.fi/geocoding/v2/pelias/search'
-export const NLS_CACHE_VERIFICATION = 'source-query-v1'
+export const NLS_CACHE_VERIFICATION = 'source-query-v2'
 
 const NLS_LICENCE_URL = 'https://www.maanmittauslaitos.fi/en/open-data-licence-version1'
 const NLS_DOC_URL =
@@ -105,6 +105,7 @@ function candidateMatchesQuery(candidate, query) {
   if (String(candidate.municipality ?? '') !== VAASA_MUNICIPALITY_CODE) return false
 
   if (isAddressLike(query)) {
+    if (hasConflictingVaasaAddressContext(query)) return false
     const queryAddress = canonicalStreetAddressKey(query)
     const candidateAddress = canonicalStreetAddressKey(candidate.label)
     return Boolean(queryAddress && candidateAddress && queryAddress === candidateAddress)
