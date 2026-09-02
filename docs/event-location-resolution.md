@@ -194,18 +194,18 @@ Ambiguity is represented as `precision = unresolved` with an explicit reason. Mu
 
 The final hardened proof was run against the committed 249-event E1 snapshot with real NLS access after review fixes and cache re-verification:
 
-| Classification | Count |
-| --- | ---: |
-| total events | 249 |
-| high-confidence mapped | 84 |
-| exact-address | 47 |
-| known-venue | 37 |
-| NLS-resolved | 43 |
-| online | 7 |
-| multi-location | 1 |
-| ambiguous | 28 |
-| unresolved | 157 |
-| remote-key-missing | 0 |
+| Classification         | Count |
+| ---------------------- | ----: |
+| total events           |   249 |
+| high-confidence mapped |    84 |
+| exact-address          |    47 |
+| known-venue            |    37 |
+| NLS-resolved           |    43 |
+| online                 |     7 |
+| multi-location         |     1 |
+| ambiguous              |    28 |
+| unresolved             |   157 |
+| remote-key-missing     |     0 |
 
 Final measured high-confidence point coverage is:
 
