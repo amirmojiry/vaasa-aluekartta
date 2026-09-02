@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest'
 import {
   buildPoiLocationIndex,
   canonicalStreetAddressKey,
+  eventLocationSignature,
+  isVaasaCompatibleAddressContext,
   looksMultiLocation,
   pointWithinVaasaBounds,
   resolveEventLocally,
@@ -41,7 +43,7 @@ const pois = {
 const index = buildPoiLocationIndex(pois)
 
 describe('event local location resolution', () => {
-  it('resolves exact source addresses before venue names', () => {
+  it('resolves exact source addresses before venue names without borrowing the POI label', () => {
     const result = resolveEventLocally(
       { venue: 'Unmatched venue', addressText: 'Kirjastonkatu 13, Vaasa' },
       index,
@@ -49,10 +51,11 @@ describe('event local location resolution', () => {
 
     expect(result.resolution.precision).toBe('exact-address')
     expect(result.resolution.longitude).toBe(21.6107973)
+    expect(result.resolution.label).toBeUndefined()
     expect(result.resolution.provenance.licence).toBe('ODbL 1.0')
   })
 
-  it('matches the same street and house number despite postal/locality suffix differences', () => {
+  it('matches the same street and house number when suffix context is explicitly Vaasa-compatible', () => {
     const result = resolveEventLocally(
       { addressText: 'Kirjastonkatu 13, 65100 Vaasa, Suomi' },
       index,
@@ -61,9 +64,23 @@ describe('event local location resolution', () => {
     expect(canonicalStreetAddressKey('Kirjastonkatu 13, 65100 Vaasa, Suomi')).toBe(
       'kirjastonkatu 13',
     )
+    expect(isVaasaCompatibleAddressContext('Kirjastonkatu 13, 65100 Vaasa, Suomi')).toBe(true)
     expect(result.resolution.precision).toBe('exact-address')
     expect(result.resolution.longitude).toBe(21.6107973)
     expect(result.resolution.provenance.transformation).toContain('street-and-house-number')
+  })
+
+  it('does not strip conflicting postal/locality context into a Vaasa POI match', () => {
+    expect(isVaasaCompatibleAddressContext('Kirjastonkatu 13, 00100 Helsinki')).toBe(false)
+    expect(isVaasaCompatibleAddressContext('Kirjastonkatu 13, Helsinki')).toBe(false)
+    expect(isVaasaCompatibleAddressContext('Kirjastonkatu 13, 00100')).toBe(false)
+
+    expect(
+      resolveEventLocally(
+        { venue: 'Vaasa Main Library', addressText: 'Kirjastonkatu 13, 00100 Helsinki' },
+        index,
+      ),
+    ).toBeUndefined()
   })
 
   it('matches localized POI names and the reviewed arena spelling alias', () => {
@@ -107,6 +124,22 @@ describe('event local location resolution', () => {
         .precision,
     ).toBe('multi-location')
     expect(looksMultiLocation('Raastuvankatu 30, 65100 Vaasa')).toBe(false)
+  })
+
+  it('signs the source location fields so stale resolution snapshots can be rejected', () => {
+    const original = eventLocationSignature({
+      venue: 'Vaasa Main Library',
+      addressText: 'Kirjastonkatu 13, Vaasa',
+      online: false,
+    })
+    const moved = eventLocationSignature({
+      venue: 'Vaasa Main Library',
+      addressText: 'Another street 1, Vaasa',
+      online: false,
+    })
+
+    expect(original).toMatch(/^[a-f0-9]{64}$/)
+    expect(moved).not.toBe(original)
   })
 
   it('uses the verified municipality bbox as a coarse point guard', () => {
