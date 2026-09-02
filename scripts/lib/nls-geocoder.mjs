@@ -166,7 +166,9 @@ export function selectNlsResult(featureCollection, query, retrievedAt) {
     }
   }
 
-  const candidates = supportedCandidates.filter((candidate) => candidateMatchesQuery(candidate, query))
+  const candidates = supportedCandidates.filter((candidate) =>
+    candidateMatchesQuery(candidate, query),
+  )
   if (candidates.length === 0) {
     return {
       query,

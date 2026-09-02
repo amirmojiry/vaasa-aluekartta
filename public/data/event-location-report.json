@@ -2,16 +2,16 @@
   "schemaVersion": 1,
   "remoteGeocodingAvailable": true,
   "totalEvents": 249,
-  "exactAddress": 53,
+  "exactAddress": 52,
   "knownVenue": 37,
-  "geocoderResolved": 49,
+  "geocoderResolved": 48,
   "online": 7,
   "multiLocation": 1,
   "ambiguous": 30,
-  "unresolved": 151,
+  "unresolved": 152,
   "remoteKeyMissing": 0,
-  "highConfidenceMapped": 90,
-  "highConfidenceRate": 0.3614,
+  "highConfidenceMapped": 89,
+  "highConfidenceRate": 0.3574,
   "unresolvedQueries": [
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_47577",
@@ -154,13 +154,13 @@
       "reason": "no-geocoder-result"
     },
     {
-      "eventId": "events-in-ostrobothnia:EventCalendar_59998",
-      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
-      "reason": "no-geocoder-result"
+      "eventId": "events-in-ostrobothnia:EventCalendar_59880",
+      "query": "Skillnadsgatan 11, 10600 Ekenäs",
+      "reason": "outside-vaasa-bounds"
     },
     {
-      "eventId": "events-in-ostrobothnia:EventCalendar_59999",
-      "query": "Kaarlen kenttä, Ruutikellarintie 1",
+      "eventId": "events-in-ostrobothnia:EventCalendar_59998",
+      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "reason": "no-geocoder-result"
     }
   ]

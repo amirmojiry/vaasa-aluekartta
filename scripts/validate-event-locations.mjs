@@ -88,7 +88,9 @@ function validateCache(cache) {
       throw new Error(`Location cache entry ${key} does not match its normalized raw query`)
     }
     if (entry.verification !== NLS_CACHE_VERIFICATION || !isReusableNlsCacheEntry(entry)) {
-      throw new Error(`Location cache entry ${key} has not passed the current NLS verification policy`)
+      throw new Error(
+        `Location cache entry ${key} has not passed the current NLS verification policy`,
+      )
     }
     if (entry.precision && !['exact-address', 'known-venue'].includes(entry.precision)) {
       throw new Error(`Location cache entry ${key} has invalid precision: ${entry.precision}`)

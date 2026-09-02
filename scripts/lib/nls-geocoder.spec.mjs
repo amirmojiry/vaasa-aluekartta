@@ -11,12 +11,7 @@ function response(features) {
   return { type: 'FeatureCollection', features }
 }
 
-function feature(
-  source,
-  coordinates = [21.61, 63.1],
-  label = 'Ritz (Vaasa)',
-  properties = {},
-) {
+function feature(source, coordinates = [21.61, 63.1], label = 'Ritz (Vaasa)', properties = {}) {
   return {
     type: 'Feature',
     geometry: { type: 'Point', coordinates },
@@ -83,8 +78,11 @@ describe('NLS geocoder adapter', () => {
 
   it('rejects singleton results that do not match the source query or Vaasa municipality', () => {
     expect(
-      selectNlsResult(response([feature('addresses', [21.61, 63.1], 'Wrong Street 9 (Vaasa)')]), 'Kirjastonkatu 13', 'now')
-        .resolution.reason,
+      selectNlsResult(
+        response([feature('addresses', [21.61, 63.1], 'Wrong Street 9 (Vaasa)')]),
+        'Kirjastonkatu 13',
+        'now',
+      ).resolution.reason,
     ).toBe('geocoder-result-mismatch')
 
     expect(
