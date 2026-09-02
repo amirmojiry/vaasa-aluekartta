@@ -1,13 +1,21 @@
-import { isAddressLike, pointWithinVaasaBounds } from './event-location.mjs'
+import {
+  canonicalStreetAddressKey,
+  hasConflictingVaasaAddressContext,
+  isAddressLike,
+  normalizeLocationText,
+  pointWithinVaasaBounds,
+} from './event-location.mjs'
 
 export const NLS_GEOCODING_ENDPOINT =
   'https://avoin-paikkatieto.maanmittauslaitos.fi/geocoding/v2/pelias/search'
+export const NLS_CACHE_VERIFICATION = 'source-query-v1'
 
 const NLS_LICENCE_URL = 'https://www.maanmittauslaitos.fi/en/open-data-licence-version1'
 const NLS_DOC_URL =
   'https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu'
 const SYKE_RYHTI_URL = 'https://ryhti.syke.fi/'
 const POSTAL_CODE_PATTERN = /\b\d{5}\b/
+const VAASA_MUNICIPALITY_CODE = '905'
 
 export function nlsSourcesForQuery(query) {
   return isAddressLike(query) ? ['addresses'] : ['geographic-names']
@@ -15,7 +23,13 @@ export function nlsSourcesForQuery(query) {
 
 function queryWithMunicipalityContext(query) {
   const trimmed = query.trim()
-  if (/\b(?:vaasa|vasa)\b/i.test(trimmed) || POSTAL_CODE_PATTERN.test(trimmed)) return trimmed
+  if (
+    /\b(?:vaasa|vasa)\b/i.test(trimmed) ||
+    POSTAL_CODE_PATTERN.test(trimmed) ||
+    hasConflictingVaasaAddressContext(trimmed)
+  ) {
+    return trimmed
+  }
   return `${trimmed} Vaasa`
 }
 
@@ -64,17 +78,56 @@ function normalizedFeature(feature) {
   const [longitude, latitude] = feature.geometry.coordinates ?? []
   if (!pointWithinVaasaBounds(longitude, latitude)) return undefined
 
-  const source = feature.properties?.source ?? feature.properties?.layer
+  const properties = feature.properties ?? {}
+  const source = properties.source ?? properties.layer
   const provenance = provenanceForNlsSource(source)
   if (!provenance) return { unsupportedSource: source ?? 'missing' }
 
   return {
     longitude,
     latitude,
-    label: feature.properties?.label ?? feature.properties?.name ?? undefined,
+    label: properties.label ?? properties.name ?? undefined,
+    name: properties.name ?? undefined,
+    municipality: properties.municipality,
     source,
     provenance,
   }
+}
+
+function normalizedVenueEvidence(value) {
+  return normalizeLocationText(value)
+    .replace(/^(?:vaasa|vasa)\s+/, '')
+    .replace(/\s+(?:vaasa|vasa)$/, '')
+    .trim()
+}
+
+function candidateMatchesQuery(candidate, query) {
+  if (String(candidate.municipality ?? '') !== VAASA_MUNICIPALITY_CODE) return false
+
+  if (isAddressLike(query)) {
+    const queryAddress = canonicalStreetAddressKey(query)
+    const candidateAddress = canonicalStreetAddressKey(candidate.label)
+    return Boolean(queryAddress && candidateAddress && queryAddress === candidateAddress)
+  }
+
+  const queryName = normalizedVenueEvidence(query)
+  if (!queryName) return false
+  return [candidate.name, candidate.label]
+    .filter(Boolean)
+    .some((value) => normalizedVenueEvidence(value) === queryName)
+}
+
+export function isReusableNlsCacheEntry(entry) {
+  return (
+    entry?.verification === NLS_CACHE_VERIFICATION &&
+    typeof entry.rawQuery === 'string' &&
+    typeof entry.retrievedAt === 'string' &&
+    pointWithinVaasaBounds(entry.longitude, entry.latitude) &&
+    Boolean(entry.sourceDataset) &&
+    Boolean(entry.provenance?.provider) &&
+    Boolean(entry.provenance?.licence) &&
+    entry.provenance?.retrievedAt === entry.retrievedAt
+  )
 }
 
 export function selectNlsResult(featureCollection, query, retrievedAt) {
@@ -98,8 +151,8 @@ export function selectNlsResult(featureCollection, query, retrievedAt) {
     }
   }
 
-  const candidates = normalized.filter((candidate) => !candidate.unsupportedSource)
-  if (candidates.length === 0) {
+  const supportedCandidates = normalized.filter((candidate) => !candidate.unsupportedSource)
+  if (supportedCandidates.length === 0) {
     const hasPointOutsideBounds = featureCollection.features.some(
       (feature) => feature?.geometry?.type === 'Point',
     )
@@ -108,6 +161,18 @@ export function selectNlsResult(featureCollection, query, retrievedAt) {
       resolution: {
         precision: 'unresolved',
         reason: hasPointOutsideBounds ? 'outside-vaasa-bounds' : 'no-geocoder-result',
+        sourceAddress: query,
+      },
+    }
+  }
+
+  const candidates = supportedCandidates.filter((candidate) => candidateMatchesQuery(candidate, query))
+  if (candidates.length === 0) {
+    return {
+      query,
+      resolution: {
+        precision: 'unresolved',
+        reason: 'geocoder-result-mismatch',
         sourceAddress: query,
       },
     }
@@ -143,6 +208,7 @@ export function selectNlsResult(featureCollection, query, retrievedAt) {
     cacheEntry: {
       rawQuery: query,
       retrievedAt,
+      verification: NLS_CACHE_VERIFICATION,
       precision,
       longitude: candidate.longitude,
       latitude: candidate.latitude,
