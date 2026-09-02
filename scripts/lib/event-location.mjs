@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto'
+
 export const VAASA_MUNICIPALITY_BOUNDS = Object.freeze({
   provider: 'OpenStreetMap',
   relationId: 1855926,
@@ -38,6 +40,7 @@ const GENERIC_LOCATION_VALUES = new Set([
 const ADDRESS_PATTERN = /\b\d{1,5}[a-z]?\b/i
 const HOUSE_NUMBER_PATTERN = /\b\d{1,4}[a-z]?(?:\s*-\s*\d{1,4}[a-z]?)?\b/i
 const POSTAL_CODE_PATTERN = /\b\d{5}\b/
+const VAASA_CONTEXT_TOKENS = new Set(['vaasa', 'vasa', 'finland', 'suomi'])
 
 const VENUE_ALIASES = new Map([
   ['vaasan sahko arena', 'vaasan sahko areena'],
@@ -56,7 +59,7 @@ export function normalizeLocationText(value) {
     .replace(/\s+/g, ' ')
 }
 
-export function canonicalStreetAddressKey(value) {
+function streetAddressParts(value) {
   if (typeof value !== 'string') return undefined
 
   const segments = value
@@ -64,7 +67,8 @@ export function canonicalStreetAddressKey(value) {
     .map((part) => part.trim())
     .filter(Boolean)
 
-  for (const segment of segments) {
+  for (let index = 0; index < segments.length; index += 1) {
+    const segment = segments[index]
     if (
       POSTAL_CODE_PATTERN.test(segment) &&
       !HOUSE_NUMBER_PATTERN.test(segment.replace(POSTAL_CODE_PATTERN, ''))
@@ -76,11 +80,55 @@ export function canonicalStreetAddressKey(value) {
     if (!match || match.index === undefined) continue
 
     const throughHouseNumber = segment.slice(0, match.index + match[0].length)
-    const normalized = normalizeLocationText(throughHouseNumber)
-    if (normalized && /\p{L}/u.test(normalized)) return normalized
+    const key = normalizeLocationText(throughHouseNumber)
+    if (!key || !/\p{L}/u.test(key)) continue
+
+    const inlineContext = segment.slice(match.index + match[0].length).trim()
+    const contextSegments = [inlineContext, ...segments.slice(index + 1)].filter(Boolean)
+    return { key, contextSegments }
   }
 
   return undefined
+}
+
+export function canonicalStreetAddressKey(value) {
+  return streetAddressParts(value)?.key
+}
+
+export function isVaasaCompatibleAddressContext(value) {
+  const parts = streetAddressParts(value)
+  if (!parts || parts.contextSegments.length === 0) return true
+
+  const rawContext = parts.contextSegments.join(' ')
+  const hasPostalCode = POSTAL_CODE_PATTERN.test(rawContext)
+  let hasVaasaLocality = false
+
+  for (const segment of parts.contextSegments) {
+    const withoutPostalCode = segment.replace(/\b\d{5}\b/g, ' ')
+    const tokens = normalizeLocationText(withoutPostalCode).split(' ').filter(Boolean)
+    for (const token of tokens) {
+      if (token === 'vaasa' || token === 'vasa') hasVaasaLocality = true
+      if (!VAASA_CONTEXT_TOKENS.has(token)) return false
+    }
+  }
+
+  // A bare postal code is explicit location context that cannot safely be
+  // discarded during a street+house fallback. Let the remote geocoder verify it.
+  if (hasPostalCode && !hasVaasaLocality) return false
+  return true
+}
+
+export function hasConflictingVaasaAddressContext(value) {
+  return Boolean(canonicalStreetAddressKey(value)) && !isVaasaCompatibleAddressContext(value)
+}
+
+export function eventLocationSignature(event) {
+  const sourceLocation = JSON.stringify({
+    addressText: event?.addressText ?? null,
+    venue: event?.venue ?? null,
+    online: event?.online === true,
+  })
+  return createHash('sha256').update(sourceLocation).digest('hex')
 }
 
 export function pointWithinVaasaBounds(longitude, latitude) {
@@ -163,7 +211,7 @@ function osmProvenance(matchKind, feature) {
       'Exact normalized full-address match against the committed OSM POI snapshot; source point geometry retained in WGS84.'
   } else if (matchKind === 'address-street-house') {
     transformation =
-      'Exact normalized street-and-house-number match after removing postal/locality/country suffixes from both source strings; source point geometry retained in WGS84.'
+      'Exact normalized street-and-house-number match after verifying Vaasa-compatible source locality context; source point geometry retained in WGS84.'
   } else {
     transformation =
       'Exact normalized venue-name match against the committed OSM POI snapshot; source point geometry retained in WGS84.'
@@ -211,7 +259,9 @@ function resolveCandidateSet(candidates, query, matchKind) {
       precision: matchKind.startsWith('address') ? 'exact-address' : 'known-venue',
       longitude,
       latitude,
-      label: feature.properties.name,
+      ...(matchKind === 'name' && feature.properties.name
+        ? { label: feature.properties.name }
+        : {}),
       sourceAddress: query,
       provenance: osmProvenance(matchKind, feature),
     },
@@ -241,6 +291,7 @@ export function resolveEventLocally(event, poiIndex) {
   }
 
   let ambiguousAddress
+  let conflictingAddressContext = false
   if (event.addressText && !isGenericLocationText(event.addressText)) {
     const addressQuery = event.addressText.trim()
     const exactAddressMatch = resolveCandidateSet(
@@ -251,8 +302,9 @@ export function resolveEventLocally(event, poiIndex) {
     if (resolvedPoint(exactAddressMatch)) return exactAddressMatch
     ambiguousAddress = exactAddressMatch
 
+    conflictingAddressContext = hasConflictingVaasaAddressContext(addressQuery)
     const streetAddressKey = canonicalStreetAddressKey(addressQuery)
-    if (streetAddressKey) {
+    if (streetAddressKey && !conflictingAddressContext) {
       const streetAddressMatch = resolveCandidateSet(
         poiIndex.streetAddresses.get(streetAddressKey),
         addressQuery,
@@ -264,7 +316,12 @@ export function resolveEventLocally(event, poiIndex) {
   }
 
   let ambiguousVenue
-  if (event.venue && !isGenericLocationText(event.venue) && !isOnlineLocationText(event.venue)) {
+  if (
+    !conflictingAddressContext &&
+    event.venue &&
+    !isGenericLocationText(event.venue) &&
+    !isOnlineLocationText(event.venue)
+  ) {
     const venueQuery = event.venue.trim()
     const venueMatch = resolveCandidateSet(
       poiIndex.names.get(aliasKey(venueQuery)),
