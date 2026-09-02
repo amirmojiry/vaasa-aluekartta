@@ -5,13 +5,14 @@ import { fileURLToPath } from 'node:url'
 import {
   buildPoiLocationIndex,
   chooseEventGeocodingQuery,
+  eventLocationSignature,
   isAddressLike,
   isHighConfidenceResolution,
   normalizeLocationText,
   resolveEventLocally,
   VAASA_MUNICIPALITY_BOUNDS,
 } from './lib/event-location.mjs'
-import { geocodeWithNls } from './lib/nls-geocoder.mjs'
+import { geocodeWithNls, isReusableNlsCacheEntry } from './lib/nls-geocoder.mjs'
 import { writeSnapshotAtomically } from './update-events.mjs'
 
 const scriptDir = dirname(fileURLToPath(import.meta.url))
@@ -43,6 +44,14 @@ function resolutionFromCache(query, cacheEntry) {
 
 function cacheKey(query) {
   return normalizeLocationText(query)
+}
+
+function eventLocationRecord(event, result) {
+  return {
+    eventId: event.id,
+    sourceLocationSignature: eventLocationSignature(event),
+    ...result,
+  }
 }
 
 function makeReport(locations, remoteGeocodingAvailable) {
@@ -117,32 +126,37 @@ export async function resolveEventLocations({
   for (const event of eventsSnapshot.events) {
     const local = resolveEventLocally(event, poiIndex)
     if (local) {
-      locations.push({ eventId: event.id, ...local })
+      locations.push(eventLocationRecord(event, local))
       continue
     }
 
     const query = chooseEventGeocodingQuery(event)
     if (!query) {
-      locations.push({
-        eventId: event.id,
-        resolution: { precision: 'unresolved', reason: 'no-usable-query' },
-      })
+      locations.push(
+        eventLocationRecord(event, {
+          resolution: { precision: 'unresolved', reason: 'no-usable-query' },
+        }),
+      )
       continue
     }
 
     const key = cacheKey(query)
     const memoized = inRunRemoteMemo.get(key)
     if (memoized) {
-      locations.push({ eventId: event.id, ...memoized })
+      locations.push(eventLocationRecord(event, memoized))
       continue
     }
 
     const cached = cache.entries[key]
-    if (cached) {
+    if (cached && isReusableNlsCacheEntry(cached)) {
       const cachedResult = resolutionFromCache(query, cached)
       inRunRemoteMemo.set(key, cachedResult)
-      locations.push({ eventId: event.id, ...cachedResult })
+      locations.push(eventLocationRecord(event, cachedResult))
       continue
+    }
+    if (cached) {
+      delete cache.entries[key]
+      cacheChanged = true
     }
 
     const remote = await geocodeWithNls(query, { apiKey, fetchImpl, now })
@@ -152,7 +166,7 @@ export async function resolveEventLocations({
       cache.entries[key] = remote.cacheEntry
       cacheChanged = true
     }
-    locations.push({ eventId: event.id, ...remoteResult })
+    locations.push(eventLocationRecord(event, remoteResult))
   }
 
   locations.sort((left, right) => left.eventId.localeCompare(right.eventId))
