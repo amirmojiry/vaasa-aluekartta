@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "provider": "National Land Survey of Finland Geocoding Service v2",
+  "entries": {
+    "porinmaenkuja 1 66500 vaasa": {
+      "rawQuery": "Porinmäenkuja 1, 66500 Vaasa",
+      "retrievedAt": "2026-09-02T05:29:23.751Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 22.104224747300552,
+      "latitude": 63.05243324216241,
+      "label": "Porinmäenkuja 1 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:23.751Z"
+      }
+    },
+    "kyrkoesplanaden 22 65100 vasa": {
+      "rawQuery": "Kyrkoesplanaden 22, 65100 Vasa",
+      "retrievedAt": "2026-09-02T05:29:34.828Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.608439227095694,
+      "latitude": 63.09543331033139,
+      "label": "Kyrkoesplanaden 22 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:34.828Z"
+      }
+    },
+    "langviksgatan 20": {
+      "rawQuery": "Långviksgatan 20",
+      "retrievedAt": "2026-09-02T05:29:35.699Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.616703350113287,
+      "latitude": 63.10194685096041,
+      "label": "Långviksgatan 20 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:35.699Z"
+      }
+    },
+    "sundomintie 73a vaasa": {
+      "rawQuery": "Sundomintie 73A,Vaasa",
+      "retrievedAt": "2026-09-02T05:29:35.853Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.551709452915595,
+      "latitude": 63.03717352361767,
+      "label": "Sundomintie 73a (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:35.853Z"
+      }
+    },
+    "lentokentantie 159 65380 vaasa": {
+      "rawQuery": "Lentokentäntie 159, 65380 Vaasa",
+      "retrievedAt": "2026-09-02T05:29:39.381Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.758299626194855,
+      "latitude": 63.043318013436036,
+      "label": "Lentokentäntie 159 (Vaasa)",
+      "sourceDataset": "interpolated-road-addresses",
+      "provenance": {
+        "provider": "National Land Survey of Finland",
+        "dataset": "interpolated-road-addresses",
+        "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:39.381Z"
+      }
+    },
+    "pitkakatu 53 65100 vaasa": {
+      "rawQuery": "Pitkäkatu 53, 65100 Vaasa",
+      "retrievedAt": "2026-09-02T05:29:43.137Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.621082988951663,
+      "latitude": 63.09439270187432,
+      "label": "Pitkäkatu 53 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:43.137Z"
+      }
+    },
+    "senaatinkatu 1 65100 vaasa": {
+      "rawQuery": "Senaatinkatu 1, 65100 Vaasa",
+      "retrievedAt": "2026-09-02T05:29:43.838Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.611317871524268,
+      "latitude": 63.09527681030765,
+      "label": "Senaatinkatu 1 (Vaasa)",
+      "sourceDataset": "interpolated-road-addresses",
+      "provenance": {
+        "provider": "National Land Survey of Finland",
+        "dataset": "interpolated-road-addresses",
+        "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:43.838Z"
+      }
+    },
+    "ahventie 12 65200 vaasa suomi": {
+      "rawQuery": "Ahventie 12, 65200 Vaasa, Suomi",
+      "retrievedAt": "2026-09-02T05:29:44.868Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.603472197273526,
+      "latitude": 63.11127610344763,
+      "label": "Ahventie 12 (Vaasa)",
+      "sourceDataset": "interpolated-road-addresses",
+      "provenance": {
+        "provider": "National Land Survey of Finland",
+        "dataset": "interpolated-road-addresses",
+        "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:44.868Z"
+      }
+    },
+    "sandogatan 7 65100 vasa": {
+      "rawQuery": "Sandögatan 7, 65100 VASA",
+      "retrievedAt": "2026-09-02T05:29:47.492Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.607075629846886,
+      "latitude": 63.096783638195916,
+      "label": "Sandögatan 7 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:47.492Z"
+      }
+    },
+    "vuorikatu 4 vaasa": {
+      "rawQuery": "Vuorikatu 4, Vaasa",
+      "retrievedAt": "2026-09-02T05:29:49.619Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.617750389289046,
+      "latitude": 63.10017295882023,
+      "label": "Vuorikatu 4 (Vaasa)",
+      "sourceDataset": "interpolated-road-addresses",
+      "provenance": {
+        "provider": "National Land Survey of Finland",
+        "dataset": "interpolated-road-addresses",
+        "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:49.619Z"
+      }
+    },
+    "storalanggatan 14 65100 vasa": {
+      "rawQuery": "Storalånggatan 14, 65100 Vasa",
+      "retrievedAt": "2026-09-02T05:29:55.582Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.61331208664184,
+      "latitude": 63.10106180698316,
+      "label": "Storalånggatan 14 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:55.582Z"
+      }
+    },
+    "ruutikellarintie 2 65100 vaasa": {
+      "rawQuery": "Ruutikellarintie 2, 65100 Vaasa",
+      "retrievedAt": "2026-09-02T05:29:57.059Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.644028394675843,
+      "latitude": 63.08433076231455,
+      "label": "Ruutikellarintie 2 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:57.059Z"
+      }
+    },
+    "strandgatan 6 65100 vasa": {
+      "rawQuery": "Strandgatan 6, 65100 VASA",
+      "retrievedAt": "2026-09-02T05:29:58.182Z",
+      "verification": "source-query-v2",
+      "precision": "exact-address",
+      "longitude": 21.60290847300661,
+      "latitude": 63.096444641549674,
+      "label": "Strandgatan 6 (Vaasa)",
+      "sourceDataset": "addresses",
+      "provenance": {
+        "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+        "dataset": "addresses",
+        "sourceUrl": "https://ryhti.syke.fi/",
+        "licence": "CC BY 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+        "retrievedAt": "2026-09-02T05:29:58.182Z"
+      }
+    }
+  }
+}
