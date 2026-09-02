@@ -15,6 +15,7 @@ export type LocationResolutionReason =
   | 'outside-vaasa-bounds'
   | 'unsupported-geocoder-source'
   | 'no-geocoder-result'
+  | 'geocoder-result-mismatch'
 
 export interface LocationProvenance {
   provider: string
@@ -41,6 +42,7 @@ export interface LocationResolution {
 
 export interface EventLocationRecord {
   eventId: string
+  sourceLocationSignature: string
   query?: string
   resolution: LocationResolution
 }
