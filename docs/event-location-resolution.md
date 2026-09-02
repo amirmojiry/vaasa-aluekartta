@@ -234,7 +234,7 @@ npm run events:locations:check
 
 The final proof run passed the focused E2 tests plus repository-wide formatting, lint, type-check, data/unit tests, and production build before committing the generated artifacts.
 
-Temporary branch-only proof and diagnostic workflows were used to safely exercise the secret-backed remote service and inspect representative candidate behavior. They are not part of the production pipeline and are removed before merge.
+Temporary branch-only proof and diagnostic workflows were used to safely exercise the secret-backed remote service and inspect representative candidate behavior. They were removed after the final proof; only the normal repository CI/deploy workflows remain in the PR diff.
 
 ## E2 exit gate
 
