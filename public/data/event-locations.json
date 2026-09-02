@@ -17,7 +17,7 @@
       "query": "Långviksgatan 20",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Långviksgatan 20"
       }
     },
@@ -63,18 +63,44 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_46843",
       "query": "Ahventie 12, 65200 Vaasa, Suomi",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Ahventie 12, 65200 Vaasa, Suomi"
+        "precision": "exact-address",
+        "longitude": 21.603472197273526,
+        "latitude": 63.11127610344763,
+        "label": "Ahventie 12 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.835Z",
+        "sourceAddress": "Ahventie 12, 65200 Vaasa, Suomi",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.835Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_46845",
       "query": "Ahventie 12, 65200 Vaasa, Suomi",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Ahventie 12, 65200 Vaasa, Suomi"
+        "precision": "exact-address",
+        "longitude": 21.603472197273526,
+        "latitude": 63.11127610344763,
+        "label": "Ahventie 12 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.835Z",
+        "sourceAddress": "Ahventie 12, 65200 Vaasa, Suomi",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.835Z"
+        }
       }
     },
     {
@@ -82,7 +108,7 @@
       "query": "Kyrkoesplanaden 31, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kyrkoesplanaden 31, 65100 Vasa"
       }
     },
@@ -91,7 +117,7 @@
       "query": "Ajurinkatu 14, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Ajurinkatu 14, 65100 Vaasa"
       }
     },
@@ -112,7 +138,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -121,7 +147,7 @@
       "query": "Sandögatan 7, 65100 VASA",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Sandögatan 7, 65100 VASA"
       }
     },
@@ -130,7 +156,7 @@
       "query": "Porinmäenkuja 1, 66500 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
       }
     },
@@ -139,7 +165,7 @@
       "query": "Ruutikellarintie 4, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Ruutikellarintie 4, 65100 Vaasa"
       }
     },
@@ -148,7 +174,7 @@
       "query": "Bock's Corner Brewery, Gerbyntie 16, 65230 Vaasa, Finland",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Bock's Corner Brewery, Gerbyntie 16, 65230 Vaasa, Finland"
       }
     },
@@ -157,7 +183,7 @@
       "query": "Gerbyntie 16, 65230 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Gerbyntie 16, 65230 Vaasa"
       }
     },
@@ -166,7 +192,7 @@
       "query": "Gerbyntie 16, 65230 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Gerbyntie 16, 65230 Vaasa"
       }
     },
@@ -175,7 +201,7 @@
       "query": "Suomen Vapaudenpatsas, Alatori, 65100 Vaasa, Suomi",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Suomen Vapaudenpatsas, Alatori, 65100 Vaasa, Suomi"
       }
     },
@@ -184,7 +210,7 @@
       "query": "Sandögatan 7, 65100 VASA",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Sandögatan 7, 65100 VASA"
       }
     },
@@ -192,9 +218,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_58746",
       "query": "Vapaudentie 27, 65200",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Vapaudentie 27, 65200"
+        "precision": "exact-address",
+        "longitude": 21.60360873471986,
+        "latitude": 63.111157382064896,
+        "label": "Vapaudentie 27 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:19.811Z",
+        "sourceAddress": "Vapaudentie 27, 65200",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:19.811Z"
+        }
       }
     },
     {
@@ -202,7 +241,7 @@
       "query": "Närpiöntie, Närpesvägen 16, 64200 Närpiö, Närpes",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Närpiöntie, Närpesvägen 16, 64200 Närpiö, Närpes"
       }
     },
@@ -211,7 +250,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -220,7 +259,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -229,7 +268,7 @@
       "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 31, 65100 Vaasa, Suomi"
       }
     },
@@ -238,7 +277,7 @@
       "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 31, 65100 Vaasa, Suomi"
       }
     },
@@ -247,7 +286,7 @@
       "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 31, 65100 Vaasa, Suomi"
       }
     },
@@ -256,7 +295,7 @@
       "query": "Vasa ritz",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vasa ritz"
       }
     },
@@ -265,7 +304,7 @@
       "query": "Kyrkoeplanaden 22",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kyrkoeplanaden 22"
       }
     },
@@ -274,7 +313,7 @@
       "query": "Stora långgatan 14",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Stora långgatan 14"
       }
     },
@@ -283,7 +322,7 @@
       "query": "Dalgatan 4, 10300 KARIS",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "outside-vaasa-bounds",
         "sourceAddress": "Dalgatan 4, 10300 KARIS"
       }
     },
@@ -292,7 +331,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -301,7 +340,7 @@
       "query": "Storalånggatan 14, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Storalånggatan 14, 65100 Vasa"
       }
     },
@@ -310,7 +349,7 @@
       "query": "Kyrkoesplanaden 22, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
       }
     },
@@ -319,7 +358,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -347,7 +386,7 @@
       "query": "Köpmansgatan  10, 68600 Jakobstad",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "outside-vaasa-bounds",
         "sourceAddress": "Köpmansgatan  10, 68600 Jakobstad"
       }
     },
@@ -356,7 +395,7 @@
       "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, Vasa"
       }
     },
@@ -365,7 +404,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -374,7 +413,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -383,7 +422,7 @@
       "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
       }
     },
@@ -392,7 +431,7 @@
       "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
       }
     },
@@ -401,7 +440,7 @@
       "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
       }
     },
@@ -410,7 +449,7 @@
       "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
       }
     },
@@ -419,7 +458,7 @@
       "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Folkhälsanhuset Wasa, Rådhusgatan 25, 65100 Vasa"
       }
     },
@@ -428,7 +467,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -436,9 +475,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_59880",
       "query": "Skillnadsgatan 11, 10600 Ekenäs",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Skillnadsgatan 11, 10600 Ekenäs"
+        "precision": "exact-address",
+        "longitude": 21.639927873153848,
+        "latitude": 63.10720403628011,
+        "label": "Skillnadsgatan 11 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:42.383Z",
+        "sourceAddress": "Skillnadsgatan 11, 10600 Ekenäs",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:42.383Z"
+        }
       }
     },
     {
@@ -465,7 +517,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -474,7 +526,7 @@
       "query": "Kaarlen kenttä, Ruutikellarintie 1",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kaarlen kenttä, Ruutikellarintie 1"
       }
     },
@@ -502,7 +554,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -511,7 +563,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -520,7 +572,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -529,7 +581,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -538,7 +590,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -547,7 +599,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -556,7 +608,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -565,7 +617,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -574,7 +626,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -583,7 +635,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -599,7 +651,7 @@
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -608,7 +660,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -617,7 +669,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -626,7 +678,7 @@
       "query": "Strandgatan 6, 65100 VASA",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Strandgatan 6, 65100 VASA"
       }
     },
@@ -635,7 +687,7 @@
       "query": "Biskopsgatan 28, 06100 Borgå",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "outside-vaasa-bounds",
         "sourceAddress": "Biskopsgatan 28, 06100 Borgå"
       }
     },
@@ -643,9 +695,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60265",
       "query": "Vuorikatu 4, Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Vuorikatu 4, Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.617750389289046,
+        "latitude": 63.10017295882023,
+        "label": "Vuorikatu 4 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:33.810Z",
+        "sourceAddress": "Vuorikatu 4, Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:33.810Z"
+        }
       }
     },
     {
@@ -653,7 +718,7 @@
       "query": "Kullervon hautausmaa, 7173 2, 65370 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kullervon hautausmaa, 7173 2, 65370 Vaasa"
       }
     },
@@ -662,7 +727,7 @@
       "query": "Vuorikodin juhlasali",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vuorikodin juhlasali"
       }
     },
@@ -671,7 +736,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -680,7 +745,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -695,7 +760,7 @@
       "query": "Mamas Kitchen, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Mamas Kitchen, Vaasa"
       }
     },
@@ -704,7 +769,7 @@
       "query": "Kyrkoesplanaden 22, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
       }
     },
@@ -720,7 +785,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -736,7 +801,7 @@
       "query": "Bock's Corner, Gerbyntie, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Bock's Corner, Gerbyntie, Vaasa"
       }
     },
@@ -745,7 +810,7 @@
       "query": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa"
       }
     },
@@ -754,7 +819,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -763,7 +828,7 @@
       "query": "Sundom uf",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Sundom uf"
       }
     },
@@ -772,7 +837,7 @@
       "query": "Strandgatan 6, 65100 VASA",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Strandgatan 6, 65100 VASA"
       }
     },
@@ -786,18 +851,44 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60504",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60505",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
@@ -805,7 +896,7 @@
       "query": "Adelcrantzinkuja,Adelcrantzgränd 1, 65380 Mustasaari, Korsholm",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Adelcrantzinkuja,Adelcrantzgränd 1, 65380 Mustasaari, Korsholm"
       }
     },
@@ -814,7 +905,7 @@
       "query": "Raastuvankatu, Rådhusgatan 31, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Raastuvankatu, Rådhusgatan 31, 65100 Vaasa, Vasa"
       }
     },
@@ -822,81 +913,198 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60509",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60510",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60511",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60512",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60513",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60514",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60515",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60516",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60517",
       "query": "Senaatinkatu 1, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.611317871524268,
+        "latitude": 63.09527681030765,
+        "label": "Senaatinkatu 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:30.113Z",
+        "sourceAddress": "Senaatinkatu 1, 65100 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:30.113Z"
+        }
       }
     },
     {
@@ -904,7 +1112,7 @@
       "query": "Vaasa City Library, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasa City Library, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -913,7 +1121,7 @@
       "query": "Scandic Waskia, Lemmenpolku 3, 65170 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Scandic Waskia, Lemmenpolku 3, 65170 Vaasa"
       }
     },
@@ -922,7 +1130,7 @@
       "query": "Vaasa Startup Factory, Yliopistonranta 10, 2. floor 65101 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasa Startup Factory, Yliopistonranta 10, 2. floor 65101 Vaasa"
       }
     },
@@ -931,7 +1139,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -940,7 +1148,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -949,7 +1157,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -958,7 +1166,7 @@
       "query": "Kohtaamispaikka Huudi ja pääkirjasto",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kohtaamispaikka Huudi ja pääkirjasto"
       }
     },
@@ -967,7 +1175,7 @@
       "query": "Kirkkopuistikko 31, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 31, Vaasa"
       }
     },
@@ -976,7 +1184,7 @@
       "query": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31"
       }
     },
@@ -985,7 +1193,7 @@
       "query": "H-talo, 3 kerros, Hietalahdenkatu 2-4, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "H-talo, 3 kerros, Hietalahdenkatu 2-4, Vaasa"
       }
     },
@@ -994,7 +1202,7 @@
       "query": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "FinFami Pohjanmaan Vaasan toimisto, Kirkkopuistikko 31"
       }
     },
@@ -1009,7 +1217,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -1018,7 +1226,7 @@
       "query": "Vaasan kauppatori, 65100 VAASA",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kauppatori, 65100 VAASA"
       }
     },
@@ -1027,7 +1235,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -1036,7 +1244,7 @@
       "query": "Vasa stadsbibliotek, Biblioteksgatan 13, Vasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vasa stadsbibliotek, Biblioteksgatan 13, Vasa."
       }
     },
@@ -1045,7 +1253,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -1054,7 +1262,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -1063,7 +1271,7 @@
       "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa."
       }
     },
@@ -1072,7 +1280,7 @@
       "query": "Handelsesplanaden 8 C 57 A (ovanför Olivers Inn)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Handelsesplanaden 8 C 57 A (ovanför Olivers Inn)"
       }
     },
@@ -1081,7 +1289,7 @@
       "query": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)"
       }
     },
@@ -1090,7 +1298,7 @@
       "query": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Handelsesplanaden 8C 57A (ovanför Olivers Inn)"
       }
     },
@@ -1099,7 +1307,7 @@
       "query": "Several libraries",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Several libraries"
       }
     },
@@ -1108,7 +1316,7 @@
       "query": "Arbetets Vänner Vaasa: Ajurinkatu 14, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Arbetets Vänner Vaasa: Ajurinkatu 14, 65100 Vaasa"
       }
     },
@@ -1117,7 +1325,7 @@
       "query": "Draama Hall, Vaasa Main Library, Kirjastonkatu 13 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Draama Hall, Vaasa Main Library, Kirjastonkatu 13 65100 Vaasa"
       }
     },
@@ -1126,7 +1334,7 @@
       "query": "Wolffintie 29, 65200 Vaasa (Vamk, Florence -auditorio)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Wolffintie 29, 65200 Vaasa (Vamk, Florence -auditorio)"
       }
     },
@@ -1135,7 +1343,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -1144,7 +1352,7 @@
       "query": "Moottorikatu, 65170 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Moottorikatu, 65170 Vaasa"
       }
     },
@@ -1153,7 +1361,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -1168,7 +1376,7 @@
       "query": "Vaasa Main Library (Kirjastonkatu 13, Vaasa), Café Kultsa (Raastuvankatu 30 2.krs, 65100 Vaasa)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasa Main Library (Kirjastonkatu 13, Vaasa), Café Kultsa (Raastuvankatu 30 2.krs, 65100 Vaasa)"
       }
     },
@@ -1177,7 +1385,7 @@
       "query": "Kirkkopuistikko 22A 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko 22A 65100 Vaasa"
       }
     },
@@ -1186,7 +1394,7 @@
       "query": "Pääkirjaston Matilda (1. krs.)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pääkirjaston Matilda (1. krs.)"
       }
     },
@@ -1195,7 +1403,7 @@
       "query": "Pääkirjaston Draama-sali",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pääkirjaston Draama-sali"
       }
     },
@@ -1204,7 +1412,7 @@
       "query": "Pääkirjaston Venny (2. krs)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pääkirjaston Venny (2. krs)"
       }
     },
@@ -1213,7 +1421,7 @@
       "query": "Pääkirjaston Draama-sali",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pääkirjaston Draama-sali"
       }
     },
@@ -1222,7 +1430,7 @@
       "query": "Pääkirjaston Draama-sali",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pääkirjaston Draama-sali"
       }
     },
@@ -1230,9 +1438,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60695",
       "query": "Sundomintie 73A,Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Sundomintie 73A,Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.551709452915595,
+        "latitude": 63.03717352361767,
+        "label": "Sundomintie 73a (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:26.491Z",
+        "sourceAddress": "Sundomintie 73A,Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:26.491Z"
+        }
       }
     },
     {
@@ -1240,7 +1461,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -1249,7 +1470,7 @@
       "query": "Vaasan Kaupunginteatteri Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan Kaupunginteatteri Pitkäkatu 53, 65100 Vaasa"
       }
     },
@@ -1258,7 +1479,7 @@
       "query": "Lemonsoft stadion Rantamaantie 6",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Lemonsoft stadion Rantamaantie 6"
       }
     },
@@ -1267,7 +1488,7 @@
       "query": "Lemonsoft stadion Rantamaantie 6",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Lemonsoft stadion Rantamaantie 6"
       }
     },
@@ -1276,7 +1497,7 @@
       "query": "Lemonsoft stadion Rantamaantie 6",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Lemonsoft stadion Rantamaantie 6"
       }
     },
@@ -1285,7 +1506,7 @@
       "query": "Pohjanmaan yhdistystentalo Korsholmanpuistikko 44, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pohjanmaan yhdistystentalo Korsholmanpuistikko 44, 65100 Vaasa"
       }
     },
@@ -1294,7 +1515,7 @@
       "query": "Kyrkoesplanaden 16, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kyrkoesplanaden 16, 65100 Vasa"
       }
     },
@@ -1303,7 +1524,7 @@
       "query": "Vaasan kaupungintalo",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupungintalo"
       }
     },
@@ -1312,7 +1533,7 @@
       "query": ", 65100 VAASA",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": ", 65100 VAASA"
       }
     },
@@ -1321,7 +1542,7 @@
       "query": "Pitkäkatu, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pitkäkatu, 65100 Vaasa"
       }
     },
@@ -1330,7 +1551,7 @@
       "query": "Vaasan kaupunginteatteri",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginteatteri"
       }
     },
@@ -1339,7 +1560,7 @@
       "query": "Teirinkatu 2, 65350 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Teirinkatu 2, 65350 Vaasa"
       }
     },
@@ -1348,7 +1569,7 @@
       "query": "Teirinkatu 2, 65350 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Teirinkatu 2, 65350 Vaasa"
       }
     },
@@ -1357,7 +1578,7 @@
       "query": "Porinmäenkuja 1, 66500 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
       }
     },
@@ -1366,7 +1587,7 @@
       "query": "Teirinkatu 2, 65350 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Teirinkatu 2, 65350 Vaasa"
       }
     },
@@ -1375,7 +1596,7 @@
       "query": "Itäinen Kasarmintori, Östra Kaserntorget 7–9, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Itäinen Kasarmintori, Östra Kaserntorget 7–9, 65100 Vaasa, Vasa"
       }
     },
@@ -1384,7 +1605,7 @@
       "query": "Malmöntalo, MLL Pohjanmaan piiri's office",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Malmöntalo, MLL Pohjanmaan piiri's office"
       }
     },
@@ -1393,7 +1614,7 @@
       "query": "The event is in many places, please check the Konstrundan map.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "The event is in many places, please check the Konstrundan map."
       }
     },
@@ -1402,7 +1623,7 @@
       "query": "Korsholmanpuistikko 44, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Korsholmanpuistikko 44, Vaasa"
       }
     },
@@ -1411,7 +1632,7 @@
       "query": "Alma-opiston Juhlasali, Raastuvankatu 31",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Alma-opiston Juhlasali, Raastuvankatu 31"
       }
     },
@@ -1420,7 +1641,7 @@
       "query": "Pikitehtaankatu 19-23, 65200 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pikitehtaankatu 19-23, 65200 Vaasa"
       }
     },
@@ -1429,7 +1650,7 @@
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa"
       }
     },
@@ -1438,7 +1659,7 @@
       "query": "Sandögatan 7, 65100 VASA",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Sandögatan 7, 65100 VASA"
       }
     },
@@ -1447,7 +1668,7 @@
       "query": "Aurora Botnia",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Aurora Botnia"
       }
     },
@@ -1456,7 +1677,7 @@
       "query": "Aurora Botnia",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Aurora Botnia"
       }
     },
@@ -1465,7 +1686,7 @@
       "query": "Raastuvankatu 30, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Raastuvankatu 30, 65100 Vaasa"
       }
     },
@@ -1474,7 +1695,7 @@
       "query": "Vaasa City Hall",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasa City Hall"
       }
     },
@@ -1521,7 +1742,7 @@
       "query": "Vähäkyrö-talo, Vähänkyröntie 11, VÄHÄKYRÖ",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vähäkyrö-talo, Vähänkyröntie 11, VÄHÄKYRÖ"
       }
     },
@@ -1530,7 +1751,7 @@
       "query": "Metsäkallion kuntorata. Pohjolankadun parkkipaikka.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Metsäkallion kuntorata. Pohjolankadun parkkipaikka."
       }
     },
@@ -1558,7 +1779,7 @@
       "query": "Useita lähtöpaikkoja",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Useita lähtöpaikkoja"
       }
     },
@@ -1567,7 +1788,7 @@
       "query": "Mielle ry, Läntinen Kasarmintori 2, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Mielle ry, Läntinen Kasarmintori 2, 65100 Vaasa"
       }
     },
@@ -1576,7 +1797,7 @@
       "query": "Senaatinkatu, Senatsgatan 1, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Senaatinkatu, Senatsgatan 1, 65100 Vaasa, Vasa"
       }
     },
@@ -1585,7 +1806,7 @@
       "query": "Hovioikeudenpuistikko,Hovrättsesplanaden 18, 65100 Vaasa, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Hovioikeudenpuistikko,Hovrättsesplanaden 18, 65100 Vaasa, Vasa"
       }
     },
@@ -1594,7 +1815,7 @@
       "query": "Ritz, Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Ritz, Vasa"
       }
     },
@@ -1603,7 +1824,7 @@
       "query": "Isolahden tekonurmikenttä (Pallokatu 17)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Isolahden tekonurmikenttä (Pallokatu 17)"
       }
     },
@@ -1612,7 +1833,7 @@
       "query": "Korsholmanpuistikko 44, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Korsholmanpuistikko 44, Vaasa"
       }
     },
@@ -1621,7 +1842,7 @@
       "query": "Ruutikellarintie 2, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa"
       }
     },
@@ -1630,7 +1851,7 @@
       "query": "Ruutikellarintie 2, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa"
       }
     },
@@ -1639,7 +1860,7 @@
       "query": "Wolffskavägen 35 B",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Wolffskavägen 35 B"
       }
     },
@@ -1648,7 +1869,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -1676,7 +1897,7 @@
       "query": "Pohjanmaan Yhdistykset ry, Korsholmanpuistikko 44",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Pohjanmaan Yhdistykset ry, Korsholmanpuistikko 44"
       }
     },
@@ -1685,7 +1906,7 @@
       "query": "Vuorikodin kabinetti, Vuorikatu 4, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vuorikodin kabinetti, Vuorikatu 4, 65100 Vaasa"
       }
     },
@@ -1713,7 +1934,7 @@
       "query": "Variskan kirjasto, Vanhan Vaasankatu 20, Vaasa.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Variskan kirjasto, Vanhan Vaasankatu 20, Vaasa."
       }
     },
@@ -1722,7 +1943,7 @@
       "query": "Merikaarrontie 5, 66500 Vähäkyrö",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Merikaarrontie 5, 66500 Vähäkyrö"
       }
     },
@@ -1731,7 +1952,7 @@
       "query": "Vaasan kaupunginkirjasto, Pääkirjasto, Draamasali",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupunginkirjasto, Pääkirjasto, Draamasali"
       }
     },
@@ -1740,7 +1961,7 @@
       "query": "Inner harbor, Hietasaarenkatu 1 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Inner harbor, Hietasaarenkatu 1 Vaasa"
       }
     },
@@ -1756,7 +1977,7 @@
       "query": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Länsimetsän koulu, Länsimetsäntie 10, Vaasa"
       }
     },
@@ -1764,9 +1985,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_61009",
       "query": "Kapellbacksvägen 159, Vasa. Vi samlas vid porten till begravningsplatsen.",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Kapellbacksvägen 159, Vasa. Vi samlas vid porten till begravningsplatsen."
+        "precision": "exact-address",
+        "longitude": 21.731711900170342,
+        "latitude": 63.0941910220813,
+        "label": "Kapellbacksvägen 159 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:31.960Z",
+        "sourceAddress": "Kapellbacksvägen 159, Vasa. Vi samlas vid porten till begravningsplatsen.",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:31.960Z"
+        }
       }
     },
     {
@@ -1774,7 +2008,7 @@
       "query": "Vaasan yliopiston päärakennus, Tervahovi, Wolff-auditorio, sisäänkäynti Marmoriportista, Wolffintie 32.",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan yliopiston päärakennus, Tervahovi, Wolff-auditorio, sisäänkäynti Marmoriportista, Wolffintie 32."
       }
     },
@@ -1859,7 +2093,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -1868,7 +2102,7 @@
       "query": "Auditorio Präntöö (Vaasan virastotalo, Wolffintie 35, 1. krs)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Auditorio Präntöö (Vaasan virastotalo, Wolffintie 35, 1. krs)"
       }
     },
@@ -1876,9 +2110,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_61019",
       "query": "Kirjastonkatu 14, Vaasa, sisäänkäynti Kirjastonkujalta",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Kirjastonkatu 14, Vaasa, sisäänkäynti Kirjastonkujalta"
+        "precision": "exact-address",
+        "longitude": 21.611678005104466,
+        "latitude": 63.0990567312562,
+        "label": "Kirjastonkatu 14 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:22.843Z",
+        "sourceAddress": "Kirjastonkatu 14, Vaasa, sisäänkäynti Kirjastonkujalta",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:22.843Z"
+        }
       }
     },
     {
@@ -1893,7 +2140,7 @@
       "query": "Porinmäenkuja 1, 66500 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
       }
     },
@@ -1902,7 +2149,7 @@
       "query": "Vaasan kaupungintalo",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan kaupungintalo"
       }
     },
@@ -1930,7 +2177,7 @@
       "query": "Multipurpose space Matilda, 1st floor of the main library",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Multipurpose space Matilda, 1st floor of the main library"
       }
     },
@@ -1939,7 +2186,7 @@
       "query": "Beckbruksgatan 19-23, 65200 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Beckbruksgatan 19-23, 65200 Vasa"
       }
     },
@@ -1986,7 +2233,7 @@
       "query": "Kansalaisopisto Alma",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kansalaisopisto Alma"
       }
     },
@@ -2052,7 +2299,7 @@
       "query": "Savilahden yhtenäiskoulu (Savilahdentie 1–5, Vähäkyrö)",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Savilahden yhtenäiskoulu (Savilahdentie 1–5, Vähäkyrö)"
       }
     },
@@ -2175,7 +2422,7 @@
       "query": "Toivo Kuula Hall",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Toivo Kuula Hall"
       }
     },
@@ -2203,7 +2450,7 @@
       "query": "Toivo Kuula Hall",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Toivo Kuula Hall"
       }
     },
@@ -2478,7 +2725,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -2487,7 +2734,7 @@
       "query": "Kirkkopuistikko 34, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kirkkopuistikko 34, 65100 Vaasa"
       }
     },
@@ -2496,7 +2743,7 @@
       "query": "Kyrkoesplanaden 22, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
       }
     },
@@ -2505,7 +2752,7 @@
       "query": "Original Sokos Hotel Royal Vaasa, Hovioikeudenpuistikko 18, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Original Sokos Hotel Royal Vaasa, Hovioikeudenpuistikko 18, Vaasa"
       }
     },
@@ -2514,7 +2761,7 @@
       "query": "Ateljé Design by Katrina, Rantakatu 13V, 65100 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Ateljé Design by Katrina, Rantakatu 13V, 65100 Vaasa"
       }
     },
@@ -2523,7 +2770,7 @@
       "query": "Kansalaisopisto Alma, Raastuvankatu 31, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Kansalaisopisto Alma, Raastuvankatu 31, Vaasa"
       }
     },
@@ -2532,7 +2779,7 @@
       "query": "Government agency building, Wolffintie 35 B, 65200 Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Government agency building, Wolffintie 35 B, 65200 Vaasa"
       }
     },
@@ -2541,7 +2788,7 @@
       "query": "Alkulan tila, Gripinpolku 1, Vaasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Alkulan tila, Gripinpolku 1, Vaasa"
       }
     },
@@ -2549,9 +2796,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_61070",
       "query": "Lentokentäntie 159, 65380 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "remote-key-missing",
-        "sourceAddress": "Lentokentäntie 159, 65380 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.758299626194855,
+        "latitude": 63.043318013436036,
+        "label": "Lentokentäntie 159 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:17:27.304Z",
+        "sourceAddress": "Lentokentäntie 159, 65380 Vaasa",
+        "provenance": {
+          "provider": "National Land Survey of Finland",
+          "dataset": "interpolated-road-addresses",
+          "sourceUrl": "https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/kartta-ja-paikkatietojen-rajapintapalvelut/geokoodauspalvelu",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://www.maanmittauslaitos.fi/en/open-data-licence-version1",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:17:27.304Z"
+        }
       }
     },
     {
@@ -2559,7 +2819,7 @@
       "query": "Vähäkyrö-talo, Vähänkyröntie 11, 66500 Vähäkyrö",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vähäkyrö-talo, Vähänkyröntie 11, 66500 Vähäkyrö"
       }
     },
@@ -2568,7 +2828,7 @@
       "query": "Vaasa Startup Factory",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasa Startup Factory"
       }
     },
@@ -2577,7 +2837,7 @@
       "query": "Vaasa Region Development Company VASEK",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasa Region Development Company VASEK"
       }
     },
@@ -2586,7 +2846,7 @@
       "query": "Handelsesplanaden 12, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
       }
     },
@@ -2595,7 +2855,7 @@
       "query": "Handelsesplanaden 12, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
       }
     },
@@ -2604,7 +2864,7 @@
       "query": "Handelsesplanaden 12, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
       }
     },
@@ -2613,7 +2873,7 @@
       "query": "Handelsesplanaden 12, 65100 Vasa",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "ambiguous-geocoder-match",
         "sourceAddress": "Handelsesplanaden 12, 65100 Vasa"
       }
     },
@@ -2622,7 +2882,7 @@
       "query": "Vaasan tori",
       "resolution": {
         "precision": "unresolved",
-        "reason": "remote-key-missing",
+        "reason": "no-geocoder-result",
         "sourceAddress": "Vaasan tori"
       }
     },

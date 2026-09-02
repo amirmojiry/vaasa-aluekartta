@@ -1,167 +1,167 @@
 {
   "schemaVersion": 1,
-  "remoteGeocodingAvailable": false,
+  "remoteGeocodingAvailable": true,
   "totalEvents": 249,
-  "exactAddress": 4,
+  "exactAddress": 24,
   "knownVenue": 37,
-  "geocoderResolved": 0,
+  "geocoderResolved": 20,
   "online": 7,
   "multiLocation": 1,
-  "ambiguous": 0,
-  "unresolved": 200,
-  "remoteKeyMissing": 196,
-  "highConfidenceMapped": 41,
-  "highConfidenceRate": 0.1647,
+  "ambiguous": 59,
+  "unresolved": 180,
+  "remoteKeyMissing": 0,
+  "highConfidenceMapped": 61,
+  "highConfidenceRate": 0.245,
   "unresolvedQueries": [
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_30402",
       "query": "Långviksgatan 20",
-      "reason": "remote-key-missing"
-    },
-    {
-      "eventId": "events-in-ostrobothnia:EventCalendar_46843",
-      "query": "Ahventie 12, 65200 Vaasa, Suomi",
-      "reason": "remote-key-missing"
-    },
-    {
-      "eventId": "events-in-ostrobothnia:EventCalendar_46845",
-      "query": "Ahventie 12, 65200 Vaasa, Suomi",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_47577",
       "query": "Kyrkoesplanaden 31, 65100 Vasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_50191",
       "query": "Ajurinkatu 14, 65100 Vaasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_53494",
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58560",
       "query": "Sandögatan 7, 65100 VASA",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58570",
       "query": "Porinmäenkuja 1, 66500 Vaasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58626",
       "query": "Ruutikellarintie 4, 65100 Vaasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58681",
       "query": "Bock's Corner Brewery, Gerbyntie 16, 65230 Vaasa, Finland",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58682",
       "query": "Gerbyntie 16, 65230 Vaasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58683",
       "query": "Gerbyntie 16, 65230 Vaasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58694",
       "query": "Suomen Vapaudenpatsas, Alatori, 65100 Vaasa, Suomi",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58738",
       "query": "Sandögatan 7, 65100 VASA",
-      "reason": "remote-key-missing"
-    },
-    {
-      "eventId": "events-in-ostrobothnia:EventCalendar_58746",
-      "query": "Vapaudentie 27, 65200",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58840",
       "query": "Närpiöntie, Närpesvägen 16, 64200 Närpiö, Närpes",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58969",
       "query": "Pitkäkatu 53, 65100 Vaasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58970",
       "query": "Pitkäkatu 53, 65100 Vaasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58984",
       "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58985",
       "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58996",
       "query": "Kirkkopuistikko 31, 65100 Vaasa, Suomi",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59074",
       "query": "Vasa ritz",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59102",
       "query": "Kyrkoeplanaden 22",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59105",
       "query": "Stora långgatan 14",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59313",
       "query": "Dalgatan 4, 10300 KARIS",
-      "reason": "remote-key-missing"
+      "reason": "outside-vaasa-bounds"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59388",
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59408",
       "query": "Storalånggatan 14, 65100 Vasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59505",
       "query": "Kyrkoesplanaden 22, 65100 Vasa",
-      "reason": "remote-key-missing"
+      "reason": "ambiguous-geocoder-match"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59521",
       "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
-      "reason": "remote-key-missing"
+      "reason": "no-geocoder-result"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59570",
       "query": "Köpmansgatan  10, 68600 Jakobstad",
-      "reason": "remote-key-missing"
+      "reason": "outside-vaasa-bounds"
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59623",
+      "query": "Folkhälsanhuset Wasa, Rådhusgatan 25, Vasa",
+      "reason": "no-geocoder-result"
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59662",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "reason": "no-geocoder-result"
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_59663",
+      "query": "Kirkkopuistikko, Kyrkoesplanaden 22, 65100 Vaasa, Vasa",
+      "reason": "no-geocoder-result"
     }
   ]
 }
