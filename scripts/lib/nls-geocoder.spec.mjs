@@ -76,13 +76,18 @@ describe('NLS geocoder adapter', () => {
     expect(result.cacheEntry.verification).toBe(NLS_CACHE_VERIFICATION)
   })
 
-  it('rejects singleton results that do not match the source query or Vaasa municipality', () => {
+  it('rejects singleton results that do not match the source query, locality context, or Vaasa municipality', () => {
     expect(
       selectNlsResult(
         response([feature('addresses', [21.61, 63.1], 'Wrong Street 9 (Vaasa)')]),
         'Kirjastonkatu 13',
         'now',
       ).resolution.reason,
+    ).toBe('geocoder-result-mismatch')
+
+    expect(
+      selectNlsResult(response([addressFeature()]), 'Kirjastonkatu 13, Helsinki', 'now').resolution
+        .reason,
     ).toBe('geocoder-result-mismatch')
 
     expect(
