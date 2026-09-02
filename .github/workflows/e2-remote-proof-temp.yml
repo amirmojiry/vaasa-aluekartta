@@ -76,5 +76,5 @@ jobs:
             echo "No hardened E2 changes"
             exit 0
           fi
-          git commit -m "Verify hardened E2 geocoding proof"
+          git commit -m "Verify final E2 geocoding proof"
           git push origin HEAD:agent/events-e2-location-resolution
