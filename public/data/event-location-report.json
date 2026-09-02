@@ -2,16 +2,16 @@
   "schemaVersion": 1,
   "remoteGeocodingAvailable": true,
   "totalEvents": 249,
-  "exactAddress": 52,
+  "exactAddress": 47,
   "knownVenue": 37,
-  "geocoderResolved": 48,
+  "geocoderResolved": 43,
   "online": 7,
   "multiLocation": 1,
-  "ambiguous": 30,
-  "unresolved": 152,
+  "ambiguous": 28,
+  "unresolved": 157,
   "remoteKeyMissing": 0,
-  "highConfidenceMapped": 89,
-  "highConfidenceRate": 0.3574,
+  "highConfidenceMapped": 84,
+  "highConfidenceRate": 0.3373,
   "unresolvedQueries": [
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_47577",
@@ -52,6 +52,11 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_58694",
       "query": "Suomen Vapaudenpatsas, Alatori, 65100 Vaasa, Suomi",
       "reason": "no-geocoder-result"
+    },
+    {
+      "eventId": "events-in-ostrobothnia:EventCalendar_58746",
+      "query": "Vapaudentie 27, 65200",
+      "reason": "geocoder-result-mismatch"
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58840",
@@ -157,11 +162,6 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_59880",
       "query": "Skillnadsgatan 11, 10600 Ekenäs",
       "reason": "outside-vaasa-bounds"
-    },
-    {
-      "eventId": "events-in-ostrobothnia:EventCalendar_59998",
-      "query": "Vaasan kaupunginkirjasto, Kirjastonkatu 13, Vaasa.",
-      "reason": "no-geocoder-result"
     }
   ]
 }
