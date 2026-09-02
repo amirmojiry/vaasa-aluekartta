@@ -1,17 +1,31 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { buildNlsSearchUrl, geocodeWithNls, selectNlsResult } from './nls-geocoder.mjs'
+import {
+  buildNlsSearchUrl,
+  geocodeWithNls,
+  NLS_CACHE_VERIFICATION,
+  selectNlsResult,
+} from './nls-geocoder.mjs'
 
 function response(features) {
   return { type: 'FeatureCollection', features }
 }
 
-function feature(source, coordinates = [21.61, 63.1], label = 'Result') {
+function feature(
+  source,
+  coordinates = [21.61, 63.1],
+  label = 'Ritz (Vaasa)',
+  properties = {},
+) {
   return {
     type: 'Feature',
     geometry: { type: 'Point', coordinates },
-    properties: { source, label },
+    properties: { source, label, municipality: '905', ...properties },
   }
+}
+
+function addressFeature(source = 'addresses', coordinates = [21.61, 63.1]) {
+  return feature(source, coordinates, 'Kirjastonkatu 13 (Vaasa)')
 }
 
 describe('NLS geocoder adapter', () => {
@@ -23,10 +37,13 @@ describe('NLS geocoder adapter', () => {
     expect(url.searchParams.has('crs')).toBe(false)
   })
 
-  it('keeps explicit postal-place context and enables postal-code matching', () => {
-    const url = buildNlsSearchUrl('Dalgatan 4, 10300 KARIS')
-    expect(url.searchParams.get('text')).toBe('Dalgatan 4, 10300 KARIS')
-    expect(url.searchParams.get('options')).toContain('use_postal_code')
+  it('keeps explicit non-Vaasa context instead of appending Vaasa', () => {
+    const postal = buildNlsSearchUrl('Dalgatan 4, 10300 KARIS')
+    expect(postal.searchParams.get('text')).toBe('Dalgatan 4, 10300 KARIS')
+    expect(postal.searchParams.get('options')).toContain('use_postal_code')
+
+    const locality = buildNlsSearchUrl('Kirjastonkatu 13, Helsinki')
+    expect(locality.searchParams.get('text')).toBe('Kirjastonkatu 13, Helsinki')
   })
 
   it('does not call the network when no API key is available', async () => {
@@ -36,12 +53,12 @@ describe('NLS geocoder adapter', () => {
     expect(result.resolution.reason).toBe('remote-key-missing')
   })
 
-  it('uses Basic auth and accepts one supported in-bounds address result', async () => {
+  it('uses Basic auth and accepts a source-backed matching Vaasa address result', async () => {
     const fetchImpl = vi.fn(async (_url, options) => ({
       ok: true,
       status: 200,
       async json() {
-        return response([feature('addresses')])
+        return response([addressFeature()])
       },
       options,
     }))
@@ -61,6 +78,26 @@ describe('NLS geocoder adapter', () => {
     expect(result.resolution.provenance.provider).toContain('Syke')
     expect(result.cacheEntry.rawQuery).toBe('Kirjastonkatu 13')
     expect(result.cacheEntry.precision).toBe('exact-address')
+    expect(result.cacheEntry.verification).toBe(NLS_CACHE_VERIFICATION)
+  })
+
+  it('rejects singleton results that do not match the source query or Vaasa municipality', () => {
+    expect(
+      selectNlsResult(response([feature('addresses', [21.61, 63.1], 'Wrong Street 9 (Vaasa)')]), 'Kirjastonkatu 13', 'now')
+        .resolution.reason,
+    ).toBe('geocoder-result-mismatch')
+
+    expect(
+      selectNlsResult(
+        response([
+          feature('addresses', [21.61, 63.1], 'Kirjastonkatu 13 (Helsinki)', {
+            municipality: '091',
+          }),
+        ]),
+        'Kirjastonkatu 13',
+        'now',
+      ).resolution.reason,
+    ).toBe('geocoder-result-mismatch')
   })
 
   it('falls back to interpolated road addresses only when the direct address source has no result', async () => {
@@ -77,7 +114,7 @@ describe('NLS geocoder adapter', () => {
         ok: true,
         status: 200,
         async json() {
-          return response([feature('interpolated-road-addresses')])
+          return response([addressFeature('interpolated-road-addresses')])
         },
       })
 
@@ -100,7 +137,7 @@ describe('NLS geocoder adapter', () => {
       ok: true,
       status: 200,
       async json() {
-        return response([feature('addresses'), feature('addresses', [21.62, 63.1])])
+        return response([addressFeature(), addressFeature('addresses', [21.62, 63.1])])
       },
     }))
 
@@ -114,10 +151,10 @@ describe('NLS geocoder adapter', () => {
     expect(result.resolution.reason).toBe('ambiguous-geocoder-match')
   })
 
-  it('fails closed for multiple candidates, outside points, and unknown source datasets', () => {
+  it('fails closed for multiple verified names, outside points, and unknown source datasets', () => {
     expect(
       selectNlsResult(
-        response([feature('geographic-names'), feature('geographic-names')]),
+        response([feature('geographic-names'), feature('geographic-names', [21.62, 63.1])]),
         'Ritz',
         'now',
       ).resolution.reason,
