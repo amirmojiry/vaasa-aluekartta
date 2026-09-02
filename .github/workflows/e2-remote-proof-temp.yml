@@ -1,0 +1,60 @@
+name: Temporary E2 remote geocoding proof
+
+on:
+  push:
+    branches: [agent/events-e2-location-resolution]
+
+concurrency:
+  group: temporary-e2-remote-proof
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  geocode:
+    if: github.actor != 'github-actions[bot]' && contains(github.event.head_commit.message, '[run-e2-remote]')
+    runs-on: ubuntu-latest
+    env:
+      NLS_API_KEY: ${{ secrets.NLS_API_KEY }}
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/events-e2-location-resolution
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Verify NLS key availability
+        run: |
+          if [ -z "$NLS_API_KEY" ]; then
+            echo "NLS_API_KEY is not configured"
+            exit 1
+          fi
+          echo "NLS_API_KEY is configured"
+      - name: Run remote E2 location resolution
+        run: npm run events:locations
+      - name: Run focused E2 tests
+        run: npx vitest run scripts/lib/event-location.spec.mjs scripts/lib/nls-geocoder.spec.mjs
+      - name: Run repository checks
+        run: |
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+      - name: Commit remote geocoding proof
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/location-cache.json public/data/event-locations.json public/data/event-location-report.json
+          if git diff --cached --quiet; then
+            echo "No generated E2 changes"
+            exit 0
+          fi
+          git commit -m "Generate E2 remote geocoding proof"
+          git push origin HEAD:agent/events-e2-location-resolution
