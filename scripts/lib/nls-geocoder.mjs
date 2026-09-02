@@ -10,7 +10,7 @@ const SYKE_RYHTI_URL = 'https://ryhti.syke.fi/'
 const POSTAL_CODE_PATTERN = /\b\d{5}\b/
 
 export function nlsSourcesForQuery(query) {
-  return isAddressLike(query) ? ['addresses', 'interpolated-road-addresses'] : ['geographic-names']
+  return isAddressLike(query) ? ['addresses'] : ['geographic-names']
 }
 
 function queryWithMunicipalityContext(query) {
@@ -19,14 +19,14 @@ function queryWithMunicipalityContext(query) {
   return `${trimmed} Vaasa`
 }
 
-export function buildNlsSearchUrl(query) {
+export function buildNlsSearchUrl(query, sources = nlsSourcesForQuery(query)) {
   const url = new URL(NLS_GEOCODING_ENDPOINT)
   url.searchParams.set('text', queryWithMunicipalityContext(query))
-  url.searchParams.set('sources', nlsSourcesForQuery(query).join(','))
+  url.searchParams.set('sources', sources.join(','))
   url.searchParams.set('lang', 'fi')
   url.searchParams.set('size', '5')
   const options = ['nowildcard', 'use_any_codelist_lang_match']
-  if (POSTAL_CODE_PATTERN.test(query) && nlsSourcesForQuery(query).includes('addresses')) {
+  if (POSTAL_CODE_PATTERN.test(query) && sources.includes('addresses')) {
     options.push('use_postal_code')
   }
   url.searchParams.set('options', options.join(','))
@@ -156,6 +156,19 @@ export function selectNlsResult(featureCollection, query, retrievedAt) {
   }
 }
 
+async function fetchNlsFeatureCollection(query, sources, { apiKey, fetchImpl }) {
+  const response = await fetchImpl(buildNlsSearchUrl(query, sources), {
+    headers: {
+      Accept: 'application/geo+json, application/json',
+      Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}`,
+    },
+    redirect: 'follow',
+    signal: AbortSignal.timeout(30_000),
+  })
+  if (!response.ok) throw new Error(`NLS geocoding request failed with HTTP ${response.status}`)
+  return response.json()
+}
+
 export async function geocodeWithNls(query, { apiKey, fetchImpl = fetch, now = () => new Date() }) {
   if (!apiKey) {
     return {
@@ -168,15 +181,22 @@ export async function geocodeWithNls(query, { apiKey, fetchImpl = fetch, now = (
     }
   }
 
-  const response = await fetchImpl(buildNlsSearchUrl(query), {
-    headers: {
-      Accept: 'application/geo+json, application/json',
-      Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}`,
-    },
-    redirect: 'follow',
-    signal: AbortSignal.timeout(30_000),
-  })
-  if (!response.ok) throw new Error(`NLS geocoding request failed with HTTP ${response.status}`)
+  const retrievedAt = now().toISOString()
+  const primarySources = nlsSourcesForQuery(query)
+  const primary = selectNlsResult(
+    await fetchNlsFeatureCollection(query, primarySources, { apiKey, fetchImpl }),
+    query,
+    retrievedAt,
+  )
 
-  return selectNlsResult(await response.json(), query, now().toISOString())
+  if (!isAddressLike(query) || primary.resolution.reason !== 'no-geocoder-result') return primary
+
+  return selectNlsResult(
+    await fetchNlsFeatureCollection(query, ['interpolated-road-addresses'], {
+      apiKey,
+      fetchImpl,
+    }),
+    query,
+    retrievedAt,
+  )
 }
