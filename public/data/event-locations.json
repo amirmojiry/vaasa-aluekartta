@@ -16,9 +16,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_30402",
       "query": "Långviksgatan 20",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Långviksgatan 20"
+        "precision": "exact-address",
+        "longitude": 21.616703350113287,
+        "latitude": 63.10194685096041,
+        "label": "Långviksgatan 20 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:54.849Z",
+        "sourceAddress": "Långviksgatan 20",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:54.849Z"
+        }
       }
     },
     {
@@ -146,18 +159,44 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_58560",
       "query": "Sandögatan 7, 65100 VASA",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Sandögatan 7, 65100 VASA"
+        "precision": "exact-address",
+        "longitude": 21.607075629846886,
+        "latitude": 63.096783638195916,
+        "label": "Sandögatan 7 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:03.205Z",
+        "sourceAddress": "Sandögatan 7, 65100 VASA",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:03.205Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58570",
       "query": "Porinmäenkuja 1, 66500 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
+        "precision": "exact-address",
+        "longitude": 22.104224747300552,
+        "latitude": 63.05243324216241,
+        "label": "Porinmäenkuja 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:46.637Z",
+        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:46.637Z"
+        }
       }
     },
     {
@@ -209,9 +248,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_58738",
       "query": "Sandögatan 7, 65100 VASA",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Sandögatan 7, 65100 VASA"
+        "precision": "exact-address",
+        "longitude": 21.607075629846886,
+        "latitude": 63.096783638195916,
+        "label": "Sandögatan 7 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:03.205Z",
+        "sourceAddress": "Sandögatan 7, 65100 VASA",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:03.205Z"
+        }
       }
     },
     {
@@ -249,18 +301,44 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_58969",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_58970",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
@@ -339,18 +417,44 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_59408",
       "query": "Storalånggatan 14, 65100 Vasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Storalånggatan 14, 65100 Vasa"
+        "precision": "exact-address",
+        "longitude": 21.61331208664184,
+        "latitude": 63.10106180698316,
+        "label": "Storalånggatan 14 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:08.313Z",
+        "sourceAddress": "Storalånggatan 14, 65100 Vasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:08.313Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_59505",
       "query": "Kyrkoesplanaden 22, 65100 Vasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
+        "precision": "exact-address",
+        "longitude": 21.608439227095694,
+        "latitude": 63.09543331033139,
+        "label": "Kyrkoesplanaden 22 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:53.784Z",
+        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:53.784Z"
+        }
       }
     },
     {
@@ -553,81 +657,198 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60084",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60086",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60087",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60088",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60089",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60090",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60091",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60093",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60094",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
@@ -650,9 +871,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60147",
       "query": "Pitkäkatu 53, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.621082988951663,
+        "latitude": 63.09439270187432,
+        "label": "Pitkäkatu 53 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:59.368Z",
+        "sourceAddress": "Pitkäkatu 53, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:59.368Z"
+        }
       }
     },
     {
@@ -677,9 +911,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60237",
       "query": "Strandgatan 6, 65100 VASA",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Strandgatan 6, 65100 VASA"
+        "precision": "exact-address",
+        "longitude": 21.60290847300661,
+        "latitude": 63.096444641549674,
+        "label": "Strandgatan 6 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:11.282Z",
+        "sourceAddress": "Strandgatan 6, 65100 VASA",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:11.282Z"
+        }
       }
     },
     {
@@ -768,9 +1015,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60364",
       "query": "Kyrkoesplanaden 22, 65100 Vasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
+        "precision": "exact-address",
+        "longitude": 21.608439227095694,
+        "latitude": 63.09543331033139,
+        "label": "Kyrkoesplanaden 22 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:53.784Z",
+        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:53.784Z"
+        }
       }
     },
     {
@@ -836,9 +1096,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60485",
       "query": "Strandgatan 6, 65100 VASA",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Strandgatan 6, 65100 VASA"
+        "precision": "exact-address",
+        "longitude": 21.60290847300661,
+        "latitude": 63.096444641549674,
+        "label": "Strandgatan 6 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:11.282Z",
+        "sourceAddress": "Strandgatan 6, 65100 VASA",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:11.282Z"
+        }
       }
     },
     {
@@ -1279,9 +1552,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60607",
       "query": "Handelsesplanaden 8 C 57 A (ovanför Olivers Inn)",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Handelsesplanaden 8 C 57 A (ovanför Olivers Inn)"
+        "precision": "exact-address",
+        "longitude": 21.61342471591503,
+        "latitude": 63.097565605572775,
+        "label": "Handelsesplanaden 8 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:48.034Z",
+        "sourceAddress": "Handelsesplanaden 8 C 57 A (ovanför Olivers Inn)",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:48.034Z"
+        }
       }
     },
     {
@@ -1333,9 +1619,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60645",
       "query": "Wolffintie 29, 65200 Vaasa (Vamk, Florence -auditorio)",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Wolffintie 29, 65200 Vaasa (Vamk, Florence -auditorio)"
+        "precision": "exact-address",
+        "longitude": 21.594814317540532,
+        "latitude": 63.10652908905883,
+        "label": "Wolffintie 29 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:10.173Z",
+        "sourceAddress": "Wolffintie 29, 65200 Vaasa (Vamk, Florence -auditorio)",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:10.173Z"
+        }
       }
     },
     {
@@ -1577,9 +1876,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60785",
       "query": "Porinmäenkuja 1, 66500 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
+        "precision": "exact-address",
+        "longitude": 22.104224747300552,
+        "latitude": 63.05243324216241,
+        "label": "Porinmäenkuja 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:46.637Z",
+        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:46.637Z"
+        }
       }
     },
     {
@@ -1658,9 +1970,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60872",
       "query": "Sandögatan 7, 65100 VASA",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Sandögatan 7, 65100 VASA"
+        "precision": "exact-address",
+        "longitude": 21.607075629846886,
+        "latitude": 63.096783638195916,
+        "label": "Sandögatan 7 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:03.205Z",
+        "sourceAddress": "Sandögatan 7, 65100 VASA",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:03.205Z"
+        }
       }
     },
     {
@@ -1841,18 +2166,44 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_60943",
       "query": "Ruutikellarintie 2, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.644028394675843,
+        "latitude": 63.08433076231455,
+        "label": "Ruutikellarintie 2 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:09.980Z",
+        "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:09.980Z"
+        }
       }
     },
     {
       "eventId": "events-in-ostrobothnia:EventCalendar_60944",
       "query": "Ruutikellarintie 2, 65100 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa"
+        "precision": "exact-address",
+        "longitude": 21.644028394675843,
+        "latitude": 63.08433076231455,
+        "label": "Ruutikellarintie 2 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:21:09.980Z",
+        "sourceAddress": "Ruutikellarintie 2, 65100 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:21:09.980Z"
+        }
       }
     },
     {
@@ -2139,9 +2490,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_61021",
       "query": "Porinmäenkuja 1, 66500 Vaasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa"
+        "precision": "exact-address",
+        "longitude": 22.104224747300552,
+        "latitude": 63.05243324216241,
+        "label": "Porinmäenkuja 1 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:46.637Z",
+        "sourceAddress": "Porinmäenkuja 1, 66500 Vaasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:46.637Z"
+        }
       }
     },
     {
@@ -2742,9 +3106,22 @@
       "eventId": "events-in-ostrobothnia:EventCalendar_61063",
       "query": "Kyrkoesplanaden 22, 65100 Vasa",
       "resolution": {
-        "precision": "unresolved",
-        "reason": "ambiguous-geocoder-match",
-        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa"
+        "precision": "exact-address",
+        "longitude": 21.608439227095694,
+        "latitude": 63.09543331033139,
+        "label": "Kyrkoesplanaden 22 (Vaasa)",
+        "geocoder": "nls-geocoding-v2",
+        "geocodedAt": "2026-09-02T05:20:53.784Z",
+        "sourceAddress": "Kyrkoesplanaden 22, 65100 Vasa",
+        "provenance": {
+          "provider": "Finnish Environment Institute (Syke) / Ryhti via NLS Geocoding Service",
+          "dataset": "addresses",
+          "sourceUrl": "https://ryhti.syke.fi/",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "transformation": "NLS Geocoding Service v2 response in default CRS84; coordinates preserved in [longitude, latitude] order.",
+          "retrievedAt": "2026-09-02T05:20:53.784Z"
+        }
       }
     },
     {
