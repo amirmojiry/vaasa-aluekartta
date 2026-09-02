@@ -36,6 +36,16 @@ jobs:
             exit 1
           fi
           echo "NLS_API_KEY is configured"
+      - name: Format hardened E2 files
+        run: >-
+          npx prettier --write
+          scripts/lib/event-location.mjs
+          scripts/lib/event-location.spec.mjs
+          scripts/lib/nls-geocoder.mjs
+          scripts/lib/nls-geocoder.spec.mjs
+          scripts/resolve-event-locations.mjs
+          scripts/validate-event-locations.mjs
+          src/domain/location.ts
       - name: Run remote E2 location resolution
         run: npm run events:locations
       - name: Run focused E2 tests
@@ -47,14 +57,24 @@ jobs:
           npm run typecheck
           npm test
           npm run build
-      - name: Commit remote geocoding proof
+      - name: Commit hardened remote geocoding proof
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data/location-cache.json public/data/event-locations.json public/data/event-location-report.json
+          git add \
+            scripts/lib/event-location.mjs \
+            scripts/lib/event-location.spec.mjs \
+            scripts/lib/nls-geocoder.mjs \
+            scripts/lib/nls-geocoder.spec.mjs \
+            scripts/resolve-event-locations.mjs \
+            scripts/validate-event-locations.mjs \
+            src/domain/location.ts \
+            public/data/location-cache.json \
+            public/data/event-locations.json \
+            public/data/event-location-report.json
           if git diff --cached --quiet; then
-            echo "No generated E2 changes"
+            echo "No hardened E2 changes"
             exit 0
           fi
-          git commit -m "Generate E2 remote geocoding proof"
+          git commit -m "Verify hardened E2 geocoding proof"
           git push origin HEAD:agent/events-e2-location-resolution
