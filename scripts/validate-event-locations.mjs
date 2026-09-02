@@ -2,7 +2,12 @@ import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { pointWithinVaasaBounds } from './lib/event-location.mjs'
+import {
+  eventLocationSignature,
+  normalizeLocationText,
+  pointWithinVaasaBounds,
+} from './lib/event-location.mjs'
+import { isReusableNlsCacheEntry, NLS_CACHE_VERIFICATION } from './lib/nls-geocoder.mjs'
 
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const eventsPath = resolve(scriptDir, '../public/data/events.json')
@@ -26,9 +31,15 @@ function assertFinitePoint(resolution, eventId) {
   }
 }
 
-function validateLocationRecord(record, eventIds) {
-  if (!eventIds.has(record?.eventId)) {
+function validateLocationRecord(record, eventsById) {
+  const event = eventsById.get(record?.eventId)
+  if (!event) {
     throw new Error(`Unknown event location id: ${record?.eventId}`)
+  }
+  if (record.sourceLocationSignature !== eventLocationSignature(event)) {
+    throw new Error(
+      `Event ${record.eventId} location resolution is stale relative to its current venue/address`,
+    )
   }
   if (!record.resolution || typeof record.resolution !== 'object') {
     throw new Error(`Event ${record.eventId} has no location resolution`)
@@ -73,6 +84,12 @@ function validateCache(cache) {
     if (!key || !entry?.rawQuery || !entry?.retrievedAt) {
       throw new Error(`Invalid cache entry: ${key}`)
     }
+    if (key !== normalizeLocationText(entry.rawQuery)) {
+      throw new Error(`Location cache entry ${key} does not match its normalized raw query`)
+    }
+    if (entry.verification !== NLS_CACHE_VERIFICATION || !isReusableNlsCacheEntry(entry)) {
+      throw new Error(`Location cache entry ${key} has not passed the current NLS verification policy`)
+    }
     if (entry.precision && !['exact-address', 'known-venue'].includes(entry.precision)) {
       throw new Error(`Location cache entry ${key} has invalid precision: ${entry.precision}`)
     }
@@ -106,14 +123,14 @@ if (locations.locations.length !== events.events.length) {
   throw new Error('Every event must have exactly one location-resolution record')
 }
 
-const eventIds = new Set(events.events.map((event) => event.id))
+const eventsById = new Map(events.events.map((event) => [event.id, event]))
 const seen = new Set()
 for (const record of locations.locations) {
   if (seen.has(record.eventId)) {
     throw new Error(`Duplicate event location record: ${record.eventId}`)
   }
   seen.add(record.eventId)
-  validateLocationRecord(record, eventIds)
+  validateLocationRecord(record, eventsById)
 }
 
 if (report?.schemaVersion !== 1 || report.totalEvents !== events.events.length) {
